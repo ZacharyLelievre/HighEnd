@@ -1,0 +1,39 @@
+.navbar {
+    padding: 1rem;
+    color: white;
+    position: relative; /* Ensure proper positioning */
+  }
+  
+  .navbar .container-fluid {
+    display: flex;
+    justify-content: space-between; /* Ensure the content is spread out */
+    align-items: center;
+  }
+  
+  .navbar-brand {
+    display: flex;
+    align-items: center;
+  }
+  
+  .navbar-nav {
+    display: flex;
+    gap: 30px; /* Adds even spacing between links */
+  }
+  
+  .nav-item-spacing {
+    font-weight: bold;
+    text-transform: uppercase; /* Optional: make buttons stand out */
+    text-align: right;
+  }
+  
+  .navbar-nav .nav-link {
+    color: white !important; /* Ensure text is visible over the background */
+    font-weight: bold;
+  }
+  
+  .navbar-nav .nav-link:hover {
+    text-decoration: underline; /* Optional: Add hover effect */
+  }
+
+
+  
