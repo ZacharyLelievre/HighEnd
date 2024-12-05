@@ -1,0 +1,18 @@
+
+
+services:
+  backend:
+    build:
+      context: ./detailing-be
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+
+  frontend:
+    build:
+      context: ./detailing-fe
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./detailing-fe:/app

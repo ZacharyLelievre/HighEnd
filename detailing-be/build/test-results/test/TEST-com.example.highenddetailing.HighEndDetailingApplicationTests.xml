@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.example.highenddetailing.HighEndDetailingApplicationTests" tests="1" skipped="0" failures="0" errors="0" timestamp="2024-12-05T19:32:57" hostname="Zacharys-MacBook-Pro.local" time="0.348">
+  <properties/>
+  <testcase name="contextLoads()" classname="com.example.highenddetailing.HighEndDetailingApplicationTests" time="0.348"/>
+  <system-out><![CDATA[14:32:55.469 [Test worker] INFO org.springframework.test.context.support.AnnotationConfigContextLoaderUtils -- Could not detect default configuration classes for test class [com.example.highenddetailing.HighEndDetailingApplicationTests]: HighEndDetailingApplicationTests does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+14:32:55.515 [Test worker] INFO org.springframework.boot.test.context.SpringBootTestContextBootstrapper -- Found @SpringBootConfiguration com.example.highenddetailing.HighEndDetailingApplication for test class com.example.highenddetailing.HighEndDetailingApplicationTests
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+
+ :: Spring Boot ::                (v3.3.5)
+
+2024-12-05T14:32:55.697-05:00  INFO 8129 --- [HighEndDetailing] [    Test worker] c.e.h.HighEndDetailingApplicationTests   : Starting HighEndDetailingApplicationTests using Java 17.0.3 with PID 8129 (started by zacharylelievre in /Users/zacharylelievre/Documents/HighEndDetailing/HighEndDetailing/detailing-be)
+2024-12-05T14:32:55.697-05:00  INFO 8129 --- [HighEndDetailing] [    Test worker] c.e.h.HighEndDetailingApplicationTests   : No active profile set, falling back to 1 default profile: "default"
+2024-12-05T14:32:55.715-05:00  WARN 8129 --- [HighEndDetailing] [    Test worker] ironmentPostProcessorApplicationListener : Your Okta Issuer URL is missing. You can copy your domain from the Okta Developer Console. Follow these instructions to find it: https://bit.ly/finding-okta-domain
+To fix this add the `okta.oauth2.issuer` property to your application environments.
+2024-12-05T14:32:56.022-05:00  INFO 8129 --- [HighEndDetailing] [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2024-12-05T14:32:56.031-05:00  INFO 8129 --- [HighEndDetailing] [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 6 ms. Found 0 JPA repository interfaces.
+2024-12-05T14:32:56.193-05:00  WARN 8129 --- [HighEndDetailing] [    Test worker] trationDelegate$BeanPostProcessorChecker : Bean 'org.springframework.ws.config.annotation.DelegatingWsConfiguration' of type [org.springframework.ws.config.annotation.DelegatingWsConfiguration$$SpringCGLIB$$0] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying). The currently created BeanPostProcessor [annotationActionEndpointMapping] is declared through a non-static factory method on that class; consider declaring it as static instead.
+2024-12-05T14:32:56.213-05:00  INFO 8129 --- [HighEndDetailing] [    Test worker] .w.s.a.s.AnnotationActionEndpointMapping : Supporting [WS-Addressing August 2004, WS-Addressing 1.0]
+2024-12-05T14:32:56.320-05:00  INFO 8129 --- [HighEndDetailing] [    Test worker] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2024-12-05T14:32:56.347-05:00  INFO 8129 --- [HighEndDetailing] [    Test worker] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 6.5.3.Final
+2024-12-05T14:32:56.363-05:00  INFO 8129 --- [HighEndDetailing] [    Test worker] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2024-12-05T14:32:56.500-05:00  INFO 8129 --- [HighEndDetailing] [    Test worker] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2024-12-05T14:32:56.513-05:00  INFO 8129 --- [HighEndDetailing] [    Test worker] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2024-12-05T14:32:56.585-05:00  INFO 8129 --- [HighEndDetailing] [    Test worker] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection conn0: url=jdbc:h2:mem:testdb user=SA
+2024-12-05T14:32:56.586-05:00  INFO 8129 --- [HighEndDetailing] [    Test worker] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2024-12-05T14:32:56.597-05:00  WARN 8129 --- [HighEndDetailing] [    Test worker] org.hibernate.orm.deprecation            : HHH90000025: H2Dialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2024-12-05T14:32:56.739-05:00  INFO 8129 --- [HighEndDetailing] [    Test worker] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2024-12-05T14:32:56.741-05:00  INFO 8129 --- [HighEndDetailing] [    Test worker] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2024-12-05T14:32:56.867-05:00  WARN 8129 --- [HighEndDetailing] [    Test worker] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2024-12-05T14:32:57.008-05:00  WARN 8129 --- [HighEndDetailing] [    Test worker] ion$DefaultTemplateResolverConfiguration : Cannot find template location: classpath:/templates/ (please add some templates, check your Thymeleaf configuration, or set spring.thymeleaf.check-template-location=false)
+2024-12-05T14:32:57.632-05:00  INFO 8129 --- [HighEndDetailing] [    Test worker] c.e.h.HighEndDetailingApplicationTests   : Started HighEndDetailingApplicationTests in 2.053 seconds (process running for 2.534)
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

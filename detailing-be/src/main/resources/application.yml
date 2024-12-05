@@ -1,0 +1,30 @@
+frontend:
+  url: http://localhost:3000/
+
+backend:
+  url: http://localhost:8080/
+
+website:
+  domain: localhost
+
+spring:
+  datasource:
+    url: jdbc:h2:mem:testdb
+    driver-class-name: org.h2.Driver
+    username: sa
+    password:
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    database-platform: org.hibernate.dialect.H2Dialect
+  auth0:
+    audience: https://highenddetailing/api
+
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: https://dev-vmtwqb6p6lr3if0d.us.auth0.com/
+server:
+  port: 8080
