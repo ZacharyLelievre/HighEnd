@@ -23,8 +23,7 @@ export function NavBar(): JSX.Element {
           />
         </Navbar.Brand>
 
-        {/* Navbar Toggle for responsiveness */}
-        <Navbar.Toggle aria-controls="basic-navbar-nav" />
+
 
         {/* Links aligned to the right */}
         <Navbar.Collapse id="basic-navbar-nav">

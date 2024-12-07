@@ -10,3 +10,9 @@ VALUES
     (8, 'b8e56f74-71d2-4d76-84f8-4458ba4f8f92', 'Wheel Alignment', '1.5 hours', 60.00, 'detailing-service-1.jpg'),
     (9, 'c9f98a15-5ecb-4979-a10e-bf3f6c31a1f6', 'Air Conditioning Service', '2 hours', 120.50, 'detailing-service-1.jpg'),
     (10, 'd0e12b65-4f9c-4a1b-832c-249eb1b6dc53', 'Headlight Restoration', '30 minutes', 20.99, 'detailing-service-1.jpg');
+
+INSERT INTO appointments (id, appointment_id, customer_id, service_id, employee_id, appointment_date, appointment_time, status,image_path)
+VALUES
+    (1, 'a1f14c90-ec5e-4f82-a9b7-2548a7325b34', 'c1f14c90-ec5e-4f82-a9b7-2548a7325b34', 'a1f14c90-ec5e-4f82-a9b7-2548a7325b34', 'e1f14c90-ec5e-4f82-a9b7-2548a7325b34', '2025-07-01', '10:00:00', 'CONFIRMED', 'detailing-service-1.jpg'),
+    (2, 'b1f14c90-ec5e-4f82-a9b7-2548a7325b34', 'c1f14c90-ec5e-4f82-a9b7-2548a7325b34', 'b5c64e99-9ac4-4f93-bb52-5c9ab7832e12', 'e1f14c90-ec5e-4f82-a9b7-2548a7325b34', '2025-07-02', '11:00:00', 'CONFIRMED', 'detailing-service-1.jpg'),
+    (3, 'c1f14c90-ec5e-4f82-a9b7-2548a7325b34', 'c1f14c90-ec5e-4f82-a9b7-2548a7325b34', 'c6a87f2b-e3b5-4b8d-b48c-4824bb8d62e7', 'e1f14c90-ec5e-4f82-a9b7-2548a7325b34', '2025-07-03', '12:00:00', 'CONFIRMED', 'detailing-service-1.jpg');

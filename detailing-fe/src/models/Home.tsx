@@ -1,4 +1,5 @@
 import { NavBar } from "../nav/NavBar"
+import AllAppointments from "./AllAppointments";
 
 
 export default function Home(): JSX.Element {
@@ -7,6 +8,7 @@ export default function Home(): JSX.Element {
         <div>
             <NavBar />
             <p> hello </p>
+            <AllAppointments />
         </div>
     )
 }
