@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.example.highenddetailing.servicessubdomain.businesslayer.ServiceServiceUnitTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2024-12-08T19:48:11" hostname="Zacharys-MacBook-Pro.local" time="0.068">
+  <properties/>
+  <testcase name="whenGetAllServices_thenReturnAllServices()" classname="com.example.highenddetailing.servicessubdomain.businesslayer.ServiceServiceUnitTest" time="0.068"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

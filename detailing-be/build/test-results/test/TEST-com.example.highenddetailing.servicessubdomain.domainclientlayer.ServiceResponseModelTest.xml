@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.example.highenddetailing.servicessubdomain.domainclientlayer.ServiceResponseModelTest" tests="8" skipped="0" failures="0" errors="0" timestamp="2024-12-08T19:48:11" hostname="Zacharys-MacBook-Pro.local" time="0.005">
+  <properties/>
+  <testcase name="testBuild()" classname="com.example.highenddetailing.servicessubdomain.domainclientlayer.ServiceResponseModelTest" time="0.001"/>
+  <testcase name="testToString()" classname="com.example.highenddetailing.servicessubdomain.domainclientlayer.ServiceResponseModelTest" time="0.002"/>
+  <testcase name="testNoArgsConstructor()" classname="com.example.highenddetailing.servicessubdomain.domainclientlayer.ServiceResponseModelTest" time="0.0"/>
+  <testcase name="testAllArgsConstructor()" classname="com.example.highenddetailing.servicessubdomain.domainclientlayer.ServiceResponseModelTest" time="0.0"/>
+  <testcase name="testCanEqual()" classname="com.example.highenddetailing.servicessubdomain.domainclientlayer.ServiceResponseModelTest" time="0.0"/>
+  <testcase name="testServiceResponseModelBuilder()" classname="com.example.highenddetailing.servicessubdomain.domainclientlayer.ServiceResponseModelTest" time="0.0"/>
+  <testcase name="testEqualsAndHashCode()" classname="com.example.highenddetailing.servicessubdomain.domainclientlayer.ServiceResponseModelTest" time="0.0"/>
+  <testcase name="testSetters()" classname="com.example.highenddetailing.servicessubdomain.domainclientlayer.ServiceResponseModelTest" time="0.0"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>
