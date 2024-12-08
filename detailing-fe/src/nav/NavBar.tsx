@@ -1,7 +1,8 @@
 import { Link } from "react-router-dom";
 import { AppRoutePath } from "../routes/path.routes";
-import { Navbar, Container, Nav } from "react-bootstrap"; // Correct import
-import "./NavBar.css"; // Import CSS file for styling
+import {Navbar, TabContainer, Nav, Container} from "react-bootstrap";
+import "./NavBar.css";
+ // Import CSS file for styling
 
 export function NavBar(): JSX.Element {
   return (
@@ -11,7 +12,7 @@ export function NavBar(): JSX.Element {
         backgroundSize: "cover",
         backgroundPosition: "center",
       }}
-      expand="lg"
+      // expand="lg"
     >
       <Container fluid>
         {/* Logo on the left */}

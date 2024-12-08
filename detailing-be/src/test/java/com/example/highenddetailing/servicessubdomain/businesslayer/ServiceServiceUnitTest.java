@@ -12,8 +12,10 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -53,6 +55,30 @@ class ServiceServiceUnitTest {
         assertEquals("Test Service 2", serviceResponse.get(1).getServiceName());
         assertEquals("2 Hours", serviceResponse.get(1).getTimeRequired());
         assertEquals(200.00f, serviceResponse.get(1).getPrice());
+    }
+
+    @Test
+    void whenGetServiceById_thenReturnService() {
+        // Arrange
+        String serviceId = "test-id-123";
+        ServiceIdentifier serviceIdentifier = new ServiceIdentifier();
+        Service service = new Service(1, serviceIdentifier, "Test Service", "1 Hour", 100.00f, "test-image.jpg");
+        ServiceResponseModel responseModel = new ServiceResponseModel(serviceId, "Test Service", "1 Hour", 100.00f, "test-image.jpg");
+
+        when(serviceRepository.findByServiceIdentifier_ServiceId(serviceId)).thenReturn(Optional.of(service));
+        when(serviceResponseMapper.entityToResponseModel(service)).thenReturn(responseModel);
+
+        // Act
+        Optional<ServiceResponseModel> result = serviceService.getServiceById(serviceId);
+
+        // Assert
+        assertTrue(result.isPresent());
+        ServiceResponseModel serviceResponse = result.get();
+        assertEquals(serviceId, serviceResponse.getServiceId());
+        assertEquals("Test Service", serviceResponse.getServiceName());
+        assertEquals("1 Hour", serviceResponse.getTimeRequired());
+        assertEquals(100.00f, serviceResponse.getPrice());
+        assertEquals("test-image.jpg", serviceResponse.getImagePath());
     }
 
 }
