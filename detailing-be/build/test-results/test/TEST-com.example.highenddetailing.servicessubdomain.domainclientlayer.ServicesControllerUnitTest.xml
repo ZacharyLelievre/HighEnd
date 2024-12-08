@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.example.highenddetailing.servicessubdomain.domainclientlayer.ServicesControllerUnitTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2024-12-08T22:24:45" hostname="Ntsoas-MacBook-Pro.local" time="0.15">
+  <properties/>
+  <testcase name="whenGetAllServices_thenReturnAllServices()" classname="com.example.highenddetailing.servicessubdomain.domainclientlayer.ServicesControllerUnitTest" time="0.15"/>
+  <system-out><![CDATA[17:24:43.603 [Test worker] INFO org.springframework.test.context.support.AnnotationConfigContextLoaderUtils -- Could not detect default configuration classes for test class [com.example.highenddetailing.servicessubdomain.domainclientlayer.ServicesControllerUnitTest]: ServicesControllerUnitTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+17:24:43.723 [Test worker] INFO org.springframework.boot.test.context.SpringBootTestContextBootstrapper -- Found @SpringBootConfiguration com.example.highenddetailing.HighEndDetailingApplication for test class com.example.highenddetailing.servicessubdomain.domainclientlayer.ServicesControllerUnitTest
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+
+ :: Spring Boot ::                (v3.3.5)
+
+2024-12-08T17:24:44.080-05:00  INFO 69551 --- [HighEndDetailing] [    Test worker] c.e.h.s.d.ServicesControllerUnitTest     : Starting ServicesControllerUnitTest using Java 17.0.13 with PID 69551 (started by seto in /Users/seto/HighEnd/detailing-be)
+2024-12-08T17:24:44.081-05:00  INFO 69551 --- [HighEndDetailing] [    Test worker] c.e.h.s.d.ServicesControllerUnitTest     : No active profile set, falling back to 1 default profile: "default"
+2024-12-08T17:24:45.645-05:00  INFO 69551 --- [HighEndDetailing] [    Test worker] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2024-12-08T17:24:45.645-05:00  INFO 69551 --- [HighEndDetailing] [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2024-12-08T17:24:45.646-05:00  INFO 69551 --- [HighEndDetailing] [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 1 ms
+2024-12-08T17:24:45.753-05:00  INFO 69551 --- [HighEndDetailing] [    Test worker] c.e.h.s.d.ServicesControllerUnitTest     : Started ServicesControllerUnitTest in 1.969 seconds (process running for 2.874)
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

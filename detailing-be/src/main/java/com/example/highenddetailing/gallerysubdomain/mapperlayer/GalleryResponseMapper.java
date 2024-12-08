@@ -15,5 +15,5 @@ public interface GalleryResponseMapper {
     @Mapping(expression = "java(gallery.getImageUrl())", target = "imageUrl")
 
     GalleryResponseModel entityToResponseModel(Gallery gallery);
-    List<GalleryResponseModel> entityListToResponseModelList(List<Gallery> galleryList);
+    List<GalleryResponseModel> entityListToResponseModel(List<Gallery> galleryList);
 }

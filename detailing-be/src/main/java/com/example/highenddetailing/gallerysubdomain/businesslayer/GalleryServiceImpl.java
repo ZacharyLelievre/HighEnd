@@ -19,6 +19,6 @@ public class GalleryServiceImpl implements GalleryService {
     private final GalleryResponseMapper galleryResponseMapper;
     @Override
     public List<GalleryResponseModel> getAllGalleries() {
-        return galleryResponseMapper.entityListToResponseModelList(galleryRepository.findAll());
+        return galleryResponseMapper.entityListToResponseModel(galleryRepository.findAll());
     }
 }
