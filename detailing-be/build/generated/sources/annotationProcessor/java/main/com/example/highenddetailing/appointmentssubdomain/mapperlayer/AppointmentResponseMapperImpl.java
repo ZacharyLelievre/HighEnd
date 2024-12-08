@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2024-12-08T14:39:25-0500",
+    date = "2024-12-08T17:57:40-0500",
     comments = "version: 1.5.3.Final, compiler: IncrementalProcessingEnvironment from gradle-language-java-8.10.2.jar, environment: Java 17.0.3 (Oracle Corporation)"
 )
 @Component
@@ -26,9 +26,12 @@ public class AppointmentResponseMapperImpl implements AppointmentResponseMapper 
         appointmentResponseModel.appointmentId( appointment.getAppointmentIdentifier().getAppointmentId() );
         appointmentResponseModel.appointmentDate( appointment.getAppointmentDate().toString() );
         appointmentResponseModel.appointmentTime( appointment.getAppointmentTime().toString() );
-        appointmentResponseModel.serviceId( appointment.getServiceId().getServiceId() );
+        appointmentResponseModel.serviceId( appointment.getServiceId() );
+        appointmentResponseModel.serviceName( appointment.getServiceName() );
         appointmentResponseModel.customerId( appointment.getCustomerId() );
+        appointmentResponseModel.customerName( appointment.getCustomerName() );
         appointmentResponseModel.employeeId( appointment.getEmployeeId() );
+        appointmentResponseModel.employeeName( appointment.getEmployeeName() );
         appointmentResponseModel.status( appointment.getStatus() );
         appointmentResponseModel.imagePath( appointment.getImagePath() );
 

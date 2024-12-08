@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Customer.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">detailing-be</a> &gt; <a href="index.source.html" class="el_package">com.example.highenddetailing.customerssubdomain</a> &gt; <span class="el_source">Customer.java</span></div><h1>Customer.java</h1><pre class="source lang-java linenums">package com.example.highenddetailing.customerssubdomain;
+
+import java.time.LocalDateTime;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+import jakarta.persistence.Column;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+<span class="nc bnc" id="L15" title="All 110 branches missed.">@Data</span>
+@Entity
+@Table(name = &quot;customers&quot;)
+<span class="fc" id="L18">@NoArgsConstructor</span>
+<span class="nc" id="L19">@AllArgsConstructor</span>
+<span class="nc" id="L20">@Builder</span>
+public class Customer {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+<span class="nc" id="L25">    private Integer id;</span>
+
+    @Column(name = &quot;customer_id&quot;, nullable = false, unique = true)
+<span class="nc" id="L28">    private CustomerIdentifier customerIdentifier;</span>
+
+    @Column(name = &quot;first_name&quot;, nullable = false)
+<span class="nc" id="L31">    private String firstName;</span>
+
+    @Column(name = &quot;last_name&quot;, nullable = false)
+<span class="nc" id="L34">    private String lastName;</span>
+
+    @Column(name = &quot;email&quot;, nullable = false, unique = true)
+<span class="nc" id="L37">    private String email;</span>
+
+    @Column(name = &quot;phone_number&quot;, nullable = false)
+<span class="nc" id="L40">    private String phoneNumber;</span>
+
+    @Column(name = &quot;address&quot;, nullable = false)
+<span class="nc" id="L43">    private String address;</span>
+
+    @Column(name = &quot;city&quot;, nullable = false)
+<span class="nc" id="L46">    private String city;</span>
+
+    @Column(name = &quot;state&quot;)
+<span class="nc" id="L49">    private String state;</span>
+
+    @Column(name = &quot;postal_code&quot;)
+<span class="nc" id="L52">    private String postalCode;</span>
+
+    @Column(name = &quot;country&quot;, nullable = false)
+<span class="nc" id="L55">    private String country;</span>
+
+    @Column(name = &quot;created_at&quot;, nullable = false, updatable = false)
+<span class="nc" id="L58">    private LocalDateTime createdAt;</span>
+
+    @Column(name = &quot;updated_at&quot;, nullable = false)
+<span class="nc" id="L61">    private LocalDateTime updatedAt;</span>
+
+    // Constructors
+
+    public Customer(CustomerIdentifier customerIdentifier, String firstName, String lastName, String email, String phoneNumber,
+                    String address, String city, String state, String postalCode, String country,
+<span class="nc" id="L67">                    LocalDateTime createdAt, LocalDateTime updatedAt) {</span>
+<span class="nc" id="L68">        this.customerIdentifier = customerIdentifier;</span>
+<span class="nc" id="L69">        this.firstName = firstName;</span>
+<span class="nc" id="L70">        this.lastName = lastName;</span>
+<span class="nc" id="L71">        this.email = email;</span>
+<span class="nc" id="L72">        this.phoneNumber = phoneNumber;</span>
+<span class="nc" id="L73">        this.address = address;</span>
+<span class="nc" id="L74">        this.city = city;</span>
+<span class="nc" id="L75">        this.state = state;</span>
+<span class="nc" id="L76">        this.postalCode = postalCode;</span>
+<span class="nc" id="L77">        this.country = country;</span>
+<span class="nc" id="L78">        this.createdAt = createdAt;</span>
+<span class="nc" id="L79">        this.updatedAt = updatedAt;</span>
+<span class="nc" id="L80">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

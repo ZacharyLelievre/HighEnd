@@ -21,27 +21,40 @@ public class Appointment {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
+
     @Embedded
     private AppointmentIdentifier appointmentIdentifier;
+
     private String customerId;
-    private ServiceIdentifier serviceId;
+    private String customerName;
+
+    private String serviceId;
+    private String serviceName;
+
     private String employeeId;
+    private String employeeName;
+
     private LocalDate appointmentDate;
     private LocalTime appointmentTime;
     private String status;
     private String imagePath;
 
-    public Appointment(Integer id, String customerId,
-                       String employeeId,
+    // Updated Constructor
+    public Appointment(Integer id, String customerId, String customerName,
+                       String employeeId, String employeeName,
+                       String serviceId, String serviceName, // Added serviceId and serviceName
                        String appointmentDate, String appointmentTime,
                        String status, String imagePath) {
         this.id = id;
         this.appointmentIdentifier = new AppointmentIdentifier();
         this.customerId = customerId;
-        this.serviceId = new ServiceIdentifier();
+        this.customerName = customerName;
+        this.serviceId = serviceId;
+        this.serviceName = serviceName;
         this.employeeId = employeeId;
-        this.appointmentDate = LocalDate.parse(appointmentDate); // Convert String to LocalDate
-        this.appointmentTime = LocalTime.parse(appointmentTime); // Convert String to LocalTime
+        this.employeeName = employeeName;
+        this.appointmentDate = LocalDate.parse(appointmentDate);
+        this.appointmentTime = LocalTime.parse(appointmentTime);
         this.status = status;
         this.imagePath = imagePath;
     }

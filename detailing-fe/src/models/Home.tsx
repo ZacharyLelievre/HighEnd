@@ -8,7 +8,6 @@ export default function Home(): JSX.Element {
         <div>
             <NavBar />
             <p> hello </p>
-            <AllAppointments />
         </div>
     )
 }

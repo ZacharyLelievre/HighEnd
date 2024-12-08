@@ -11,39 +11,52 @@ import lombok.NoArgsConstructor;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
-<span class="pc bpc" id="L14" title="46 of 78 branches missed.">@Data</span>
+<span class="pc bpc" id="L14" title="41 of 102 branches missed.">@Data</span>
 @Entity
 @Table(name = &quot;appointments&quot;)
 <span class="fc" id="L17">@NoArgsConstructor</span>
 <span class="fc" id="L18">@AllArgsConstructor</span>
-<span class="fc" id="L19">@Builder</span>
+<span class="pc" id="L19">@Builder</span>
 public class Appointment {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
 <span class="fc" id="L23">    private Integer id;</span>
-    @Embedded
-<span class="fc" id="L25">    private AppointmentIdentifier appointmentIdentifier;</span>
-<span class="fc" id="L26">    private String customerId;</span>
-<span class="fc" id="L27">    private ServiceIdentifier serviceId;</span>
-<span class="fc" id="L28">    private String employeeId;</span>
-<span class="fc" id="L29">    private LocalDate appointmentDate;</span>
-<span class="fc" id="L30">    private LocalTime appointmentTime;</span>
-<span class="fc" id="L31">    private String status;</span>
-<span class="fc" id="L32">    private String imagePath;</span>
 
-    public Appointment(Integer id, String customerId,
-                       String employeeId,
+    @Embedded
+<span class="fc" id="L26">    private AppointmentIdentifier appointmentIdentifier;</span>
+
+<span class="fc" id="L28">    private String customerId;</span>
+<span class="fc" id="L29">    private String customerName;</span>
+
+<span class="fc" id="L31">    private String serviceId;</span>
+<span class="fc" id="L32">    private String serviceName;</span>
+
+<span class="fc" id="L34">    private String employeeId;</span>
+<span class="fc" id="L35">    private String employeeName;</span>
+
+<span class="fc" id="L37">    private LocalDate appointmentDate;</span>
+<span class="fc" id="L38">    private LocalTime appointmentTime;</span>
+<span class="fc" id="L39">    private String status;</span>
+<span class="fc" id="L40">    private String imagePath;</span>
+
+    // Updated Constructor
+    public Appointment(Integer id, String customerId, String customerName,
+                       String employeeId, String employeeName,
+                       String serviceId, String serviceName, // Added serviceId and serviceName
                        String appointmentDate, String appointmentTime,
-<span class="fc" id="L37">                       String status, String imagePath) {</span>
-<span class="fc" id="L38">        this.id = id;</span>
-<span class="fc" id="L39">        this.appointmentIdentifier = new AppointmentIdentifier();</span>
-<span class="fc" id="L40">        this.customerId = customerId;</span>
-<span class="fc" id="L41">        this.serviceId = new ServiceIdentifier();</span>
-<span class="fc" id="L42">        this.employeeId = employeeId;</span>
-<span class="fc" id="L43">        this.appointmentDate = LocalDate.parse(appointmentDate); // Convert String to LocalDate</span>
-<span class="fc" id="L44">        this.appointmentTime = LocalTime.parse(appointmentTime); // Convert String to LocalTime</span>
-<span class="fc" id="L45">        this.status = status;</span>
-<span class="fc" id="L46">        this.imagePath = imagePath;</span>
-<span class="fc" id="L47">    }</span>
+<span class="fc" id="L47">                       String status, String imagePath) {</span>
+<span class="fc" id="L48">        this.id = id;</span>
+<span class="fc" id="L49">        this.appointmentIdentifier = new AppointmentIdentifier();</span>
+<span class="fc" id="L50">        this.customerId = customerId;</span>
+<span class="fc" id="L51">        this.customerName = customerName;</span>
+<span class="fc" id="L52">        this.serviceId = serviceId;</span>
+<span class="fc" id="L53">        this.serviceName = serviceName;</span>
+<span class="fc" id="L54">        this.employeeId = employeeId;</span>
+<span class="fc" id="L55">        this.employeeName = employeeName;</span>
+<span class="fc" id="L56">        this.appointmentDate = LocalDate.parse(appointmentDate);</span>
+<span class="fc" id="L57">        this.appointmentTime = LocalTime.parse(appointmentTime);</span>
+<span class="fc" id="L58">        this.status = status;</span>
+<span class="fc" id="L59">        this.imagePath = imagePath;</span>
+<span class="fc" id="L60">    }</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

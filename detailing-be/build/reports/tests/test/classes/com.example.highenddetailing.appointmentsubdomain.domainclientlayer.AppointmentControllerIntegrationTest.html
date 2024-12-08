@@ -41,7 +41,7 @@
 </td>
 <td>
 <div class="infoBox" id="duration">
-<div class="counter">0.542s</div>
+<div class="counter">0.528s</div>
 <p>duration</p>
 </div>
 </td>
@@ -79,7 +79,7 @@
 </thead>
 <tr>
 <td class="success">whenGetAllAppointments_thenReturnAllAppointments()</td>
-<td class="success">0.542s</td>
+<td class="success">0.528s</td>
 <td class="success">passed</td>
 </tr>
 </table>
@@ -87,8 +87,8 @@
 <div id="tab1" class="tab">
 <h2>Standard output</h2>
 <span class="code">
-<pre>2024-12-08T14:48:09.800-05:00  INFO 65884 --- [HighEndDetailing] [    Test worker] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [com.example.highenddetailing.appointmentsubdomain.domainclientlayer.AppointmentControllerIntegrationTest]: AppointmentControllerIntegrationTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
-2024-12-08T14:48:09.809-05:00  INFO 65884 --- [HighEndDetailing] [    Test worker] .b.t.c.SpringBootTestContextBootstrapper : Found @SpringBootConfiguration com.example.highenddetailing.HighEndDetailingApplication for test class com.example.highenddetailing.appointmentsubdomain.domainclientlayer.AppointmentControllerIntegrationTest
+<pre>2024-12-08T18:25:08.339-05:00  INFO 75131 --- [HighEndDetailing] [    Test worker] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [com.example.highenddetailing.appointmentsubdomain.domainclientlayer.AppointmentControllerIntegrationTest]: AppointmentControllerIntegrationTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2024-12-08T18:25:08.349-05:00  INFO 75131 --- [HighEndDetailing] [    Test worker] .b.t.c.SpringBootTestContextBootstrapper : Found @SpringBootConfiguration com.example.highenddetailing.HighEndDetailingApplication for test class com.example.highenddetailing.appointmentsubdomain.domainclientlayer.AppointmentControllerIntegrationTest
 
   .   ____          _            __ _ _
  /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
@@ -99,31 +99,31 @@
 
  :: Spring Boot ::                (v3.3.5)
 
-2024-12-08T14:48:09.849-05:00  INFO 65884 --- [HighEndDetailing] [    Test worker] a.d.AppointmentControllerIntegrationTest : Starting AppointmentControllerIntegrationTest using Java 17.0.3 with PID 65884 (started by zacharylelievre in /Users/zacharylelievre/Documents/HighEndDetailing/HighEndDetailing/detailing-be)
-2024-12-08T14:48:09.849-05:00  INFO 65884 --- [HighEndDetailing] [    Test worker] a.d.AppointmentControllerIntegrationTest : No active profile set, falling back to 1 default profile: &quot;default&quot;
-2024-12-08T14:48:09.977-05:00  INFO 65884 --- [HighEndDetailing] [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
-2024-12-08T14:48:09.987-05:00  INFO 65884 --- [HighEndDetailing] [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 9 ms. Found 2 JPA repository interfaces.
-2024-12-08T14:48:10.044-05:00  WARN 65884 --- [HighEndDetailing] [    Test worker] trationDelegate$BeanPostProcessorChecker : Bean 'org.springframework.ws.config.annotation.DelegatingWsConfiguration' of type [org.springframework.ws.config.annotation.DelegatingWsConfiguration$$SpringCGLIB$$0] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying). The currently created BeanPostProcessor [annotationActionEndpointMapping] is declared through a non-static factory method on that class; consider declaring it as static instead.
-2024-12-08T14:48:10.045-05:00  INFO 65884 --- [HighEndDetailing] [    Test worker] .w.s.a.s.AnnotationActionEndpointMapping : Supporting [WS-Addressing August 2004, WS-Addressing 1.0]
-2024-12-08T14:48:10.246-05:00  INFO 65884 --- [HighEndDetailing] [    Test worker] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 0 (http)
-2024-12-08T14:48:10.275-05:00  INFO 65884 --- [HighEndDetailing] [    Test worker] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
-2024-12-08T14:48:10.275-05:00  INFO 65884 --- [HighEndDetailing] [    Test worker] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.31]
-2024-12-08T14:48:10.343-05:00  INFO 65884 --- [HighEndDetailing] [    Test worker] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
-2024-12-08T14:48:10.344-05:00  INFO 65884 --- [HighEndDetailing] [    Test worker] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 492 ms
-2024-12-08T14:48:10.426-05:00  INFO 65884 --- [HighEndDetailing] [    Test worker] com.zaxxer.hikari.HikariDataSource       : HikariPool-2 - Starting...
-2024-12-08T14:48:10.429-05:00  INFO 65884 --- [HighEndDetailing] [    Test worker] com.zaxxer.hikari.pool.HikariPool        : HikariPool-2 - Added connection conn21: url=jdbc:h2:mem:363a6d56-2cb4-4b22-8299-8ca08975c6c4 user=SA
-2024-12-08T14:48:10.429-05:00  INFO 65884 --- [HighEndDetailing] [    Test worker] com.zaxxer.hikari.HikariDataSource       : HikariPool-2 - Start completed.
-2024-12-08T14:48:10.450-05:00  INFO 65884 --- [HighEndDetailing] [    Test worker] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
-2024-12-08T14:48:10.452-05:00  INFO 65884 --- [HighEndDetailing] [    Test worker] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
-2024-12-08T14:48:10.465-05:00  INFO 65884 --- [HighEndDetailing] [    Test worker] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
-2024-12-08T14:48:10.519-05:00  INFO 65884 --- [HighEndDetailing] [    Test worker] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
-2024-12-08T14:48:10.523-05:00  INFO 65884 --- [HighEndDetailing] [    Test worker] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
-2024-12-08T14:48:10.582-05:00  WARN 65884 --- [HighEndDetailing] [    Test worker] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
-2024-12-08T14:48:10.711-05:00  INFO 65884 --- [HighEndDetailing] [    Test worker] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 59770 (http) with context path '/'
-2024-12-08T14:48:10.714-05:00  INFO 65884 --- [HighEndDetailing] [    Test worker] a.d.AppointmentControllerIntegrationTest : Started AppointmentControllerIntegrationTest in 0.902 seconds (process running for 6.072)
-2024-12-08T14:48:11.126-05:00  INFO 65884 --- [HighEndDetailing] [o-auto-1-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
-2024-12-08T14:48:11.126-05:00  INFO 65884 --- [HighEndDetailing] [o-auto-1-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
-2024-12-08T14:48:11.127-05:00  INFO 65884 --- [HighEndDetailing] [o-auto-1-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 1 ms
+2024-12-08T18:25:08.393-05:00  INFO 75131 --- [HighEndDetailing] [    Test worker] a.d.AppointmentControllerIntegrationTest : Starting AppointmentControllerIntegrationTest using Java 17.0.3 with PID 75131 (started by zacharylelievre in /Users/zacharylelievre/Documents/HighEndDetailing/HighEndDetailing/detailing-be)
+2024-12-08T18:25:08.393-05:00  INFO 75131 --- [HighEndDetailing] [    Test worker] a.d.AppointmentControllerIntegrationTest : No active profile set, falling back to 1 default profile: &quot;default&quot;
+2024-12-08T18:25:08.535-05:00  INFO 75131 --- [HighEndDetailing] [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2024-12-08T18:25:08.546-05:00  INFO 75131 --- [HighEndDetailing] [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 10 ms. Found 2 JPA repository interfaces.
+2024-12-08T18:25:08.610-05:00  WARN 75131 --- [HighEndDetailing] [    Test worker] trationDelegate$BeanPostProcessorChecker : Bean 'org.springframework.ws.config.annotation.DelegatingWsConfiguration' of type [org.springframework.ws.config.annotation.DelegatingWsConfiguration$$SpringCGLIB$$0] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying). The currently created BeanPostProcessor [annotationActionEndpointMapping] is declared through a non-static factory method on that class; consider declaring it as static instead.
+2024-12-08T18:25:08.611-05:00  INFO 75131 --- [HighEndDetailing] [    Test worker] .w.s.a.s.AnnotationActionEndpointMapping : Supporting [WS-Addressing August 2004, WS-Addressing 1.0]
+2024-12-08T18:25:08.830-05:00  INFO 75131 --- [HighEndDetailing] [    Test worker] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 0 (http)
+2024-12-08T18:25:08.857-05:00  INFO 75131 --- [HighEndDetailing] [    Test worker] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2024-12-08T18:25:08.858-05:00  INFO 75131 --- [HighEndDetailing] [    Test worker] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.31]
+2024-12-08T18:25:08.932-05:00  INFO 75131 --- [HighEndDetailing] [    Test worker] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2024-12-08T18:25:08.933-05:00  INFO 75131 --- [HighEndDetailing] [    Test worker] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 538 ms
+2024-12-08T18:25:09.030-05:00  INFO 75131 --- [HighEndDetailing] [    Test worker] com.zaxxer.hikari.HikariDataSource       : HikariPool-2 - Starting...
+2024-12-08T18:25:09.033-05:00  INFO 75131 --- [HighEndDetailing] [    Test worker] com.zaxxer.hikari.pool.HikariPool        : HikariPool-2 - Added connection conn21: url=jdbc:h2:mem:bed4045d-d7ae-4c31-8b24-95935f4a3b4e user=SA
+2024-12-08T18:25:09.033-05:00  INFO 75131 --- [HighEndDetailing] [    Test worker] com.zaxxer.hikari.HikariDataSource       : HikariPool-2 - Start completed.
+2024-12-08T18:25:09.051-05:00  INFO 75131 --- [HighEndDetailing] [    Test worker] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2024-12-08T18:25:09.054-05:00  INFO 75131 --- [HighEndDetailing] [    Test worker] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2024-12-08T18:25:09.062-05:00  INFO 75131 --- [HighEndDetailing] [    Test worker] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2024-12-08T18:25:09.125-05:00  INFO 75131 --- [HighEndDetailing] [    Test worker] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2024-12-08T18:25:09.129-05:00  INFO 75131 --- [HighEndDetailing] [    Test worker] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2024-12-08T18:25:09.184-05:00  WARN 75131 --- [HighEndDetailing] [    Test worker] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2024-12-08T18:25:09.339-05:00  INFO 75131 --- [HighEndDetailing] [    Test worker] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 62792 (http) with context path '/'
+2024-12-08T18:25:09.343-05:00  INFO 75131 --- [HighEndDetailing] [    Test worker] a.d.AppointmentControllerIntegrationTest : Started AppointmentControllerIntegrationTest in 0.99 seconds (process running for 6.809)
+2024-12-08T18:25:09.765-05:00  INFO 75131 --- [HighEndDetailing] [o-auto-1-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2024-12-08T18:25:09.765-05:00  INFO 75131 --- [HighEndDetailing] [o-auto-1-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2024-12-08T18:25:09.766-05:00  INFO 75131 --- [HighEndDetailing] [o-auto-1-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 1 ms
 </pre>
 </span>
 </div>
@@ -135,7 +135,7 @@
 <input id="line-wrapping-toggle" type="checkbox" autocomplete="off"/>
 </label>
 </div>Generated by 
-<a href="http://www.gradle.org">Gradle 8.10.2</a> at Dec. 8, 2024, 2:48:12 p.m.</p>
+<a href="http://www.gradle.org">Gradle 8.10.2</a> at Dec. 8, 2024, 6:25:10 p.m.</p>
 </div>
 </div>
 </body>

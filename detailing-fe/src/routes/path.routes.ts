@@ -1,6 +1,8 @@
+import AllAppointments from "../models/AllAppointments";
 
 export enum AppRoutePath{
     Default = "/",
     Home = "/home",
-    AllServicesPage = "/services"
+    AllServicesPage = "/services",
+    AllAppointmentsPage = "/appointments"
 }

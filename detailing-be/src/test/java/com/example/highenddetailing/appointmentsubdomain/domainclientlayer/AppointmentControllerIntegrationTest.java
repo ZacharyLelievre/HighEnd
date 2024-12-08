@@ -2,7 +2,6 @@ package com.example.highenddetailing.appointmentsubdomain.domainclientlayer;
 
 import com.example.highenddetailing.appointmentssubdomain.datalayer.Appointment;
 import com.example.highenddetailing.appointmentssubdomain.datalayer.AppointmentIdentifier;
-import com.example.highenddetailing.servicessubdomain.datalayer.ServiceIdentifier;
 import com.example.highenddetailing.appointmentssubdomain.datalayer.AppointmentRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -45,8 +44,11 @@ public class AppointmentControllerIntegrationTest {
                         .id(null)
                         .appointmentIdentifier(new AppointmentIdentifier())
                         .customerId("CUST001")
-                        .serviceId(new ServiceIdentifier())
+                        .customerName("John Doe") // Added customerName
+                        .serviceId("SERVICE001") // Changed from ServiceIdentifier to String
+                        .serviceName("Car Wash") // Added serviceName
                         .employeeId("EMP001")
+                        .employeeName("Jane Smith") // Added employeeName
                         .appointmentDate(LocalDate.of(2024, 12, 25))
                         .appointmentTime(LocalTime.of(10, 30))
                         .status("Scheduled")
@@ -57,8 +59,11 @@ public class AppointmentControllerIntegrationTest {
                         .id(null)
                         .appointmentIdentifier(new AppointmentIdentifier())
                         .customerId("CUST002")
-                        .serviceId(new ServiceIdentifier())
+                        .customerName("Michael Brown") // Added customerName
+                        .serviceId("SERVICE002") // Changed from ServiceIdentifier to String
+                        .serviceName("Brake Check") // Added serviceName
                         .employeeId("EMP002")
+                        .employeeName("Emily White") // Added employeeName
                         .appointmentDate(LocalDate.of(2025, 1, 10))
                         .appointmentTime(LocalTime.of(14, 30))
                         .status("Completed")

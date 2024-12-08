@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="com.example.highenddetailing.HighEndDetailingApplicationTests" tests="1" skipped="0" failures="0" errors="0" timestamp="2024-12-08T19:48:08" hostname="Zacharys-MacBook-Pro.local" time="0.327">
+<testsuite name="com.example.highenddetailing.HighEndDetailingApplicationTests" tests="1" skipped="0" failures="0" errors="0" timestamp="2024-12-08T23:25:07" hostname="Zacharys-MacBook-Pro.local" time="0.331">
   <properties/>
-  <testcase name="contextLoads()" classname="com.example.highenddetailing.HighEndDetailingApplicationTests" time="0.327"/>
-  <system-out><![CDATA[14:48:05.342 [Test worker] INFO org.springframework.test.context.support.AnnotationConfigContextLoaderUtils -- Could not detect default configuration classes for test class [com.example.highenddetailing.HighEndDetailingApplicationTests]: HighEndDetailingApplicationTests does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
-14:48:05.417 [Test worker] INFO org.springframework.boot.test.context.SpringBootTestContextBootstrapper -- Found @SpringBootConfiguration com.example.highenddetailing.HighEndDetailingApplication for test class com.example.highenddetailing.HighEndDetailingApplicationTests
+  <testcase name="contextLoads()" classname="com.example.highenddetailing.HighEndDetailingApplicationTests" time="0.331"/>
+  <system-out><![CDATA[18:25:03.697 [Test worker] INFO org.springframework.test.context.support.AnnotationConfigContextLoaderUtils -- Could not detect default configuration classes for test class [com.example.highenddetailing.HighEndDetailingApplicationTests]: HighEndDetailingApplicationTests does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+18:25:03.880 [Test worker] INFO org.springframework.boot.test.context.SpringBootTestContextBootstrapper -- Found @SpringBootConfiguration com.example.highenddetailing.HighEndDetailingApplication for test class com.example.highenddetailing.HighEndDetailingApplicationTests
 
   .   ____          _            __ _ _
  /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
@@ -14,23 +14,23 @@
 
  :: Spring Boot ::                (v3.3.5)
 
-2024-12-08T14:48:05.781-05:00  INFO 65884 --- [HighEndDetailing] [    Test worker] c.e.h.HighEndDetailingApplicationTests   : Starting HighEndDetailingApplicationTests using Java 17.0.3 with PID 65884 (started by zacharylelievre in /Users/zacharylelievre/Documents/HighEndDetailing/HighEndDetailing/detailing-be)
-2024-12-08T14:48:05.782-05:00  INFO 65884 --- [HighEndDetailing] [    Test worker] c.e.h.HighEndDetailingApplicationTests   : No active profile set, falling back to 1 default profile: "default"
-2024-12-08T14:48:06.235-05:00  INFO 65884 --- [HighEndDetailing] [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
-2024-12-08T14:48:06.357-05:00  INFO 65884 --- [HighEndDetailing] [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 114 ms. Found 2 JPA repository interfaces.
-2024-12-08T14:48:06.552-05:00  WARN 65884 --- [HighEndDetailing] [    Test worker] trationDelegate$BeanPostProcessorChecker : Bean 'org.springframework.ws.config.annotation.DelegatingWsConfiguration' of type [org.springframework.ws.config.annotation.DelegatingWsConfiguration$$SpringCGLIB$$0] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying). The currently created BeanPostProcessor [annotationActionEndpointMapping] is declared through a non-static factory method on that class; consider declaring it as static instead.
-2024-12-08T14:48:06.572-05:00  INFO 65884 --- [HighEndDetailing] [    Test worker] .w.s.a.s.AnnotationActionEndpointMapping : Supporting [WS-Addressing August 2004, WS-Addressing 1.0]
-2024-12-08T14:48:06.638-05:00  INFO 65884 --- [HighEndDetailing] [    Test worker] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
-2024-12-08T14:48:06.851-05:00  INFO 65884 --- [HighEndDetailing] [    Test worker] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection conn0: url=jdbc:h2:mem:d24e6667-f2d0-4c8f-942a-69d6af9f254d user=SA
-2024-12-08T14:48:06.853-05:00  INFO 65884 --- [HighEndDetailing] [    Test worker] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
-2024-12-08T14:48:06.943-05:00  INFO 65884 --- [HighEndDetailing] [    Test worker] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
-2024-12-08T14:48:06.995-05:00  INFO 65884 --- [HighEndDetailing] [    Test worker] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 6.5.3.Final
-2024-12-08T14:48:07.029-05:00  INFO 65884 --- [HighEndDetailing] [    Test worker] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
-2024-12-08T14:48:07.281-05:00  INFO 65884 --- [HighEndDetailing] [    Test worker] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
-2024-12-08T14:48:08.011-05:00  INFO 65884 --- [HighEndDetailing] [    Test worker] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
-2024-12-08T14:48:08.035-05:00  INFO 65884 --- [HighEndDetailing] [    Test worker] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
-2024-12-08T14:48:08.322-05:00  WARN 65884 --- [HighEndDetailing] [    Test worker] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
-2024-12-08T14:48:08.596-05:00  INFO 65884 --- [HighEndDetailing] [    Test worker] c.e.h.HighEndDetailingApplicationTests   : Started HighEndDetailingApplicationTests in 3.066 seconds (process running for 3.954)
+2024-12-08T18:25:04.298-05:00  INFO 75131 --- [HighEndDetailing] [    Test worker] c.e.h.HighEndDetailingApplicationTests   : Starting HighEndDetailingApplicationTests using Java 17.0.3 with PID 75131 (started by zacharylelievre in /Users/zacharylelievre/Documents/HighEndDetailing/HighEndDetailing/detailing-be)
+2024-12-08T18:25:04.299-05:00  INFO 75131 --- [HighEndDetailing] [    Test worker] c.e.h.HighEndDetailingApplicationTests   : No active profile set, falling back to 1 default profile: "default"
+2024-12-08T18:25:04.767-05:00  INFO 75131 --- [HighEndDetailing] [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2024-12-08T18:25:04.892-05:00  INFO 75131 --- [HighEndDetailing] [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 118 ms. Found 2 JPA repository interfaces.
+2024-12-08T18:25:05.096-05:00  WARN 75131 --- [HighEndDetailing] [    Test worker] trationDelegate$BeanPostProcessorChecker : Bean 'org.springframework.ws.config.annotation.DelegatingWsConfiguration' of type [org.springframework.ws.config.annotation.DelegatingWsConfiguration$$SpringCGLIB$$0] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying). The currently created BeanPostProcessor [annotationActionEndpointMapping] is declared through a non-static factory method on that class; consider declaring it as static instead.
+2024-12-08T18:25:05.122-05:00  INFO 75131 --- [HighEndDetailing] [    Test worker] .w.s.a.s.AnnotationActionEndpointMapping : Supporting [WS-Addressing August 2004, WS-Addressing 1.0]
+2024-12-08T18:25:05.190-05:00  INFO 75131 --- [HighEndDetailing] [    Test worker] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2024-12-08T18:25:05.407-05:00  INFO 75131 --- [HighEndDetailing] [    Test worker] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection conn0: url=jdbc:h2:mem:a806a06c-bbd2-4651-8f70-da4eb8e4d8ed user=SA
+2024-12-08T18:25:05.408-05:00  INFO 75131 --- [HighEndDetailing] [    Test worker] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2024-12-08T18:25:05.498-05:00  INFO 75131 --- [HighEndDetailing] [    Test worker] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2024-12-08T18:25:05.549-05:00  INFO 75131 --- [HighEndDetailing] [    Test worker] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 6.5.3.Final
+2024-12-08T18:25:05.582-05:00  INFO 75131 --- [HighEndDetailing] [    Test worker] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2024-12-08T18:25:05.821-05:00  INFO 75131 --- [HighEndDetailing] [    Test worker] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2024-12-08T18:25:06.560-05:00  INFO 75131 --- [HighEndDetailing] [    Test worker] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2024-12-08T18:25:06.587-05:00  INFO 75131 --- [HighEndDetailing] [    Test worker] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2024-12-08T18:25:06.870-05:00  WARN 75131 --- [HighEndDetailing] [    Test worker] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2024-12-08T18:25:07.142-05:00  INFO 75131 --- [HighEndDetailing] [    Test worker] c.e.h.HighEndDetailingApplicationTests   : Started HighEndDetailingApplicationTests in 3.13 seconds (process running for 4.608)
 ]]></system-out>
   <system-err><![CDATA[]]></system-err>
 </testsuite>

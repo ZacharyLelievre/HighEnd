@@ -33,9 +33,9 @@ export default function AllAppointments(): JSX.Element {
                         <div className="appointment-details">
                             <p><strong>Date:</strong> {appointment.appointmentDate}</p>
                             <p><strong>Time:</strong> {appointment.appointmentTime}</p>
-                            <p><strong>Service ID:</strong> {appointment.serviceId}</p>
-                            <p><strong>Customer ID:</strong> {appointment.customerId}</p>
-                            <p><strong>Employee ID:</strong> {appointment.employeeId}</p>
+                            <p><strong>Service Name:</strong> {appointment.serviceName}</p>
+                            <p><strong>Customer Name:</strong> {appointment.customerName}</p>
+                            <p><strong>Employee Name:</strong> {appointment.employeeName}</p>
                             <p><strong>Status:</strong> {appointment.status}</p>
                             <button>View</button>
                         </div>
