@@ -2,6 +2,7 @@ import { createBrowserRouter, Navigate } from "react-router-dom";
 import { AppRoutePath } from "./path.routes";
 import AllServicesPage from "../pages/AllServicesPage";
 import Home from "../models/Home";
+import ServiceDetailPage from "../pages/ServiceDetailsPage";
 
 const router = createBrowserRouter([
     {
@@ -17,7 +18,12 @@ const router = createBrowserRouter([
             {
                 path: AppRoutePath.AllServicesPage,
                 element: <AllServicesPage />
+            },
+            {
+                path: "/services/:serviceId",
+                element: <ServiceDetailPage />
             }
+
         ]
     }
 ])

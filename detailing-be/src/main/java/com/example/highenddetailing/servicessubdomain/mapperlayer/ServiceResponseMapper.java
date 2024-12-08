@@ -15,6 +15,7 @@ public interface ServiceResponseMapper {
     @Mapping(expression = "java(service.getTimeRequired())", target = "timeRequired")
     @Mapping(expression = "java(service.getPrice())", target = "price")
     @Mapping(expression = "java(service.getImagePath())", target = "imagePath")
+
     ServiceResponseModel entityToResponseModel(Service service);
     List<ServiceResponseModel> entityListToResponseModel(List<Service> service);
 }

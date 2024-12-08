@@ -5,9 +5,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
 import java.util.List;
+import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.*;
 
 @DataJpaTest
 class ServiceRepositoryIntegrationTest {
@@ -49,6 +49,30 @@ class ServiceRepositoryIntegrationTest {
         assertEquals(service2.getTimeRequired(), services.get(1).getTimeRequired());
         assertEquals(service2.getPrice(), services.get(1).getPrice());
 
+    }
+
+    @Test
+    void whenFindByServiceId_thenReturnService() {
+        // Arrange: Prepare a sample service
+        ServiceIdentifier serviceIdentifier = new ServiceIdentifier();
+        Service service = Service.builder()
+                .serviceIdentifier(serviceIdentifier)
+                .serviceName("Test Service")
+                .timeRequired("1 Hour")
+                .price(100.0f)
+                .build();
+
+        serviceRepository.save(service);
+
+        // Act: Fetch the service by serviceId
+        Optional<Service> foundService = serviceRepository.findByServiceIdentifier_ServiceId(serviceIdentifier.getServiceId());
+
+        // Assert: Verify the result
+        assertTrue(foundService.isPresent());
+        assertEquals(service.getServiceName(), foundService.get().getServiceName());
+        assertEquals(service.getTimeRequired(), foundService.get().getTimeRequired());
+        assertEquals(service.getPrice(), foundService.get().getPrice());
+        assertEquals(serviceIdentifier.getServiceId(), foundService.get().getServiceIdentifier().getServiceId());
     }
 
 }
