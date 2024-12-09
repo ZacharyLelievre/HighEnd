@@ -4,6 +4,7 @@ import AllServicesPage from "../pages/AllServicesPage";
 import AllAppointmentsPage from "../pages/AllAppointmentsPage";
 import Home from "../models/Home";
 import React from "react";
+import ServiceDetailPage from "../pages/ServiceDetailsPage";
 
 const router = createBrowserRouter([
     {
@@ -19,6 +20,10 @@ const router = createBrowserRouter([
             {
                 path: AppRoutePath.AllServicesPage,
                 element: <AllServicesPage />
+            },
+            {
+                path: "/services/:serviceId",
+                element: <ServiceDetailPage />
             },
             {
                 path: AppRoutePath.AllAppointmentsPage,
