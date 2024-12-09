@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<meta http-equiv="x-ua-compatible" content="IE=edge"/>
+<title>Test results - AppointmentControllerIntegrationTest</title>
+<link href="../css/base-style.css" rel="stylesheet" type="text/css"/>
+<link href="../css/style.css" rel="stylesheet" type="text/css"/>
+<script src="../js/report.js" type="text/javascript"></script>
+</head>
+<body>
+<div id="content">
+<h1>AppointmentControllerIntegrationTest</h1>
+<div class="breadcrumbs">
+<a href="../index.html">all</a> &gt; 
+<a href="../packages/com.example.highenddetailing.appointmentsubdomain.domainclientlayer.html">com.example.highenddetailing.appointmentsubdomain.domainclientlayer</a> &gt; AppointmentControllerIntegrationTest</div>
+<div id="summary">
+<table>
+<tr>
+<td>
+<div class="summaryGroup">
+<table>
+<tr>
+<td>
+<div class="infoBox" id="tests">
+<div class="counter">1</div>
+<p>tests</p>
+</div>
+</td>
+<td>
+<div class="infoBox" id="failures">
+<div class="counter">0</div>
+<p>failures</p>
+</div>
+</td>
+<td>
+<div class="infoBox" id="ignored">
+<div class="counter">0</div>
+<p>ignored</p>
+</div>
+</td>
+<td>
+<div class="infoBox" id="duration">
+<div class="counter">0.528s</div>
+<p>duration</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+</td>
+<td>
+<div class="infoBox success" id="successRate">
+<div class="percent">100%</div>
+<p>successful</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div id="tabs">
+<ul class="tabLinks">
+<li>
+<a href="#tab0">Tests</a>
+</li>
+<li>
+<a href="#tab1">Standard output</a>
+</li>
+</ul>
+<div id="tab0" class="tab">
+<h2>Tests</h2>
+<table>
+<thead>
+<tr>
+<th>Test</th>
+<th>Duration</th>
+<th>Result</th>
+</tr>
+</thead>
+<tr>
+<td class="success">whenGetAllAppointments_thenReturnAllAppointments()</td>
+<td class="success">0.528s</td>
+<td class="success">passed</td>
+</tr>
+</table>
+</div>
+<div id="tab1" class="tab">
+<h2>Standard output</h2>
+<span class="code">
+<pre>2024-12-08T18:25:08.339-05:00  INFO 75131 --- [HighEndDetailing] [    Test worker] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [com.example.highenddetailing.appointmentsubdomain.domainclientlayer.AppointmentControllerIntegrationTest]: AppointmentControllerIntegrationTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2024-12-08T18:25:08.349-05:00  INFO 75131 --- [HighEndDetailing] [    Test worker] .b.t.c.SpringBootTestContextBootstrapper : Found @SpringBootConfiguration com.example.highenddetailing.HighEndDetailingApplication for test class com.example.highenddetailing.appointmentsubdomain.domainclientlayer.AppointmentControllerIntegrationTest
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+
+ :: Spring Boot ::                (v3.3.5)
+
+2024-12-08T18:25:08.393-05:00  INFO 75131 --- [HighEndDetailing] [    Test worker] a.d.AppointmentControllerIntegrationTest : Starting AppointmentControllerIntegrationTest using Java 17.0.3 with PID 75131 (started by zacharylelievre in /Users/zacharylelievre/Documents/HighEndDetailing/HighEndDetailing/detailing-be)
+2024-12-08T18:25:08.393-05:00  INFO 75131 --- [HighEndDetailing] [    Test worker] a.d.AppointmentControllerIntegrationTest : No active profile set, falling back to 1 default profile: &quot;default&quot;
+2024-12-08T18:25:08.535-05:00  INFO 75131 --- [HighEndDetailing] [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2024-12-08T18:25:08.546-05:00  INFO 75131 --- [HighEndDetailing] [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 10 ms. Found 2 JPA repository interfaces.
+2024-12-08T18:25:08.610-05:00  WARN 75131 --- [HighEndDetailing] [    Test worker] trationDelegate$BeanPostProcessorChecker : Bean 'org.springframework.ws.config.annotation.DelegatingWsConfiguration' of type [org.springframework.ws.config.annotation.DelegatingWsConfiguration$$SpringCGLIB$$0] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying). The currently created BeanPostProcessor [annotationActionEndpointMapping] is declared through a non-static factory method on that class; consider declaring it as static instead.
+2024-12-08T18:25:08.611-05:00  INFO 75131 --- [HighEndDetailing] [    Test worker] .w.s.a.s.AnnotationActionEndpointMapping : Supporting [WS-Addressing August 2004, WS-Addressing 1.0]
+2024-12-08T18:25:08.830-05:00  INFO 75131 --- [HighEndDetailing] [    Test worker] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 0 (http)
+2024-12-08T18:25:08.857-05:00  INFO 75131 --- [HighEndDetailing] [    Test worker] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2024-12-08T18:25:08.858-05:00  INFO 75131 --- [HighEndDetailing] [    Test worker] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.31]
+2024-12-08T18:25:08.932-05:00  INFO 75131 --- [HighEndDetailing] [    Test worker] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2024-12-08T18:25:08.933-05:00  INFO 75131 --- [HighEndDetailing] [    Test worker] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 538 ms
+2024-12-08T18:25:09.030-05:00  INFO 75131 --- [HighEndDetailing] [    Test worker] com.zaxxer.hikari.HikariDataSource       : HikariPool-2 - Starting...
+2024-12-08T18:25:09.033-05:00  INFO 75131 --- [HighEndDetailing] [    Test worker] com.zaxxer.hikari.pool.HikariPool        : HikariPool-2 - Added connection conn21: url=jdbc:h2:mem:bed4045d-d7ae-4c31-8b24-95935f4a3b4e user=SA
+2024-12-08T18:25:09.033-05:00  INFO 75131 --- [HighEndDetailing] [    Test worker] com.zaxxer.hikari.HikariDataSource       : HikariPool-2 - Start completed.
+2024-12-08T18:25:09.051-05:00  INFO 75131 --- [HighEndDetailing] [    Test worker] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2024-12-08T18:25:09.054-05:00  INFO 75131 --- [HighEndDetailing] [    Test worker] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2024-12-08T18:25:09.062-05:00  INFO 75131 --- [HighEndDetailing] [    Test worker] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2024-12-08T18:25:09.125-05:00  INFO 75131 --- [HighEndDetailing] [    Test worker] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2024-12-08T18:25:09.129-05:00  INFO 75131 --- [HighEndDetailing] [    Test worker] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2024-12-08T18:25:09.184-05:00  WARN 75131 --- [HighEndDetailing] [    Test worker] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2024-12-08T18:25:09.339-05:00  INFO 75131 --- [HighEndDetailing] [    Test worker] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 62792 (http) with context path '/'
+2024-12-08T18:25:09.343-05:00  INFO 75131 --- [HighEndDetailing] [    Test worker] a.d.AppointmentControllerIntegrationTest : Started AppointmentControllerIntegrationTest in 0.99 seconds (process running for 6.809)
+2024-12-08T18:25:09.765-05:00  INFO 75131 --- [HighEndDetailing] [o-auto-1-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2024-12-08T18:25:09.765-05:00  INFO 75131 --- [HighEndDetailing] [o-auto-1-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2024-12-08T18:25:09.766-05:00  INFO 75131 --- [HighEndDetailing] [o-auto-1-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 1 ms
+</pre>
+</span>
+</div>
+</div>
+<div id="footer">
+<p>
+<div>
+<label class="hidden" id="label-for-line-wrapping-toggle" for="line-wrapping-toggle">Wrap lines
+<input id="line-wrapping-toggle" type="checkbox" autocomplete="off"/>
+</label>
+</div>Generated by 
+<a href="http://www.gradle.org">Gradle 8.10.2</a> at Dec. 8, 2024, 6:25:10 p.m.</p>
+</div>
+</div>
+</body>
+</html>

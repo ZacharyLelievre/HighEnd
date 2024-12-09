@@ -1,4 +1,5 @@
 import { NavBar } from "../nav/NavBar"
+import AllAppointments from "./AllAppointments";
 
 
 export default function Home(): JSX.Element {

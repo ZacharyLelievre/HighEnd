@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.example.highenddetailing.servicessubdomain.datalayer.ServiceTest" tests="11" skipped="0" failures="0" errors="0" timestamp="2024-12-08T23:25:10" hostname="Zacharys-MacBook-Pro.local" time="0.008">
+  <properties/>
+  <testcase name="testGettersAndSetters()" classname="com.example.highenddetailing.servicessubdomain.datalayer.ServiceTest" time="0.003"/>
+  <testcase name="testServiceBuilderPrice()" classname="com.example.highenddetailing.servicessubdomain.datalayer.ServiceTest" time="0.0"/>
+  <testcase name="testConstructorWithAllArgs()" classname="com.example.highenddetailing.servicessubdomain.datalayer.ServiceTest" time="0.001"/>
+  <testcase name="testServiceBuilderToString()" classname="com.example.highenddetailing.servicessubdomain.datalayer.ServiceTest" time="0.001"/>
+  <testcase name="testSettersAndGetters()" classname="com.example.highenddetailing.servicessubdomain.datalayer.ServiceTest" time="0.0"/>
+  <testcase name="testCanEqual()" classname="com.example.highenddetailing.servicessubdomain.datalayer.ServiceTest" time="0.0"/>
+  <testcase name="testHashCode()" classname="com.example.highenddetailing.servicessubdomain.datalayer.ServiceTest" time="0.0"/>
+  <testcase name="testServiceBuilderImagePath()" classname="com.example.highenddetailing.servicessubdomain.datalayer.ServiceTest" time="0.0"/>
+  <testcase name="testEquals()" classname="com.example.highenddetailing.servicessubdomain.datalayer.ServiceTest" time="0.0"/>
+  <testcase name="testServiceBuilderId()" classname="com.example.highenddetailing.servicessubdomain.datalayer.ServiceTest" time="0.0"/>
+  <testcase name="testEqualsAndHashCode()" classname="com.example.highenddetailing.servicessubdomain.datalayer.ServiceTest" time="0.0"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

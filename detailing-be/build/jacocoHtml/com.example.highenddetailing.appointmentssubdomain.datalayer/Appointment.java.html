@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Appointment.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">detailing-be</a> &gt; <a href="index.source.html" class="el_package">com.example.highenddetailing.appointmentssubdomain.datalayer</a> &gt; <span class="el_source">Appointment.java</span></div><h1>Appointment.java</h1><pre class="source lang-java linenums">package com.example.highenddetailing.appointmentssubdomain.datalayer;
+
+import com.example.highenddetailing.appointmentssubdomain.datalayer.AppointmentIdentifier;
+import com.example.highenddetailing.servicessubdomain.datalayer.ServiceIdentifier;
+import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+import java.time.LocalDate;
+import java.time.LocalTime;
+
+<span class="pc bpc" id="L14" title="41 of 102 branches missed.">@Data</span>
+@Entity
+@Table(name = &quot;appointments&quot;)
+<span class="fc" id="L17">@NoArgsConstructor</span>
+<span class="fc" id="L18">@AllArgsConstructor</span>
+<span class="pc" id="L19">@Builder</span>
+public class Appointment {
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+<span class="fc" id="L23">    private Integer id;</span>
+
+    @Embedded
+<span class="fc" id="L26">    private AppointmentIdentifier appointmentIdentifier;</span>
+
+<span class="fc" id="L28">    private String customerId;</span>
+<span class="fc" id="L29">    private String customerName;</span>
+
+<span class="fc" id="L31">    private String serviceId;</span>
+<span class="fc" id="L32">    private String serviceName;</span>
+
+<span class="fc" id="L34">    private String employeeId;</span>
+<span class="fc" id="L35">    private String employeeName;</span>
+
+<span class="fc" id="L37">    private LocalDate appointmentDate;</span>
+<span class="fc" id="L38">    private LocalTime appointmentTime;</span>
+<span class="fc" id="L39">    private String status;</span>
+<span class="fc" id="L40">    private String imagePath;</span>
+
+    // Updated Constructor
+    public Appointment(Integer id, String customerId, String customerName,
+                       String employeeId, String employeeName,
+                       String serviceId, String serviceName, // Added serviceId and serviceName
+                       String appointmentDate, String appointmentTime,
+<span class="fc" id="L47">                       String status, String imagePath) {</span>
+<span class="fc" id="L48">        this.id = id;</span>
+<span class="fc" id="L49">        this.appointmentIdentifier = new AppointmentIdentifier();</span>
+<span class="fc" id="L50">        this.customerId = customerId;</span>
+<span class="fc" id="L51">        this.customerName = customerName;</span>
+<span class="fc" id="L52">        this.serviceId = serviceId;</span>
+<span class="fc" id="L53">        this.serviceName = serviceName;</span>
+<span class="fc" id="L54">        this.employeeId = employeeId;</span>
+<span class="fc" id="L55">        this.employeeName = employeeName;</span>
+<span class="fc" id="L56">        this.appointmentDate = LocalDate.parse(appointmentDate);</span>
+<span class="fc" id="L57">        this.appointmentTime = LocalTime.parse(appointmentTime);</span>
+<span class="fc" id="L58">        this.status = status;</span>
+<span class="fc" id="L59">        this.imagePath = imagePath;</span>
+<span class="fc" id="L60">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

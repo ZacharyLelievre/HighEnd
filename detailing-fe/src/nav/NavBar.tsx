@@ -23,8 +23,7 @@ export function NavBar(): JSX.Element {
           />
         </Navbar.Brand>
 
-        {/* Navbar Toggle for responsiveness */}
-        <Navbar.Toggle aria-controls="basic-navbar-nav" />
+
 
         {/* Links aligned to the right */}
         <Navbar.Collapse id="basic-navbar-nav">
@@ -42,6 +41,13 @@ export function NavBar(): JSX.Element {
               className="text-white nav-item-spacing"
             >
               Services
+            </Nav.Link>
+            <Nav.Link
+              as={Link}
+              to={AppRoutePath.AllAppointmentsPage}
+              className="text-white nav-item-spacing"
+            >
+              Appointments
             </Nav.Link>
           </Nav>
         </Navbar.Collapse>
