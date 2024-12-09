@@ -1,5 +1,20 @@
 {
   "dependencies": {
-    "jwt-decode": "^4.0.0"
-  }
+    "@testing-library/react": "^16.1.0",
+    "axios": "^1.7.9",
+    "jsx-runtime": "^1.2.0",
+    "jwt-decode": "^4.0.0",
+    "react": "^19.0.0",
+    "react-bootstrap": "^2.10.6",
+    "react-router-dom": "^7.0.2"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.49.0",
+    "@types/node": "^22.10.1",
+    "@types/react": "^19.0.1",
+    "@types/react-dom": "^19.0.1",
+    "typescript": "^5.7.2",
+    "web-vitals": "^4.2.4"
+  },
+  "scripts": {}
 }

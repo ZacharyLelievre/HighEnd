@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import { AppRoutePath } from "../routes/path.routes";
 import { Navbar, Container, Nav } from "react-bootstrap"; // Correct import
 import "./NavBar.css"; // Import CSS file for styling
+import { JSX } from "react/jsx-runtime";
 
 export function NavBar(): JSX.Element {
   return (
@@ -42,6 +43,15 @@ export function NavBar(): JSX.Element {
               className="text-white nav-item-spacing"
             >
               Services
+            </Nav.Link>
+
+            <Nav.Link
+              as={Link}
+              to={AppRoutePath.AllGalleriesPage}
+              className="text-white nav-item-spacing"
+              >
+                Gallery
+
             </Nav.Link>
           </Nav>
         </Navbar.Collapse>

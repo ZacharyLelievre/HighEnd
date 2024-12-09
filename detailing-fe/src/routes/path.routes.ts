@@ -2,5 +2,6 @@
 export enum AppRoutePath{
     Default = "/",
     Home = "/home",
-    AllServicesPage = "/services"
+    AllServicesPage = "/services",
+    AllGalleriesPage = "/galleries"
 }
