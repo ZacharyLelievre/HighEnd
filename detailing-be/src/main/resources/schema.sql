@@ -24,3 +24,10 @@ CREATE TABLE IF NOT EXISTS appointments (
     status VARCHAR(50) NOT NULL,
     image_path VARCHAR(255)
 );
+
+CREATE TABLE IF NOT EXISTS galleries (
+    id INTEGER NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    gallery_id VARCHAR(255) NOT NULL,
+    description VARCHAR(255) NOT NULL,
+    image_url VARCHAR(255) NOT NULL
+);
