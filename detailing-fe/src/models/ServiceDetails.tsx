@@ -50,20 +50,6 @@ export default function ServiceDetail(): JSX.Element {
                     </ul>
                 </div>
             </div>
-            <div className="service-scheduler">
-                <div className="calendar">
-                    <h3>Select date</h3>
-                    <div className="calendar-ui">[Calendar Component]</div>
-                </div>
-                <div className="time-slots">
-                    <h3>Select Time</h3>
-                    <div className="time-slot-buttons">
-                        <button>Select Time</button>
-                        <button>Select Time</button>
-                        <button>Select Time</button>
-                    </div>
-                </div>
-            </div>
         </div>
     );
 }
