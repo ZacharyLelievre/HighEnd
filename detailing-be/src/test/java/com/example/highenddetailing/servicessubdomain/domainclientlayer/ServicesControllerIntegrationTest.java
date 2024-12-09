@@ -34,8 +34,13 @@ public class ServicesControllerIntegrationTest {
     }
 
     @BeforeEach
+    public void cleanDatabase() {
+        serviceRepository.deleteAll(); // Ensure a clean database before each test
+    }
+    @BeforeEach
     public void initData() {
         // Insert mock data into the database (if needed)
+        serviceRepository.deleteAll(); // Clear database to isolate tests
         serviceRepository.saveAll(Arrays.asList(
                 new Service("Service 1", "Description of service 1", 100.00f, "resources/images/service/detailing-service-1.jpg"),
                 new Service("Service 2", "Description of service 2", 200.00f, "resources/images/service/detailing-service-1.jpg"),
@@ -68,6 +73,36 @@ public class ServicesControllerIntegrationTest {
         assertNotNull(response.getBody());
         assertEquals(10, response.getBody().size());
     }
+
+
+    @Test
+    public void whenGetServiceById_thenReturnService() {
+        // Arrange: Get an existing service from the repository
+        Service service = serviceRepository.save(
+                new Service("Specific Service", "3 Hours", 300.00f, "resources/images/service/detailing-service-3.jpg")
+        );
+
+        String url = "http://localhost:" + port + "/api/services/" + service.getServiceIdentifier().getServiceId();
+
+        // Act: Make a GET request for the specific service
+        ResponseEntity<ServiceResponseModel> response = restTemplate.exchange(
+                url,
+                org.springframework.http.HttpMethod.GET,
+                null,
+                ServiceResponseModel.class
+        );
+
+        // Assert: Verify the service details
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertNotNull(response.getBody());
+        ServiceResponseModel serviceResponse = response.getBody();
+        assertEquals(service.getServiceIdentifier().getServiceId(), serviceResponse.getServiceId());
+        assertEquals(service.getServiceName(), serviceResponse.getServiceName());
+        assertEquals(service.getTimeRequired(), serviceResponse.getTimeRequired());
+        assertEquals(service.getPrice(), serviceResponse.getPrice());
+        assertEquals(service.getImagePath(), serviceResponse.getImagePath());
+    }
+
 
     // Add more tests for other endpoints or error cases if necessary...
 }

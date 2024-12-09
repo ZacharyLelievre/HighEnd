@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="com.example.highenddetailing.servicessubdomain.domainclientlayer.ServicesControllerIntegrationTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2024-12-08T23:25:10" hostname="Zacharys-MacBook-Pro.local" time="0.029">
-  <properties/>
-  <testcase name="whenGetAllServices_thenReturnAllServices()" classname="com.example.highenddetailing.servicessubdomain.domainclientlayer.ServicesControllerIntegrationTest" time="0.029"/>
-  <system-out><![CDATA[2024-12-08T18:25:10.291-05:00  INFO 75131 --- [HighEndDetailing] [    Test worker] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [com.example.highenddetailing.servicessubdomain.domainclientlayer.ServicesControllerIntegrationTest]: ServicesControllerIntegrationTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
-2024-12-08T18:25:10.298-05:00  INFO 75131 --- [HighEndDetailing] [    Test worker] .b.t.c.SpringBootTestContextBootstrapper : Found @SpringBootConfiguration com.example.highenddetailing.HighEndDetailingApplication for test class com.example.highenddetailing.servicessubdomain.domainclientlayer.ServicesControllerIntegrationTest
-]]></system-out>
-  <system-err><![CDATA[]]></system-err>
-</testsuite>
