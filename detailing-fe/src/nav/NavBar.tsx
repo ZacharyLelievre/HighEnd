@@ -49,6 +49,15 @@ export function NavBar(): JSX.Element {
             >
               Appointments
             </Nav.Link>
+
+            <Nav.Link
+            as={Link}
+            to={AppRoutePath.AllGalleriesPage}
+            className="text-white nav-item-spacing"
+            >
+              Gallery
+
+            </Nav.Link>
           </Nav>
         </Navbar.Collapse>
       </Container>

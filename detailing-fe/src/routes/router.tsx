@@ -5,6 +5,7 @@ import AllAppointmentsPage from "../pages/AllAppointmentsPage";
 import Home from "../models/Home";
 import React from "react";
 import ServiceDetailPage from "../pages/ServiceDetailsPage";
+import AllGalleriesPage from "../pages/AllGalleriesPage";
 
 const router = createBrowserRouter([
     {
@@ -28,6 +29,10 @@ const router = createBrowserRouter([
             {
                 path: AppRoutePath.AllAppointmentsPage,
                 element: <AllAppointmentsPage />
+            },
+            {
+                path: AppRoutePath.AllGalleriesPage,
+                element: <AllGalleriesPage />
             }
         ]
     }
