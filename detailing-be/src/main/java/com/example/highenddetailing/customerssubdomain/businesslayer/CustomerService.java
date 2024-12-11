@@ -8,4 +8,5 @@ import java.util.List;
 public interface CustomerService {
 
     List<CustomerResponseModel> getCustomers();
+    void deleteCustomer(String customerId);
 }
