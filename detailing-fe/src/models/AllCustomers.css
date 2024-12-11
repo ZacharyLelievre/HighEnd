@@ -1,0 +1,44 @@
+
+.container {
+    display: grid;
+    place-items: center; /* Center the content */
+    height: 100vh;
+    background-color: #D3D3D3;
+  }
+
+.customerList {
+    margin-top: 20px;
+    width: 50%;
+    border: 1px solid #ccc;
+    padding: 20px;
+    background-color: white;
+
+  }
+  
+  .customer {
+    border: 1px solid #ccc;
+    padding: 20px;
+    margin-bottom: 20px;
+    border-radius: 10px;
+  }
+  
+  .customer h2 {
+    margin-bottom: 10px;
+  }
+  
+  .customer-actions {
+    display: flex;
+    gap: 10px;
+  }
+  
+  .customer-actions a {
+    text-decoration: none;
+    color: #333;
+    padding: 5px 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+  
+  .customer-actions a:hover {
+    background-color: #f0f0f0;
+  }

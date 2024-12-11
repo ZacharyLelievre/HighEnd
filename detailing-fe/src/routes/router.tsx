@@ -6,6 +6,7 @@ import Home from "../models/Home";
 import React from "react";
 import ServiceDetailPage from "../pages/ServiceDetailsPage";
 import AllGalleriesPage from "../pages/AllGalleriesPage";
+import DashboardPage from "../pages/DashhoardPage";
 
 const router = createBrowserRouter([
     {
@@ -33,6 +34,10 @@ const router = createBrowserRouter([
             {
                 path: AppRoutePath.AllGalleriesPage,
                 element: <AllGalleriesPage />
+            },
+            {
+                path: AppRoutePath.DashboardPage,
+                element: <DashboardPage />
             }
         ]
     }
