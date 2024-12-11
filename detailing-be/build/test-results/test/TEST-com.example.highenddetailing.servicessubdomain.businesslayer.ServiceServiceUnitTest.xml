@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.example.highenddetailing.servicessubdomain.businesslayer.ServiceServiceUnitTest" tests="2" skipped="0" failures="0" errors="0" timestamp="2024-12-11T15:19:39" hostname="LAPTOP-29CVF696" time="0.113">
+  <properties/>
+  <testcase name="whenGetServiceById_thenReturnService()" classname="com.example.highenddetailing.servicessubdomain.businesslayer.ServiceServiceUnitTest" time="0.108"/>
+  <testcase name="whenGetAllServices_thenReturnAllServices()" classname="com.example.highenddetailing.servicessubdomain.businesslayer.ServiceServiceUnitTest" time="0.005"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

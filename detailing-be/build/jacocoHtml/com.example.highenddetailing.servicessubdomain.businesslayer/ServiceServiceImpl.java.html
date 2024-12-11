@@ -8,11 +8,12 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 
 @Service
-<span class="fc" id="L14">@RequiredArgsConstructor</span>
-<span class="fc" id="L15">@Slf4j</span>
+<span class="fc" id="L15">@RequiredArgsConstructor</span>
+<span class="fc" id="L16">@Slf4j</span>
 public class ServiceServiceImpl implements ServiceService {
 
     private final ServiceRepository serviceRepository;
@@ -20,7 +21,13 @@ public class ServiceServiceImpl implements ServiceService {
 
     @Override
     public List&lt;ServiceResponseModel&gt; getAllServices(){
-<span class="fc" id="L23">        return serviceResponseMapper.entityListToResponseModel(serviceRepository.findAll());</span>
+<span class="fc" id="L24">        return serviceResponseMapper.entityListToResponseModel(serviceRepository.findAll());</span>
+    }
+
+    @Override
+    public Optional&lt;ServiceResponseModel&gt; getServiceById(String serviceId) {
+<span class="fc" id="L29">        return serviceRepository.findByServiceIdentifier_ServiceId(serviceId)</span>
+<span class="fc" id="L30">                .map(serviceResponseMapper::entityToResponseModel);</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

@@ -1,5 +1,6 @@
 package com.example.highenddetailing.servicessubdomain.domainclientlayer;
 
+import com.example.highenddetailing.appointmentssubdomain.domainclientlayer.AppointmentController;
 import com.example.highenddetailing.servicessubdomain.businesslayer.ServiceService;
 import com.example.highenddetailing.servicessubdomain.datalayer.Service;
 import org.junit.jupiter.api.BeforeEach;
@@ -18,7 +19,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@WebMvcTest
+@WebMvcTest(ServicesController.class)
 public class ServicesControllerUnitTest {
 
     @Autowired

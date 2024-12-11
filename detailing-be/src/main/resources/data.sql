@@ -43,3 +43,19 @@ VALUES
     (8, 'e8f14c90-ec5e-4f82-a9b7-2548a7325b34', 'James', 'Moore', 'Technician', 'james.moore@example.com', 54000.00),
     (9, 'e9f14c90-ec5e-4f82-a9b7-2548a7325b34', 'Olivia', 'Anderson', 'Receptionist', 'olivia.anderson@example.com', 42000.00),
     (10, 'e0f14c90-ec5e-4f82-a9b7-2548a7325b34', 'Ethan', 'Jackson', 'Technician', 'ethan.jackson@example.com', 53000.00);
+
+INSERT INTO customers (customer_id, customer_first_name, customer_last_name, customer_email_address, street_address, city, postal_code, province, country)
+VALUES
+    ('f3bce765-1a64-4a2f-8fa7-b083e77dfe72', 'John', 'Doe', 'john.doe@example.com', '123 Main St', 'Toronto', 'M5A 1A1', 'Ontario', 'Canada'),
+    ('d50f6f2d-cb85-428d-89e4-3f29db9db987', 'Jane', 'Smith', 'jane.smith@example.com', '456 Elm St', 'Vancouver', 'V6B 2B3', 'British Columbia', 'Canada'),
+    ('c1b2ad74-3f57-4d52-8d25-767de1d4bb19', 'Alice', 'Johnson', 'alice.johnson@example.com', '789 Oak St', 'Montreal', 'H3A 1A4', 'Quebec', 'Canada'),
+    ('f72c6438-b8bb-4328-8de8-f4a6dcb33742', 'Bob', 'Brown', 'bob.brown@example.com', '101 Pine St', 'Calgary', 'T2P 2N3', 'Alberta', 'Canada'),
+    ('a5b9d2f8-14b8-4183-b1fa-c6d6dbf1a3b4', 'Charlie', 'Davis', 'charlie.davis@example.com', '202 Birch St', 'Ottawa', 'K1A 0B1', 'Ontario', 'Canada'),
+    ('e5acb8d1-5670-4621-9d74-e345db80b396', 'David', 'Miller', 'david.miller@example.com', '303 Cedar St', 'Quebec City', 'G1R 1B2', 'Quebec', 'Canada'),
+    ('f1adf1cd-84c4-4854-90d2-0a4c1bdf8a2c', 'Emily', 'Wilson', 'emily.wilson@example.com', '404 Maple St', 'Edmonton', 'T5J 2N6', 'Alberta', 'Canada'),
+    ('d9ab8e70-b35d-4294-8b87-06c12faad8a9', 'Frank', 'Moore', 'frank.moore@example.com', '505 Fir St', 'Halifax', 'B3J 3M3', 'Nova Scotia', 'Canada'),
+    ('b1a8b9f4-5ab7-40fb-8f68-b7e0d60178b0', 'Grace', 'Taylor', 'grace.taylor@example.com', '606 Pine Ave', 'Winnipeg', 'R3C 3B2', 'Manitoba', 'Canada'),
+    ('88a989e0-b9d3-4728-9c3f-cd845a87baba', 'Henry', 'Anderson', 'henry.anderson@example.com', '707 Willow Rd', 'Saskatoon', 'S7K 1C2', 'Saskatchewan', 'Canada');
+
+
+
