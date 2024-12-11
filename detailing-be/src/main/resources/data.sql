@@ -30,3 +30,16 @@ INSERT INTO galleries (gallery_id, description, image_url) VALUES
                                                                ('0658e36b-4fc1-47c8-92cd-44d3bb865b90', 'Carpet Cleaning', 'https://business.yelp.com/wp-content/uploads/2022/07/lp-ban-car-detailer-wiping-the-headlight-of-a-car.jpeg'),
                                                                ('1126789a-9cda-4374-a040-a3d4dc6187b6', 'Janitorial Services', 'https://business.yelp.com/wp-content/uploads/2022/07/lp-ban-car-detailer-wiping-the-headlight-of-a-car.jpeg'),
                                                                ('685612e3-0414-42fc-8312-01b40d0dd764', 'Disinfection and Sanitization Services', 'https://business.yelp.com/wp-content/uploads/2022/07/lp-ban-car-detailer-wiping-the-headlight-of-a-car.jpeg');
+
+INSERT INTO employees (id, employee_id, first_name, last_name, position, email, salary)
+VALUES
+    (1, 'e1f14c90-ec5e-4f82-a9b7-2548a7325b34', 'Jane', 'Smith', 'Manager', 'jane.smith@example.com', 75000.00),
+    (2, 'e2f14c90-ec5e-4f82-a9b7-2548a7325b34', 'John', 'Doe', 'Technician', 'john.doe@example.com', 55000.00),
+    (3, 'e3f14c90-ec5e-4f82-a9b7-2548a7325b34', 'Emily', 'Clark', 'Technician', 'emily.clark@example.com', 52000.00),
+    (4, 'e4f14c90-ec5e-4f82-a9b7-2548a7325b34', 'Michael', 'Brown', 'Supervisor', 'michael.brown@example.com', 68000.00),
+    (5, 'e5f14c90-ec5e-4f82-a9b7-2548a7325b34', 'Sarah', 'Davis', 'Technician', 'sarah.davis@example.com', 51000.00),
+    (6, 'e6f14c90-ec5e-4f82-a9b7-2548a7325b34', 'David', 'Wilson', 'Customer Support', 'david.wilson@example.com', 48000.00),
+    (7, 'e7f14c90-ec5e-4f82-a9b7-2548a7325b34', 'Sophia', 'Taylor', 'Technician', 'sophia.taylor@example.com', 53000.00),
+    (8, 'e8f14c90-ec5e-4f82-a9b7-2548a7325b34', 'James', 'Moore', 'Technician', 'james.moore@example.com', 54000.00),
+    (9, 'e9f14c90-ec5e-4f82-a9b7-2548a7325b34', 'Olivia', 'Anderson', 'Receptionist', 'olivia.anderson@example.com', 42000.00),
+    (10, 'e0f14c90-ec5e-4f82-a9b7-2548a7325b34', 'Ethan', 'Jackson', 'Technician', 'ethan.jackson@example.com', 53000.00);
