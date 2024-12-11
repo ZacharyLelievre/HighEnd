@@ -28,4 +28,11 @@ public class CustomerServiceImpl implements CustomerService {
         List<Customer> customers = customerRepository.findAll();
         return customerResponseMapper.entityListToResponseModel(customers);
     }
+
+    @Override
+    public CustomerResponseModel getCustomerByCustomerId(String customerId) {
+        Customer customer = customerRepository.findCustomerByCustomerIdentifier_CustomerId(customerId);
+
+        return customerResponseMapper.entityToResponseModel(customer);
+    }
 }
