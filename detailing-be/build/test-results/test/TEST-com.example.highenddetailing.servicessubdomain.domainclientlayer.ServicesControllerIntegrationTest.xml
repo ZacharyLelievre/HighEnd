@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="com.example.highenddetailing.servicessubdomain.domainclientlayer.ServicesControllerIntegrationTest" tests="2" skipped="0" failures="0" errors="0" timestamp="2024-12-11T15:19:39" hostname="LAPTOP-29CVF696" time="0.135">
+<testsuite name="com.example.highenddetailing.servicessubdomain.domainclientlayer.ServicesControllerIntegrationTest" tests="2" skipped="0" failures="0" errors="0" timestamp="2024-12-11T18:31:38" hostname="Zacharys-MacBook-Pro.local" time="0.097">
   <properties/>
-  <testcase name="whenGetServiceById_thenReturnService()" classname="com.example.highenddetailing.servicessubdomain.domainclientlayer.ServicesControllerIntegrationTest" time="0.093"/>
-  <testcase name="whenGetAllServices_thenReturnAllServices()" classname="com.example.highenddetailing.servicessubdomain.domainclientlayer.ServicesControllerIntegrationTest" time="0.04"/>
-  <system-out><![CDATA[2024-12-11T10:19:39.840-05:00  INFO 15604 --- [HighEndDetailing] [    Test worker] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [com.example.highenddetailing.servicessubdomain.domainclientlayer.ServicesControllerIntegrationTest]: ServicesControllerIntegrationTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
-2024-12-11T10:19:39.856-05:00  INFO 15604 --- [HighEndDetailing] [    Test worker] .b.t.c.SpringBootTestContextBootstrapper : Found @SpringBootConfiguration com.example.highenddetailing.HighEndDetailingApplication for test class com.example.highenddetailing.servicessubdomain.domainclientlayer.ServicesControllerIntegrationTest
+  <testcase name="whenGetServiceById_thenReturnService()" classname="com.example.highenddetailing.servicessubdomain.domainclientlayer.ServicesControllerIntegrationTest" time="0.072"/>
+  <testcase name="whenGetAllServices_thenReturnAllServices()" classname="com.example.highenddetailing.servicessubdomain.domainclientlayer.ServicesControllerIntegrationTest" time="0.024"/>
+  <system-out><![CDATA[2024-12-11T13:31:38.283-05:00  INFO 22993 --- [HighEndDetailing] [    Test worker] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [com.example.highenddetailing.servicessubdomain.domainclientlayer.ServicesControllerIntegrationTest]: ServicesControllerIntegrationTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2024-12-11T13:31:38.290-05:00  INFO 22993 --- [HighEndDetailing] [    Test worker] .b.t.c.SpringBootTestContextBootstrapper : Found @SpringBootConfiguration com.example.highenddetailing.HighEndDetailingApplication for test class com.example.highenddetailing.servicessubdomain.domainclientlayer.ServicesControllerIntegrationTest
 ]]></system-out>
   <system-err><![CDATA[]]></system-err>
 </testsuite>

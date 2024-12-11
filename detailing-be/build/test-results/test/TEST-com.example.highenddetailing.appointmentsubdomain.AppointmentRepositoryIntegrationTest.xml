@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="com.example.highenddetailing.appointmentsubdomain.AppointmentRepositoryIntegrationTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2024-12-11T15:19:35" hostname="LAPTOP-29CVF696" time="0.334">
+<testsuite name="com.example.highenddetailing.appointmentsubdomain.AppointmentRepositoryIntegrationTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2024-12-11T18:31:35" hostname="Zacharys-MacBook-Pro.local" time="0.17">
   <properties/>
-  <testcase name="whenFindAll_thenReturnAllAppointments()" classname="com.example.highenddetailing.appointmentsubdomain.AppointmentRepositoryIntegrationTest" time="0.334"/>
-  <system-out><![CDATA[2024-12-11T10:19:34.769-05:00  INFO 15604 --- [HighEndDetailing] [    Test worker] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [com.example.highenddetailing.appointmentsubdomain.AppointmentRepositoryIntegrationTest]: AppointmentRepositoryIntegrationTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
-2024-12-11T10:19:34.801-05:00  INFO 15604 --- [HighEndDetailing] [    Test worker] .b.t.c.SpringBootTestContextBootstrapper : Found @SpringBootConfiguration com.example.highenddetailing.HighEndDetailingApplication for test class com.example.highenddetailing.appointmentsubdomain.AppointmentRepositoryIntegrationTest
+  <testcase name="whenFindAll_thenReturnAllAppointments()" classname="com.example.highenddetailing.appointmentsubdomain.AppointmentRepositoryIntegrationTest" time="0.17"/>
+  <system-out><![CDATA[2024-12-11T13:31:34.758-05:00  INFO 22993 --- [HighEndDetailing] [    Test worker] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [com.example.highenddetailing.appointmentsubdomain.AppointmentRepositoryIntegrationTest]: AppointmentRepositoryIntegrationTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2024-12-11T13:31:34.773-05:00  INFO 22993 --- [HighEndDetailing] [    Test worker] .b.t.c.SpringBootTestContextBootstrapper : Found @SpringBootConfiguration com.example.highenddetailing.HighEndDetailingApplication for test class com.example.highenddetailing.appointmentsubdomain.AppointmentRepositoryIntegrationTest
 
   .   ____          _            __ _ _
  /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
@@ -14,26 +14,34 @@
 
  :: Spring Boot ::                (v3.3.5)
 
-2024-12-11T10:19:34.840-05:00  INFO 15604 --- [HighEndDetailing] [    Test worker] h.a.AppointmentRepositoryIntegrationTest : Starting AppointmentRepositoryIntegrationTest using Java 17.0.12 with PID 15604 (started by jesse in C:\Users\jesse\OneDrive\Desktop\FP\HighEnd\detailing-be)
-2024-12-11T10:19:34.840-05:00  INFO 15604 --- [HighEndDetailing] [    Test worker] h.a.AppointmentRepositoryIntegrationTest : No active profile set, falling back to 1 default profile: "default"
-2024-12-11T10:19:34.929-05:00  INFO 15604 --- [HighEndDetailing] [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
-2024-12-11T10:19:34.956-05:00  INFO 15604 --- [HighEndDetailing] [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 27 ms. Found 3 JPA repository interfaces.
-2024-12-11T10:19:34.973-05:00  INFO 15604 --- [HighEndDetailing] [    Test worker] beddedDataSourceBeanFactoryPostProcessor : Replacing 'dataSource' DataSource bean with embedded version
-2024-12-11T10:19:34.996-05:00  INFO 15604 --- [HighEndDetailing] [    Test worker] o.s.j.d.e.EmbeddedDatabaseFactory        : Starting embedded database: url='jdbc:h2:mem:c3a943c0-ab46-4480-bfbd-5d41eba94eeb;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=false', username='sa'
-2024-12-11T10:19:35.040-05:00  INFO 15604 --- [HighEndDetailing] [    Test worker] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
-2024-12-11T10:19:35.044-05:00  INFO 15604 --- [HighEndDetailing] [    Test worker] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
-2024-12-11T10:19:35.056-05:00  INFO 15604 --- [HighEndDetailing] [    Test worker] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
-2024-12-11T10:19:35.145-05:00  INFO 15604 --- [HighEndDetailing] [    Test worker] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2024-12-11T13:31:34.798-05:00  INFO 22993 --- [HighEndDetailing] [    Test worker] h.a.AppointmentRepositoryIntegrationTest : Starting AppointmentRepositoryIntegrationTest using Java 17.0.3 with PID 22993 (started by zacharylelievre in /Users/zacharylelievre/Documents/HighEndDetailing/HighEndDetailing/detailing-be)
+2024-12-11T13:31:34.798-05:00  INFO 22993 --- [HighEndDetailing] [    Test worker] h.a.AppointmentRepositoryIntegrationTest : No active profile set, falling back to 1 default profile: "default"
+2024-12-11T13:31:34.839-05:00  INFO 22993 --- [HighEndDetailing] [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2024-12-11T13:31:34.852-05:00  INFO 22993 --- [HighEndDetailing] [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 12 ms. Found 5 JPA repository interfaces.
+2024-12-11T13:31:34.861-05:00  INFO 22993 --- [HighEndDetailing] [    Test worker] beddedDataSourceBeanFactoryPostProcessor : Replacing 'dataSource' DataSource bean with embedded version
+2024-12-11T13:31:34.875-05:00  INFO 22993 --- [HighEndDetailing] [    Test worker] o.s.j.d.e.EmbeddedDatabaseFactory        : Starting embedded database: url='jdbc:h2:mem:d8b29f1b-ca6d-465e-a208-3c0709d0db00;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=false', username='sa'
+2024-12-11T13:31:34.898-05:00  INFO 22993 --- [HighEndDetailing] [    Test worker] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2024-12-11T13:31:34.899-05:00  INFO 22993 --- [HighEndDetailing] [    Test worker] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2024-12-11T13:31:34.903-05:00  INFO 22993 --- [HighEndDetailing] [    Test worker] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2024-12-11T13:31:34.964-05:00  INFO 22993 --- [HighEndDetailing] [    Test worker] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
 Hibernate: drop table if exists appointments cascade 
+Hibernate: drop table if exists customers cascade 
+Hibernate: drop table if exists employees cascade 
 Hibernate: drop table if exists galleries cascade 
 Hibernate: drop table if exists services cascade 
 Hibernate: drop sequence if exists appointments_seq
+Hibernate: drop sequence if exists customers_seq
+Hibernate: drop sequence if exists employees_seq
 Hibernate: create sequence appointments_seq start with 1 increment by 50
+Hibernate: create sequence customers_seq start with 1 increment by 50
+Hibernate: create sequence employees_seq start with 1 increment by 50
 Hibernate: create table appointments (appointment_date date, appointment_time time(6), id integer not null, appointment_id varchar(255), customer_id varchar(255), customer_name varchar(255), employee_id varchar(255), employee_name varchar(255), image_path varchar(255), service_id varchar(255), service_name varchar(255), status varchar(255), primary key (id))
+Hibernate: create table customers (id integer not null, city varchar(255), country varchar(255), customer_email_address varchar(255), customer_first_name varchar(255), customer_id varchar(255), customer_last_name varchar(255), postal_code varchar(255), province varchar(255), street_address varchar(255), primary key (id))
+Hibernate: create table employees (id integer not null, salary float(53) not null, email varchar(255), employee_id varchar(255), first_name varchar(255), last_name varchar(255), position varchar(255), primary key (id))
 Hibernate: create table galleries (id integer generated by default as identity, description varchar(255), gallery_id varchar(255), image_url varchar(255), primary key (id))
 Hibernate: create table services (id integer generated by default as identity, price float(24) not null, image_path varchar(255), service_id varchar(255), service_name varchar(255), time_required varchar(255), primary key (id))
-2024-12-11T10:19:35.155-05:00  INFO 15604 --- [HighEndDetailing] [    Test worker] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
-2024-12-11T10:19:35.214-05:00  INFO 15604 --- [HighEndDetailing] [    Test worker] h.a.AppointmentRepositoryIntegrationTest : Started AppointmentRepositoryIntegrationTest in 0.41 seconds (process running for 9.057)
+2024-12-11T13:31:34.971-05:00  INFO 22993 --- [HighEndDetailing] [    Test worker] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2024-12-11T13:31:35.011-05:00  INFO 22993 --- [HighEndDetailing] [    Test worker] h.a.AppointmentRepositoryIntegrationTest : Started AppointmentRepositoryIntegrationTest in 0.236 seconds (process running for 4.858)
 Hibernate: select next value for appointments_seq
 Hibernate: select next value for appointments_seq
 Hibernate: insert into appointments (appointment_date,appointment_id,appointment_time,customer_id,customer_name,employee_id,employee_name,image_path,service_id,service_name,status,id) values (?,?,?,?,?,?,?,?,?,?,?,?)
