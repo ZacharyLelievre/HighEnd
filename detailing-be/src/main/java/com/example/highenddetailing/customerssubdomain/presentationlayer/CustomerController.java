@@ -1,7 +1,6 @@
 package com.example.highenddetailing.customerssubdomain.presentationlayer;
 
 import com.example.highenddetailing.customerssubdomain.businesslayer.CustomerService;
-import org.apache.coyote.Response;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -37,5 +36,8 @@ public class CustomerController {
     }
 
 
-
+    @GetMapping("/{customerId}")
+    public ResponseEntity<CustomerResponseModel> getCustomerByCustomerId(@PathVariable String customerId) {
+        return ResponseEntity.ok().body(customerService.getCustomerByCustomerId(customerId));
+    }
 }

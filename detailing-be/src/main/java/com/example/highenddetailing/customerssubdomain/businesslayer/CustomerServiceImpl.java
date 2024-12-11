@@ -36,14 +36,14 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Override
     public void deleteCustomer(String customerId) {
-        Customer customer = customerRepository.findByCustomerIdentifier_CustomerId(customerId);
+        Customer customer = customerRepository.findCustomerByCustomerIdentifier_CustomerId(customerId);
         customerRepository.delete(customer);
 
     }
 
     @Override
     public CustomerResponseModel updateCustomer(CustomerRequestModel customerRequestModel, String customerId) {
-        Customer customer = customerRepository.findByCustomerIdentifier_CustomerId(customerId);
+        Customer customer = customerRepository.findCustomerByCustomerIdentifier_CustomerId(customerId);
 
         Address address = new Address(customerRequestModel.getStreetAddress(), customerRequestModel.getCity(),
                 customerRequestModel.getPostalCode(), customerRequestModel.getProvince(), customerRequestModel.getCountry());
@@ -57,4 +57,9 @@ public class CustomerServiceImpl implements CustomerService {
 
     }
 
+    public CustomerResponseModel getCustomerByCustomerId(String customerId) {
+        Customer customer = customerRepository.findCustomerByCustomerIdentifier_CustomerId(customerId);
+
+        return customerResponseMapper.entityToResponseModel(customer);
+    }
 }
