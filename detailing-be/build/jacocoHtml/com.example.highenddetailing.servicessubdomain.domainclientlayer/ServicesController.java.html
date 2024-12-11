@@ -3,15 +3,12 @@
 import com.example.highenddetailing.servicessubdomain.businesslayer.ServiceService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-<span class="fc" id="L14">@RequiredArgsConstructor</span>
+<span class="fc" id="L11">@RequiredArgsConstructor</span>
 @RequestMapping(&quot;/api/services&quot;)
 @CrossOrigin(origins = &quot;http://localhost:3000&quot;) // Allow specific origin
 public class ServicesController {
@@ -20,7 +17,15 @@ public class ServicesController {
 
     @GetMapping(produces = &quot;application/json&quot;)
     public ResponseEntity&lt;List&lt;ServiceResponseModel&gt;&gt; getAllServices(){
-<span class="fc" id="L23">        return ResponseEntity.ok().body(serviceService.getAllServices());</span>
+<span class="fc" id="L20">        return ResponseEntity.ok().body(serviceService.getAllServices());</span>
     }
+
+    @GetMapping(value = &quot;/{serviceId}&quot;, produces = &quot;application/json&quot;)
+    public ResponseEntity&lt;ServiceResponseModel&gt; getServiceById(@PathVariable String serviceId) {
+<span class="fc" id="L25">        return serviceService.getServiceById(serviceId)</span>
+<span class="fc" id="L26">                .map(ResponseEntity::ok)</span>
+<span class="fc" id="L27">                .orElse(ResponseEntity.notFound().build());</span>
+    }
+
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>
