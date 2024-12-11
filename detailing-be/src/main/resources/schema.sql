@@ -25,6 +25,7 @@ CREATE TABLE IF NOT EXISTS appointments (
     image_path VARCHAR(255)
 );
 
+DROP TABLE IF EXISTS galleries;
 CREATE TABLE IF NOT EXISTS galleries (
     id INTEGER NOT NULL AUTO_INCREMENT PRIMARY KEY,
     gallery_id VARCHAR(255) NOT NULL,
@@ -32,6 +33,7 @@ CREATE TABLE IF NOT EXISTS galleries (
     image_url VARCHAR(255) NOT NULL
 );
 
+DROP TABLE IF EXISTS customers;
 CREATE TABLE IF NOT EXISTS customers(
                                         id INTEGER NOT NULL AUTO_INCREMENT PRIMARY KEY,
                                         customer_id VARCHAR(50) UNIQUE,
