@@ -9,9 +9,9 @@ import lombok.*;
 @AllArgsConstructor
 public class CustomerRequestModel {
 
-    String firstName;
-    String lastName;
-    String emailAddress;
+    String customerFirstName;
+    String customerLastName;
+    String customerEmailAddress;
     String streetAddress;
     String city;
     String postalCode;
