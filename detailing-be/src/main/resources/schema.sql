@@ -31,3 +31,16 @@ CREATE TABLE IF NOT EXISTS galleries (
     description VARCHAR(255) NOT NULL,
     image_url VARCHAR(255) NOT NULL
 );
+
+CREATE TABLE IF NOT EXISTS customers(
+                                        id INTEGER NOT NULL AUTO_INCREMENT PRIMARY KEY,
+                                        customer_id VARCHAR(50) UNIQUE,
+                                        customer_first_name VARCHAR(50),
+                                        customer_last_name VARCHAR(50),
+                                        customer_email_address VARCHAR(50),
+                                        street_address VARCHAR (50),
+                                        city VARCHAR (50),
+                                        postal_code VARCHAR (9),
+                                        province VARCHAR (50),
+                                        country VARCHAR (50)
+);
