@@ -21,7 +21,6 @@ export default function AllEmployees(): JSX.Element {
 
     return (
         <div>
-            <h2 style={{ textAlign: "center" }}>Employees</h2>
             <div className="employees-container">
                 {employees.map(employee => (
                     <div className="employee-box" key={employee.employeeId}>

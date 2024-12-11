@@ -21,7 +21,6 @@ export default function AllAppointments(): JSX.Element {
 
     return (
         <div>
-            <h2 style={{ textAlign: "center" }}>Appointments</h2>
             <div className="appointments-container">
                 {appointments.map(appointment => (
                     <div className="appointment-box" key={appointment.appointmentId}>

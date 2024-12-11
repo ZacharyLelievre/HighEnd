@@ -15,19 +15,16 @@ export default function DashboardPage(): JSX.Element {
 
             <div className="section-container">
                 <h2 className="section-title">Appointments</h2>
-                <p className="section-subtitle">Appointments in Progress</p>
                 <AllAppointments />
             </div>
 
             <div className="section-container">
                 <h2 className="section-title">Customers</h2>
-                <p className="section-subtitle">Customers List</p>
                 <AllCustomers />
             </div>
 
             <div className="section-container">
                 <h2 className="section-title">Employees</h2>
-                <p className="section-subtitle">Employees List</p>
                 <AllEmployees />
             </div>
         </div>

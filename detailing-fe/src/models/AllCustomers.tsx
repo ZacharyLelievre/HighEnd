@@ -19,17 +19,25 @@ export default function AllCustomers(): JSX.Element {
         fetchCustomers();
     }, []);
 
+    const handleDeleteCustomer = async (customerId: string) => {
+        try {
+            await axios.delete(`http://localhost:8080/api/customers/${customerId}`);
+            setCustomers(customers.filter((customer) => customer.customerId !== customerId));
+        } catch (error) {
+            console.error("Error deleting customer:", error);
+        }
+    }
+
     return (
-        <div>
-            <h2 style={{ textAlign: "center" }}>Customers</h2>
-            <div className="customers-container">
+        <div className='container'>
+            <div className='customers-container'>
                 {customers.map(customer => (
                     <div className="customer-box" key={customer.customerId}>
                         <div className="customer-details">
-                            <p><strong>Name:</strong> {customer.customerFirstName} {customer.customerLastName}</p>
+                            <h2 style={{ textAlign: "left" }}>{customer.customerFirstName} {customer.customerLastName}</h2>
                             <p><strong>Email:</strong> {customer.customerEmailAddress}</p>
                             <p><strong>Address:</strong> {customer.streetAddress}, {customer.city}, {customer.postalCode}, {customer.province}, {customer.country}</p>
-                            <button>View</button>
+                            <button onClick={() => handleDeleteCustomer(customer.customerId)}>Delete</button>
                         </div>
                     </div>
                 ))}
