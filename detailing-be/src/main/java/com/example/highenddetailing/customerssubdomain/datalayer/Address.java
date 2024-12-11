@@ -1,8 +1,7 @@
 package com.example.highenddetailing.customerssubdomain.datalayer;
 
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import com.example.highenddetailing.customerssubdomain.presentationlayer.CustomerRequestModel;
+import lombok.*;
 
 import javax.persistence.Embeddable;
 
@@ -10,6 +9,8 @@ import javax.persistence.Embeddable;
 @EqualsAndHashCode
 @NoArgsConstructor
 @Getter
+@AllArgsConstructor
+@Data
 public class Address {
 
     private String streetAddress;
@@ -17,4 +18,6 @@ public class Address {
     private String postalCode;
     private String province;
     private String country;
+
+
 }
