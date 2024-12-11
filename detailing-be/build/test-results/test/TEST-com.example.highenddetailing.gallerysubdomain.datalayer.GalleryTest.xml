@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.example.highenddetailing.gallerysubdomain.datalayer.GalleryTest" tests="8" skipped="0" failures="0" errors="0" timestamp="2024-12-11T15:19:39" hostname="LAPTOP-29CVF696" time="0.011">
+  <properties/>
+  <testcase name="testConstructorWithAllArgs()" classname="com.example.highenddetailing.gallerysubdomain.datalayer.GalleryTest" time="0.001"/>
+  <testcase name="testSettersAndGetters()" classname="com.example.highenddetailing.gallerysubdomain.datalayer.GalleryTest" time="0.001"/>
+  <testcase name="testGalleryBuilderToString()" classname="com.example.highenddetailing.gallerysubdomain.datalayer.GalleryTest" time="0.002"/>
+  <testcase name="testHashCode()" classname="com.example.highenddetailing.gallerysubdomain.datalayer.GalleryTest" time="0.0"/>
+  <testcase name="testEquals()" classname="com.example.highenddetailing.gallerysubdomain.datalayer.GalleryTest" time="0.001"/>
+  <testcase name="testGalleryBuilderImageUrl()" classname="com.example.highenddetailing.gallerysubdomain.datalayer.GalleryTest" time="0.001"/>
+  <testcase name="testEqualsAndHashCode()" classname="com.example.highenddetailing.gallerysubdomain.datalayer.GalleryTest" time="0.001"/>
+  <testcase name="testGalleryBuilderId()" classname="com.example.highenddetailing.gallerysubdomain.datalayer.GalleryTest" time="0.001"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

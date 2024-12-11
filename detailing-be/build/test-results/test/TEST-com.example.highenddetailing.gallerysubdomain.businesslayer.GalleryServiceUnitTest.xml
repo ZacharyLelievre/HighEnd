@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.example.highenddetailing.gallerysubdomain.businesslayer.GalleryServiceUnitTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2024-12-11T15:19:39" hostname="LAPTOP-29CVF696" time="0.123">
+  <properties/>
+  <testcase name="whenGetAllGalleries_thenReturnAllGalleries()" classname="com.example.highenddetailing.gallerysubdomain.businesslayer.GalleryServiceUnitTest" time="0.123"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>
