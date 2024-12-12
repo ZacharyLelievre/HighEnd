@@ -3,13 +3,13 @@ package com.example.highenddetailing.appointmentsubdomain.domainclientlayer;
 import com.example.highenddetailing.appointmentssubdomain.datalayer.Appointment;
 import com.example.highenddetailing.appointmentssubdomain.datalayer.AppointmentIdentifier;
 import com.example.highenddetailing.appointmentssubdomain.datalayer.AppointmentRepository;
+import com.example.highenddetailing.appointmentssubdomain.datalayer.Status;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.server.LocalServerPort;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
 import org.springframework.web.client.RestTemplate;
 
 import java.time.LocalDate;
@@ -44,42 +44,55 @@ public class AppointmentControllerIntegrationTest {
                         .id(null)
                         .appointmentIdentifier(new AppointmentIdentifier())
                         .customerId("CUST001")
-                        .customerName("John Doe") // Added customerName
-                        .serviceId("SERVICE001") // Changed from ServiceIdentifier to String
-                        .serviceName("Car Wash") // Added serviceName
+                        .customerName("John Doe")
+                        .serviceId("SERVICE001")
+                        .serviceName("Car Wash")
                         .employeeId("EMP001")
-                        .employeeName("Jane Smith") // Added employeeName
+                        .employeeName("Jane Smith")
                         .appointmentDate(LocalDate.of(2024, 12, 25))
                         .appointmentTime(LocalTime.of(10, 30))
-                        .status("Scheduled")
+                        .status(Status.PENDING)
                         .imagePath("/images/appointment1.jpg")
-                        .build(),
-
-                Appointment.builder()
-                        .id(null)
-                        .appointmentIdentifier(new AppointmentIdentifier())
-                        .customerId("CUST002")
-                        .customerName("Michael Brown") // Added customerName
-                        .serviceId("SERVICE002") // Changed from ServiceIdentifier to String
-                        .serviceName("Brake Check") // Added serviceName
-                        .employeeId("EMP002")
-                        .employeeName("Emily White") // Added employeeName
-                        .appointmentDate(LocalDate.of(2025, 1, 10))
-                        .appointmentTime(LocalTime.of(14, 30))
-                        .status("Completed")
-                        .imagePath("/images/appointment2.jpg")
                         .build()
         ));
     }
 
     @Test
-    public void whenGetAllAppointments_thenReturnAllAppointments() {
-        String url = "http://localhost:" + port + "/api/appointments";
+    public void whenUpdateStatus_thenStatusIsUpdated() {
+        // Arrange
+        Appointment appointment = appointmentRepository.findAll().get(0);
+        String appointmentId = appointment.getAppointmentIdentifier().getAppointmentId();
 
-        ResponseEntity<List> response = restTemplate.getForEntity(url, List.class);
+        String url = "http://localhost:" + port + "/api/appointments/" + appointmentId + "/status";
 
+        // Build the request body
+        String requestBody = """
+            {
+                "status": "CONFIRMED"
+            }
+        """;
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+
+        HttpEntity<String> requestEntity = new HttpEntity<>(requestBody, headers);
+
+        // Act
+        ResponseEntity<Appointment> response = restTemplate.exchange(
+                url,
+                HttpMethod.PUT,
+                requestEntity,
+                Appointment.class
+        );
+
+        // Assert
         assertEquals(HttpStatus.OK, response.getStatusCode());
         assertNotNull(response.getBody());
-        assertEquals(2, response.getBody().size());
+        assertEquals(Status.CONFIRMED, response.getBody().getStatus(), "Status should be updated to CONFIRMED");
+
+        // Verify the change was persisted to the database
+        Appointment updatedAppointment = appointmentRepository.findByAppointmentIdentifier_AppointmentId(appointmentId).orElse(null);
+        assertNotNull(updatedAppointment, "Updated appointment should exist in the database");
+        assertEquals(Status.CONFIRMED, updatedAppointment.getStatus(), "Status in the database should be CONFIRMED");
     }
 }

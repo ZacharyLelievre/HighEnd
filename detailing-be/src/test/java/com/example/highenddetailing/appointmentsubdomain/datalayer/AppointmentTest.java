@@ -1,6 +1,7 @@
 package com.example.highenddetailing.appointmentsubdomain.datalayer;
 
 import com.example.highenddetailing.appointmentssubdomain.datalayer.Appointment;
+import com.example.highenddetailing.appointmentssubdomain.datalayer.Status;
 import org.junit.jupiter.api.Test;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -22,7 +23,7 @@ public class AppointmentTest {
         appointment1.setEmployeeName("Jane Smith");
         appointment1.setAppointmentDate(LocalDate.of(2024, 12, 25));
         appointment1.setAppointmentTime(LocalTime.of(10, 30));
-        appointment1.setStatus("Scheduled");
+        appointment1.setStatus(Status.CONFIRMED);
         appointment1.setImagePath("/images/appointment1.jpg");
 
         Appointment appointment2 = new Appointment();
@@ -35,7 +36,7 @@ public class AppointmentTest {
         appointment2.setEmployeeName("Jane Smith");
         appointment2.setAppointmentDate(LocalDate.of(2024, 12, 25));
         appointment2.setAppointmentTime(LocalTime.of(10, 30));
-        appointment2.setStatus("Scheduled");
+        appointment2.setStatus(Status.CONFIRMED);
         appointment2.setImagePath("/images/appointment1.jpg");
 
         assertEquals(appointment1, appointment2);
@@ -54,7 +55,7 @@ public class AppointmentTest {
         appointment.setEmployeeName("Jane Smith");
         appointment.setAppointmentDate(LocalDate.of(2024, 12, 25));
         appointment.setAppointmentTime(LocalTime.of(10, 30));
-        appointment.setStatus("Scheduled");
+        appointment.setStatus(Status.CONFIRMED);
         appointment.setImagePath("/images/appointment1.jpg");
 
         assertEquals(1, appointment.getId());
@@ -84,7 +85,7 @@ public class AppointmentTest {
 
     @Test
     void testConstructorWithAllArgs() {
-        Appointment appointment = new Appointment(1, "CUST123", "John Doe", "EMP001", "Jane Smith", "SERVICE001", "Car Wash", "2024-12-25", "10:30", "Scheduled", "/images/appointment1.jpg");
+        Appointment appointment = new Appointment(1, "CUST123", "John Doe", "EMP001", "Jane Smith", "SERVICE001", "Car Wash", "2024-12-25", "10:30", Status.CONFIRMED, "/images/appointment1.jpg");
 
         assertEquals(1, appointment.getId());
         assertEquals("CUST123", appointment.getCustomerId());
@@ -94,7 +95,7 @@ public class AppointmentTest {
         assertEquals("Car Wash", appointment.getServiceName());
         assertEquals(LocalDate.of(2024, 12, 25), appointment.getAppointmentDate());
         assertEquals(LocalTime.of(10, 30), appointment.getAppointmentTime());
-        assertEquals("Scheduled", appointment.getStatus());
+        assertEquals(Status.CONFIRMED, appointment.getStatus());
         assertEquals("/images/appointment1.jpg", appointment.getImagePath());
     }
 
@@ -110,7 +111,7 @@ public class AppointmentTest {
                 .employeeName("Jane Smith")
                 .appointmentDate(LocalDate.of(2024, 12, 25))
                 .appointmentTime(LocalTime.of(10, 30))
-                .status("Scheduled")
+                .status(Status.CONFIRMED)
                 .imagePath("/images/appointment1.jpg")
                 .build();
 
@@ -166,7 +167,7 @@ public class AppointmentTest {
         appointment.setEmployeeName("Jane Smith");
         appointment.setAppointmentDate(LocalDate.of(2024, 12, 25));
         appointment.setAppointmentTime(LocalTime.of(10, 30));
-        appointment.setStatus("Scheduled");
+        appointment.setStatus(Status.CONFIRMED);
         appointment.setImagePath("/images/appointment1.jpg");
 
         assertEquals(1, appointment.getId());

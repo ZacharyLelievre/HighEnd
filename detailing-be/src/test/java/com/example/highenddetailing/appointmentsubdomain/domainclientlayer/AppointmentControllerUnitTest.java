@@ -1,6 +1,7 @@
 package com.example.highenddetailing.appointmentsubdomain.domainclientlayer;
 
 import com.example.highenddetailing.appointmentssubdomain.businesslayer.AppointmentService;
+import com.example.highenddetailing.appointmentssubdomain.datalayer.Status;
 import com.example.highenddetailing.appointmentssubdomain.domainclientlayer.AppointmentController;
 import com.example.highenddetailing.appointmentssubdomain.domainclientlayer.AppointmentResponseModel;
 import org.junit.jupiter.api.BeforeEach;
@@ -41,7 +42,7 @@ public class AppointmentControllerUnitTest {
                         .employeeId("E001")
                         .appointmentDate("2023-12-31")
                         .appointmentTime("10:00")
-                        .status("Pending")
+                        .status(Status.CONFIRMED)
                         .imagePath("/images/detailing.jpg")
                         .build(),
                 AppointmentResponseModel.builder()
@@ -51,7 +52,7 @@ public class AppointmentControllerUnitTest {
                         .employeeId("E002")
                         .appointmentDate("2024-01-10")
                         .appointmentTime("14:30")
-                        .status("Completed")
+                        .status(Status.CONFIRMED)
                         .imagePath("/images/detailing2.jpg")
                         .build()
         );

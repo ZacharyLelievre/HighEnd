@@ -3,6 +3,7 @@ package com.example.highenddetailing.appointmentsubdomain.datalayer;
 import com.example.highenddetailing.appointmentssubdomain.datalayer.Appointment;
 import com.example.highenddetailing.appointmentssubdomain.datalayer.AppointmentIdentifier;
 import com.example.highenddetailing.appointmentssubdomain.datalayer.AppointmentRepository;
+import com.example.highenddetailing.appointmentssubdomain.datalayer.Status;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
@@ -34,7 +35,7 @@ public class AppointmentRepositoryIntegrationTest {
                 .employeeName("Jane Smith") // Added employeeName
                 .appointmentDate(LocalDate.parse("2021-12-01"))
                 .appointmentTime(LocalTime.parse("10:00"))
-                .status("Scheduled")
+                .status(Status.CONFIRMED)
                 .imagePath("/images/appointment1.jpg")
                 .build();
 
@@ -48,7 +49,7 @@ public class AppointmentRepositoryIntegrationTest {
                 .employeeName("Emily White") // Added employeeName
                 .appointmentDate(LocalDate.parse("2021-12-02"))
                 .appointmentTime(LocalTime.parse("11:00"))
-                .status("Completed")
+                .status(Status.CONFIRMED)
                 .imagePath("/images/appointment2.jpg")
                 .build();
 

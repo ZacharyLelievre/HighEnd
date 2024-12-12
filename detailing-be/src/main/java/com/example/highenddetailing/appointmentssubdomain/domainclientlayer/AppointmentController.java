@@ -1,11 +1,10 @@
 package com.example.highenddetailing.appointmentssubdomain.domainclientlayer;
 
 import com.example.highenddetailing.appointmentssubdomain.businesslayer.AppointmentService;
+import com.example.highenddetailing.appointmentssubdomain.datalayer.Appointment;
+import com.example.highenddetailing.appointmentssubdomain.datalayer.Status;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -23,5 +22,13 @@ public class AppointmentController {
     @GetMapping(produces = "application/json")
     public ResponseEntity<List<AppointmentResponseModel>> getAllAppointments() {
         return ResponseEntity.ok(appointmentService.getAllAppointments());
+    }
+    @PutMapping("/{id}/status")
+    public ResponseEntity<Appointment> updateAppointmentStatus(@PathVariable String id,
+                                                               @RequestBody StatusRequest request) {
+        // Convert the incoming string to an enum
+        Status newStatus = Status.valueOf(request.getStatus().toUpperCase());
+        Appointment updatedAppointment = appointmentService.updateStatus(id, newStatus);
+        return ResponseEntity.ok(updatedAppointment);
     }
 }
