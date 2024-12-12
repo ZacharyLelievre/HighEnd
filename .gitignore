@@ -1,25 +1,46 @@
-# Node.js dependencies
+
 node_modules/
 
-# Test reports and cache
+
 test-results/
 playwright-report/
 blob-report/
 playwright/.cache/
 
-# IDE files
+
 .idea/
 
-# OS system files
+
 .DS_Store        # macOS
 Thumbs.db        # Windows
 
-# Environment files
+
 .env
 *.env
 
-# Log files
+
 **/*.log
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+
+
+.gradle/
+!gradle/wrapper/gradle-wrapper.jar  # Keep the wrapper JAR file
+.gradle-task-cache/
+
+
+build/
+out/
+dist/
+
+
+!gradlew
+!gradlew.bat
+!gradle/wrapper/gradle-wrapper.properties
+
+
+*.class
+*.jar
+*.war
+*.ear
