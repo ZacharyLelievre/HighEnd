@@ -1,4 +1,4 @@
-package com.example.highenddetailing.empployeessubdomain.presentationlayer;
+package com.example.highenddetailing.employeessubdomain.presentationlayer;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

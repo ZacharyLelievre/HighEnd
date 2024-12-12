@@ -1,7 +1,6 @@
-package com.example.highenddetailing.empployeessubdomain.presentationlayer;
+package com.example.highenddetailing.employeessubdomain.presentationlayer;
 
-import com.example.highenddetailing.empployeessubdomain.businesslayer.EmployeeService;
-import com.example.highenddetailing.empployeessubdomain.businesslayer.EmployeeServiceImpl;
+import com.example.highenddetailing.employeessubdomain.businesslayer.EmployeeServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
