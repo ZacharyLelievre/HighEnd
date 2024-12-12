@@ -1,5 +1,6 @@
 package com.example.highenddetailing.appointmentssubdomain.domainclientlayer;
 
+import com.example.highenddetailing.appointmentssubdomain.datalayer.Status;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -19,6 +20,6 @@ public class AppointmentResponseModel {
     private String customerName; // New field
     private String employeeId;
     private String employeeName; // New field
-    private String status;
+    private Status status;
     private String imagePath;
 }

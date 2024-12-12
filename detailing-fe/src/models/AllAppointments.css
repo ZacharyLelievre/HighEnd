@@ -48,6 +48,13 @@
     margin: 0;
 }
 
+.button-container {
+    display: flex;
+    flex-direction: row; /* Place buttons side by side */
+    gap: 10px; /* Space between the buttons */
+    margin-top: 10px;
+}
+
 .appointment-details button {
     background-color: #007bff;
     color: #fff;
@@ -59,10 +66,14 @@
     cursor: pointer;
     align-self: flex-start;
     transition: background-color 0.3s ease, transform 0.3s ease;
-    margin-top: 10px;
 }
 
 .appointment-details button:hover {
     background-color: #0056b3;
     transform: translateY(-2px);
+}
+
+button:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
 }
