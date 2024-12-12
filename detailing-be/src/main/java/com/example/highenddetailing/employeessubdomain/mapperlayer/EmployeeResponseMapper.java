@@ -1,10 +1,7 @@
-package com.example.highenddetailing.empployeessubdomain.mapperlayer;
+package com.example.highenddetailing.employeessubdomain.mapperlayer;
 
-import com.example.highenddetailing.appointmentssubdomain.datalayer.Appointment;
-import com.example.highenddetailing.appointmentssubdomain.domainclientlayer.AppointmentResponseModel;
-import com.example.highenddetailing.empployeessubdomain.datalayer.Employee;
-import com.example.highenddetailing.empployeessubdomain.datalayer.EmployeeIdentifier;
-import com.example.highenddetailing.empployeessubdomain.presentationlayer.EmployeeResponseModel;
+import com.example.highenddetailing.employeessubdomain.presentationlayer.EmployeeResponseModel;
+import com.example.highenddetailing.employeessubdomain.datalayer.Employee;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
