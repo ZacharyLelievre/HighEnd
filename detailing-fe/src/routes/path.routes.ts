@@ -5,5 +5,6 @@ export enum AppRoutePath{
     Home = "/home",
     AllServicesPage = "/services",
     AllGalleriesPage = "/galleries",
-    DashboardPage = "/dashboard"
+    DashboardPage = "/dashboard",
+    CustomerDetails = "/customers/:customerId"
 }

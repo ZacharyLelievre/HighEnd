@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { CustomerModel } from "./dtos/CustomerModel";
 import "./AllCustomers.css";
 import axios from "axios";
+import { Link } from "react-router-dom";
 
 export default function AllCustomers(): JSX.Element {
     const [customers, setCustomers] = useState<CustomerModel[]>([]);
@@ -34,7 +35,9 @@ export default function AllCustomers(): JSX.Element {
                 {customers.map(customer => (
                     <div className="customer-box" key={customer.customerId}>
                         <div className="customer-details">
+                        <Link to={`/customers/${customer.customerId}`}>                        
                             <h2 style={{ textAlign: "left" }}>{customer.customerFirstName} {customer.customerLastName}</h2>
+                        </Link>
                             <p><strong>Email:</strong> {customer.customerEmailAddress}</p>
                             <p><strong>Address:</strong> {customer.streetAddress}, {customer.city}, {customer.postalCode}, {customer.province}, {customer.country}</p>
                             <button onClick={() => handleDeleteCustomer(customer.customerId)}>Delete</button>
@@ -43,5 +46,4 @@ export default function AllCustomers(): JSX.Element {
                 ))}
             </div>
         </div>
-    );
-}
+    )};

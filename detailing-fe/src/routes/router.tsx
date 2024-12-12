@@ -1,11 +1,12 @@
-import { createBrowserRouter, Navigate } from "react-router-dom";
-import { AppRoutePath } from "./path.routes";
+import {createBrowserRouter, Navigate} from "react-router-dom";
+import {AppRoutePath} from "./path.routes";
 import AllServicesPage from "../pages/AllServicesPage";
 import Home from "../models/Home";
 import React from "react";
 import ServiceDetailPage from "../pages/ServiceDetailsPage";
 import AllGalleriesPage from "../pages/AllGalleriesPage";
 import DashboardPage from "../pages/DashhoardPage";
+import CustomerDetailsPage from "../pages/CustomerDetailsPage";
 
 const router = createBrowserRouter([
     {
@@ -33,6 +34,10 @@ const router = createBrowserRouter([
             {
                 path: AppRoutePath.DashboardPage,
                 element: <DashboardPage />
+            },
+            {
+                path: AppRoutePath.CustomerDetails,
+                element: <CustomerDetailsPage />
             }
         ]
     }
