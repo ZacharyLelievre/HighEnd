@@ -36,7 +36,8 @@ public class Appointment {
 
     private LocalDate appointmentDate;
     private LocalTime appointmentTime;
-    private String status;
+    @Enumerated(EnumType.STRING)
+    private Status status;
     private String imagePath;
 
     // Updated Constructor
@@ -44,7 +45,7 @@ public class Appointment {
                        String employeeId, String employeeName,
                        String serviceId, String serviceName, // Added serviceId and serviceName
                        String appointmentDate, String appointmentTime,
-                       String status, String imagePath) {
+                       Status status, String imagePath) {
         this.id = id;
         this.appointmentIdentifier = new AppointmentIdentifier();
         this.customerId = customerId;
