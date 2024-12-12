@@ -1,4 +1,4 @@
-package com.example.highenddetailing.empployeessubdomain.datalayer;
+package com.example.highenddetailing.employeessubdomain.datalayer;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
