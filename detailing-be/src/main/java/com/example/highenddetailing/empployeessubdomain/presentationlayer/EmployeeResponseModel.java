@@ -17,4 +17,5 @@ public class EmployeeResponseModel {
     private String position;
     private String email;
     private double salary;
+    private String imagePath;
 }

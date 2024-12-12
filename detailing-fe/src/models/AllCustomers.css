@@ -1,44 +1,69 @@
-
-.container {
-    display: grid;
-    place-items: center; /* Center the content */
-    height: 100vh;
-    background-color: #D3D3D3;
-  }
-
-.customerList {
-    margin-top: 20px;
-    width: 50%;
-    border: 1px solid #ccc;
-    padding: 20px;
-    background-color: white;
-
-  }
-  
-  .customer {
-    border: 1px solid #ccc;
-    padding: 20px;
-    margin-bottom: 20px;
-    border-radius: 10px;
-  }
-  
-  .customer h2 {
-    margin-bottom: 10px;
-  }
-  
-  .customer-actions {
+.customers-container {
     display: flex;
-    gap: 10px;
-  }
-  
-  .customer-actions a {
-    text-decoration: none;
-    color: #333;
-    padding: 5px 10px;
+    flex-direction: column;
+    gap: 20px;
+    margin: 0 auto;
+    max-width: 800px;
+}
+
+.customer-box {
+    display: flex;
+    align-items: flex-start;
+    padding: 20px;
     border: 1px solid #ccc;
+    border-radius: 8px;
+    background-color: #fff;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    gap: 20px;
+}
+
+.customer-box:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    border-color: #007bff;
+}
+
+.customer-image {
+    width: 150px;
+    height: 150px;
+    object-fit: cover;
+    border-radius: 8px;
+    transition: transform 0.3s ease;
+}
+
+.customer-box:hover .employee-image {
+    transform: scale(1.1);
+}
+
+.customer-details {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 5px;
+    flex: 1;
+}
+
+.customer-details p {
+    margin: 0;
+    font-size: 14px;
+}
+
+.customer-details button {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
     border-radius: 5px;
-  }
-  
-  .customer-actions a:hover {
-    background-color: #f0f0f0;
-  }
+    padding: 8px 12px;
+    font-size: 14px;
+    font-weight: bold;
+    cursor: pointer;
+    align-self: flex-start;
+    margin-top: 10px;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.customer-details button:hover {
+    background-color: #0056b3;
+    transform: translateY(-2px);
+}

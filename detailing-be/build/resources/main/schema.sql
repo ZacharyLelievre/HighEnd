@@ -31,3 +31,28 @@ CREATE TABLE IF NOT EXISTS galleries (
     description VARCHAR(255) NOT NULL,
     image_url VARCHAR(255) NOT NULL
 );
+
+DROP TABLE IF EXISTS employees;
+
+CREATE TABLE IF NOT EXISTS employees (
+                                         id INTEGER NOT NULL AUTO_INCREMENT PRIMARY KEY,
+                                         employee_id VARCHAR(36) NOT NULL,
+                                         first_name VARCHAR(50) NOT NULL,
+                                         last_name VARCHAR(50) NOT NULL,
+                                         position VARCHAR(50) NOT NULL,
+                                         email VARCHAR(100) NOT NULL UNIQUE,
+                                         salary DECIMAL(10, 2) NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS customers(
+                                        id INTEGER NOT NULL AUTO_INCREMENT PRIMARY KEY,
+                                        customer_id VARCHAR(50) UNIQUE,
+                                        customer_first_name VARCHAR(50),
+                                        customer_last_name VARCHAR(50),
+                                        customer_email_address VARCHAR(50),
+                                        street_address VARCHAR (50),
+                                        city VARCHAR (50),
+                                        postal_code VARCHAR (9),
+                                        province VARCHAR (50),
+                                        country VARCHAR (50)
+);

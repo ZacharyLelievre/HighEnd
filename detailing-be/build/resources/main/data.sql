@@ -30,3 +30,32 @@ INSERT INTO galleries (gallery_id, description, image_url) VALUES
                                                                ('0658e36b-4fc1-47c8-92cd-44d3bb865b90', 'Carpet Cleaning', 'https://business.yelp.com/wp-content/uploads/2022/07/lp-ban-car-detailer-wiping-the-headlight-of-a-car.jpeg'),
                                                                ('1126789a-9cda-4374-a040-a3d4dc6187b6', 'Janitorial Services', 'https://business.yelp.com/wp-content/uploads/2022/07/lp-ban-car-detailer-wiping-the-headlight-of-a-car.jpeg'),
                                                                ('685612e3-0414-42fc-8312-01b40d0dd764', 'Disinfection and Sanitization Services', 'https://business.yelp.com/wp-content/uploads/2022/07/lp-ban-car-detailer-wiping-the-headlight-of-a-car.jpeg');
+
+INSERT INTO employees (id, employee_id, first_name, last_name, position, email, salary)
+VALUES
+    (1, 'e1f14c90-ec5e-4f82-a9b7-2548a7325b34', 'Jane', 'Smith', 'Manager', 'jane.smith@example.com', 75000.00),
+    (2, 'e2f14c90-ec5e-4f82-a9b7-2548a7325b34', 'John', 'Doe', 'Technician', 'john.doe@example.com', 55000.00),
+    (3, 'e3f14c90-ec5e-4f82-a9b7-2548a7325b34', 'Emily', 'Clark', 'Technician', 'emily.clark@example.com', 52000.00),
+    (4, 'e4f14c90-ec5e-4f82-a9b7-2548a7325b34', 'Michael', 'Brown', 'Supervisor', 'michael.brown@example.com', 68000.00),
+    (5, 'e5f14c90-ec5e-4f82-a9b7-2548a7325b34', 'Sarah', 'Davis', 'Technician', 'sarah.davis@example.com', 51000.00),
+    (6, 'e6f14c90-ec5e-4f82-a9b7-2548a7325b34', 'David', 'Wilson', 'Customer Support', 'david.wilson@example.com', 48000.00),
+    (7, 'e7f14c90-ec5e-4f82-a9b7-2548a7325b34', 'Sophia', 'Taylor', 'Technician', 'sophia.taylor@example.com', 53000.00),
+    (8, 'e8f14c90-ec5e-4f82-a9b7-2548a7325b34', 'James', 'Moore', 'Technician', 'james.moore@example.com', 54000.00),
+    (9, 'e9f14c90-ec5e-4f82-a9b7-2548a7325b34', 'Olivia', 'Anderson', 'Receptionist', 'olivia.anderson@example.com', 42000.00),
+    (10, 'e0f14c90-ec5e-4f82-a9b7-2548a7325b34', 'Ethan', 'Jackson', 'Technician', 'ethan.jackson@example.com', 53000.00);
+
+INSERT INTO customers (customer_id, customer_first_name, customer_last_name, customer_email_address, street_address, city, postal_code, province, country)
+VALUES
+    ('f3bce765-1a64-4a2f-8fa7-b083e77dfe72', 'John', 'Doe', 'john.doe@example.com', '123 Main St', 'Toronto', 'M5A 1A1', 'Ontario', 'Canada'),
+    ('d50f6f2d-cb85-428d-89e4-3f29db9db987', 'Jane', 'Smith', 'jane.smith@example.com', '456 Elm St', 'Vancouver', 'V6B 2B3', 'British Columbia', 'Canada'),
+    ('c1b2ad74-3f57-4d52-8d25-767de1d4bb19', 'Alice', 'Johnson', 'alice.johnson@example.com', '789 Oak St', 'Montreal', 'H3A 1A4', 'Quebec', 'Canada'),
+    ('f72c6438-b8bb-4328-8de8-f4a6dcb33742', 'Bob', 'Brown', 'bob.brown@example.com', '101 Pine St', 'Calgary', 'T2P 2N3', 'Alberta', 'Canada'),
+    ('a5b9d2f8-14b8-4183-b1fa-c6d6dbf1a3b4', 'Charlie', 'Davis', 'charlie.davis@example.com', '202 Birch St', 'Ottawa', 'K1A 0B1', 'Ontario', 'Canada'),
+    ('e5acb8d1-5670-4621-9d74-e345db80b396', 'David', 'Miller', 'david.miller@example.com', '303 Cedar St', 'Quebec City', 'G1R 1B2', 'Quebec', 'Canada'),
+    ('f1adf1cd-84c4-4854-90d2-0a4c1bdf8a2c', 'Emily', 'Wilson', 'emily.wilson@example.com', '404 Maple St', 'Edmonton', 'T5J 2N6', 'Alberta', 'Canada'),
+    ('d9ab8e70-b35d-4294-8b87-06c12faad8a9', 'Frank', 'Moore', 'frank.moore@example.com', '505 Fir St', 'Halifax', 'B3J 3M3', 'Nova Scotia', 'Canada'),
+    ('b1a8b9f4-5ab7-40fb-8f68-b7e0d60178b0', 'Grace', 'Taylor', 'grace.taylor@example.com', '606 Pine Ave', 'Winnipeg', 'R3C 3B2', 'Manitoba', 'Canada'),
+    ('88a989e0-b9d3-4728-9c3f-cd845a87baba', 'Henry', 'Anderson', 'henry.anderson@example.com', '707 Willow Rd', 'Saskatoon', 'S7K 1C2', 'Saskatchewan', 'Canada');
+
+
+

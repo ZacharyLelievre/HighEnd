@@ -19,6 +19,7 @@ public interface EmployeeResponseMapper {
     @Mapping(expression = "java(employee.getPosition())", target = "position")
     @Mapping(expression = "java(employee.getEmail())", target = "email")
     @Mapping(expression = "java(employee.getSalary())", target = "salary")
+    @Mapping(expression = "java(employee.getImagePath())", target = "imagePath")
     EmployeeResponseModel entityToResponseModel(Employee employee);
 
     List<EmployeeResponseModel> entityListToResponseModel(List<Employee> employees);

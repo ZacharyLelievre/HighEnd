@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>EmployeeServiceImpl.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">detailing-be</a> &gt; <a href="index.source.html" class="el_package">com.example.highenddetailing.empployeessubdomain.businesslayer</a> &gt; <span class="el_source">EmployeeServiceImpl.java</span></div><h1>EmployeeServiceImpl.java</h1><pre class="source lang-java linenums">package com.example.highenddetailing.empployeessubdomain.businesslayer;
+
+import com.example.highenddetailing.appointmentssubdomain.datalayer.Appointment;
+import com.example.highenddetailing.appointmentssubdomain.datalayer.AppointmentRepository;
+import com.example.highenddetailing.appointmentssubdomain.domainclientlayer.AppointmentResponseModel;
+import com.example.highenddetailing.appointmentssubdomain.mapperlayer.AppointmentResponseMapper;
+import com.example.highenddetailing.empployeessubdomain.datalayer.Employee;
+import com.example.highenddetailing.empployeessubdomain.datalayer.EmployeeRepository;
+import com.example.highenddetailing.empployeessubdomain.mapperlayer.EmployeeResponseMapper;
+import com.example.highenddetailing.empployeessubdomain.presentationlayer.EmployeeResponseModel;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+
+@Service
+<span class="fc" id="L18">@RequiredArgsConstructor</span>
+<span class="fc" id="L19">@Slf4j</span>
+public class EmployeeServiceImpl implements EmployeeService {
+    private final EmployeeResponseMapper employeeResponseMapper;
+    private final EmployeeRepository employeeRepository;
+
+    @Override
+    public List&lt;EmployeeResponseModel&gt; getAllEmployees() {
+<span class="nc" id="L26">        List&lt;Employee&gt; employees = employeeRepository.findAll();</span>
+<span class="nc" id="L27">        return employeeResponseMapper.entityListToResponseModel(employees);</span>
+    }
+}
+
+
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>
