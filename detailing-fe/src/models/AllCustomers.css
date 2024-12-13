@@ -67,3 +67,139 @@
     background-color: #0056b3;
     transform: translateY(-2px);
 }
+/* Modal Overlay */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.3);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    transition: opacity 0.3s ease;
+}
+
+/* Modal */
+.modal {
+    background: #fff;
+    padding: 30px;
+    border-radius: 12px;
+    width: 450px;
+    max-width: 100%;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease-in-out;
+    transform: translateY(-20px);
+}
+
+/* Modal - Show transition */
+.modal-overlay.show .modal {
+    transform: translateY(0);
+}
+
+/* Modal Header */
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.modal-header h3 {
+    font-size: 1.4rem;
+    font-weight: 600;
+    color: #333;
+}
+
+.close-btn {
+    background: #e6e6e6;
+    border: none;
+    font-size: 20px;
+    padding: 6px 12px;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.close-btn:hover {
+    background-color: #ccc;
+}
+
+/* Form Elements */
+form div {
+    margin-bottom: 20px;
+}
+
+form label {
+    font-size: 1rem;
+    font-weight: 500;
+    color: #555;
+    margin-bottom: 5px;
+    display: block;
+}
+
+form input {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 1rem;
+    color: #333;
+    outline: none;
+    transition: border-color 0.2s ease;
+}
+
+form input:focus {
+    border-color: #4caf50;
+}
+
+form button {
+    background-color: #4caf50;
+    color: white;
+    border: none;
+    padding: 12px 20px;
+    font-size: 1rem;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    width: 48%;
+    margin-right: 4%;
+}
+
+form button:hover {
+    background-color: #45a049;
+}
+
+form button[type="button"] {
+    background-color: #f44336;
+    width: 48%;
+    margin-right: 0;
+}
+
+form button[type="button"]:hover {
+    background-color: #d32f2f;
+}
+
+/* For smaller screens */
+@media (max-width: 480px) {
+    .modal {
+        width: 90%;
+        padding: 20px;
+    }
+
+    .modal-header h3 {
+        font-size: 1.2rem;
+    }
+
+    form input {
+        font-size: 0.9rem;
+    }
+
+    form button {
+        padding: 10px 15px;
+        font-size: 0.9rem;
+    }
+}
+
