@@ -1,5 +1,6 @@
 package com.example.highenddetailing.appointmentsubdomain.domainclientlayer;
 
+import com.example.highenddetailing.appointmentssubdomain.datalayer.Status;
 import com.example.highenddetailing.appointmentssubdomain.domainclientlayer.AppointmentResponseModel;
 import org.junit.jupiter.api.Test;
 
@@ -20,7 +21,7 @@ public class AppointmentResponseModelTest {
         String employeeName = "Jane Smith"; // New field
         String appointmentDate = "2021-12-31";
         String appointmentTime = "10:00 AM";
-        String status = "Pending";
+        Status status = Status.PENDING;
         String imagePath = "/images/detailing.jpg";
 
         // Act
@@ -34,7 +35,7 @@ public class AppointmentResponseModelTest {
                 .employeeName(employeeName) // New field
                 .appointmentDate(appointmentDate)
                 .appointmentTime(appointmentTime)
-                .status(status)
+                .status(Status.PENDING)
                 .imagePath(imagePath)
                 .build();
 
@@ -83,11 +84,11 @@ public class AppointmentResponseModelTest {
         String customerName = "John Doe"; // New field
         String employeeId = "E001";
         String employeeName = "Jane Smith"; // New field
-        String status = "Pending";
+        Status status = Status.PENDING;
         String imagePath = "/images/detailing.jpg";
 
         // Act
-        AppointmentResponseModel responseModel = new AppointmentResponseModel(appointmentId, appointmentDate, appointmentTime, serviceId, serviceName, customerId, customerName, employeeId, employeeName, status, imagePath);
+        AppointmentResponseModel responseModel = new AppointmentResponseModel(appointmentId, appointmentDate, appointmentTime, serviceId, serviceName, customerId, customerName, employeeId, employeeName, Status.PENDING, imagePath);
 
         // Assert
         assertEquals(responseModel.getAppointmentId(), appointmentId);
@@ -118,7 +119,7 @@ public class AppointmentResponseModelTest {
         model.setEmployeeName("Jane Smith"); // New field
         model.setAppointmentDate("2021-12-31");
         model.setAppointmentTime("10:00 AM");
-        model.setStatus("Pending");
+        model.setStatus(Status.PENDING);
         model.setImagePath("/images/detailing.jpg");
 
         // Assert
@@ -130,9 +131,9 @@ public class AppointmentResponseModelTest {
     @Test
     void testEqualsAndHashCode() {
         // Arrange
-        AppointmentResponseModel model1 = new AppointmentResponseModel("A001", "2021-12-31", "10:00 AM", "S001", "Car Wash", "C001", "John Doe", "E001", "Jane Smith", "Pending", "/images/detailing.jpg");
-        AppointmentResponseModel model2 = new AppointmentResponseModel("A001", "2021-12-31", "10:00 AM", "S001", "Car Wash", "C001", "John Doe", "E001", "Jane Smith", "Pending", "/images/detailing.jpg");
-        AppointmentResponseModel model3 = new AppointmentResponseModel("A002", "2022-01-01", "11:00 AM", "S002", "Brake Check", "C002", "Mary Jane", "E002", "John Doe", "Completed", "/images/cleaning.jpg");
+        AppointmentResponseModel model1 = new AppointmentResponseModel("A001", "2021-12-31", "10:00 AM", "S001", "Car Wash", "C001", "John Doe", "E001", "Jane Smith", Status.PENDING, "/images/detailing.jpg");
+        AppointmentResponseModel model2 = new AppointmentResponseModel("A001", "2021-12-31", "10:00 AM", "S001", "Car Wash", "C001", "John Doe", "E001", "Jane Smith", Status.PENDING, "/images/detailing.jpg");
+        AppointmentResponseModel model3 = new AppointmentResponseModel("A002", "2022-01-01", "11:00 AM", "S002", "Brake Check", "C002", "Mary Jane", "E002", "John Doe", Status.CONFIRMED, "/images/cleaning.jpg");
 
         // Act & Assert
         assertThat(model1).isEqualTo(model2);
@@ -154,7 +155,7 @@ public class AppointmentResponseModelTest {
                 .employeeName("Jane Smith") // New field
                 .appointmentDate("2021-12-31")
                 .appointmentTime("10:00 AM")
-                .status("Pending")
+                .status(Status.PENDING)
                 .imagePath("/images/detailing.jpg");
 
         // Act
@@ -170,8 +171,8 @@ public class AppointmentResponseModelTest {
 
     @Test
     void testCanEqual() {
-        AppointmentResponseModel model1 = new AppointmentResponseModel("A001", "2021-12-31", "10:00 AM", "S001", "Car Wash", "C001", "John Doe", "E001", "Jane Smith", "Pending", "/images/detailing.jpg");
-        AppointmentResponseModel model2 = new AppointmentResponseModel("A001", "2021-12-31", "10:00 AM", "S001", "Car Wash", "C001", "John Doe", "E001", "Jane Smith", "Pending", "/images/detailing.jpg");
+        AppointmentResponseModel model1 = new AppointmentResponseModel("A001", "2021-12-31", "10:00 AM", "S001", "Car Wash", "C001", "John Doe", "E001", "Jane Smith", Status.PENDING, "/images/detailing.jpg");
+        AppointmentResponseModel model2 = new AppointmentResponseModel("A001", "2021-12-31", "10:00 AM", "S001", "Car Wash", "C001", "John Doe", "E001", "Jane Smith", Status.PENDING, "/images/detailing.jpg");
 
         assertThat(model1.equals(model2)).isTrue();
         assertThat(model1.equals(new Object())).isFalse();
@@ -189,7 +190,7 @@ public class AppointmentResponseModelTest {
                 .employeeName("Jane Smith") // New field
                 .appointmentDate("2021-12-31")
                 .appointmentTime("10:00 AM")
-                .status("Pending")
+                .status(Status.PENDING)
                 .imagePath("/images/detailing.jpg");
 
         // Act
@@ -205,7 +206,7 @@ public class AppointmentResponseModelTest {
         assertThat(model.getEmployeeName()).isEqualTo("Jane Smith"); // New field
         assertThat(model.getAppointmentDate()).isEqualTo("2021-12-31");
         assertThat(model.getAppointmentTime()).isEqualTo("10:00 AM");
-        assertThat(model.getStatus()).isEqualTo("Pending");
+        assertThat(model.getStatus()).isEqualTo(Status.PENDING);
         assertThat(model.getImagePath()).isEqualTo("/images/detailing.jpg");
     }
 }

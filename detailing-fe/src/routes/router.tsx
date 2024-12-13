@@ -1,11 +1,12 @@
 import { createBrowserRouter, Navigate } from "react-router-dom";
 import { AppRoutePath } from "./path.routes";
 import AllServicesPage from "../pages/AllServicesPage";
-import AllAppointmentsPage from "../pages/AllAppointmentsPage";
 import Home from "../models/Home";
 import React from "react";
 import ServiceDetailPage from "../pages/ServiceDetailsPage";
 import AllGalleriesPage from "../pages/AllGalleriesPage";
+import DashboardPage from "../pages/DashhoardPage";
+import EmployeeDetails from "../models/EmployeeDetails";
 
 const router = createBrowserRouter([
     {
@@ -27,12 +28,17 @@ const router = createBrowserRouter([
                 element: <ServiceDetailPage />
             },
             {
-                path: AppRoutePath.AllAppointmentsPage,
-                element: <AllAppointmentsPage />
-            },
-            {
                 path: AppRoutePath.AllGalleriesPage,
                 element: <AllGalleriesPage />
+            },
+            {
+                path: AppRoutePath.DashboardPage,
+                element: <DashboardPage />
+            }
+            ,
+            {
+                path: "/employees/:employeeId",
+                element: <EmployeeDetails />
             }
         ]
     }

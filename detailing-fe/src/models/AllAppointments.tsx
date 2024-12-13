@@ -18,10 +18,27 @@ export default function AllAppointments(): JSX.Element {
 
         fetchAppointments();
     }, []);
+    const handleConfirm = async (appointmentId: string): Promise<void> => {
+        try {
+            const response = await axios.put(`http://localhost:8080/api/appointments/${appointmentId}/status`, {
+                status: "CONFIRMED"
+            });
+            console.log("Appointment confirmed:", response.data);
+
+            setAppointments(prevAppointments =>
+                prevAppointments.map(appointment =>
+                    appointment.appointmentId === appointmentId
+                        ? { ...appointment, status: "CONFIRMED" }
+                        : appointment
+                )
+            );
+        } catch (error) {
+            console.error("Error confirming appointment:", error);
+        }
+    };
 
     return (
         <div>
-            <h2 style={{ textAlign: "center" }}>Appointments</h2>
             <div className="appointments-container">
                 {appointments.map(appointment => (
                     <div className="appointment-box" key={appointment.appointmentId}>
@@ -37,7 +54,15 @@ export default function AllAppointments(): JSX.Element {
                             <p><strong>Customer Name:</strong> {appointment.customerName}</p>
                             <p><strong>Employee Name:</strong> {appointment.employeeName}</p>
                             <p><strong>Status:</strong> {appointment.status}</p>
-                            <button>View</button>
+                            <div className="button-container">
+                                <button>View</button>
+                                <button
+                                    onClick={() => handleConfirm(appointment.appointmentId)}
+                                    disabled={appointment.status === "CONFIRMED"}
+                                >
+                                    {appointment.status === "CONFIRMED" ? "Confirmed" : "Confirm"}
+                                </button>
+                            </div>
                         </div>
                     </div>
                 ))}

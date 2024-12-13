@@ -42,13 +42,6 @@ export function NavBar(): JSX.Element {
             >
               Services
             </Nav.Link>
-            <Nav.Link
-              as={Link}
-              to={AppRoutePath.AllAppointmentsPage}
-              className="text-white nav-item-spacing"
-            >
-              Appointments
-            </Nav.Link>
 
             <Nav.Link
             as={Link}
@@ -58,6 +51,14 @@ export function NavBar(): JSX.Element {
               Gallery
 
             </Nav.Link>
+
+            <Nav.Link 
+              as={Link}
+              to={AppRoutePath.DashboardPage}
+              className="text-white nav0item-spacing">
+              Dashboard
+            </Nav.Link>
+
           </Nav>
         </Navbar.Collapse>
       </Container>

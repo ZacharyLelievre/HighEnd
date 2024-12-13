@@ -1,11 +1,9 @@
 package com.example.highenddetailing.customerssubdomain.presentationlayer;
 
 import com.example.highenddetailing.customerssubdomain.businesslayer.CustomerService;
+import org.apache.coyote.Response;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -22,5 +20,22 @@ public class CustomerController {
     @GetMapping(produces = "application/json")
     public ResponseEntity<List<CustomerResponseModel>> getCustomers(){
         return ResponseEntity.ok(customerService.getCustomers());
+
     }
+
+    @PutMapping("/{customerId}")
+    public ResponseEntity<CustomerResponseModel> updateCustomer(@RequestBody CustomerRequestModel customerRequestModel,
+                                                                @PathVariable String customerId){
+        return ResponseEntity.ok().body(customerService.updateCustomer(customerRequestModel, customerId));
+    }
+
+    @DeleteMapping("/{customerId}")
+    public ResponseEntity<Void> deleteCustomer(@PathVariable String customerId){
+        customerService.deleteCustomer(customerId);
+        return ResponseEntity.noContent().build();
+
+    }
+
+
+
 }

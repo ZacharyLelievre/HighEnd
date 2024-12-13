@@ -1,9 +1,8 @@
-import AllAppointments from "../models/AllAppointments";
-
-export enum AppRoutePath{
+export enum AppRoutePath {
     Default = "/",
     Home = "/home",
     AllServicesPage = "/services",
-    AllAppointmentsPage = "/appointments",
-    AllGalleriesPage = "/galleries"
+    AllGalleriesPage = "/galleries",
+    DashboardPage = "/dashboard",
+    AllEmployeesPage = "/employees" // New path for AllEmployees
 }

@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="com.example.highenddetailing.appointmentsubdomain.businesslayer.AppointmentServiceUnitTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2024-12-11T15:19:35" hostname="LAPTOP-29CVF696" time="0.423">
-  <properties/>
-  <testcase name="whenGetAllAppointments_thenReturnAllAppointments()" classname="com.example.highenddetailing.appointmentsubdomain.businesslayer.AppointmentServiceUnitTest" time="0.423"/>
-  <system-out><![CDATA[]]></system-out>
-  <system-err><![CDATA[]]></system-err>
-</testsuite>

@@ -25,6 +25,7 @@ CREATE TABLE IF NOT EXISTS appointments (
     image_path VARCHAR(255)
 );
 
+DROP TABLE IF EXISTS galleries;
 CREATE TABLE IF NOT EXISTS galleries (
     id INTEGER NOT NULL AUTO_INCREMENT PRIMARY KEY,
     gallery_id VARCHAR(255) NOT NULL,
@@ -32,8 +33,8 @@ CREATE TABLE IF NOT EXISTS galleries (
     image_url VARCHAR(255) NOT NULL
 );
 
-DROP TABLE IF EXISTS employees;
 
+DROP TABLE IF EXISTS employees;
 CREATE TABLE IF NOT EXISTS employees (
                                          id INTEGER NOT NULL AUTO_INCREMENT PRIMARY KEY,
                                          employee_id VARCHAR(36) NOT NULL,
@@ -41,9 +42,12 @@ CREATE TABLE IF NOT EXISTS employees (
                                          last_name VARCHAR(50) NOT NULL,
                                          position VARCHAR(50) NOT NULL,
                                          email VARCHAR(100) NOT NULL UNIQUE,
-                                         salary DECIMAL(10, 2) NOT NULL
+                                         phone VARCHAR(32) NOT NULL,
+                                         salary DECIMAL(10, 2) NOT NULL,
+                                         image_path VARCHAR(255)
 );
 
+DROP TABLE IF EXISTS customers;
 CREATE TABLE IF NOT EXISTS customers(
                                         id INTEGER NOT NULL AUTO_INCREMENT PRIMARY KEY,
                                         customer_id VARCHAR(50) UNIQUE,

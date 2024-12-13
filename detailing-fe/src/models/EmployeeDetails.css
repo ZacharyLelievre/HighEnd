@@ -1,0 +1,121 @@
+body {
+    background-color: #f5f5f5; /* Light gray background for the page */
+    margin: 0;
+    font-family: Arial, sans-serif; /* Consistent font */
+}
+
+.details-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 90%; /* Adjust width for responsiveness */
+    max-width: 600px; /* Limit the max width of the card */
+    margin: 50px auto; /* Center the card horizontally and add vertical spacing */
+    background-color: #ffffff; /* White background for the card */
+    border-radius: 8px; /* Optional: Rounded corners */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+    padding: 20px; /* Add padding inside the card */
+}
+
+.profile-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.profile-header img {
+    border-radius: 50%; /* Circular image */
+    width: 70px;
+    height: 70px;
+    margin-right: 15px;
+}
+
+.profile-header .info {
+    display: flex;
+    flex-direction: column;
+}
+
+.profile-header .info h2 {
+    margin: 0;
+    font-size: 18px;
+    color: #333; /* Dark gray text for header */
+}
+
+.profile-header .info p {
+    margin: 0;
+    font-size: 14px;
+    color: #777; /* Lighter gray text for subheader */
+}
+
+.details {
+    display: grid;
+    grid-template-columns: 1fr 1fr; /* Two-column layout */
+    gap: 15px; /* Space between fields */
+}
+
+.details .field {
+    display: flex;
+    flex-direction: column;
+}
+
+.details .field label {
+    font-size: 12px;
+    color: #555; /* Medium gray for labels */
+    margin-bottom: 5px;
+}
+
+.details .field input {
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 14px;
+    background-color: #f9f9f9; /* Slightly off-white background */
+}
+
+.email-section {
+    margin-top: 20px;
+    width: 100%;
+}
+
+.email-section h3 {
+    font-size: 14px;
+    margin-bottom: 10px;
+    color: #333; /* Dark gray for heading */
+}
+
+.email-section .email {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: #f9f9f9; /* Slightly off-white background for email section */
+    border: 1px solid #ddd;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+.email-section .email p {
+    margin: 0;
+    font-size: 14px;
+    color: #555; /* Medium gray text */
+}
+
+.email-section .email span {
+    font-size: 12px;
+    color: #999; /* Light gray text */
+}
+
+.email-section button {
+    margin-top: 10px;
+    padding: 10px;
+    font-size: 14px;
+    color: #fff;
+    background-color: #007bff; /* Primary blue button */
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.email-section button:hover {
+    background-color: #0056b3; /* Darker blue on hover */
+}
