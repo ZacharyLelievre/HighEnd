@@ -13,6 +13,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -25,6 +26,11 @@ public class EmployeeServiceImpl implements EmployeeService {
     public List<EmployeeResponseModel> getAllEmployees() {
         List<Employee> employees = employeeRepository.findAll();
         return employeeResponseMapper.entityListToResponseModel(employees);
+    }
+    @Override
+    public Optional<EmployeeResponseModel> getEmployeeById(String employeeId){
+        return employeeRepository.findByEmployeeIdentifier_EmployeeId(employeeId)
+                .map(employeeResponseMapper::entityToResponseModel);
     }
 }
 
