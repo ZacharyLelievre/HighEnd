@@ -26,12 +26,13 @@ public class Employee {
     private String imagePath;
 
     // Parameterized constructor
-    public Employee(Integer id, String first_name, String last_name, String position, String email, double salary, String imagePath) {
+    public Employee(Integer id, String first_name, String last_name, String position, String email, String phone, double salary, String imagePath) {
         this.id = id;
         this.first_name = first_name;
         this.last_name = last_name;
         this.position = position;
         this.email = email;
+        this.phone = phone;
         this.salary = salary;
         this.imagePath = imagePath;
     }

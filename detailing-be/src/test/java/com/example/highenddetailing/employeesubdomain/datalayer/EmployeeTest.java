@@ -16,6 +16,7 @@ public class EmployeeTest {
         employee1.setLast_name("Smith");
         employee1.setPosition("Manager");
         employee1.setEmail("jane.smith@example.com");
+        employee1.setPhone("13443434");
         employee1.setSalary(75000.00);
         employee1.setImagePath("/images/employee1.jpg");
 
@@ -25,6 +26,7 @@ public class EmployeeTest {
         employee2.setLast_name("Smith");
         employee2.setPosition("Manager");
         employee2.setEmail("jane.smith@example.com");
+        employee2.setPhone("13443434");
         employee2.setSalary(75000.00);
         employee2.setImagePath("/images/employee1.jpg");
 
@@ -40,6 +42,7 @@ public class EmployeeTest {
         employee.setLast_name("Smith");
         employee.setPosition("Manager");
         employee.setEmail("jane.smith@example.com");
+        employee.setPhone("12121212");
         employee.setSalary(75000.00);
         employee.setImagePath("/images/employee1.jpg");
 
@@ -48,6 +51,7 @@ public class EmployeeTest {
         assertEquals("Smith", employee.getLast_name());
         assertEquals("Manager", employee.getPosition());
         assertEquals("jane.smith@example.com", employee.getEmail());
+        assertEquals("12121212", employee.getPhone());
         assertEquals(75000.00, employee.getSalary());
         assertEquals("/images/employee1.jpg", employee.getImagePath());
     }
@@ -70,13 +74,14 @@ public class EmployeeTest {
 
     @Test
     void testConstructorWithAllArgs() {
-        Employee employee = new Employee(1, "Jane", "Smith", "Manager", "jane.smith@example.com", 75000.00, "/images/employee1.jpg");
+        Employee employee = new Employee(1, "Jane", "Smith", "Manager", "jane.smith@example.com","121223", 75000.00, "/images/employee1.jpg");
 
         assertEquals(1, employee.getId());
         assertEquals("Jane", employee.getFirst_name());
         assertEquals("Smith", employee.getLast_name());
         assertEquals("Manager", employee.getPosition());
         assertEquals("jane.smith@example.com", employee.getEmail());
+        assertEquals("121223", employee.getPhone());
         assertEquals(75000.00, employee.getSalary());
         assertEquals("/images/employee1.jpg", employee.getImagePath());
     }
