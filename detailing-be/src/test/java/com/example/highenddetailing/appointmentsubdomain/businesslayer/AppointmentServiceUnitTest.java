@@ -156,6 +156,7 @@ public class AppointmentServiceUnitTest {
                 "Smith",
                 "Technician",
                 "john.smith@example.com",
+                "123-456-7890",
                 50000.0,
                 "johndoe.jpg"
         );
