@@ -10,4 +10,5 @@ public interface EmployeeService {
     List<EmployeeResponseModel> getAllEmployees();
 
     Optional<EmployeeResponseModel> getEmployeeById(String employeeId);
+
 }

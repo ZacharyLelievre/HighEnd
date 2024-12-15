@@ -29,6 +29,7 @@ public class EmployeeServiceImpl implements EmployeeService {
         List<Employee> employees = employeeRepository.findAll();
         return employeeResponseMapper.entityListToResponseModel(employees);
     }
+
     @Override
     public Optional<EmployeeResponseModel> getEmployeeById(String employeeId){
         return employeeRepository.findByEmployeeIdentifier_EmployeeId(employeeId)
