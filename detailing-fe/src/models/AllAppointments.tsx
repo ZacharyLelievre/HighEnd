@@ -103,6 +103,9 @@ export default function AllAppointments(): JSX.Element {
 
     return (
         <div>
+            {loadingAppointments ? (
+                <p>Loading appointments...</p>
+            ) : (
                 <div className="appointments-container">
                     {appointments.map(appointment => (
                         <div className="appointment-box" key={appointment.appointmentId}>
@@ -152,6 +155,7 @@ export default function AllAppointments(): JSX.Element {
                         </div>
                     ))}
                 </div>
+            )}
         </div>
     );
 }

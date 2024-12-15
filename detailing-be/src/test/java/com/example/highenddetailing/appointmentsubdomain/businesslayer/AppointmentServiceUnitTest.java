@@ -78,10 +78,10 @@ public class AppointmentServiceUnitTest {
         when(appointmentRepository.findAll()).thenReturn(appointments);
         when(appointmentResponseMapper.entityListToResponseModel(appointments)).thenReturn(responseModels);
 
-        // Act (Original)
+        // Act
         List<AppointmentResponseModel> result = appointmentService.getAllAppointments();
 
-        // Assert (Original)
+        // Assert
         assertEquals(responseModels, result);
     }
 
