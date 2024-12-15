@@ -8,12 +8,15 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequiredArgsConstructor
 @RequestMapping("/api/services")
 @CrossOrigin(origins = "http://localhost:3000") // Allow specific origin
 public class ServicesController {
 
     private final ServiceService serviceService;
+
+    public ServicesController(ServiceService serviceService) {
+        this.serviceService = serviceService;
+    }
 
     @GetMapping(produces = "application/json")
     public ResponseEntity<List<ServiceResponseModel>> getAllServices(){

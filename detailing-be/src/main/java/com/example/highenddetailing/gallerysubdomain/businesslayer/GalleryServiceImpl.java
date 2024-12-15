@@ -11,12 +11,17 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-@RequiredArgsConstructor
 @Slf4j
 public class GalleryServiceImpl implements GalleryService {
 
     private final GalleryRepository galleryRepository;
     private final GalleryResponseMapper galleryResponseMapper;
+
+    public GalleryServiceImpl(GalleryRepository galleryRepository, GalleryResponseMapper galleryResponseMapper) {
+        this.galleryRepository = galleryRepository;
+        this.galleryResponseMapper = galleryResponseMapper;
+    }
+
     @Override
     public List<GalleryResponseModel> getAllGalleries() {
         return galleryResponseMapper.entityListToResponseModel(galleryRepository.findAll());
