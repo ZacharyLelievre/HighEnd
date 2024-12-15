@@ -1,10 +1,15 @@
 import React, { useEffect, useState } from "react";
-import { AppointmentModel } from "./dtos/AppointmentModel";
-import "./AllAppointments.css";
 import axios from "axios";
+import { AppointmentModel } from "./dtos/AppointmentModel";
+import { EmployeeModel } from "./dtos/EmployeeModel";
+import "./AllAppointments.css";
 
 export default function AllAppointments(): JSX.Element {
     const [appointments, setAppointments] = useState<AppointmentModel[]>([]);
+    const [employees, setEmployees] = useState<EmployeeModel[]>([]);
+    const [selectedEmployee, setSelectedEmployee] = useState<{ [key: string]: string }>({});
+    const [loadingAppointments, setLoadingAppointments] = useState<boolean>(true);
+    const [loadingEmployees, setLoadingEmployees] = useState<boolean>(true);
 
     useEffect(() => {
         const fetchAppointments = async (): Promise<void> => {
@@ -13,11 +18,31 @@ export default function AllAppointments(): JSX.Element {
                 setAppointments(response.data);
             } catch (error) {
                 console.error("Error fetching appointments:", error);
+            } finally {
+                setLoadingAppointments(false);
             }
         };
 
         fetchAppointments();
     }, []);
+
+    // Fetch Employees
+    useEffect(() => {
+        const fetchEmployees = async (): Promise<void> => {
+            try {
+                const response = await axios.get("http://localhost:8080/api/employees");
+                setEmployees(response.data);
+            } catch (error) {
+                console.error("Error fetching employees:", error);
+            } finally {
+                setLoadingEmployees(false);
+            }
+        };
+
+        fetchEmployees();
+    }, []);
+
+    // Handle Confirm Appointment
     const handleConfirm = async (appointmentId: string): Promise<void> => {
         try {
             const response = await axios.put(`http://localhost:8080/api/appointments/${appointmentId}/status`, {
@@ -34,39 +59,99 @@ export default function AllAppointments(): JSX.Element {
             );
         } catch (error) {
             console.error("Error confirming appointment:", error);
+            alert("Error confirming appointment. Please try again.");
         }
+    };
+
+    // Handle Assign Employee
+    const handleAssignEmployee = async (appointmentId: string): Promise<void> => {
+        const employeeId = selectedEmployee[appointmentId];
+
+        if (!employeeId) {
+            alert("Please select an employee.");
+            return;
+        }
+
+        try {
+            const response = await axios.put(`http://localhost:8080/api/appointments/${appointmentId}/assign`, {
+                employeeId: employeeId
+            });
+
+            // Update the assigned employee in the appointments list
+            setAppointments(prevAppointments =>
+                prevAppointments.map(appointment =>
+                    appointment.appointmentId === appointmentId
+                        ? { ...appointment, employeeName: response.data?.employeeName || "N/A" }
+                        : appointment
+                )
+            );
+
+            alert(`Employee assigned successfully to appointment ID: ${appointmentId}`);
+        } catch (error) {
+            console.error("Error assigning employee:", error);
+            alert("Error assigning employee. Please try again.");
+        }
+    };
+
+    // Handle Employee Selection for Each Appointment
+    const handleEmployeeChange = (appointmentId: string, employeeId: string): void => {
+        setSelectedEmployee(prevSelectedEmployee => ({
+            ...prevSelectedEmployee,
+            [appointmentId]: employeeId
+        }));
     };
 
     return (
         <div>
-            <div className="appointments-container">
-                {appointments.map(appointment => (
-                    <div className="appointment-box" key={appointment.appointmentId}>
-                        <img
-                            className="appointment-image"
-                            src={`http://localhost:8080/${appointment.imagePath}`}
-                            alt="appointment"
-                        />
-                        <div className="appointment-details">
-                            <p><strong>Date:</strong> {appointment.appointmentDate}</p>
-                            <p><strong>Time:</strong> {appointment.appointmentTime}</p>
-                            <p><strong>Service Name:</strong> {appointment.serviceName}</p>
-                            <p><strong>Customer Name:</strong> {appointment.customerName}</p>
-                            <p><strong>Employee Name:</strong> {appointment.employeeName}</p>
-                            <p><strong>Status:</strong> {appointment.status}</p>
-                            <div className="button-container">
-                                <button>View</button>
-                                <button
-                                    onClick={() => handleConfirm(appointment.appointmentId)}
-                                    disabled={appointment.status === "CONFIRMED"}
-                                >
-                                    {appointment.status === "CONFIRMED" ? "Confirmed" : "Confirm"}
-                                </button>
+                <div className="appointments-container">
+                    {appointments.map(appointment => (
+                        <div className="appointment-box" key={appointment.appointmentId}>
+                            <img
+                                className="appointment-image"
+                                src={`http://localhost:8080/${appointment.imagePath}`}
+                                alt="appointment"
+                            />
+                            <div className="appointment-details">
+                                <p><strong>Date:</strong> {appointment.appointmentDate}</p>
+                                <p><strong>Time:</strong> {appointment.appointmentTime}</p>
+                                <p><strong>Service Name:</strong> {appointment.serviceName}</p>
+                                <p><strong>Customer Name:</strong> {appointment.customerName}</p>
+                                <p><strong>Employee Name:</strong> {appointment.employeeName || "Not Assigned"}</p>
+                                <p><strong>Status:</strong> {appointment.status}</p>
+
+                                <label htmlFor={`employee-select-${appointment.appointmentId}`}><strong>Assign Employee:</strong></label>
+                                {loadingEmployees ? (
+                                    <p>Loading employees...</p>
+                                ) : (
+                                    <select
+                                        id={`employee-select-${appointment.appointmentId}`}
+                                        value={selectedEmployee[appointment.appointmentId] || ""}
+                                        onChange={(e) => handleEmployeeChange(appointment.appointmentId, e.target.value)}
+                                    >
+                                        <option value="">Select Employee</option>
+                                        {employees.map(employee => (
+                                            <option key={employee.employeeId} value={employee.employeeId}>
+                                                {employee.first_name} {employee.last_name}
+                                            </option>
+                                        ))}
+                                    </select>
+                                )}
+
+                                <div className="button-container">
+                                    <button onClick={() => handleAssignEmployee(appointment.appointmentId)}>
+                                        Assign
+                                    </button>
+                                    <button
+                                        onClick={() => handleConfirm(appointment.appointmentId)}
+                                        disabled={appointment.status === "CONFIRMED"}
+                                    >
+                                        {appointment.status === "CONFIRMED" ? "Confirmed" : "Confirm"}
+                                    </button>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                ))}
-            </div>
+                    ))}
+                </div>
         </div>
     );
 }

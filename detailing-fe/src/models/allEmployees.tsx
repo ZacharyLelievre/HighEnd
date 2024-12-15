@@ -30,7 +30,7 @@ export default function AllEmployees(): JSX.Element {
                             alt="employee"
                         />
                         <div className="employee-details">
-                            <p><strong>Name:</strong> {employee.firstName }</p>
+                            <p><strong>Name:</strong> {employee.first_name }</p>
                             <p><strong>Position:</strong> {employee.position}</p>
                             <p><strong>Position:</strong> {employee.position}</p>
                             <p><strong>Email:</strong> {employee.email}</p>

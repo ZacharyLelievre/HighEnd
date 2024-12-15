@@ -15,4 +15,7 @@ public class AppointmentIdentifier {
     public AppointmentIdentifier() {
         this.appointmentId = UUID.randomUUID().toString();
     }
+    public AppointmentIdentifier(String appointmentId) {
+        this.appointmentId = appointmentId;
+    }
 }
