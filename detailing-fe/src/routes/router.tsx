@@ -6,6 +6,7 @@ import React from "react";
 import ServiceDetailPage from "../pages/ServiceDetailsPage";
 import AllGalleriesPage from "../pages/AllGalleriesPage";
 import DashboardPage from "../pages/DashhoardPage";
+import EmployeeDetails from "../models/EmployeeDetails";
 
 const router = createBrowserRouter([
     {
@@ -33,6 +34,11 @@ const router = createBrowserRouter([
             {
                 path: AppRoutePath.DashboardPage,
                 element: <DashboardPage />
+            }
+            ,
+            {
+                path: "/employees/:employeeId",
+                element: <EmployeeDetails />
             }
         ]
     }

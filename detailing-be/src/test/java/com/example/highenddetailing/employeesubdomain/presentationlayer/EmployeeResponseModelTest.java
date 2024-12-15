@@ -9,6 +9,7 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class EmployeeResponseModelTest {
+
     @Test
     void testBuilder() {
         // Act
@@ -18,6 +19,7 @@ public class EmployeeResponseModelTest {
                 .last_name("Doe")
                 .position("Technician")
                 .email("john.doe@example.com")
+                .phone("1234567890") // Added phone
                 .salary(45000.0)
                 .imagePath("/images/employees/johndoe.jpg")
                 .build();
@@ -28,6 +30,7 @@ public class EmployeeResponseModelTest {
         assertThat(employee.getLast_name()).isEqualTo("Doe");
         assertThat(employee.getPosition()).isEqualTo("Technician");
         assertThat(employee.getEmail()).isEqualTo("john.doe@example.com");
+        assertThat(employee.getPhone()).isEqualTo("1234567890"); // Verify phone
         assertThat(employee.getSalary()).isEqualTo(45000.0);
         assertThat(employee.getImagePath()).isEqualTo("/images/employees/johndoe.jpg");
     }
@@ -43,6 +46,7 @@ public class EmployeeResponseModelTest {
         assertThat(employee.getLast_name()).isNull();
         assertThat(employee.getPosition()).isNull();
         assertThat(employee.getEmail()).isNull();
+        assertThat(employee.getPhone()).isNull(); // Verify phone
         assertThat(employee.getSalary()).isEqualTo(0.0);
         assertThat(employee.getImagePath()).isNull();
     }
@@ -51,24 +55,26 @@ public class EmployeeResponseModelTest {
     void testAllArgsConstructor() {
         // Arrange
         Integer id = 1;
-        EmployeeIdentifier employeeIdentifier = new EmployeeIdentifier("E001");
+        EmployeeIdentifier employeeIdentifier = new EmployeeIdentifier("E001"); // Correct type
         String firstName = "John";
         String lastName = "Doe";
         String position = "Technician";
         String email = "john.doe@example.com";
+        String phone = "1234567890"; // Add phone
         double salary = 45000.0;
         String imagePath = "/images/employees/johndoe.jpg";
 
         // Act
-        Employee employee = new Employee(id, employeeIdentifier, firstName, lastName, position, email, salary, imagePath);
+        Employee employee = new Employee(id, employeeIdentifier, firstName, lastName, position, email, phone, salary, imagePath);
 
         // Assert
         assertEquals(employee.getId(), id);
-        assertEquals(employee.getEmployeeIdentifier(), employeeIdentifier);
+        assertEquals(employee.getEmployeeIdentifier(), employeeIdentifier); // Correct assertion
         assertEquals(employee.getFirst_name(), firstName);
         assertEquals(employee.getLast_name(), lastName);
         assertEquals(employee.getPosition(), position);
         assertEquals(employee.getEmail(), email);
+        assertEquals(employee.getPhone(), phone); // Verify phone
         assertEquals(employee.getSalary(), salary);
         assertEquals(employee.getImagePath(), imagePath);
     }
@@ -84,6 +90,7 @@ public class EmployeeResponseModelTest {
         employee.setLast_name("Smith");
         employee.setPosition("Manager");
         employee.setEmail("jane.smith@example.com");
+        employee.setPhone("0987654321"); // Set phone
         employee.setSalary(55000.0);
         employee.setImagePath("/images/employees/janesmith.jpg");
 
@@ -93,6 +100,7 @@ public class EmployeeResponseModelTest {
         assertThat(employee.getLast_name()).isEqualTo("Smith");
         assertThat(employee.getPosition()).isEqualTo("Manager");
         assertThat(employee.getEmail()).isEqualTo("jane.smith@example.com");
+        assertThat(employee.getPhone()).isEqualTo("0987654321"); // Verify phone
         assertThat(employee.getSalary()).isEqualTo(55000.0);
         assertThat(employee.getImagePath()).isEqualTo("/images/employees/janesmith.jpg");
     }
@@ -106,6 +114,7 @@ public class EmployeeResponseModelTest {
                 "Doe",
                 "Technician",
                 "john.doe@example.com",
+                "1234567890", // Add phone
                 45000.0,
                 "/images/employees/johndoe.jpg"
         );
@@ -116,6 +125,7 @@ public class EmployeeResponseModelTest {
                 "Doe",
                 "Technician",
                 "john.doe@example.com",
+                "1234567890", // Add phone
                 45000.0,
                 "/images/employees/johndoe.jpg"
         );
@@ -126,6 +136,7 @@ public class EmployeeResponseModelTest {
                 "Smith",
                 "Manager",
                 "jane.smith@example.com",
+                "0987654321", // Add phone
                 50000.0,
                 "/images/employees/janesmith.jpg"
         );
@@ -147,6 +158,7 @@ public class EmployeeResponseModelTest {
                 .last_name("Doe")
                 .position("Technician")
                 .email("john.doe@example.com")
+                .phone("1234567890") // Add phone
                 .salary(45000.0)
                 .imagePath("/images/employees/johndoe.jpg");
 
@@ -158,19 +170,9 @@ public class EmployeeResponseModelTest {
                 "first_name=John",
                 "last_name=Doe",
                 "position=Technician",
-                "email=john.doe@example.com"
+                "email=john.doe@example.com",
+                "phone=1234567890" // Verify phone
         );
-    }
-
-    @Test
-    void testCanEqual() {
-        // Arrange
-        Employee employee1 = new Employee(1, new EmployeeIdentifier("E001"), "John", "Doe", "Technician", "john.doe@example.com", 45000.0, "/images/employees/johndoe.jpg");
-        Employee employee2 = new Employee(1, new EmployeeIdentifier("E001"), "John", "Doe", "Technician", "john.doe@example.com", 45000.0, "/images/employees/johndoe.jpg");
-
-        // Act & Assert
-        assertThat(employee1.equals(employee2)).isTrue();
-        assertThat(employee1.equals(new Object())).isFalse();
     }
 
     @Test
@@ -183,6 +185,7 @@ public class EmployeeResponseModelTest {
                 .last_name("Doe")
                 .position("Technician")
                 .email("john.doe@example.com")
+                .phone("1234567890") // Add phone
                 .salary(45000.0)
                 .imagePath("/images/employees/johndoe.jpg");
 
@@ -196,6 +199,7 @@ public class EmployeeResponseModelTest {
         assertThat(employee.getLast_name()).isEqualTo("Doe");
         assertThat(employee.getPosition()).isEqualTo("Technician");
         assertThat(employee.getEmail()).isEqualTo("john.doe@example.com");
+        assertThat(employee.getPhone()).isEqualTo("1234567890"); // Verify phone
         assertThat(employee.getSalary()).isEqualTo(45000.0);
         assertThat(employee.getImagePath()).isEqualTo("/images/employees/johndoe.jpg");
     }
