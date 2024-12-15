@@ -31,18 +31,18 @@ INSERT INTO galleries (gallery_id, description, image_url) VALUES
                                                                ('1126789a-9cda-4374-a040-a3d4dc6187b6', 'Janitorial Services', 'https://business.yelp.com/wp-content/uploads/2022/07/lp-ban-car-detailer-wiping-the-headlight-of-a-car.jpeg'),
                                                                ('685612e3-0414-42fc-8312-01b40d0dd764', 'Disinfection and Sanitization Services', 'https://business.yelp.com/wp-content/uploads/2022/07/lp-ban-car-detailer-wiping-the-headlight-of-a-car.jpeg');
 
-INSERT INTO employees (id, employee_id, first_name, last_name, position, email, salary, image_path)
+INSERT INTO employees (id, employee_id, first_name, last_name, position, email, phone, salary, image_path)
 VALUES
-    (1, 'e1f14c90-ec5e-4f82-a9b7-2548a7325b34', 'Jane', 'Smith', 'Manager', 'jane.smith@example.com', 75000.00,'profile.png'),
-    (2, 'e2f14c90-ec5e-4f82-a9b7-2548a7325b34', 'John', 'Doe', 'Technician', 'john.doe@example.com', 55000.00,'profile.png'),
-    (3, 'e3f14c90-ec5e-4f82-a9b7-2548a7325b34', 'Emily', 'Clark', 'Technician', 'emily.clark@example.com', 52000.00,'profile.png'),
-    (4, 'e4f14c90-ec5e-4f82-a9b7-2548a7325b34', 'Michael', 'Brown', 'Supervisor', 'michael.brown@example.com', 68000.00,'profile.png'),
-    (5, 'e5f14c90-ec5e-4f82-a9b7-2548a7325b34', 'Sarah', 'Davis', 'Technician', 'sarah.davis@example.com', 51000.00,'profile.png'),
-    (6, 'e6f14c90-ec5e-4f82-a9b7-2548a7325b34', 'David', 'Wilson', 'Customer Support', 'david.wilson@example.com', 48000.00,'profile.png'),
-    (7, 'e7f14c90-ec5e-4f82-a9b7-2548a7325b34', 'Sophia', 'Taylor', 'Technician', 'sophia.taylor@example.com', 53000.00,'profile.png'),
-    (8, 'e8f14c90-ec5e-4f82-a9b7-2548a7325b34', 'James', 'Moore', 'Technician', 'james.moore@example.com', 54000.00,'profile.png'),
-    (9, 'e9f14c90-ec5e-4f82-a9b7-2548a7325b34', 'Olivia', 'Anderson', 'Receptionist', 'olivia.anderson@example.com', 42000.00,'profile.png'),
-    (10, 'e0f14c90-ec5e-4f82-a9b7-2548a7325b34', 'Ethan', 'Jackson', 'Technician', 'ethan.jackson@example.com', 53000.00,'profile.png');
+    (1, 'e1f14c90-ec5e-4f82-a9b7-2548a7325b34', 'Jane', 'Smith', 'Manager', 'jane.smith@example.com', '438 333 9999',75000.00,'profile.png'),
+    (2, 'e2f14c90-ec5e-4f82-a9b7-2548a7325b34', 'John', 'Doe', 'Technician', 'john.doe@example.com', '438 333 9999',55000.00,'profile.png'),
+    (3, 'e3f14c90-ec5e-4f82-a9b7-2548a7325b34', 'Emily', 'Clark', 'Technician', 'emily.clark@example.com', '438 333 8888', 52000.00,'profile.png'),
+    (4, 'e4f14c90-ec5e-4f82-a9b7-2548a7325b34', 'Michael', 'Brown', 'Supervisor', 'michael.brown@example.com', '438 333 7777', 68000.00,'profile.png'),
+    (5, 'e5f14c90-ec5e-4f82-a9b7-2548a7325b34', 'Sarah', 'Davis', 'Technician', 'sarah.davis@example.com','438 333 6666', 51000.00,'profile.png'),
+    (6, 'e6f14c90-ec5e-4f82-a9b7-2548a7325b34', 'David', 'Wilson', 'Customer Support', 'david.wilson@example.com','438 333 5555', 48000.00,'profile.png'),
+    (7, 'e7f14c90-ec5e-4f82-a9b7-2548a7325b34', 'Sophia', 'Taylor', 'Technician', 'sophia.taylor@example.com','438 333 4444', 53000.00,'profile.png'),
+    (8, 'e8f14c90-ec5e-4f82-a9b7-2548a7325b34', 'James', 'Moore', 'Technician', 'james.moore@example.com', '438 333 3333',54000.00,'profile.png'),
+    (9, 'e9f14c90-ec5e-4f82-a9b7-2548a7325b34', 'Olivia', 'Anderson', 'Receptionist', 'olivia.anderson@example.com','438 333 2222', 42000.00,'profile.png'),
+    (10, 'e0f14c90-ec5e-4f82-a9b7-2548a7325b34', 'Ethan', 'Jackson', 'Technician', 'ethan.jackson@example.com', '438 333 1111',53000.00,'profile.png');
 
 INSERT INTO customers (customer_id, customer_first_name, customer_last_name, customer_email_address, street_address, city, postal_code, province, country)
 VALUES

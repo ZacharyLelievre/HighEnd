@@ -30,6 +30,8 @@ public class EmployeeControllerIntegrationTest {
 
     private RestTemplate restTemplate;
 
+    private Employee employee1;
+    private Employee employee2;
     @BeforeEach
     public void setUp() {
         restTemplate = new RestTemplate();
@@ -38,30 +40,35 @@ public class EmployeeControllerIntegrationTest {
 
     @BeforeEach
     public void initData() {
-        employeeRepository.saveAll(Arrays.asList(
-                Employee.builder()
-                        .id(null)
-                        .employeeIdentifier(new EmployeeIdentifier())
-                        .first_name("Jane")
-                        .last_name("Smith")
-                        .position("Manager")
-                        .email("jane.smith@example.com")
-                        .salary(75000.00)
-                        .imagePath("/images/employee1.jpg")
-                        .build(),
+        // Properly initialize employee1 and employee2 first
+        employee1 = Employee.builder()
+                .id(null)
+                .employeeIdentifier(new EmployeeIdentifier("e1f14c90-ec5e-4f82-a9b7-2548a7325b34"))
+                .first_name("Jane")
+                .last_name("Smith")
+                .position("Manager")
+                .email("jane.smith@example.com")
+                .phone("232323")
+                .salary(75000.00)
+                .imagePath("/images/employee1.jpg")
+                .build();
 
-                Employee.builder()
-                        .id(null)
-                        .employeeIdentifier(new EmployeeIdentifier())
-                        .first_name("John")
-                        .last_name("Doe")
-                        .position("Technician")
-                        .email("john.doe@example.com")
-                        .salary(55000.00)
-                        .imagePath("/images/employee2.jpg")
-                        .build()
-        ));
+        employee2 = Employee.builder()
+                .id(null)
+                .employeeIdentifier(new EmployeeIdentifier("e2f14c90-ec5e-4f82-a9b7-2548a7325b34"))
+                .first_name("John")
+                .last_name("Doe")
+                .position("Technician")
+                .email("john.doe@example.com")
+                .phone("2323232")
+                .salary(55000.00)
+                .imagePath("/images/employee2.jpg")
+                .build();
+
+        // Save employees to the repository
+        employeeRepository.saveAll(Arrays.asList(employee1, employee2));
     }
+
 
     @Test
     public void whenGetAllEmployees_thenReturnAllEmployees() {
@@ -73,4 +80,5 @@ public class EmployeeControllerIntegrationTest {
         assertNotNull(response.getBody());
         assertEquals(2, response.getBody().size());
     }
+
 }

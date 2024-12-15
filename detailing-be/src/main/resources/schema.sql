@@ -42,6 +42,7 @@ CREATE TABLE IF NOT EXISTS employees (
                                          last_name VARCHAR(50) NOT NULL,
                                          position VARCHAR(50) NOT NULL,
                                          email VARCHAR(100) NOT NULL UNIQUE,
+                                         phone VARCHAR(32) NOT NULL,
                                          salary DECIMAL(10, 2) NOT NULL,
                                          image_path VARCHAR(255)
 );
