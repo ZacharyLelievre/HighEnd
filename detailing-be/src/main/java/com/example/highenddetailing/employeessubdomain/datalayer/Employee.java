@@ -22,6 +22,7 @@ public class Employee {
     private String last_name;
     private String position;
     private String email;
+    private String phone;
     private double salary;
     private String imagePath;
 
