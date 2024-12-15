@@ -2,7 +2,7 @@ import test, { expect } from "@playwright/test";
 
 test('edit customer', async ({ page }) => {
   // Step 1: Go to the home page
-  await page.goto('http://localhost:3000/home');
+  await page.goto('http://localhost:3000');
 
   // Step 2: Click on the 'Dashboard' link
   await page.getByRole('link', { name: 'Dashboard' }).click();
