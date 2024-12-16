@@ -12,16 +12,16 @@ test('edit customer', async ({ page }) => {
   await page.waitForSelector('input[name="customerFirstName"]');
 
   // Step 4: Fill the 'First Name' input field
-  await page.locator('input[name="customerFirstName"]').fill('Jan Smith');
+  await page.locator('input[name="customerFirstName"]').fill('Jan');
 
   // Step 5: Click the 'Save Changes' button
   await page.getByRole('button', { name: 'Save Changes' }).click();
 
   // Step 6: Wait for the updated name to appear in the heading
-  await page.waitForSelector('h2:has-text("Jan Smith")');
+  await page.waitForSelector('h2:has-text("Jan Doe")');
 
   // Step 7: Assert the updated name is visible
-  const nameElement = await page.getByRole('heading', { name: 'Jan Smith' });
+  const nameElement = await page.getByRole('heading', { name: 'Jan Doe' });
   await expect(nameElement).toBeVisible();
 });
 
