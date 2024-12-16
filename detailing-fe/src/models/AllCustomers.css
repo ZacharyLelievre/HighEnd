@@ -74,6 +74,14 @@
     transform: translateY(-2px);
 }
 
+.no-customers-message {
+    text-align: center;
+    font-size: 1.2em;
+    color: #555;
+    margin-top: 20px;
+}
+
+
 /* Modal Overlay */
 .modal-overlay {
     position: fixed;

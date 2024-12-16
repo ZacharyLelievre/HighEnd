@@ -93,20 +93,24 @@ export default function AllCustomers(): JSX.Element {
         <div className="container">
             <ToastContainer />
             <div className="customers-container">
-                {customers.map(customer => (
-                    <div className="customer-box" key={customer.customerId}>
-                        <div className="customer-details">
-                            <h2 style={{ textAlign: "left" }}>
-                                {customer.customerFirstName} {customer.customerLastName}
-                            </h2>
-                            <p><strong>Email:</strong> {customer.customerEmailAddress}</p>
-                            <p><strong>Address:</strong> {customer.streetAddress}, {customer.city}, {customer.postalCode}, {customer.province}, {customer.country}</p>
-                            <button onClick={() => handleDeleteCustomer(customer.customerId)}>Delete</button>
-                            <button onClick={() => handleEditCustomer(customer)}>Edit</button>
-                        </div>
-                    </div>
-                ))}
+    {customers.length === 0 ? (
+        <p className="no-customers-message">No customers found.</p>
+    ) : (
+        customers.map(customer => (
+            <div className="customer-box" key={customer.customerId}>
+                <div className="customer-details">
+                    <h2 style={{ textAlign: "left" }}>
+                        {customer.customerFirstName} {customer.customerLastName}
+                    </h2>
+                    <p><strong>Email:</strong> {customer.customerEmailAddress}</p>
+                    <p><strong>Address:</strong> {customer.streetAddress}, {customer.city}, {customer.postalCode}, {customer.province}, {customer.country}</p>
+                    <button onClick={() => handleDeleteCustomer(customer.customerId)}>Delete</button>
+                    <button onClick={() => handleEditCustomer(customer)}>Edit</button>
+                </div>
             </div>
+        ))
+    )}
+</div>
 
             {isEditing && editingCustomer && (
                 <div className="modal-overlay">
