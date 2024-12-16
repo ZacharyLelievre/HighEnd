@@ -77,3 +77,41 @@ button:disabled {
     background-color: #ccc;
     cursor: not-allowed;
 }
+select {
+    width: 30%;
+    padding: 10px 15px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    background-color: #fff;
+    color: #333;
+    font-size: 14px;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    outline: none;
+}
+
+select:focus {
+    border-color: #007bff;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+}
+
+select option {
+    padding: 10px;
+    background-color: #fff;
+    color: #fff;
+}
+
+select:hover {
+    border-color: #007bff;
+}
+
+select:disabled {
+    background-color: #f9f9f9;
+    color: #ccc;
+    cursor: not-allowed;
+}
+
+label {
+    font-weight: bold;
+    margin-bottom: 8px;
+    display: block;
+}
