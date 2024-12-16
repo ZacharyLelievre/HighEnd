@@ -12,12 +12,16 @@ import java.util.Optional;
 
 
 @Service
-@RequiredArgsConstructor
 @Slf4j
 public class ServiceServiceImpl implements ServiceService {
 
     private final ServiceRepository serviceRepository;
     private final ServiceResponseMapper serviceResponseMapper;
+
+    public ServiceServiceImpl(ServiceRepository serviceRepository, ServiceResponseMapper serviceResponseMapper) {
+        this.serviceRepository = serviceRepository;
+        this.serviceResponseMapper = serviceResponseMapper;
+    }
 
     @Override
     public List<ServiceResponseModel> getAllServices(){
