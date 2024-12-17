@@ -2,6 +2,7 @@ package com.example.highenddetailing.employeesubdomain.presentationlayer;
 
 import com.example.highenddetailing.employeessubdomain.datalayer.Employee;
 import com.example.highenddetailing.employeessubdomain.datalayer.EmployeeIdentifier;
+import com.example.highenddetailing.employeessubdomain.presentationlayer.EmployeeRequestModel;
 import com.example.highenddetailing.employeessubdomain.presentationlayer.EmployeeResponseModel;
 import org.junit.jupiter.api.Test;
 
@@ -9,6 +10,25 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class EmployeeResponseModelTest {
+    @Test
+    void testEmployeeRequestModelBuilder() {
+        // Arrange
+        String employeeId = "EMP001";
+        String firstName = "John";
+
+        // Act
+        EmployeeRequestModel requestModel = EmployeeRequestModel.builder()
+                .employeeId(employeeId)
+                .first_name(firstName)
+                .build();
+
+        // Assert
+        assertEquals(requestModel.getEmployeeId(), employeeId);
+        assertEquals(requestModel.getFirst_name(), firstName);
+    }
+
+
+
 
     @Test
     void testBuilder() {
