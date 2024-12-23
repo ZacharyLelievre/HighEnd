@@ -12,10 +12,13 @@ import lombok.*;
 public class Customer {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     @Embedded
+    @AttributeOverrides({
+            @AttributeOverride(name = "customerId", column = @Column(name = "customer_id", unique = true, nullable = false))
+    })
     private CustomerIdentifier customerIdentifier;
     private String customerFirstName;
     private String customerLastName;

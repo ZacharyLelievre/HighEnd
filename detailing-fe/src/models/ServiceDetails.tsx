@@ -7,6 +7,7 @@ import "./ServiceDetails.css";
 export default function ServiceDetail(): JSX.Element {
     const { serviceId } = useParams<{ serviceId: string }>();
     const [service, setService] = useState<ServiceModel | null>(null);
+    const [isLoading, setIsLoading] = useState(true); // Local loading state
 
     useEffect(() => {
         const fetchService = async (): Promise<void> => {
@@ -15,14 +16,20 @@ export default function ServiceDetail(): JSX.Element {
                 setService(response.data);
             } catch (error) {
                 console.error("Error fetching service details:", error);
+            } finally {
+                setIsLoading(false);
             }
         };
 
         fetchService();
     }, [serviceId]);
 
-    if (!service) {
+    if (isLoading) {
         return <div>Loading...</div>;
+    }
+
+    if (!service) {
+        return <div>Service not found.</div>;
     }
 
     return (

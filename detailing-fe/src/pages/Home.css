@@ -1,0 +1,76 @@
+/* Black background and section container */
+.home-container {
+    background-color: black;
+    color: white;
+    min-height: 100vh;
+    font-family: Arial, sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+}
+
+.mission-vision-section, .vision-section {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    margin-top: 40px;
+}
+
+.image-container img {
+    width: 400px;
+    height: auto;
+    border-radius: 20px; /* Rounded corners for the image */
+}
+
+.text-container {
+    max-width: 500px;
+}
+
+.text-container h1 {
+    font-size: 2.5rem;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.text-container h2 {
+    font-size: 1.8rem;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.text-container p {
+    font-size: 1rem;
+    line-height: 1.6;
+    margin-top: 0;
+}
+
+.content {
+    margin-top: 30px;
+    text-align: center;
+}
+
+button {
+    background-color: white;
+    color: black;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: gray;
+}
+.access-token-box {
+    border: 1px solid #ccc;
+    padding: 10px;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+    word-wrap: break-word;
+    max-width: 100%;
+    overflow-x: auto;
+    white-space: pre-wrap;
+    margin: 10px 0;
+}

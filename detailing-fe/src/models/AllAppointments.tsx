@@ -3,6 +3,7 @@ import axios from "axios";
 import { AppointmentModel } from "./dtos/AppointmentModel";
 import { EmployeeModel } from "./dtos/EmployeeModel";
 import "./AllAppointments.css";
+import { useAuth0 } from "@auth0/auth0-react";
 
 export default function AllAppointments(): JSX.Element {
     const [appointments, setAppointments] = useState<AppointmentModel[]>([]);
@@ -11,10 +12,17 @@ export default function AllAppointments(): JSX.Element {
     const [loadingAppointments, setLoadingAppointments] = useState<boolean>(true);
     const [loadingEmployees, setLoadingEmployees] = useState<boolean>(true);
 
+    const { getAccessTokenSilently } = useAuth0();
+
     useEffect(() => {
         const fetchAppointments = async (): Promise<void> => {
             try {
-                const response = await axios.get("http://localhost:8080/api/appointments");
+                const token = await getAccessTokenSilently();
+                const response = await axios.get("http://localhost:8080/api/appointments", {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                });
                 setAppointments(response.data);
             } catch (error) {
                 console.error("Error fetching appointments:", error);
@@ -24,13 +32,17 @@ export default function AllAppointments(): JSX.Element {
         };
 
         fetchAppointments();
-    }, []);
+    }, [getAccessTokenSilently]);
 
-    // Fetch Employees
     useEffect(() => {
         const fetchEmployees = async (): Promise<void> => {
             try {
-                const response = await axios.get("http://localhost:8080/api/employees");
+                const token = await getAccessTokenSilently();
+                const response = await axios.get("http://localhost:8080/api/employees", {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                });
                 setEmployees(response.data);
             } catch (error) {
                 console.error("Error fetching employees:", error);
@@ -40,14 +52,21 @@ export default function AllAppointments(): JSX.Element {
         };
 
         fetchEmployees();
-    }, []);
+    }, [getAccessTokenSilently]);
 
     // Handle Confirm Appointment
     const handleConfirm = async (appointmentId: string): Promise<void> => {
         try {
-            const response = await axios.put(`http://localhost:8080/api/appointments/${appointmentId}/status`, {
-                status: "CONFIRMED"
-            });
+            const token = await getAccessTokenSilently();
+            const response = await axios.put(
+                `http://localhost:8080/api/appointments/${appointmentId}/status`,
+                { status: "CONFIRMED" },
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                }
+            );
             console.log("Appointment confirmed:", response.data);
 
             setAppointments(prevAppointments =>
@@ -63,7 +82,6 @@ export default function AllAppointments(): JSX.Element {
         }
     };
 
-    // Handle Assign Employee
     const handleAssignEmployee = async (appointmentId: string): Promise<void> => {
         const employeeId = selectedEmployee[appointmentId];
 
@@ -73,11 +91,17 @@ export default function AllAppointments(): JSX.Element {
         }
 
         try {
-            const response = await axios.put(`http://localhost:8080/api/appointments/${appointmentId}/assign`, {
-                employeeId: employeeId
-            });
+            const token = await getAccessTokenSilently();
+            const response = await axios.put(
+                `http://localhost:8080/api/appointments/${appointmentId}/assign`,
+                { employeeId: employeeId },
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                }
+            );
 
-            // Update the assigned employee in the appointments list
             setAppointments(prevAppointments =>
                 prevAppointments.map(appointment =>
                     appointment.appointmentId === appointmentId
@@ -93,7 +117,6 @@ export default function AllAppointments(): JSX.Element {
         }
     };
 
-    // Handle Employee Selection for Each Appointment
     const handleEmployeeChange = (appointmentId: string, employeeId: string): void => {
         setSelectedEmployee(prevSelectedEmployee => ({
             ...prevSelectedEmployee,

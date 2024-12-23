@@ -4,6 +4,7 @@ import com.example.highenddetailing.employeessubdomain.businesslayer.EmployeeSer
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -25,6 +26,7 @@ public class EmployeeController {
         return ResponseEntity.ok(employeeService.getAllEmployees());
     }
     @GetMapping(value = "/{employeeId}", produces = "application/json")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<EmployeeResponseModel> getEmployeeById(@PathVariable String employeeId) {
         return employeeService.getEmployeeById(employeeId)
                 .map(ResponseEntity::ok)
