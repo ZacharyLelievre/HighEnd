@@ -21,9 +21,9 @@ services:
     ports:
       - "3000:3000"
     deploy:
-      resources:
-        limits:
-          memory: 512M # Limit the container to 128 MB of RAM
+          resources:
+            limits:
+              memory: 512M # Limit the container to 128 MB of RAM
     volumes:
       - ./detailing-fe:/app
 
