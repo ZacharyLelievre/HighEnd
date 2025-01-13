@@ -20,6 +20,13 @@ services:
     build:
       context: ./detailing-fe
       dockerfile: Dockerfile
+      args:
+        REACT_APP_AUTH0_DOMAIN: ${AUTH0_DOMAIN}
+        REACT_APP_AUTH0_CLIENT_ID: ${AUTH0_CLIENT_ID}
+        REACT_APP_AUTH0_CLIENT_SECRET: ${AUTH0_CLIENT_SECRET}
+        REACT_APP_AUTH0_AUDIENCE: ${AUTH0_AUDIENCE}
+        REACT_APP_AUTH0_CALLBACK_URL: "http://localhost:3000"
+        REACT_APP_API_SERVER_URL: "http://localhost:3000"
     ports:
       - "3000:3000"
     volumes:

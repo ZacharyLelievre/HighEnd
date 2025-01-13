@@ -6,11 +6,12 @@ export enum AppRoutePath {
     DashboardPage = "/dashboard",
     AllEmployeesPage = "/employees",
     Callback = "/callback",
-    Onboarding = "/onboarding", // 🆕 Added Onboarding path
+    Onboarding = "/onboarding",
+    Profile = "/profile",
 
-    Unauthorized = '/unauthorized',
-    Forbidden = '/forbidden',
-    RequestTimeout = '/request-timeout',
-    InternalServerError = '/internal-server-error',
-    ServiceUnavailable = '/service-unavailable'
+    Unauthorized = "/unauthorized",
+    Forbidden = "/forbidden",
+    RequestTimeout = "/request-timeout",
+    InternalServerError = "/internal-server-error",
+    ServiceUnavailable = "/service-unavailable"
 }

@@ -6,44 +6,56 @@ import { useAuth0 } from "@auth0/auth0-react";
 import "./NavBar.css";
 
 export function NavBar(): JSX.Element {
-    const { loginWithRedirect, logout, user, isAuthenticated, isLoading, getAccessTokenSilently } = useAuth0();
+    const {
+        loginWithRedirect,
+        logout,
+        user,
+        isAuthenticated,
+        isLoading,
+        getAccessTokenSilently
+    } = useAuth0();
+
     const [isAdmin, setIsAdmin] = useState(false);
-    const navigate = useNavigate(); // Used for redirection
+    const navigate = useNavigate();
 
     useEffect(() => {
-        if (!isAuthenticated) return; // Ensure the user is authenticated before running the effect
+        if (!isAuthenticated) return;
 
         const checkIfUserExists = async () => {
             try {
                 const accessToken = await getAccessTokenSilently();
-                const response = await fetch('/api/customers/me', {
+                const response = await fetch("/api/customers/me", {
                     headers: {
-                        Authorization: `Bearer ${accessToken}`
-                    }
+                        Authorization: `Bearer ${accessToken}`,
+                    },
                 });
 
+                // If the customer is not found, 404 => redirect them to /onboarding
                 if (response.status === 404) {
-                    console.log('User does not exist, redirecting to /onboarding');
-                    navigate(AppRoutePath.Onboarding); // Update to use the AppRoutePath instead of hardcoding the path
+                    console.log("User does not exist, redirecting to /onboarding");
+                    navigate(AppRoutePath.Onboarding);
                 } else {
                     const data = await response.json();
-                    console.log('Customer Data:', data);
+                    console.log("Customer Data:", data);
                 }
             } catch (error) {
-                console.error('Error checking user existence:', error);
+                console.error("Error checking user existence:", error);
             }
         };
 
         const checkIfUserIsAdmin = async () => {
             try {
                 const accessToken = await getAccessTokenSilently();
-                const base64Url = accessToken.split('.')[1];
+                const base64Url = accessToken.split(".")[1];
                 const decodedPayload = atob(base64Url);
                 const tokenData = JSON.parse(decodedPayload);
-                const roles = tokenData['https://highenddetailing/roles'] || tokenData.roles || [];
-                setIsAdmin(roles.includes('ADMIN'));
+                const roles =
+                    tokenData["https://highenddetailing/roles"] ||
+                    tokenData.roles ||
+                    [];
+                setIsAdmin(roles.includes("ADMIN"));
             } catch (error) {
-                console.error('Error fetching access token or roles:', error);
+                console.error("Error fetching access token or roles:", error);
             }
         };
 
@@ -56,7 +68,7 @@ export function NavBar(): JSX.Element {
     };
 
     const handleRegister = () => {
-        navigate(AppRoutePath.Onboarding); // Redirect to the onboarding page
+        navigate(AppRoutePath.Onboarding);
     };
 
     const handleLogout = () => {
@@ -86,25 +98,57 @@ export function NavBar(): JSX.Element {
 
                 <Navbar.Collapse id="basic-navbar-nav">
                     <Nav className="ms-auto">
-                        <Nav.Link as={Link} to={AppRoutePath.Home} className="text-white nav-item-spacing">
+                        <Nav.Link
+                            as={Link}
+                            to={AppRoutePath.Home}
+                            className="text-white nav-item-spacing"
+                        >
                             Home
                         </Nav.Link>
-                        <Nav.Link as={Link} to={AppRoutePath.AllServicesPage} className="text-white nav-item-spacing">
+                        <Nav.Link
+                            as={Link}
+                            to={AppRoutePath.AllServicesPage}
+                            className="text-white nav-item-spacing"
+                        >
                             Services
                         </Nav.Link>
-                        <Nav.Link as={Link} to={AppRoutePath.AllGalleriesPage} className="text-white nav-item-spacing">
+                        <Nav.Link
+                            as={Link}
+                            to={AppRoutePath.AllGalleriesPage}
+                            className="text-white nav-item-spacing"
+                        >
                             Gallery
                         </Nav.Link>
 
+                        {/* If user is admin, show Dashboard */}
                         {isAuthenticated && isAdmin && (
-                            <Nav.Link as={Link} to={AppRoutePath.DashboardPage} className="text-white nav-item-spacing">
+                            <Nav.Link
+                                as={Link}
+                                to={AppRoutePath.DashboardPage}
+                                className="text-white nav-item-spacing"
+                            >
                                 Dashboard
+                            </Nav.Link>
+                        )}
+
+                        {/* If user is authenticated and NOT admin, show "Profile" */}
+                        {isAuthenticated && !isAdmin && (
+                            <Nav.Link
+                                as={Link}
+                                to={AppRoutePath.Profile}
+                                className="text-white nav-item-spacing"
+                            >
+                                Profile
                             </Nav.Link>
                         )}
 
                         {isLoading ? (
                             <div className="loading-container">
-                                <Spinner className="spinner-grow" animation="grow" variant="primary" />
+                                <Spinner
+                                    className="spinner-grow"
+                                    animation="grow"
+                                    variant="primary"
+                                />
                             </div>
                         ) : isAuthenticated && user ? (
                             <NavDropdown
@@ -126,10 +170,18 @@ export function NavBar(): JSX.Element {
                             </NavDropdown>
                         ) : (
                             <>
-                                <Button onClick={handleLogin} variant="outline-light" className="btn-signin">
+                                <Button
+                                    onClick={handleLogin}
+                                    variant="outline-light"
+                                    className="btn-signin"
+                                >
                                     Login
                                 </Button>
-                                <Button onClick={handleRegister} variant="outline-light" className="btn-signin">
+                                <Button
+                                    onClick={handleRegister}
+                                    variant="outline-light"
+                                    className="btn-signin"
+                                >
                                     Register
                                 </Button>
                             </>

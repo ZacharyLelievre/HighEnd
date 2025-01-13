@@ -7,13 +7,15 @@ import ServiceDetailPage from "../pages/ServiceDetailsPage";
 import AllGalleriesPage from "../pages/AllGalleriesPage";
 import DashboardPage from "../pages/DashhoardPage";
 import EmployeeDetails from "../models/EmployeeDetails";
-import {OnboardingForm} from "../pages/OnboardingForm";
+import { OnboardingForm } from "../pages/OnboardingForm";
+import {ProfilePage} from "../pages/ProfilePage";
+// Import the ProfilePage
 
 const router = createBrowserRouter([
     {
         children: [
             {
-                path: AppRoutePath.Onboarding, // 🆕 New route for onboarding
+                path: AppRoutePath.Onboarding,
                 element: <OnboardingForm />
             },
             {
@@ -43,6 +45,10 @@ const router = createBrowserRouter([
             {
                 path: "/employees/:employeeId",
                 element: <EmployeeDetails />
+            },
+            {
+                path: AppRoutePath.Profile,
+                element: <ProfilePage />
             }
         ]
     }
