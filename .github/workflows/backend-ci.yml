@@ -15,7 +15,8 @@ jobs:
           java-version: '17'
           distribution: 'adopt'
       - name: Make Gradlew Executable
-        working-directory: ./detailing-be
-        run: chmod +x ./gradlew
+        working-directory: .
+        run: chmod +x gradlew
       - name: Run Gradle Tests
-        run: ./gradlew clean test
+        working-directory: ./detailing-be
+        run: ../gradlew clean test
