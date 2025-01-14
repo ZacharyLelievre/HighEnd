@@ -131,8 +131,8 @@ export function NavBar(): JSX.Element {
                             </Nav.Link>
                         )}
 
-                        {/* If user is authenticated and NOT admin, show "Profile" */}
-                        {isAuthenticated && !isAdmin && (
+
+                        {isAuthenticated && (
                             <Nav.Link
                                 as={Link}
                                 to={AppRoutePath.Profile}
