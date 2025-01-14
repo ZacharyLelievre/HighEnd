@@ -20,3 +20,5 @@ jobs:
       - name: Run Gradle Tests
         working-directory: ./detailing-be
         run: ../gradlew clean test
+      - name: Debug Gradle Wrapper
+        run: ls -l detailing-be/gradle/wrapper
