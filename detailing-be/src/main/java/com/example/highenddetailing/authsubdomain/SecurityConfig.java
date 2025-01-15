@@ -46,10 +46,10 @@ public class SecurityConfig {
                         .requestMatchers("/api/appointments").hasRole("ADMIN")
                         .requestMatchers("/api/customers/**").permitAll()
                         .requestMatchers("/api/services/**").permitAll()
-                        .requestMatchers("/api/employees").permitAll()
-                        .requestMatchers("/api/galleries").permitAll()
+                        .requestMatchers("/api/employees/**").permitAll()
+                        .requestMatchers("/api/galleries/**").permitAll()
                         //added more here below this comment
-                        .requestMatchers("/api/customers").permitAll() // Allow customer POST requests
+                        .requestMatchers("/api/customers/**").permitAll() // Allow customer POST requests
                         .requestMatchers("/api/customers/me").authenticated() // Secure /me endpoint
                         .anyRequest().authenticated()
                 )

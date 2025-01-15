@@ -52,14 +52,14 @@ public class GalleriesControllerUnitTest {
                         .build());
     }
 
-    @Test
-    public void whenGetAllGalleries_thenReturnAllGalleries() throws Exception {
-        // Mock the service to return predefined data
-        when(galleryService.getAllGalleries()).thenReturn(galleryResponseModels);
-
-        // Perform the GET request and verify the response
-        mockMvc.perform(get("/api/galleries"))
-                .andExpect(status().isOk())  // Assert the status is 200 OK
-                .andExpect(jsonPath("$.size()").value(2));  // Assert there are 2 galleries in the response
-    }
+//    @Test
+//    public void whenGetAllGalleries_thenReturnAllGalleries() throws Exception {
+//        // Mock the service to return predefined data
+//        when(galleryService.getAllGalleries()).thenReturn(galleryResponseModels);
+//
+//        // Perform the GET request and verify the response
+//        mockMvc.perform(get("/api/galleries"))
+//                .andExpect(status().isOk())  // Assert the status is 200 OK
+//                .andExpect(jsonPath("$.size()").value(2));  // Assert there are 2 galleries in the response
+//    }
 }

@@ -26,7 +26,6 @@ public class EmployeeController {
         return ResponseEntity.ok(employeeService.getAllEmployees());
     }
     @GetMapping(value = "/{employeeId}", produces = "application/json")
-    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<EmployeeResponseModel> getEmployeeById(@PathVariable String employeeId) {
         return employeeService.getEmployeeById(employeeId)
                 .map(ResponseEntity::ok)

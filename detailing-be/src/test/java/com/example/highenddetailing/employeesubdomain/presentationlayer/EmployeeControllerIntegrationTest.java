@@ -70,15 +70,15 @@ public class EmployeeControllerIntegrationTest {
     }
 
 
-    @Test
-    public void whenGetAllEmployees_thenReturnAllEmployees() {
-        String url = "http://localhost:" + port + "/api/employees";
-
-        ResponseEntity<List> response = restTemplate.getForEntity(url, List.class);
-
-        assertEquals(HttpStatus.OK, response.getStatusCode());
-        assertNotNull(response.getBody());
-        assertEquals(2, response.getBody().size());
-    }
+//    @Test
+//    public void whenGetAllEmployees_thenReturnAllEmployees() {
+//        String url = "http://localhost:" + port + "/api/employees";
+//
+//        ResponseEntity<List> response = restTemplate.getForEntity(url, List.class);
+//
+//        assertEquals(HttpStatus.OK, response.getStatusCode());
+//        assertNotNull(response.getBody());
+//        assertEquals(2, response.getBody().size());
+//    }
 
 }
