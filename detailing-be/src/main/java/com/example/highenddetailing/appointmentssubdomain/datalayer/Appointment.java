@@ -19,7 +19,7 @@ import java.time.LocalTime;
 @Builder
 public class Appointment {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     @Embedded
@@ -36,6 +36,7 @@ public class Appointment {
 
     private LocalDate appointmentDate;
     private LocalTime appointmentTime;
+    private LocalTime appointmentEndTime;
     @Enumerated(EnumType.STRING)
     private Status status;
     private String imagePath;
@@ -45,6 +46,7 @@ public class Appointment {
                        String employeeId, String employeeName,
                        String serviceId, String serviceName, // Added serviceId and serviceName
                        String appointmentDate, String appointmentTime,
+                       String appointmentEndTime,
                        Status status, String imagePath) {
         this.id = id;
         this.appointmentIdentifier = new AppointmentIdentifier();
@@ -56,6 +58,7 @@ public class Appointment {
         this.employeeName = employeeName;
         this.appointmentDate = LocalDate.parse(appointmentDate);
         this.appointmentTime = LocalTime.parse(appointmentTime);
+        this.appointmentEndTime = LocalTime.parse(appointmentEndTime);
         this.status = status;
         this.imagePath = imagePath;
     }

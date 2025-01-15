@@ -29,6 +29,7 @@ public class CustomerController {
         return ResponseEntity.ok().body(customerService.updateCustomer(customerRequestModel, customerId));
     }
 
+
     @DeleteMapping("/{customerId}")
     public ResponseEntity<Void> deleteCustomer(@PathVariable String customerId){
         customerService.deleteCustomer(customerId);

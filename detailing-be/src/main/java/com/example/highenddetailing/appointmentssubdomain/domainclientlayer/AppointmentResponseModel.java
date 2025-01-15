@@ -14,12 +14,13 @@ public class AppointmentResponseModel {
     private String appointmentId;
     private String appointmentDate;
     private String appointmentTime;
+    private String appointmentEndTime;
     private String serviceId;
-    private String serviceName; // New field
+    private String serviceName;
     private String customerId;
-    private String customerName; // New field
+    private String customerName;
     private String employeeId;
-    private String employeeName; // New field
+    private String employeeName;
     private Status status;
     private String imagePath;
 }

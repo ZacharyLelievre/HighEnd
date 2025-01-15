@@ -13,6 +13,7 @@ public interface AppointmentResponseMapper {
     @Mapping(expression = "java(appointment.getAppointmentIdentifier().getAppointmentId())", target = "appointmentId")
     @Mapping(expression = "java(appointment.getAppointmentDate().toString())", target = "appointmentDate")
     @Mapping(expression = "java(appointment.getAppointmentTime().toString())", target = "appointmentTime")
+    @Mapping(expression = "java(appointment.getAppointmentEndTime().toString())", target = "appointmentEndTime")
     @Mapping(expression = "java(appointment.getServiceId())", target = "serviceId")
     @Mapping(expression = "java(appointment.getServiceName())", target = "serviceName")
     @Mapping(expression = "java(appointment.getCustomerId())", target = "customerId")
