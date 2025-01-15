@@ -35,6 +35,8 @@ services:
               memory: 512M # Limit the container to 128 MB of RAM
     volumes:
       - ./detailing-fe:/app
+      - /app/node_modules # Avoid overwriting node_modules
+      - /app/build
 
   mysql1:
     image: mysql:8.0
