@@ -46,7 +46,7 @@ VALUES
 
 INSERT INTO customers (customer_id, customer_first_name, customer_last_name, customer_email_address, street_address, city, postal_code, province, country)
 VALUES
-    ('f3bce765-1a64-4a2f-8fa7-b083e77dfe72', 'John', 'Doe', 'john.doe@example.com', '123 Main St', 'Toronto', 'M5A 1A1', 'Ontario', 'Canada'),
+    ('auth0|6733c3d5b4ef3c052b0dd6f6', 'John', 'Doe', 'john.doe@example.com', '123 Main St', 'Toronto', 'M5A 1A1', 'Ontario', 'Canada'),
     ('d50f6f2d-cb85-428d-89e4-3f29db9db987', 'Jane', 'Smith', 'jane.smith@example.com', '456 Elm St', 'Vancouver', 'V6B 2B3', 'British Columbia', 'Canada'),
     ('c1b2ad74-3f57-4d52-8d25-767de1d4bb19', 'Alice', 'Johnson', 'alice.johnson@example.com', '789 Oak St', 'Montreal', 'H3A 1A4', 'Quebec', 'Canada'),
     ('f72c6438-b8bb-4328-8de8-f4a6dcb33742', 'Bob', 'Brown', 'bob.brown@example.com', '101 Pine St', 'Calgary', 'T2P 2N3', 'Alberta', 'Canada'),

@@ -9,6 +9,7 @@ const createAxiosInstance = (): AxiosInstance => {
     headers: {
       'Content-Type': 'application/json',
     },
+    withCredentials: true,
   });
 
   // response interceptor to handle errors globally

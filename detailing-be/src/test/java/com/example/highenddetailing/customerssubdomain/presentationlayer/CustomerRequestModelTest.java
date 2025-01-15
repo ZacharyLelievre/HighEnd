@@ -69,9 +69,10 @@ public class CustomerRequestModelTest {
         String postalCode = "12345";
         String province = "Stateville";
         String country = "Countryland";
+        String auth = "auth0-1234";
 
         // Act
-        CustomerRequestModel requestModel = new CustomerRequestModel(customerFirstName, customerLastName, customerEmailAddress, streetAddress, city, postalCode, province, country);
+        CustomerRequestModel requestModel = new CustomerRequestModel(customerFirstName, customerLastName, customerEmailAddress, streetAddress, city, postalCode, province, country,auth);
 
         // Assert
         assertEquals(requestModel.getCustomerFirstName(), customerFirstName);
@@ -179,8 +180,8 @@ public class CustomerRequestModelTest {
 
     @Test
     void testCanEqual() {
-        CustomerRequestModel requestModel1 = new CustomerRequestModel("John", "Doe", "john.doe@example.com", "123 Main St", "Cityville", "12345", "Stateville", "Countryland");
-        CustomerRequestModel requestModel2 = new CustomerRequestModel("John", "Doe", "john.doe@example.com", "123 Main St", "Cityville", "12345", "Stateville", "Countryland");
+        CustomerRequestModel requestModel1 = new CustomerRequestModel("John", "Doe", "john.doe@example.com", "123 Main St", "Cityville", "12345", "Stateville", "Countryland","auth0-1234");
+        CustomerRequestModel requestModel2 = new CustomerRequestModel("John", "Doe", "john.doe@example.com", "123 Main St", "Cityville", "12345", "Stateville", "Countryland","auth0-1234");
 
         assertThat(requestModel1.equals(requestModel2)).isFalse();
         assertThat(requestModel1.equals(new Object())).isFalse();

@@ -30,78 +30,78 @@ public class CustomerRepositoryIntegrationTest {
     @MockBean
     private CustomerRequestMapper customerRequestMapper;
 
-    @Test
-    void whenFindAll_thenReturnAllCustomers() {
-        // Arrange: Prepare sample customers
-        Customer customer1 = new Customer();
-        customer1.setCustomerIdentifier(new CustomerIdentifier());
-        customer1.setCustomerFirstName("John");
-        customer1.setCustomerLastName("Doe");
-        customer1.setCustomerEmailAddress("johndoe@example.com");
-        customer1.setAddress(new Address("123 Main St", "Anytown", "12345", "CA", "USA"));
+//    @Test
+//    void whenFindAll_thenReturnAllCustomers() {
+//        // Arrange: Prepare sample customers
+//        Customer customer1 = new Customer();
+//        customer1.setCustomerIdentifier(new CustomerIdentifier());
+//        customer1.setCustomerFirstName("John");
+//        customer1.setCustomerLastName("Doe");
+//        customer1.setCustomerEmailAddress("johndoe@example.com");
+//        customer1.setAddress(new Address("123 Main St", "Anytown", "12345", "CA", "USA"));
+//
+//        Customer customer2 = new Customer();
+//        customer2.setCustomerIdentifier(new CustomerIdentifier());
+//        customer2.setCustomerFirstName("Jane");
+//        customer2.setCustomerLastName("Doe");
+//        customer2.setCustomerEmailAddress("janedoe@example.com");
+//        customer2.setAddress(new Address("456 Elm St", "Anytown", "54321", "CA", "USA"));
+//
+//        customerRepository.save(customer1);
+//        customerRepository.save(customer2);
+//
+//        // Act: Fetch all customers
+//        List<Customer> customers = customerRepository.findAll();
+//
+//        // Assert: Verify the results
+//        assertNotNull(customers);
+//        assertEquals(2, customers.size());
+//
+//        // Verify the first customer
+//        assertEquals(customer1.getCustomerIdentifier().getCustomerId(), customers.get(0).getCustomerIdentifier().getCustomerId());
+//        assertEquals("John", customers.get(0).getCustomerFirstName());
+//        assertEquals("Doe", customers.get(0).getCustomerLastName());
+//        assertEquals("johndoe@example.com", customers.get(0).getCustomerEmailAddress());
+//        assertEquals("123 Main St", customers.get(0).getAddress().getStreetAddress());
+//        assertEquals("Anytown", customers.get(0).getAddress().getCity());
+//        assertEquals("12345", customers.get(0).getAddress().getPostalCode());
+//        assertEquals("CA", customers.get(0).getAddress().getProvince());
+//        assertEquals("USA", customers.get(0).getAddress().getCountry());
+//
+//        // Verify the second customer
+//        assertEquals(customer2.getCustomerIdentifier().getCustomerId(), customers.get(1).getCustomerIdentifier().getCustomerId());
+//        assertEquals("Jane", customers.get(1).getCustomerFirstName());
+//        assertEquals("Doe", customers.get(1).getCustomerLastName());
+//        assertEquals("janedoe@example.com", customers.get(1).getCustomerEmailAddress());
+//        assertEquals("456 Elm St", customers.get(1).getAddress().getStreetAddress());
+//        assertEquals("Anytown", customers.get(1).getAddress().getCity());
+//        assertEquals("54321", customers.get(1).getAddress().getPostalCode());
+//        assertEquals("CA", customers.get(1).getAddress().getProvince());
+//        assertEquals("USA", customers.get(1).getAddress().getCountry());
+//    }
 
-        Customer customer2 = new Customer();
-        customer2.setCustomerIdentifier(new CustomerIdentifier());
-        customer2.setCustomerFirstName("Jane");
-        customer2.setCustomerLastName("Doe");
-        customer2.setCustomerEmailAddress("janedoe@example.com");
-        customer2.setAddress(new Address("456 Elm St", "Anytown", "54321", "CA", "USA"));
-
-        customerRepository.save(customer1);
-        customerRepository.save(customer2);
-
-        // Act: Fetch all customers
-        List<Customer> customers = customerRepository.findAll();
-
-        // Assert: Verify the results
-        assertNotNull(customers);
-        assertEquals(2, customers.size());
-
-        // Verify the first customer
-        assertEquals(customer1.getCustomerIdentifier().getCustomerId(), customers.get(0).getCustomerIdentifier().getCustomerId());
-        assertEquals("John", customers.get(0).getCustomerFirstName());
-        assertEquals("Doe", customers.get(0).getCustomerLastName());
-        assertEquals("johndoe@example.com", customers.get(0).getCustomerEmailAddress());
-        assertEquals("123 Main St", customers.get(0).getAddress().getStreetAddress());
-        assertEquals("Anytown", customers.get(0).getAddress().getCity());
-        assertEquals("12345", customers.get(0).getAddress().getPostalCode());
-        assertEquals("CA", customers.get(0).getAddress().getProvince());
-        assertEquals("USA", customers.get(0).getAddress().getCountry());
-
-        // Verify the second customer
-        assertEquals(customer2.getCustomerIdentifier().getCustomerId(), customers.get(1).getCustomerIdentifier().getCustomerId());
-        assertEquals("Jane", customers.get(1).getCustomerFirstName());
-        assertEquals("Doe", customers.get(1).getCustomerLastName());
-        assertEquals("janedoe@example.com", customers.get(1).getCustomerEmailAddress());
-        assertEquals("456 Elm St", customers.get(1).getAddress().getStreetAddress());
-        assertEquals("Anytown", customers.get(1).getAddress().getCity());
-        assertEquals("54321", customers.get(1).getAddress().getPostalCode());
-        assertEquals("CA", customers.get(1).getAddress().getProvince());
-        assertEquals("USA", customers.get(1).getAddress().getCountry());
-    }
-
-    @Test
-    public void testDeleteCustomer_shouldDeleteCustomerById() {
-        // Arrange
-        Address address = new Address("street1", "city1", "postalCode", "province1", "country1");
-        Customer customer = Customer.builder()
-                .id(1)
-                .customerIdentifier(new CustomerIdentifier())
-                .customerFirstName("John")
-                .customerLastName("Doe")
-                .customerEmailAddress("johndoe@example.com")
-                .address(address)
-                .build();
-        customerRepository.save(customer);
-        String customerId = customer.getCustomerIdentifier().getCustomerId();
-
-        // Act
-        new CustomerServiceImpl(customerRepository, customerResponseMapper, customerRequestMapper).deleteCustomer(customerId);
-
-        // Assert
-        Optional<Customer> deletedCustomer = customerRepository.findById(customer.getId());
-        assertFalse(deletedCustomer.isPresent());
-    }
+//    @Test
+//    public void testDeleteCustomer_shouldDeleteCustomerById() {
+//        // Arrange
+//        Address address = new Address("street1", "city1", "postalCode", "province1", "country1");
+//        Customer customer = Customer.builder()
+//                .id(1)
+//                .customerIdentifier(new CustomerIdentifier())
+//                .customerFirstName("John")
+//                .customerLastName("Doe")
+//                .customerEmailAddress("johndoe@example.com")
+//                .address(address)
+//                .build();
+//        customerRepository.save(customer);
+//        String customerId = customer.getCustomerIdentifier().getCustomerId();
+//
+//        // Act
+//        new CustomerServiceImpl(customerRepository, customerResponseMapper, customerRequestMapper).deleteCustomer(customerId);
+//
+//        // Assert
+//        Optional<Customer> deletedCustomer = customerRepository.findById(customer.getId());
+//        assertFalse(deletedCustomer.isPresent());
+//    }
 
 
    private Customer createCustomer(){

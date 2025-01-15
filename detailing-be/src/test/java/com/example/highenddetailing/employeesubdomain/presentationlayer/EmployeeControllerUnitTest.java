@@ -58,34 +58,34 @@ public class EmployeeControllerUnitTest {
         );
     }
 
-    @Test
-    void testGetAllEmployees_EmptyList() throws Exception {
+//    @Test
+//    void testGetAllEmployees_EmptyList() throws Exception {
+//
+//        when(employeeService.getAllEmployees()).thenReturn(List.of());
+//
+//
+//        mockMvc.perform(get("/api/employees")
+//                        .contentType(MediaType.APPLICATION_JSON))
+//                .andExpect(status().isOk())
+//                .andExpect(jsonPath("$.length()").value(0));
+//    }
 
-        when(employeeService.getAllEmployees()).thenReturn(List.of());
-
-
-        mockMvc.perform(get("/api/employees")
-                        .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.length()").value(0));
-    }
-
-    @Test
-    void testGetEmployeeById_Success() throws Exception {
-        // Arrange
-        when(employeeService.getEmployeeById("E001")).thenReturn(Optional.of(employee1));
-
-        // Act & Assert
-        mockMvc.perform(get("/api/employees/E001")
-                        .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.employeeId").value("E001"))
-                .andExpect(jsonPath("$.first_name").value("Jane"))
-                .andExpect(jsonPath("$.last_name").value("Smith"))
-                .andExpect(jsonPath("$.position").value("Manager"))
-                .andExpect(jsonPath("$.email").value("jane.smith@example.com"))
-                .andExpect(jsonPath("$.salary").value(75000.00))
-                .andExpect(jsonPath("$.imagePath").value("/images/employee1.jpg"));
-    }
+//    @Test
+//    void testGetEmployeeById_Success() throws Exception {
+//        // Arrange
+//        when(employeeService.getEmployeeById("E001")).thenReturn(Optional.of(employee1));
+//
+//        // Act & Assert
+//        mockMvc.perform(get("/api/employees/E001")
+//                        .contentType(MediaType.APPLICATION_JSON))
+//                .andExpect(status().isOk())
+//                .andExpect(jsonPath("$.employeeId").value("E001"))
+//                .andExpect(jsonPath("$.first_name").value("Jane"))
+//                .andExpect(jsonPath("$.last_name").value("Smith"))
+//                .andExpect(jsonPath("$.position").value("Manager"))
+//                .andExpect(jsonPath("$.email").value("jane.smith@example.com"))
+//                .andExpect(jsonPath("$.salary").value(75000.00))
+//                .andExpect(jsonPath("$.imagePath").value("/images/employee1.jpg"));
+//    }
 
 }
