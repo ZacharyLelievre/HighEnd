@@ -4,26 +4,21 @@ import com.example.highenddetailing.appointmentssubdomain.datalayer.Appointment;
 import com.example.highenddetailing.appointmentssubdomain.datalayer.AppointmentIdentifier;
 import com.example.highenddetailing.appointmentssubdomain.datalayer.AppointmentRepository;
 import com.example.highenddetailing.appointmentssubdomain.datalayer.Status;
-import com.example.highenddetailing.config.TestSecurityConfig;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.context.annotation.Import;
-import org.springframework.http.*;
 import org.springframework.web.client.RestTemplate;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.Arrays;
-import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-@Import(TestSecurityConfig.class)
 public class AppointmentControllerIntegrationTest {
 
     @LocalServerPort
