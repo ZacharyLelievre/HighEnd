@@ -26,16 +26,20 @@ spring:
       platform: mysql
       mode: always
 
-  phpmyadmin:
-    image: phpmyadmin:5.2.0
-    container_name: PhpMyAdmin
-    links:
-      - mysql1
-    restart: always
-    ports:
-      - 5013:80
-    environment:
-      - PMA_ARBITRARY=1
+auth0:
+  domain: ${AUTH0_DOMAIN}
+  clientId: ${AUTH0_CLIENT_ID}
+  clientSecret: ${AUTH0_CLIENT_SECRET}
+  audience: ${AUTH0_AUDIENCE}
+  issuer: https://${AUTH0_DOMAIN}/
+
+okta:
+  oauth2:
+    issuer: https://${AUTH0_DOMAIN}/
+    audience: ${AUTH0_AUDIENCE}
+
+server:
+  port: 8080
 
 ---
 
@@ -51,7 +55,7 @@ spring:
   jpa:
     database-platform: org.hibernate.dialect.H2Dialect
     hibernate:
-      ddl-auto: create-drop
+      ddl-auto: update
     show-sql: true
   h2:
     console:
@@ -60,24 +64,3 @@ spring:
   web:
     resources:
       static-locations: classpath:/custom/, classpath:/static/
-
-  #  datasource:
-  #    url: jdbc:h2:mem:testdb
-  #    driver-class-name: org.h2.Driver
-  #    username: sa
-  #    password:
-  #  jpa:
-  #    hibernate:
-  #      ddl-auto: update
-  #    show-sql: true
-  #    database-platform: org.hibernate.dialect.H2Dialect
-  auth0:
-    audience: https://highenddetailing/api
-
-  security:
-    oauth2:
-      resourceserver:
-        jwt:
-          issuer-uri: https://dev-vmtwqb6p6lr3if0d.us.auth0.com/
-server:
-  port: 8080

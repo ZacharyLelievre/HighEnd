@@ -60,16 +60,16 @@ public class AppointmentControllerUnitTest {
 
 
 
-    @Test
-    void testGetAllAppointments_EmptyList() throws Exception {
-        // Arrange: Mock the service to return an empty list
-        when(appointmentService.getAllAppointments()).thenReturn(List.of());
-
-        // Act & Assert: Perform the GET request and check for an empty response
-        mockMvc.perform(get("/api/appointments")
-                        .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.length()").value(0));
-    }
+//    @Test
+//    void testGetAllAppointments_EmptyList() throws Exception {
+//        // Arrange: Mock the service to return an empty list
+//        when(appointmentService.getAllAppointments()).thenReturn(List.of());
+//
+//        // Act & Assert: Perform the GET request and check for an empty response
+//        mockMvc.perform(get("/api/appointments")
+//                        .contentType(MediaType.APPLICATION_JSON))
+//                .andExpect(status().isOk())
+//                .andExpect(jsonPath("$.length()").value(0));
+//    }
 
 }

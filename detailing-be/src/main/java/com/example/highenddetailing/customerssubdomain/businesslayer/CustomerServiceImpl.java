@@ -3,6 +3,7 @@ package com.example.highenddetailing.customerssubdomain.businesslayer;
 
 import com.example.highenddetailing.customerssubdomain.datalayer.Address;
 import com.example.highenddetailing.customerssubdomain.datalayer.Customer;
+import com.example.highenddetailing.customerssubdomain.datalayer.CustomerIdentifier;
 import com.example.highenddetailing.customerssubdomain.datalayer.CustomerRepository;
 import com.example.highenddetailing.customerssubdomain.mapperlayer.CustomerRequestMapper;
 import com.example.highenddetailing.customerssubdomain.mapperlayer.CustomerResponseMapper;
@@ -55,6 +56,45 @@ public class CustomerServiceImpl implements CustomerService {
         Customer response  = customerRepository.save(updatedCustomer);
         return customerResponseMapper.entityToResponseModel(response);
 
+    }
+    @Override
+    public CustomerResponseModel getCustomerById(String auth0UserId) {
+        Customer customer = customerRepository.findByCustomerIdentifier_CustomerId(auth0UserId);
+        if (customer != null) {
+            return customerResponseMapper.entityToResponseModel(customer);
+        } else {
+            return null;
+        }
+    }
+
+    @Override
+    public CustomerResponseModel createCustomer(CustomerRequestModel customerRequestModel, String auth0UserId) {
+        // Check if customer already exists
+        Customer existingCustomer = customerRepository.findByCustomerIdentifier_CustomerId(auth0UserId);
+        if (existingCustomer != null) {
+            return customerResponseMapper.entityToResponseModel(existingCustomer);
+        }
+
+        Address address = new Address(
+                customerRequestModel.getStreetAddress(),
+                customerRequestModel.getCity(),
+                customerRequestModel.getPostalCode(),
+                customerRequestModel.getProvince(),
+                customerRequestModel.getCountry()
+        );
+
+        CustomerIdentifier customerIdentifier = new CustomerIdentifier(auth0UserId);
+
+        Customer newCustomer = Customer.builder()
+                .customerIdentifier(customerIdentifier)
+                .customerFirstName(customerRequestModel.getCustomerFirstName())
+                .customerLastName(customerRequestModel.getCustomerLastName())
+                .customerEmailAddress(customerRequestModel.getCustomerEmailAddress())
+                .address(address)
+                .build();
+
+        Customer savedCustomer = customerRepository.save(newCustomer);
+        return customerResponseMapper.entityToResponseModel(savedCustomer);
     }
 
 }

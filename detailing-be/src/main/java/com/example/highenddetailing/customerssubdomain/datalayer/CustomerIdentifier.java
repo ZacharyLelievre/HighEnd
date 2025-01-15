@@ -3,7 +3,6 @@ package com.example.highenddetailing.customerssubdomain.datalayer;
 import lombok.Getter;
 
 import javax.persistence.Embeddable;
-import java.util.UUID;
 
 @Embeddable
 @Getter
@@ -11,7 +10,12 @@ public class CustomerIdentifier {
 
     private String customerId;
 
+    // Modified constructor to accept auth0UserId directly
+    public CustomerIdentifier(String auth0UserId) {
+        this.customerId = auth0UserId;
+    }
+
     public CustomerIdentifier() {
-        this.customerId = UUID.randomUUID().toString();
+        // Default constructor for JPA
     }
 }

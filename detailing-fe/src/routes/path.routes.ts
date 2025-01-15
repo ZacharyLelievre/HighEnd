@@ -4,5 +4,14 @@ export enum AppRoutePath {
     AllServicesPage = "/services",
     AllGalleriesPage = "/galleries",
     DashboardPage = "/dashboard",
-    AllEmployeesPage = "/employees" // New path for AllEmployees
+    AllEmployeesPage = "/employees",
+    Callback = "/callback",
+    Onboarding = "/onboarding",
+    Profile = "/profile",
+
+    Unauthorized = "/unauthorized",
+    Forbidden = "/forbidden",
+    RequestTimeout = "/request-timeout",
+    InternalServerError = "/internal-server-error",
+    ServiceUnavailable = "/service-unavailable"
 }

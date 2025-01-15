@@ -1,6 +1,8 @@
 {
   "dependencies": {
-    "jwt-decode": "^4.0.0"
+    "jwt-decode": "^4.0.0",
+    "react-bootstrap": "^2.10.7",
+    "react-router-dom": "^7.0.2"
   },
   "devDependencies": {
     "@playwright/test": "^1.49.0",

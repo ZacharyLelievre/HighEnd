@@ -1,39 +1,179 @@
+/* General Navbar Styles */
 .navbar {
-    padding: 1rem;
-    color: white;
-    position: relative; /* Ensure proper positioning */
-  }
-  
-  .navbar .container-fluid {
-    display: flex;
-    justify-content: space-between; /* Ensure the content is spread out */
-    align-items: center;
-  }
-  
-  .navbar-brand {
-    display: flex;
-    align-items: center;
-  }
-  
+  padding: 1rem 2rem;
+  background-color: #1a1a2e;
+  position: relative;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  z-index: 10;
+}
+
+.navbar img {
+  max-height: 70px;
+}
+
+.navbar .container-fluid {
+  display: flex;
+  align-items: center;
+}
+
+.navbar-brand {
+  display: flex;
+  align-items: center;
+}
+
+.navbar-brand img {
+  height: 70px;
+  width: auto;
+  margin-right: 15px;
+}
+
+.navbar-nav {
+  display: flex;
+  align-items: center;
+  gap: 25px;
+  margin-left: auto;  /* Aligns links to the right */
+}
+
+/* Links with transparent foggy effect */
+.navbar-nav .nav-link {
+  color: rgba(240, 240, 240, 0.7) !important; /* Light color with transparency */
+  font-weight: 600;
+  font-size: 1rem;
+  transition: color 0.3s ease, background 0.3s ease;
+  background-color: transparent !important; /* Ensures no background */
+  padding: 0.5rem 1rem;
+  text-transform: uppercase;
+  text-decoration: none;  /* Remove underline */
+}
+
+/* Hover effect */
+.navbar-nav .nav-link:hover {
+  color: #ffd700 !important; /* Keep the hover color */
+  background-color: rgba(0, 0, 0, 0.2); /* Subtle darkened background */
+  text-decoration: none;
+}
+
+/* Custom Button Sign-In */
+.btn-signin {
+  font-weight: 700;
+  font-size: 0.9rem;
+  padding: 0.5rem 1.5rem;
+  border-radius: 25px;
+  border: 2px solid #ffd700;
+  background-color: transparent;
+  color: #ffd700;
+  transition: background 0.3s ease, color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.btn-signin:hover {
+  background-color: #ffd700;
+  color: #1a1a2e;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.navbar-nav .nav-item-spacing {
+  font-weight: 600;
+  text-transform: uppercase;
+  padding: 0.5rem 1rem;
+  border-radius: 5px;
+  transition: background 0.3s ease, color 0.3s ease;
+}
+
+.navbar-nav .nav-item-spacing:hover {
+  background-color: #0f3460;
+  color: #ffd700 !important;
+}
+
+.loading-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}
+
+.spinner-grow {
+  width: 2rem !important;
+  height: 2rem !important;
+}
+
+.user-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid #ffffff;
+}
+
+#user-dropdown .dropdown-toggle::after {
+  display: none !important;
+}
+
+#user-dropdown {
+  background-color: transparent !important;
+  border: none !important;
+}
+
+#user-dropdown .dropdown-menu {
+  background-color: #1a1a2e;
+  border-radius: 8px;
+  padding: 10px 0;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+#user-dropdown .dropdown-menu .dropdown-item {
+  color: #f0f0f0;
+  padding: 10px 20px;
+  transition: background 0.3s ease;
+}
+
+#user-dropdown .dropdown-menu .dropdown-item:hover {
+  background-color: #0f3460;
+  color: #ffd700;
+}
+
+@media (max-width: 992px) {
   .navbar-nav {
-    display: flex;
-    gap: 30px; /* Adds even spacing between links */
+    flex-direction: column;
+    gap: 15px;
   }
-  
-  .nav-item-spacing {
-    font-weight: bold;
-    text-transform: uppercase; /* Optional: make buttons stand out */
-    text-align: right;
-  }
-  
+
   .navbar-nav .nav-link {
-    color: white !important; /* Ensure text is visible over the background */
-    font-weight: bold;
-  }
-  
-  .navbar-nav .nav-link:hover {
-    text-decoration: underline; /* Optional: Add hover effect */
+    text-align: center;
   }
 
+  .navbar-nav .btn {
+    width: 100%;
+    text-align: center;
+  }
 
-  
+  #user-dropdown .dropdown-menu {
+    position: relative;
+  }
+
+  .navbar-brand img {
+    height: 50px;
+  }
+}
+
+@media (max-width: 576px) {
+  .navbar {
+    padding: 0.5rem 1rem;
+  }
+
+  .navbar-brand img {
+    height: 40px;
+  }
+
+  .user-avatar {
+    width: 30px;
+    height: 30px;
+  }
+
+  .navbar-nav .btn {
+    font-size: 0.8rem;
+  }
+
+  .btn-signin {
+    width: 100%;
+  }
+}

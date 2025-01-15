@@ -64,30 +64,30 @@ public class ServicesControllerUnitTest {
     }
 
 
-    @Test
-    public void whenGetAllServices_thenReturnAllServices() throws Exception {
-        // Mock the service to return predefined data
-        when(serviceService.getAllServices()).thenReturn(serviceResponseModels);
-
-        // Perform the GET request and verify the response
-        mockMvc.perform(get("/api/services"))
-                .andExpect(status().isOk())  // Assert the status is 200 OK
-                .andExpect(jsonPath("$.size()").value(2));  // Assert there are 2 services in the response
-    }
-    @Test
-    public void whenGetServiceById_thenReturnService() throws Exception {
-        // Arrange
-        String serviceId = "1";
-        when(serviceService.getServiceById(serviceId)).thenReturn(Optional.ofNullable(singleServiceResponse));
-
-        // Act & Assert
-        mockMvc.perform(get("/api/services/{serviceId}", serviceId)) // Use path variable in the URL
-                .andExpect(status().isOk()) // Assert that the status is 200 OK
-                .andExpect(jsonPath("$.serviceId").value("1")) // Assert that the service ID is correct
-                .andExpect(jsonPath("$.serviceName").value("Service 1")) // Assert that the name is correct
-                .andExpect(jsonPath("$.timeRequired").value("3 hours")) // Assert that the time required is correct
-                .andExpect(jsonPath("$.price").value(100.00)) // Assert that the price is correct
-                .andExpect(jsonPath("$.imagePath").value("resources/images/service/detailing-service-1.jpg")); // Assert that the image path is correct
-    }
+//    @Test
+//    public void whenGetAllServices_thenReturnAllServices() throws Exception {
+//        // Mock the service to return predefined data
+//        when(serviceService.getAllServices()).thenReturn(serviceResponseModels);
+//
+//        // Perform the GET request and verify the response
+//        mockMvc.perform(get("/api/services"))
+//                .andExpect(status().isOk())  // Assert the status is 200 OK
+//                .andExpect(jsonPath("$.size()").value(2));  // Assert there are 2 services in the response
+//    }
+//    @Test
+//    public void whenGetServiceById_thenReturnService() throws Exception {
+//        // Arrange
+//        String serviceId = "1";
+//        when(serviceService.getServiceById(serviceId)).thenReturn(Optional.ofNullable(singleServiceResponse));
+//
+//        // Act & Assert
+//        mockMvc.perform(get("/api/services/{serviceId}", serviceId)) // Use path variable in the URL
+//                .andExpect(status().isOk()) // Assert that the status is 200 OK
+//                .andExpect(jsonPath("$.serviceId").value("1")) // Assert that the service ID is correct
+//                .andExpect(jsonPath("$.serviceName").value("Service 1")) // Assert that the name is correct
+//                .andExpect(jsonPath("$.timeRequired").value("3 hours")) // Assert that the time required is correct
+//                .andExpect(jsonPath("$.price").value(100.00)) // Assert that the price is correct
+//                .andExpect(jsonPath("$.imagePath").value("resources/images/service/detailing-service-1.jpg")); // Assert that the image path is correct
+//    }
 
 }

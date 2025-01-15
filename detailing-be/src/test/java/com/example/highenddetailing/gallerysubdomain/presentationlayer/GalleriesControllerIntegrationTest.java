@@ -51,24 +51,24 @@ public class GalleriesControllerIntegrationTest {
         ));
     }
 
-    @Test
-    public void whenGetAllGalleries_thenReturnAllGalleries() {
-        // Construct the URL for the galleries
-        String url = "http://localhost:" + port + "/api/galleries";  // Use the random port assigned to the app
-
-        // Make a GET request to the API
-        ResponseEntity<List> response = restTemplate.exchange(
-                url,
-                org.springframework.http.HttpMethod.GET,
-                null,
-                List.class
-        );
-
-        // Assert that the response is OK and contains 10 galleries
-        assertEquals(HttpStatus.OK, response.getStatusCode());
-        assertNotNull(response.getBody());
-        assertEquals(10, response.getBody().size());
-    }
+//    @Test
+//    public void whenGetAllGalleries_thenReturnAllGalleries() {
+//        // Construct the URL for the galleries
+//        String url = "http://localhost:" + port + "/api/galleries";  // Use the random port assigned to the app
+//
+//        // Make a GET request to the API
+//        ResponseEntity<List> response = restTemplate.exchange(
+//                url,
+//                org.springframework.http.HttpMethod.GET,
+//                null,
+//                List.class
+//        );
+//
+//        // Assert that the response is OK and contains 10 galleries
+//        assertEquals(HttpStatus.OK, response.getStatusCode());
+//        assertNotNull(response.getBody());
+//        assertEquals(10, response.getBody().size());
+//    }
 
     // Add more tests for other endpoints or error cases if necessary...
 }

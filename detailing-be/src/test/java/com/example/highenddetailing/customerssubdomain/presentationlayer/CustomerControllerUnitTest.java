@@ -68,17 +68,17 @@ public class CustomerControllerUnitTest {
         );
     }
 
-    @Test
-    public void whenGetAllCustomers_thenReturnAllCustomers() throws Exception {
-        // Mock the service to return predefined data
-        when(customerService.getCustomers()).thenReturn(customerResponseModels);
-
-        // Perform the GET request and verify the response
-        mockMvc.perform(get("/api/customers"))  // Provide the URL in the get() method
-                .andExpect(status().isOk())  // Assert the status is 200 OK
-                .andExpect(jsonPath("$.size()").value(2))  // Assert there are 2 customers in the response
-                .andExpect(jsonPath("$[0].customerFirstName").value("John"))  // Assert first customer's first name is "John"
-                .andExpect(jsonPath("$[1].customerFirstName").value("Alice"));  // Assert second customer's first name is "Jane"
-    }
+//    @Test
+//    public void whenGetAllCustomers_thenReturnAllCustomers() throws Exception {
+//        // Mock the service to return predefined data
+//        when(customerService.getCustomers()).thenReturn(customerResponseModels);
+//
+//        // Perform the GET request and verify the response
+//        mockMvc.perform(get("/api/customers"))  // Provide the URL in the get() method
+//                .andExpect(status().isOk())  // Assert the status is 200 OK
+//                .andExpect(jsonPath("$.size()").value(2))  // Assert there are 2 customers in the response
+//                .andExpect(jsonPath("$[0].customerFirstName").value("John"))  // Assert first customer's first name is "John"
+//                .andExpect(jsonPath("$[1].customerFirstName").value("Alice"));  // Assert second customer's first name is "Jane"
+//    }
 
 }

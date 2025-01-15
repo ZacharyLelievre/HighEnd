@@ -17,4 +17,5 @@ public class CustomerRequestModel {
     String postalCode;
     String province;
     String country;
+    String auth0Sub;
 }
