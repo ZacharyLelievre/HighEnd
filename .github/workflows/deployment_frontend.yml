@@ -1,0 +1,39 @@
+name: Frontend CI Deployment
+
+on:
+  push:
+    branches:
+      - main  # Run on push to main
+  pull_request:
+    branches:
+      - main  # Run on pull requests targeting the main branch
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Step 1: Check out the repository
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      # Step 2: Set up Node.js (if you're using Node.js)
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '16'  # Specify the Node.js version your project uses
+
+      # Step 3: Install dependencies
+      - name: Install dependencies
+        run: |
+          npm install
+
+      # Step 4: Run tests
+      - name: Run tests
+        run: |
+          npm run test -- --ci --coverage
+
+      # Optional: Run linting if you have a linter configured
+      - name: Run linting
+        run: |
+          npm run lint
