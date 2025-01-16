@@ -108,7 +108,7 @@ export function NavBar(): JSX.Element {
               to={AppRoutePath.Home}
               className="text-white nav-item-spacing"
             >
-              Home
+              Homes
             </Nav.Link>
             <Nav.Link
               as={Link}
