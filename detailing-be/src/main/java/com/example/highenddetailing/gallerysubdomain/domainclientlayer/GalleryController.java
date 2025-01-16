@@ -10,9 +10,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
+@CrossOrigin(origins = "https://highend-zke6.onrender.com")
 @RestController
 @RequestMapping("/api/galleries")
-@CrossOrigin(origins = "https://highend-1.onrender.com")
 
 public class GalleryController {
 
