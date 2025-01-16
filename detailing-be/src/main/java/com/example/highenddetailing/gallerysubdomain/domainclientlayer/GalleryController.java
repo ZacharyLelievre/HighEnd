@@ -10,10 +10,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
-@CrossOrigin(origins = "https://highend-zke6.onrender.com")
 @RestController
 @RequestMapping("/api/galleries")
-
 public class GalleryController {
 
     private final GalleryService galleryService;
@@ -23,7 +21,7 @@ public class GalleryController {
     }
 
     @GetMapping(produces = "application/json")
-    public ResponseEntity<List<GalleryResponseModel>> getAllGalleries(){
+    public ResponseEntity<List<GalleryResponseModel>> getAllGalleries() {
         return ResponseEntity.ok().body(galleryService.getAllGalleries());
     }
 }

@@ -10,7 +10,7 @@ export default function AllGalleries(): JSX.Element {
     const fetchGalleries = async (): Promise<void> => {
       try {
         const response = await axios.get(
-          "https://highend-1.onrender.com/api/galleries",
+          "https://highend-zke6.onrender.com/api/galleries",
         );
         setGalleries(response.data);
       } catch (error) {
