@@ -58,7 +58,7 @@ services:
     ports:
       - "5013:80"
     environment:
-#      PMA_HOST: ${PMA_HOST}
+      PMA_HOST: ${PMA_HOST}
       PMA_USER: ${SPRING_DATASOURCE_USERNAME}
       PMA_PASSWORD: ${SPRING_DATASOURCE_PASSWORD}
     healthcheck:
