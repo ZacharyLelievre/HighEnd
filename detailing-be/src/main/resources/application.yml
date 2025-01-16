@@ -9,17 +9,16 @@ website:
 
 spring:
   datasource:
-    url: jdbc:mysql://mysql1/highenddetailing-db
-    username: admin
-    password: pwd
+    url: ${SPRING_DATASOURCE_URL}
+    username: ${SPRING_DATASOURCE_USERNAME}
+    password: ${SPRING_DATASOURCE_PASSWORD}
 
   jpa:
     hibernate:
-      ddl-auto: none
-
-  config:
-    activate:
-      on-profile: docker
+      ddl-auto: update
+    # Remove the explicit dialect to let Hibernate auto-detect
+    # properties:
+    #   hibernate.dialect: org.hibernate.dialect.MySQLDialect
 
   sql:
     init:
