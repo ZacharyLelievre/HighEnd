@@ -31,19 +31,26 @@
   display: flex;
   align-items: center;
   gap: 25px;
-  margin-left: auto;  /* Aligns links to the right */
+  margin-left: auto; /* Aligns links to the right */
 }
 
 /* Links with transparent foggy effect */
 .navbar-nav .nav-link {
-  color: rgba(240, 240, 240, 0.7) !important; /* Light color with transparency */
+  color: rgba(
+    240,
+    240,
+    240,
+    0.7
+  ) !important; /* Light color with transparency */
   font-weight: 600;
   font-size: 1rem;
-  transition: color 0.3s ease, background 0.3s ease;
+  transition:
+    color 0.3s ease,
+    background 0.3s ease;
   background-color: transparent !important; /* Ensures no background */
   padding: 0.5rem 1rem;
   text-transform: uppercase;
-  text-decoration: none;  /* Remove underline */
+  text-decoration: none; /* Remove underline */
 }
 
 /* Hover effect */
@@ -62,7 +69,10 @@
   border: 2px solid #ffd700;
   background-color: transparent;
   color: #ffd700;
-  transition: background 0.3s ease, color 0.3s ease, box-shadow 0.3s ease;
+  transition:
+    background 0.3s ease,
+    color 0.3s ease,
+    box-shadow 0.3s ease;
 }
 
 .btn-signin:hover {
@@ -76,7 +86,9 @@
   text-transform: uppercase;
   padding: 0.5rem 1rem;
   border-radius: 5px;
-  transition: background 0.3s ease, color 0.3s ease;
+  transition:
+    background 0.3s ease,
+    color 0.3s ease;
 }
 
 .navbar-nav .nav-item-spacing:hover {

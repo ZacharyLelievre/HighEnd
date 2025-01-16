@@ -1,15 +1,15 @@
 .gallery {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    grid-gap: 20px;
-  }
-  
-  .gallery-item {
-    border-radius: 10px; /* Adjust the radius as desired */
-    overflow: hidden; /* Hide content that overflows the rounded corners */
-  }
-  
-  .gallery-image {
-    width: 100%;
-    height: auto;
-  }
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-gap: 20px;
+}
+
+.gallery-item {
+  border-radius: 10px; /* Adjust the radius as desired */
+  overflow: hidden; /* Hide content that overflows the rounded corners */
+}
+
+.gallery-image {
+  width: 100%;
+  height: auto;
+}

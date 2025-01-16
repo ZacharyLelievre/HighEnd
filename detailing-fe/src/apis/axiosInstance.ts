@@ -1,26 +1,26 @@
-import axios, { AxiosInstance } from 'axios';
-import axiosErrorResponseHandler from './axiosErrorResponseHandler';
+import axios, { AxiosInstance } from "axios";
+import axiosErrorResponseHandler from "./axiosErrorResponseHandler";
 
 axios.defaults.withCredentials = true;
 
 const createAxiosInstance = (): AxiosInstance => {
   const instance = axios.create({
-    baseURL: process.env.REACT_APP_API_BASE_URL || 'http://localhost:8080/api/',
+    baseURL: process.env.REACT_APP_API_BASE_URL || "http://localhost:8080/api/",
     headers: {
-      'Content-Type': 'application/json',
+      "Content-Type": "application/json",
     },
     withCredentials: true,
   });
 
   // response interceptor to handle errors globally
   instance.interceptors.response.use(
-    response => response,
-    error => {
+    (response) => response,
+    (error) => {
       // handle errors through a custom error handler
       handleAxiosError(error);
       // yes, now try-catch can actually catch the error unlike before :D
       return Promise.reject(error);
-    }
+    },
   );
 
   return instance;
@@ -35,7 +35,7 @@ const handleAxiosError = (error: unknown): void => {
     axiosErrorResponseHandler(error, statusCode);
   } else {
     // log other errors that are not Axios errors
-    console.error('An unexpected error occurred:', error);
+    console.error("An unexpected error occurred:", error);
   }
 };
 
