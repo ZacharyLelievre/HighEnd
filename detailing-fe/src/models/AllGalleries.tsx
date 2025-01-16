@@ -9,7 +9,7 @@ export default function AllGalleries(): JSX.Element {
     useEffect(()=> {
         const fetchGalleries = async (): Promise<void> => {
             try {
-                const response = await axios.get("http://localhost:8080/api/galleries");
+                const response = await axios.get("https://highend-1.onrender.com/api/galleries");
                 setGalleries(response.data);
             } catch (error){
                 console.error("Error fetching galleries", error);
