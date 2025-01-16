@@ -8,5 +8,7 @@
     "@playwright/test": "^1.49.0",
     "@types/node": "^22.10.1"
   },
-  "scripts": {}
+  "scripts": {
+     "lint": "eslint . --ext .js,.jsx,.ts,.tsx"
+  }
 }
