@@ -1,12 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import { AppRoutePath } from "../routes/path.routes";
 import {
-  Navbar,
-  Container,
-  Nav,
-  NavDropdown,
-  Button,
   Spinner,
 } from "react-bootstrap";
 import { useAuth0 } from "@auth0/auth0-react";
@@ -38,14 +31,13 @@ export default function Home(): JSX.Element {
   } = useAuth0();
   const [accessToken, setAccessToken] = useState<string | null>(null);
   const [customerInfo, setCustomerInfo] = useState<CustomerInfo | null>(null);
-  const navigate = useNavigate();
 
   const fetchAccessToken = async () => {
     try {
       const token = await getAccessTokenSilently();
       setAccessToken(token);
-    } catch (e: any) {
-      if (e.error === "consent_required" || e.error === "login_required") {
+    } catch (e: unknown) {
+      if (e instanceof Error && (e.message.includes("consent_required") || e.message.includes("login_required"))) {
         await loginWithRedirect();
       }
     }
@@ -75,7 +67,7 @@ export default function Home(): JSX.Element {
 
         localStorage.removeItem("customFormData");
       }
-    } catch (error) {
+    } catch {
       // Error handling
     }
   };
@@ -91,7 +83,7 @@ export default function Home(): JSX.Element {
         },
       );
       setCustomerInfo(response.data);
-    } catch (error) {
+    } catch {
       // Error handling
     }
   };
@@ -129,7 +121,7 @@ export default function Home(): JSX.Element {
             <h2>Our Mission</h2>
             <p>
               Our mission is to provide top-quality car detailing services that
-              exceed customer expectations, enhancing every vehicle's appearance
+              exceed customer expectations, enhancing every vehicle&apos;s appearance
               and value with meticulous attention to detail and exceptional
               customer care.
             </p>

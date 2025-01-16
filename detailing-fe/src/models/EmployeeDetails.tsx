@@ -6,6 +6,7 @@ import axios from "axios";
 import { NavBar } from "../nav/NavBar";
 import { useAuth0 } from "@auth0/auth0-react";
 
+
 export default function EmployeeDetails(): JSX.Element {
   const { employeeId } = useParams<{ employeeId: string }>();
   const [employee, setEmployee] = useState<EmployeeModel | null>(null);
@@ -80,7 +81,7 @@ export default function EmployeeDetails(): JSX.Element {
             <label>Salary</label>
             <input
               type="text"
-              value={`$${employee.salary.toFixed(2)}` || "N/A"}
+              value={isNaN(employee.salary) ? "N/A" : `$${employee.salary.toFixed(2)}`}
               readOnly
             />
           </div>

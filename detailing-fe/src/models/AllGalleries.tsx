@@ -2,6 +2,7 @@ import { GalleryModel } from "./dtos/GalleryModel";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import "./AllGalleries.css";
+import React from "react";
 
 export default function AllGalleries(): JSX.Element {
   const [galleries, setGalleries] = useState<GalleryModel[]>([]);
