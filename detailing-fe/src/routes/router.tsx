@@ -12,42 +12,42 @@ import { ProfilePage } from "../pages/ProfilePage";
 import { Navigate } from "react-router-dom"; // Import Navigate
 
 const router = createBrowserRouter([
-    {
-        path: AppRoutePath.Default,
-        element: <Navigate to={AppRoutePath.Home} replace={true} />
-    },
-    {
-        path: AppRoutePath.Onboarding,
-        element: <OnboardingForm />
-    },
-    {
-        path: AppRoutePath.Home,
-        element: <Home />
-    },
-    {
-        path: AppRoutePath.AllServicesPage,
-        element: <AllServicesPage />
-    },
-    {
-        path: "/services/:serviceId",
-        element: <ServiceDetailPage />
-    },
-    {
-        path: AppRoutePath.AllGalleriesPage,
-        element: <AllGalleriesPage />
-    },
-    {
-        path: AppRoutePath.DashboardPage,
-        element: <DashboardPage />
-    },
-    {
-        path: "/employees/:employeeId",
-        element: <EmployeeDetails />
-    },
-    {
-        path: AppRoutePath.Profile,
-        element: <ProfilePage />
-    }
+  {
+    path: AppRoutePath.Default,
+    element: <Navigate to={AppRoutePath.Home} replace={true} />,
+  },
+  {
+    path: AppRoutePath.Onboarding,
+    element: <OnboardingForm />,
+  },
+  {
+    path: AppRoutePath.Home,
+    element: <Home />,
+  },
+  {
+    path: AppRoutePath.AllServicesPage,
+    element: <AllServicesPage />,
+  },
+  {
+    path: "/services/:serviceId",
+    element: <ServiceDetailPage />,
+  },
+  {
+    path: AppRoutePath.AllGalleriesPage,
+    element: <AllGalleriesPage />,
+  },
+  {
+    path: AppRoutePath.DashboardPage,
+    element: <DashboardPage />,
+  },
+  {
+    path: "/employees/:employeeId",
+    element: <EmployeeDetails />,
+  },
+  {
+    path: AppRoutePath.Profile,
+    element: <ProfilePage />,
+  },
 ]);
 
 export default router;

@@ -1,117 +1,123 @@
 .appointments-container {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-    margin: 0 auto;
-    max-width: 800px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  margin: 0 auto;
+  max-width: 800px;
 }
 
 .appointment-box {
-    display: flex;
-    align-items: flex-start;
-    padding: 20px;
-    border: 1px solid #ccc;
-    border-radius: 8px;
-    background-color: #fff;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-    gap: 20px;
+  display: flex;
+  align-items: flex-start;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  background-color: #fff;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease;
+  gap: 20px;
 }
 
 .appointment-box:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-    border-color: #007bff;
+  transform: translateY(-5px);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  border-color: #007bff;
 }
 
 .appointment-image {
-    width: 150px;
-    height: 150px;
-    object-fit: cover;
-    border-radius: 8px;
-    transition: transform 0.3s ease;
+  width: 150px;
+  height: 150px;
+  object-fit: cover;
+  border-radius: 8px;
+  transition: transform 0.3s ease;
 }
 
 .appointment-box:hover .appointment-image {
-    transform: scale(1.1);
+  transform: scale(1.1);
 }
 
 .appointment-details {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    flex: 1;
-    gap: 4px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  flex: 1;
+  gap: 4px;
 }
 
 .appointment-details p {
-    margin: 0;
+  margin: 0;
 }
 
 .button-container {
-    display: flex;
-    flex-direction: row; /* Place buttons side by side */
-    gap: 10px; /* Space between the buttons */
-    margin-top: 10px;
+  display: flex;
+  flex-direction: row; /* Place buttons side by side */
+  gap: 10px; /* Space between the buttons */
+  margin-top: 10px;
 }
 
 .appointment-details button {
-    background-color: #007bff;
-    color: #fff;
-    border: none;
-    border-radius: 5px;
-    padding: 8px 12px;
-    font-size: 14px;
-    font-weight: bold;
-    cursor: pointer;
-    align-self: flex-start;
-    transition: background-color 0.3s ease, transform 0.3s ease;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  padding: 8px 12px;
+  font-size: 14px;
+  font-weight: bold;
+  cursor: pointer;
+  align-self: flex-start;
+  transition:
+    background-color 0.3s ease,
+    transform 0.3s ease;
 }
 
 .appointment-details button:hover {
-    background-color: #0056b3;
-    transform: translateY(-2px);
+  background-color: #0056b3;
+  transform: translateY(-2px);
 }
 
 button:disabled {
-    background-color: #ccc;
-    cursor: not-allowed;
+  background-color: #ccc;
+  cursor: not-allowed;
 }
 select {
-    width: 30%;
-    padding: 10px 15px;
-    border: 1px solid #ccc;
-    border-radius: 6px;
-    background-color: #fff;
-    color: #333;
-    font-size: 14px;
-    transition: border-color 0.3s ease, box-shadow 0.3s ease;
-    outline: none;
+  width: 30%;
+  padding: 10px 15px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  background-color: #fff;
+  color: #333;
+  font-size: 14px;
+  transition:
+    border-color 0.3s ease,
+    box-shadow 0.3s ease;
+  outline: none;
 }
 
 select:focus {
-    border-color: #007bff;
-    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+  border-color: #007bff;
+  box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
 }
 
 select option {
-    padding: 10px;
-    background-color: #fff;
-    color: #fff;
+  padding: 10px;
+  background-color: #fff;
+  color: #fff;
 }
 
 select:hover {
-    border-color: #007bff;
+  border-color: #007bff;
 }
 
 select:disabled {
-    background-color: #f9f9f9;
-    color: #ccc;
-    cursor: not-allowed;
+  background-color: #f9f9f9;
+  color: #ccc;
+  cursor: not-allowed;
 }
 
 label {
-    font-weight: bold;
-    margin-bottom: 8px;
-    display: block;
+  font-weight: bold;
+  margin-bottom: 8px;
+  display: block;
 }
