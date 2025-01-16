@@ -1,11 +1,11 @@
 frontend:
-  url: http://localhost:3000/
+  url: https://highend-zke6.onrender.com
 
 backend:
-  url: http://localhost:8080/
+  url: https://highend-1.onrender.com
 
 website:
-  domain: localhost
+  domain: highend-zke6.onrender.com
 
 spring:
   datasource:
