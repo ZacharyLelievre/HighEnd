@@ -1,7 +1,7 @@
 # Stage 1: Build the React app
 FROM node:18-alpine AS build
 
-# Set working directory
+# Set working directory to /workspace to match DigitalOcean's expectation
 WORKDIR /workspace
 
 # Copy dependency files
@@ -12,6 +12,9 @@ RUN npm install
 
 # Copy the rest of the application
 COPY . .
+
+# Debugging step: List contents of /workspace/public to ensure index.html exists
+RUN ls -la /workspace/public
 
 # Build the React app for production
 RUN npm run build
