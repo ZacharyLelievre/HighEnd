@@ -12,7 +12,8 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/galleries")
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins = "https://highend-1.onrender.com")
+
 public class GalleryController {
 
     private final GalleryService galleryService;
