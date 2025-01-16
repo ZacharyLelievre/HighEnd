@@ -32,3 +32,21 @@ jobs:
           project-dir: ./detailing-be
           results-dir: ./qodana-results
           fail-threshold: 10
+  prettier:
+    name: Run Prettier
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '16'
+
+      - name: Install Dependencies
+        working-directory: ./detailing-fe
+        run: npm install
+
+      - name: Run Prettier Check
+        working-directory: ./detailing-fe
+        run: npx prettier --check .
