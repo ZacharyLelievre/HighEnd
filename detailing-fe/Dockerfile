@@ -1,8 +1,8 @@
 # Use a lightweight Node.js image
 FROM node:18-alpine
 
-# Set working directory
-WORKDIR /app
+# Set working directory to /workspace to match DigitalOcean's expectation
+WORKDIR /workspace
 
 # Copy dependency files
 COPY package*.json ./
