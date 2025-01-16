@@ -1,28 +1,33 @@
-name: Frontend CI - ESLint
+name: Frontend ESLint CI
 
 on:
   push:
-    branches:
-      - main
+    branches: [ "main" ]
   pull_request:
-    branches:
-      - main
+    branches: [ "main" ]
 
 jobs:
-  eslint-check:
+  lint:
     runs-on: ubuntu-latest
 
+    strategy:
+      matrix:
+        node-version: [18.x, 20.x, 22.x]
+
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
-
-      - name: Set up Node.js
-        uses: actions/setup-node@v3
+      - uses: actions/checkout@v4
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v4
         with:
-          node-version: '16'
-
+          node-version: ${{ matrix.node-version }}
+          cache: 'npm'
+          cache-dependency-path: detailing-fe/package-lock.json
       - name: Install dependencies
         run: npm install
-
-      - name: Run ESLint
+        working-directory: ./detailing-fe
+      - name: Run ESLint to ensure frontend code is linted
         run: npm run lint
+        working-directory: ./frontend
+      - name: Run build to ensure no build errors
+        run: npm run build
+        working-directory: ./detailing-fe
