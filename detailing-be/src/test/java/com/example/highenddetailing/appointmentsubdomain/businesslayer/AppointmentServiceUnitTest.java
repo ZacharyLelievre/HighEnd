@@ -45,7 +45,7 @@ public class AppointmentServiceUnitTest {
                         "c1f14c90-ec5e-4f82-a9b7-2548a7325b34", "John Doe",
                         "SERVICE001", "Car Wash",
                         "e1f14c90-ec5e-4f82-a9b7-2548a7325b34", "Jane Smith",
-                        LocalDate.parse("2025-07-01"), LocalTime.parse("10:00:00"),
+                        LocalDate.parse("2025-07-01"), LocalTime.parse("10:00:00"), LocalTime.parse("11:00:00"),
                         Status.CONFIRMED, "detailing-service-1.jpg"
                 ),
                 new Appointment(2,
@@ -53,21 +53,21 @@ public class AppointmentServiceUnitTest {
                         "c1f14c90-ec5e-4f82-a9b7-2548a7325b34", "John Doe",
                         "SERVICE002", "Brake Check",
                         "e1f14c90-ec5e-4f82-a9b7-2548a7325b34", "Jane Smith",
-                        LocalDate.parse("2025-07-02"), LocalTime.parse("11:00:00"),
+                        LocalDate.parse("2025-07-02"), LocalTime.parse("11:00:00"), LocalTime.parse("12:00:00"),
                         Status.CONFIRMED, "detailing-service-1.jpg"
                 )
         );
 
         List<AppointmentResponseModel> responseModels = List.of(
                 new AppointmentResponseModel(
-                        "a1f14c90-ec5e-4f82-a9b7-2548a7325b34", "2025-07-01", "10:00:00",
+                        "a1f14c90-ec5e-4f82-a9b7-2548a7325b34", "2025-07-01", "10:00:00", "11:00:00",
                         "SERVICE001", "Car Wash",
                         "c1f14c90-ec5e-4f82-a9b7-2548a7325b34", "John Doe",
                         "e1f14c90-ec5e-4f82-a9b7-2548a7325b34", "Jane Smith",
                         Status.CONFIRMED, "detailing-service-1.jpg"
                 ),
                 new AppointmentResponseModel(
-                        "b1f14c90-ec5e-4f82-a9b7-2548a7325b34", "2025-07-02", "11:00:00",
+                        "b1f14c90-ec5e-4f82-a9b7-2548a7325b34", "2025-07-02", "11:00:00", "12:00:00",
                         "SERVICE002", "Brake Check",
                         "c1f14c90-ec5e-4f82-a9b7-2548a7325b34", "John Doe",
                         "e1f14c90-ec5e-4f82-a9b7-2548a7325b34", "Jane Smith",
@@ -98,7 +98,7 @@ public class AppointmentServiceUnitTest {
                 "c1f14c90-ec5e-4f82-a9b7-2548a7325b34", "John Doe",
                 "SERVICE001", "Car Wash",
                 "e1f14c90-ec5e-4f82-a9b7-2548a7325b34", "Jane Smith",
-                LocalDate.parse("2025-07-01"), LocalTime.parse("10:00:00"),
+                LocalDate.parse("2025-07-01"), LocalTime.parse("10:00:00"), LocalTime.parse("11:00:00"),
                 Status.PENDING,
                 "detailing-service-1.jpg"
         );
@@ -109,7 +109,7 @@ public class AppointmentServiceUnitTest {
                 "c1f14c90-ec5e-4f82-a9b7-2548a7325b34", "John Doe",
                 "SERVICE001", "Car Wash",
                 "e1f14c90-ec5e-4f82-a9b7-2548a7325b34", "Jane Smith",
-                LocalDate.parse("2025-07-01"), LocalTime.parse("10:00:00"),
+                LocalDate.parse("2025-07-01"), LocalTime.parse("10:00:00"), LocalTime.parse("11:00:00"),
                 newStatus,
                 "detailing-service-1.jpg"
         );
@@ -143,7 +143,7 @@ public class AppointmentServiceUnitTest {
                 "c1f14c90-ec5e-4f82-a9b7-2548a7325b34", "John Doe",
                 "SERVICE001", "Car Wash",
                 null, null, // Employee not assigned yet
-                LocalDate.parse("2025-07-01"), LocalTime.parse("10:00:00"),
+                LocalDate.parse("2025-07-01"), LocalTime.parse("10:00:00"), LocalTime.parse("11:00:00"),
                 Status.PENDING,
                 "detailing-service-1.jpg"
         );
@@ -163,7 +163,7 @@ public class AppointmentServiceUnitTest {
 
         // Mock the response model after assignment
         AppointmentResponseModel expectedResponse = new AppointmentResponseModel(
-                appointmentId, "2025-07-01", "10:00:00",
+                appointmentId, "2025-07-01", "10:00:00", "11:00:00",
                 "SERVICE001", "Car Wash",
                 "c1f14c90-ec5e-4f82-a9b7-2548a7325b34", "John Doe",
                 employeeId, "John Smith",
@@ -223,7 +223,7 @@ public class AppointmentServiceUnitTest {
                 "c1f14c90-ec5e-4f82-a9b7-2548a7325b34", "John Doe",
                 "SERVICE001", "Car Wash",
                 null, null,
-                LocalDate.parse("2025-07-01"), LocalTime.parse("10:00:00"),
+                LocalDate.parse("2025-07-01"), LocalTime.parse("10:00:00"), LocalTime.parse("11:00:00"),
                 Status.PENDING,
                 "detailing-service-1.jpg"
         );
