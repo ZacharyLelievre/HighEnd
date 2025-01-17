@@ -78,6 +78,7 @@ public class AppointmentResponseModelTest {
         String appointmentId = "A001";
         String appointmentDate = "2021-12-31";
         String appointmentTime = "10:00 AM";
+        String appointmentEndTime = "11:00 AM";
         String serviceId = "S001";
         String serviceName = "Car Wash"; // New field
         String customerId = "C001";
@@ -88,7 +89,7 @@ public class AppointmentResponseModelTest {
         String imagePath = "/images/detailing.jpg";
 
         // Act
-        AppointmentResponseModel responseModel = new AppointmentResponseModel(appointmentId, appointmentDate, appointmentTime, serviceId, serviceName, customerId, customerName, employeeId, employeeName, Status.PENDING, imagePath);
+        AppointmentResponseModel responseModel = new AppointmentResponseModel(appointmentId, appointmentDate, appointmentTime,appointmentEndTime, serviceId, serviceName, customerId, customerName, employeeId, employeeName, Status.PENDING, imagePath);
 
         // Assert
         assertEquals(responseModel.getAppointmentId(), appointmentId);
@@ -131,9 +132,9 @@ public class AppointmentResponseModelTest {
     @Test
     void testEqualsAndHashCode() {
         // Arrange
-        AppointmentResponseModel model1 = new AppointmentResponseModel("A001", "2021-12-31", "10:00 AM", "S001", "Car Wash", "C001", "John Doe", "E001", "Jane Smith", Status.PENDING, "/images/detailing.jpg");
-        AppointmentResponseModel model2 = new AppointmentResponseModel("A001", "2021-12-31", "10:00 AM", "S001", "Car Wash", "C001", "John Doe", "E001", "Jane Smith", Status.PENDING, "/images/detailing.jpg");
-        AppointmentResponseModel model3 = new AppointmentResponseModel("A002", "2022-01-01", "11:00 AM", "S002", "Brake Check", "C002", "Mary Jane", "E002", "John Doe", Status.CONFIRMED, "/images/cleaning.jpg");
+        AppointmentResponseModel model1 = new AppointmentResponseModel("A001", "2021-12-31", "10:00 AM","11:00 AM", "S001", "Car Wash", "C001", "John Doe", "E001", "Jane Smith", Status.PENDING, "/images/detailing.jpg");
+        AppointmentResponseModel model2 = new AppointmentResponseModel("A001", "2021-12-31", "10:00 AM","11:00 AM", "S001", "Car Wash", "C001", "John Doe", "E001", "Jane Smith", Status.PENDING, "/images/detailing.jpg");
+        AppointmentResponseModel model3 = new AppointmentResponseModel("A002", "2022-01-01", "11:00 AM", "12:00 AM", "S002", "Brake Check", "C002", "Mary Jane", "E002", "John Doe", Status.CONFIRMED, "/images/cleaning.jpg");
 
         // Act & Assert
         assertThat(model1).isEqualTo(model2);
@@ -171,8 +172,8 @@ public class AppointmentResponseModelTest {
 
     @Test
     void testCanEqual() {
-        AppointmentResponseModel model1 = new AppointmentResponseModel("A001", "2021-12-31", "10:00 AM", "S001", "Car Wash", "C001", "John Doe", "E001", "Jane Smith", Status.PENDING, "/images/detailing.jpg");
-        AppointmentResponseModel model2 = new AppointmentResponseModel("A001", "2021-12-31", "10:00 AM", "S001", "Car Wash", "C001", "John Doe", "E001", "Jane Smith", Status.PENDING, "/images/detailing.jpg");
+        AppointmentResponseModel model1 = new AppointmentResponseModel("A001", "2021-12-31", "10:00 AM", "11:00 AM", "S001", "Car Wash", "C001", "John Doe", "E001", "Jane Smith", Status.PENDING, "/images/detailing.jpg");
+        AppointmentResponseModel model2 = new AppointmentResponseModel("A001", "2021-12-31", "10:00 AM", "11:00 AM", "S001", "Car Wash", "C001", "John Doe", "E001", "Jane Smith", Status.PENDING, "/images/detailing.jpg");
 
         assertThat(model1.equals(model2)).isTrue();
         assertThat(model1.equals(new Object())).isFalse();

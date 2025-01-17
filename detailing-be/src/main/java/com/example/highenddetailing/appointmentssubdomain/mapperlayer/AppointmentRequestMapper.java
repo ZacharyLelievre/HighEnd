@@ -12,7 +12,10 @@ public interface AppointmentRequestMapper {
 
     @Mappings({
             @Mapping(target = "id", ignore = true),
+            @Mapping(target = "status", expression = "java(Status.PENDING)"),
+            @Mapping(target = "imagePath", expression = "java(\"/default/path\")")
     })
+
 
     Appointment requestModelToEntity(AppointmentRequestModel appointmentRequestModel, AppointmentIdentifier appointmentIdentifier);
 }
