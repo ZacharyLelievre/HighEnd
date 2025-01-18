@@ -85,7 +85,7 @@ public class AppointmentTest {
 
     @Test
     void testConstructorWithAllArgs() {
-        Appointment appointment = new Appointment(1, "CUST123", "John Doe", "EMP001", "Jane Smith", "SERVICE001", "Car Wash", "2024-12-25", "10:30", Status.CONFIRMED, "/images/appointment1.jpg");
+        Appointment appointment = new Appointment(1, "CUST123", "John Doe", "EMP001", "Jane Smith", "SERVICE001", "Car Wash", "2024-12-25", "10:30", "11:30", Status.CONFIRMED, "/images/appointment1.jpg");
 
         assertEquals(1, appointment.getId());
         assertEquals("CUST123", appointment.getCustomerId());

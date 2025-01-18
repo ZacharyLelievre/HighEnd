@@ -26,6 +26,11 @@ public class AppointmentController {
     public ResponseEntity<List<AppointmentResponseModel>> getAllAppointments() {
         return ResponseEntity.ok(appointmentService.getAllAppointments());
     }
+
+    @PostMapping(produces = "application/json")
+    public ResponseEntity<AppointmentResponseModel> createAppointment(@RequestBody AppointmentRequestModel appointmentRequestModel) {
+        return ResponseEntity.ok(appointmentService.createAppointment(appointmentRequestModel));
+    }
     @PutMapping("/{id}/status")
     public ResponseEntity<Appointment> updateAppointmentStatus(@PathVariable String id,
                                                                @RequestBody StatusRequest request) {
