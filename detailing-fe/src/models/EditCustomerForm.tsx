@@ -1,7 +1,6 @@
-import React, { useState } from 'react';
-import axios from 'axios';
+import React, { useState } from "react";
+import axios from "axios";
 import { CustomerModel } from "./dtos/CustomerModel";
-
 
 interface EditCustomerFormProps {
   customer: CustomerModel;
@@ -32,17 +31,21 @@ function EditCustomerForm({ customer, onUpdate }: EditCustomerFormProps) {
     try {
       const response = await axios.put(
         `http://localhost:8080/api/customers/${customer.customerId}`,
-        formData
+        formData,
       );
 
       // Update local state if successful (optional)
-      setCustomers(customers.map(c => c.customerId === customer.customerId ? response.data : c));
+      setCustomers(
+        customers.map((c) =>
+          c.customerId === customer.customerId ? response.data : c,
+        ),
+      );
 
       onUpdate(); // Close the edit form
     } catch (error) {
-      console.error('Error updating customer:', error);
+      console.error("Error updating customer:", error);
       // Handle errors, e.g., display an error message to the user
-      alert('Error updating customer. Please try again later.');
+      alert("Error updating customer. Please try again later.");
     }
   };
 
@@ -90,7 +93,13 @@ function EditCustomerForm({ customer, onUpdate }: EditCustomerFormProps) {
       </div>
       <div>
         <label htmlFor="city">City:</label>
-        <input type="text" id="city" name="city" value={formData.city} onChange={handleChange} />
+        <input
+          type="text"
+          id="city"
+          name="city"
+          value={formData.city}
+          onChange={handleChange}
+        />
       </div>
       <div>
         <label htmlFor="postalCode">Postal Code:</label>
@@ -104,15 +113,29 @@ function EditCustomerForm({ customer, onUpdate }: EditCustomerFormProps) {
       </div>
       <div>
         <label htmlFor="province">Province:</label>
-        <input type="text" id="province" name="province" value={formData.province} onChange={handleChange} />
+        <input
+          type="text"
+          id="province"
+          name="province"
+          value={formData.province}
+          onChange={handleChange}
+        />
       </div>
       <div>
         <label htmlFor="country">Country:</label>
-        <input type="text" id="country" name="country" value={formData.country} onChange={handleChange} />
+        <input
+          type="text"
+          id="country"
+          name="country"
+          value={formData.country}
+          onChange={handleChange}
+        />
       </div>
       <div>
         <button type="submit">Update</button>
-        <button type="button" onClick={onUpdate}>Cancel</button>
+        <button type="button" onClick={onUpdate}>
+          Cancel
+        </button>
       </div>
     </form>
   );

@@ -36,16 +36,20 @@ jacoco {
 }
 
 dependencies {
-//	implementation 'org.springframework.boot:spring-boot-starter-oauth2-authorization-server'
-//	implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
+	implementation 'org.springframework.boot:spring-boot-starter-oauth2-authorization-server'
+	implementation 'org.springframework.boot:spring-boot-starter-security'
+	implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
 	implementation 'org.springframework.boot:spring-boot-starter-web-services'
 	implementation 'org.springframework.boot:spring-boot-starter-webflux'
 //	implementation 'org.springframework.boot:spring-boot-starter-oauth2-resource-server'
 	implementation 'jakarta.persistence:jakarta.persistence-api:3.1.0'
+	implementation('io.github.cdimascio:dotenv-java:3.0.0')
+	implementation 'org.springframework.boot:spring-boot-starter-oauth2-resource-server'
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 	implementation group: 'javax.persistence', name: 'javax.persistence-api', version: '2.2'
 	implementation "org.mapstruct:mapstruct:${mapstructVersion}"
-	compileOnly "org.mapstruct:mapstruct-processor:${mapstructVersion}"
+    implementation 'org.springframework.boot:spring-boot-starter-security'
+    compileOnly "org.mapstruct:mapstruct-processor:${mapstructVersion}"
 	annotationProcessor "org.mapstruct:mapstruct-processor:${mapstructVersion}",
 			"org.projectlombok:lombok:${lombokVersion}",
 			"org.projectlombok:lombok-mapstruct-binding:${lombokMapstructBindingVersion}"
@@ -59,6 +63,7 @@ dependencies {
 	testImplementation 'io.projectreactor:reactor-test'
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 	testAnnotationProcessor "org.mapstruct:mapstruct-processor:${mapstructVersion}"
+	testImplementation 'org.springframework.security:spring-security-test'
 }
 
 

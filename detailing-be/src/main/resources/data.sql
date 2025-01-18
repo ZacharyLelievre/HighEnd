@@ -12,11 +12,20 @@ VALUES
     (10, 'd0e12b65-4f9c-4a1b-832c-249eb1b6dc53', 'Headlight Restoration', '30 minutes', 20.99, 'detailing-service-1.jpg');
 
 
-INSERT INTO appointments (id, appointment_id, customer_id, customer_name, service_id, service_name, employee_id, employee_name, appointment_date, appointment_time, status, image_path)
+-- INSERT INTO appointments (id, appointment_id, customer_id, customer_name, service_id, service_name, employee_id, employee_name, appointment_date, appointment_time, appointment_end_time, status, image_path)
+-- VALUES
+--     (1, 'a1f14c90-ec5e-4f82-a9b7-2548a7325b34', 'c1f14c90-ec5e-4f82-a9b7-2548a7325b34', 'John Doe', 'a1f14c90-ec5e-4f82-a9b7-2548a7325b34', 'Car Wash', 'e1f14c90-ec5e-4f82-a9b7-2548a7325b34', 'Jane Smith', '2025-07-01', '10:00:00', '11:00:00', 'PENDING', 'detailing-service-1.jpg'),
+--     (2, 'b1f14c90-ec5e-4f82-a9b7-2548a7325b34', 'c1f14c90-ec5e-4f82-a9b7-2548a7325b34', 'John Doe', 'b5c64e99-9ac4-4f93-bb52-5c9ab7832e12', 'Brake Check', 'e1f14c90-ec5e-4f82-a9b7-2548a7325b34', 'Jane Smith', '2025-07-02', '11:00:00','12:00:00', 'PENDING', 'detailing-service-1.jpg'),
+--     (3, 'c1f14c90-ec5e-4f82-a9b7-2548a7325b34', 'c1f14c90-ec5e-4f82-a9b7-2548a7325b34', 'John Doe', 'c6a87f2b-e3b5-4b8d-b48c-4824bb8d62e7', 'Engine Tuning', 'e1f14c90-ec5e-4f82-a9b7-2548a7325b34', 'Jane Smith', '2025-07-03', '12:00:00', '13:00:00', 'PENDING', 'detailing-service-1.jpg');
+
+
+INSERT INTO appointments(id, appointment_id, appointment_date, appointment_time, appointment_end_time, service_id, service_name, customer_id, customer_name, employee_id, employee_name, status, image_path)
 VALUES
-    (1, 'a1f14c90-ec5e-4f82-a9b7-2548a7325b34', 'c1f14c90-ec5e-4f82-a9b7-2548a7325b34', 'John Doe', 'a1f14c90-ec5e-4f82-a9b7-2548a7325b34', 'Car Wash', 'e1f14c90-ec5e-4f82-a9b7-2548a7325b34', 'Jane Smith', '2025-07-01', '10:00:00', 'PENDING', 'detailing-service-1.jpg'),
-    (2, 'b1f14c90-ec5e-4f82-a9b7-2548a7325b34', 'c1f14c90-ec5e-4f82-a9b7-2548a7325b34', 'John Doe', 'b5c64e99-9ac4-4f93-bb52-5c9ab7832e12', 'Brake Check', 'e1f14c90-ec5e-4f82-a9b7-2548a7325b34', 'Jane Smith', '2025-07-02', '11:00:00', 'PENDING', 'detailing-service-1.jpg'),
-    (3, 'c1f14c90-ec5e-4f82-a9b7-2548a7325b34', 'c1f14c90-ec5e-4f82-a9b7-2548a7325b34', 'John Doe', 'c6a87f2b-e3b5-4b8d-b48c-4824bb8d62e7', 'Engine Tuning', 'e1f14c90-ec5e-4f82-a9b7-2548a7325b34', 'Jane Smith', '2025-07-03', '12:00:00', 'PENDING', 'detailing-service-1.jpg');
+    (1, 'a1f14c90-ec5e-4f82-a9b7-2548a7325b34','2025-07-01', '10:00:00', '11:00:00', 'a1f14c90-ec5e-4f82-a9b7-2548a7325b34', 'Car Wash', 'c1f14c90-ec5e-4f82-a9b7-2548a7325b34', 'John Doe', 'e1f14c90-ec5e-4f82-a9b7-2548a7325b34', 'Jane Smith', 'PENDING', 'detailing-service-1.jpg'),
+    (2, 'b1f14c90-ec5e-4f82-a9b7-2548a7325b34','2025-07-02', '11:00:00', '12:00:00', 'b5c64e99-9ac4-4f93-bb52-5c9ab7832e12', 'Brake Check', 'c1f14c90-ec5e-4f82-a9b7-2548a7325b34', 'John Doe', 'e1f14c90-ec5e-4f82-a9b7-2548a7325b34', 'Jane Smith', 'PENDING', 'detailing-service-1.jpg'),
+    (3, 'a1f14c90-ec5e-4f82-a9b7-2548a7325b34','2025-07-03', '12:00:00', '13:00:00', 'c6a87f2b-e3b5-4b8d-b48c-4824bb8d62e7', 'Engine Tuning', 'c1f14c90-ec5e-4f82-a9b7-2548a7325b34', 'John Doe', 'e1f14c90-ec5e-4f82-a9b7-2548a7325b34', 'Jane Smith', 'PENDING', 'detailing-service-1.jpg');
+
+
 
 
 INSERT INTO galleries (gallery_id, description, image_url) VALUES
@@ -46,7 +55,7 @@ VALUES
 
 INSERT INTO customers (customer_id, customer_first_name, customer_last_name, customer_email_address, street_address, city, postal_code, province, country)
 VALUES
-    ('f3bce765-1a64-4a2f-8fa7-b083e77dfe72', 'John', 'Doe', 'john.doe@example.com', '123 Main St', 'Toronto', 'M5A 1A1', 'Ontario', 'Canada'),
+    ('auth0|6733c3d5b4ef3c052b0dd6f6', 'John', 'Doe', 'john.doe@example.com', '123 Main St', 'Toronto', 'M5A 1A1', 'Ontario', 'Canada'),
     ('d50f6f2d-cb85-428d-89e4-3f29db9db987', 'Jane', 'Smith', 'jane.smith@example.com', '456 Elm St', 'Vancouver', 'V6B 2B3', 'British Columbia', 'Canada'),
     ('c1b2ad74-3f57-4d52-8d25-767de1d4bb19', 'Alice', 'Johnson', 'alice.johnson@example.com', '789 Oak St', 'Montreal', 'H3A 1A4', 'Quebec', 'Canada'),
     ('f72c6438-b8bb-4328-8de8-f4a6dcb33742', 'Bob', 'Brown', 'bob.brown@example.com', '101 Pine St', 'Calgary', 'T2P 2N3', 'Alberta', 'Canada'),

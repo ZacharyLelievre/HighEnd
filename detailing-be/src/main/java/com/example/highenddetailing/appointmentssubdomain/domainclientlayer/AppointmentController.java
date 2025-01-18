@@ -6,6 +6,7 @@ import com.example.highenddetailing.appointmentssubdomain.datalayer.Status;
 import com.example.highenddetailing.employeessubdomain.presentationlayer.EmployeeRequestModel;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -24,6 +25,11 @@ public class AppointmentController {
     @GetMapping(produces = "application/json")
     public ResponseEntity<List<AppointmentResponseModel>> getAllAppointments() {
         return ResponseEntity.ok(appointmentService.getAllAppointments());
+    }
+
+    @PostMapping(produces = "application/json")
+    public ResponseEntity<AppointmentResponseModel> createAppointment(@RequestBody AppointmentRequestModel appointmentRequestModel) {
+        return ResponseEntity.ok(appointmentService.createAppointment(appointmentRequestModel));
     }
     @PutMapping("/{id}/status")
     public ResponseEntity<Appointment> updateAppointmentStatus(@PathVariable String id,

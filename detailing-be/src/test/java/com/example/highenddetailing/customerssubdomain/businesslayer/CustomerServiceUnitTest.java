@@ -63,7 +63,7 @@ class CustomerServiceUnitTest {
         existingCustomer.setCustomerIdentifier(new CustomerIdentifier());
 
         CustomerRequestModel requestModel = new CustomerRequestModel("John", "Doe", "johndoe@example.com",
-                "123 Main St", "Anytown", "A1B2C3", "Ontario", "Canada");
+                "123 Main St", "Anytown", "A1B2C3", "Ontario", "Canada","auth0-1234");
 
         Customer updatedCustomer = new Customer();
         updatedCustomer.setId(1);

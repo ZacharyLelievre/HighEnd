@@ -12,7 +12,6 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/galleries")
-@CrossOrigin(origins = "http://localhost:3000")
 public class GalleryController {
 
     private final GalleryService galleryService;
@@ -22,7 +21,7 @@ public class GalleryController {
     }
 
     @GetMapping(produces = "application/json")
-    public ResponseEntity<List<GalleryResponseModel>> getAllGalleries(){
+    public ResponseEntity<List<GalleryResponseModel>> getAllGalleries() {
         return ResponseEntity.ok().body(galleryService.getAllGalleries());
     }
 }

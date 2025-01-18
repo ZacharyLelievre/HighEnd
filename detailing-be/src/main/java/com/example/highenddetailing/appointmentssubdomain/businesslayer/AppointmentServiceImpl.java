@@ -1,10 +1,14 @@
 package com.example.highenddetailing.appointmentssubdomain.businesslayer;
 
 import com.example.highenddetailing.appointmentssubdomain.datalayer.Appointment;
+import com.example.highenddetailing.appointmentssubdomain.datalayer.AppointmentIdentifier;
 import com.example.highenddetailing.appointmentssubdomain.datalayer.AppointmentRepository;
 import com.example.highenddetailing.appointmentssubdomain.datalayer.Status;
+import com.example.highenddetailing.appointmentssubdomain.domainclientlayer.AppointmentRequestModel;
+import com.example.highenddetailing.appointmentssubdomain.mapperlayer.AppointmentRequestMapper;
 import com.example.highenddetailing.appointmentssubdomain.mapperlayer.AppointmentResponseMapper;
 import com.example.highenddetailing.appointmentssubdomain.domainclientlayer.AppointmentResponseModel;
+import com.example.highenddetailing.appointmentssubdomain.utlis.BookingConflictException;
 import com.example.highenddetailing.employeessubdomain.datalayer.Employee;
 import com.example.highenddetailing.employeessubdomain.datalayer.EmployeeRepository;
 import com.example.highenddetailing.employeessubdomain.presentationlayer.EmployeeRequestModel;
@@ -12,15 +16,25 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.List;
 
 @Service
-@RequiredArgsConstructor
 @Slf4j
 public class AppointmentServiceImpl implements AppointmentService {
     private final AppointmentResponseMapper appointmentResponseMapper;
+    private final AppointmentRequestMapper appointmentRequestMapper;
     private final AppointmentRepository appointmentRepository;
     private final EmployeeRepository employeeRepository;
+
+    public AppointmentServiceImpl(AppointmentResponseMapper appointmentResponseMapper, AppointmentRequestMapper appointmentRequestMapper,
+                                  AppointmentRepository appointmentRepository, EmployeeRepository employeeRepository) {
+        this.appointmentResponseMapper = appointmentResponseMapper;
+        this.appointmentRequestMapper = appointmentRequestMapper;
+        this.appointmentRepository = appointmentRepository;
+        this.employeeRepository = employeeRepository;
+    }
 
     @Override
     public List<AppointmentResponseModel> getAllAppointments() {
@@ -57,4 +71,29 @@ public class AppointmentServiceImpl implements AppointmentService {
 
         return appointmentResponseMapper.entityToResponseModel(updatedAppointment);
     }
+
+    //////////////////////////////////////////
+
+    public boolean isTimeSlotAvailable(LocalDate date, LocalTime startTime, LocalTime endTime) {
+        List<Appointment> overlappingAppointments = appointmentRepository.findOverlappingAppointments(date, startTime, endTime);
+        return overlappingAppointments.isEmpty();
+    }
+
+    /////////////////////////////////////////
+
+    public AppointmentResponseModel createAppointment(AppointmentRequestModel request) {
+        LocalDate date = LocalDate.parse(request.getAppointmentDate());
+        LocalTime startTime = LocalTime.parse(request.getAppointmentTime());
+        LocalTime endTime = LocalTime.parse(request.getAppointmentEndTime());
+
+        if (!isTimeSlotAvailable(date, startTime, endTime)) {
+            throw new BookingConflictException("The time slot is already booked.");
+        }
+
+        Appointment appointment = appointmentRequestMapper.requestModelToEntity(request, new AppointmentIdentifier());
+        appointment.setStatus(Status.PENDING);
+        Appointment savedAppointment = appointmentRepository.save(appointment);
+        return appointmentResponseMapper.entityToResponseModel(savedAppointment);
+    }
+
 }

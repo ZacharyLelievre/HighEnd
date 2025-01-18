@@ -31,8 +31,8 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Override
-    public Optional<EmployeeResponseModel> getEmployeeById(String employeeId){
-        return employeeRepository.findByEmployeeIdentifier_EmployeeId(employeeId)
+    public Optional<EmployeeResponseModel> getEmployeeById(String employeeIds){
+        return employeeRepository.findByEmployeeIdentifier_EmployeeId(employeeIds)
                 .map(employeeResponseMapper::entityToResponseModel);
     }
 }

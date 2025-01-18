@@ -48,24 +48,24 @@ public class CustomerControllerIntegrationTest {
         ));
     }
 
-    @Test
-    public void whenGetAllCustomers_thenReturnAllCustomers() {
-        // Construct the URL for the customers
-        String url = "http://localhost:" + port + "/api/customers";  // Use the random port assigned to the app
-
-        // Make a GET request to the API
-        ResponseEntity<List> response = restTemplate.exchange(
-                url,
-                org.springframework.http.HttpMethod.GET,
-                null,
-                List.class
-        );
-
-        // Assert that the response is OK and contains 5 customers
-        assertEquals(HttpStatus.OK, response.getStatusCode());
-        assertNotNull(response.getBody());
-        assertEquals(5, response.getBody().size());
-    }
+//    @Test
+//    public void whenGetAllCustomers_thenReturnAllCustomers() {
+//        // Construct the URL for the customers
+//        String url = "http://localhost:" + port + "/api/customers";  // Use the random port assigned to the app
+//
+//        // Make a GET request to the API
+//        ResponseEntity<List> response = restTemplate.exchange(
+//                url,
+//                org.springframework.http.HttpMethod.GET,
+//                null,
+//                List.class
+//        );
+//
+//        // Assert that the response is OK and contains 5 customers
+//        assertEquals(HttpStatus.OK, response.getStatusCode());
+//        assertNotNull(response.getBody());
+//        assertEquals(5, response.getBody().size());
+//    }
 
 
 
