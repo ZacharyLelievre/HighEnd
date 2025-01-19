@@ -9,7 +9,8 @@ import DashboardPage from "../pages/DashhoardPage";
 import EmployeeDetails from "../models/EmployeeDetails";
 import { OnboardingForm } from "../pages/OnboardingForm";
 import { ProfilePage } from "../pages/ProfilePage";
-import { Navigate } from "react-router-dom"; // Import Navigate
+import { Navigate } from "react-router-dom";
+import CustomerDetailsPage from "../pages/CustomerDetailsPage";
 
 const router = createBrowserRouter([
   {
@@ -43,6 +44,10 @@ const router = createBrowserRouter([
   {
     path: "/employees/:employeeId",
     element: <EmployeeDetails />,
+  },
+  {
+    path: AppRoutePath.CustomerDetails,
+    element: <CustomerDetailsPage />,
   },
   {
     path: AppRoutePath.Profile,

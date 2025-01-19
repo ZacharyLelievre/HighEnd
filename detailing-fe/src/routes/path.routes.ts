@@ -8,6 +8,7 @@ export enum AppRoutePath {
   Callback = "/callback",
   Onboarding = "/onboarding",
   Profile = "/profile",
+  CustomerDetails = "/customers/:customerId",
 
   Unauthorized = "/unauthorized",
   Forbidden = "/forbidden",
