@@ -63,7 +63,7 @@ export default function Home(): JSX.Element {
         const token = await getAccessTokenSilently();
 
         await axios.post(
-          "http://localhost:8080/api/customers",
+          "https://highend-zke6.onrender.com/api/customers",
           { ...formData, auth0Sub },
           {
             headers: {
@@ -85,7 +85,7 @@ export default function Home(): JSX.Element {
 
     try {
       const response = await axios.get<CustomerInfo>(
-        "http://localhost:8080/api/customers/me",
+        "https://highend-zke6.onrender.com/api/customers/me",
         {
           headers: { Authorization: `Bearer ${accessToken}` },
         },

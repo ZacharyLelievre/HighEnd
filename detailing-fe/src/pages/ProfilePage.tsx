@@ -26,7 +26,7 @@ export function ProfilePage() {
         setLoading(true);
         const token = await getAccessTokenSilently();
         const response = await axios.get<CustomerInfo>(
-          "http://localhost:8080/api/customers/me",
+          "https://highend-zke6.onrender.com/api/customers/me",
           {
             headers: {
               Authorization: `Bearer ${token}`,

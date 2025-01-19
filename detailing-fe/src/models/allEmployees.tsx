@@ -11,7 +11,9 @@ export default function AllEmployees(): JSX.Element {
   useEffect(() => {
     const fetchEmployees = async (): Promise<void> => {
       try {
-        const response = await axios.get("http://localhost:8080/api/employees");
+        const response = await axios.get(
+          "https://highend-zke6.onrender.com/api/employees",
+        );
         setEmployees(response.data);
       } catch (error) {
         console.error("Error fetching employees:", error);
@@ -32,7 +34,7 @@ export default function AllEmployees(): JSX.Element {
           <div className="employee-box" key={employee.employeeId}>
             <img
               className="employee-image"
-              src={`http://localhost:8080/${employee.imagePath}`}
+              src={`https://highend-zke6.onrender.com/${employee.imagePath}`}
               alt="employee"
             />
             <div className="employee-details">

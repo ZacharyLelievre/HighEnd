@@ -30,7 +30,7 @@ function EditCustomerForm({ customer, onUpdate }: EditCustomerFormProps) {
 
     try {
       const response = await axios.put(
-        `http://localhost:8080/api/customers/${customer.customerId}`,
+        `https://highend-zke6.onrender.com/api/customers/${customer.customerId}`,
         formData,
       );
 

@@ -17,7 +17,7 @@ export default function EmployeeDetails(): JSX.Element {
       try {
         const token = await getAccessTokenSilently();
         const response = await axios.get(
-          `http://localhost:8080/api/employees/${employeeId}`,
+          `https://highend-zke6.onrender.com/api/employees/${employeeId}`,
           {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -45,7 +45,7 @@ export default function EmployeeDetails(): JSX.Element {
         <div className="profile-header">
           <img
             className="employee-image"
-            src={`http://localhost:8080/${employee.imagePath}`}
+            src={`https://highend-zke6.onrender.com/${employee.imagePath}`}
             alt="employee"
           />
           <div className="info">

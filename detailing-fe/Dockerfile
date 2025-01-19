@@ -1,5 +1,17 @@
 # Use a lightweight Node.js image
-FROM node:18-alpine
+FROM node:20-alpine
+
+# Set build-time arguments for React environment variables
+ARG REACT_APP_AUTH0_DOMAIN
+ARG REACT_APP_AUTH0_CLIENT_ID
+ARG REACT_APP_AUTH0_AUDIENCE
+ARG REACT_APP_AUTH0_CALLBACK_URL
+
+# Inject environment variables into the build
+ENV REACT_APP_AUTH0_DOMAIN=${REACT_APP_AUTH0_DOMAIN}
+ENV REACT_APP_AUTH0_CLIENT_ID=${REACT_APP_AUTH0_CLIENT_ID}
+ENV REACT_APP_AUTH0_AUDIENCE=${REACT_APP_AUTH0_AUDIENCE}
+ENV REACT_APP_AUTH0_CALLBACK_URL=${REACT_APP_AUTH0_CALLBACK_URL}
 
 # Set working directory
 WORKDIR /app
@@ -8,13 +20,21 @@ WORKDIR /app
 COPY package*.json ./
 
 # Install only production dependencies
-RUN npm install --production
+RUN npm install
 
 # Copy the rest of the application
 COPY . .
 
 # Build the React app for production
 RUN npm run build
+
+# Add runtime environment injection script
+RUN echo 'window.__RUNTIME_CONFIG__ = {' > /app/build/env-config.js && \
+    echo '  REACT_APP_AUTH0_DOMAIN: "'${REACT_APP_AUTH0_DOMAIN}'",' >> /app/build/env-config.js && \
+    echo '  REACT_APP_AUTH0_CLIENT_ID: "'${REACT_APP_AUTH0_CLIENT_ID}'",' >> /app/build/env-config.js && \
+    echo '  REACT_APP_AUTH0_AUDIENCE: "'${REACT_APP_AUTH0_AUDIENCE}'",' >> /app/build/env-config.js && \
+    echo '  REACT_APP_AUTH0_CALLBACK_URL: "'${REACT_APP_AUTH0_CALLBACK_URL}'"' >> /app/build/env-config.js && \
+    echo '};' >> /app/build/env-config.js
 
 # Install `serve` to serve the static files
 RUN npm install -g serve
