@@ -21,7 +21,7 @@ export default function AllServices(): JSX.Element {
   const [services, setServices] = useState<ServiceModel[]>([]);
   const [modalIsOpen, setModalIsOpen] = useState<boolean>(false);
   const [selectedService, setSelectedService] = useState<ServiceModel | null>(
-    null
+    null,
   );
   const [appointmentData, setAppointmentData] = useState({
     appointmentDate: "",
@@ -63,7 +63,7 @@ export default function AllServices(): JSX.Element {
   };
 
   const handleInputChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>,
   ) => {
     const { name, value } = e.target;
     setAppointmentData({ ...appointmentData, [name]: value });
@@ -74,7 +74,7 @@ export default function AllServices(): JSX.Element {
     try {
       const response = await axios.post(
         "http://localhost:8080/api/appointments",
-        appointmentData
+        appointmentData,
       );
       if (response.status === 201) {
         alert("Appointment booked successfully!");
