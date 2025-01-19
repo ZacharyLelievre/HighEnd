@@ -12,17 +12,17 @@ console.log("Audience:", auth0Config.audience);
 console.log("Redirect URI:", `${window.location.origin}/home`);
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
-    <React.StrictMode>
-        <Auth0Provider
-            domain={auth0Config.domain}
-            clientId={auth0Config.clientId}
-            authorizationParams={{
-                redirect_uri: `${window.location.origin}/home`,
-                audience: auth0Config.audience,
-                scope: "openid profile email",
-            }}
-        >
-            <App />
-        </Auth0Provider>
-    </React.StrictMode>,
+  <React.StrictMode>
+    <Auth0Provider
+      domain={auth0Config.domain}
+      clientId={auth0Config.clientId}
+      authorizationParams={{
+        redirect_uri: `${window.location.origin}/home`,
+        audience: auth0Config.audience,
+        scope: "openid profile email",
+      }}
+    >
+      <App />
+    </Auth0Provider>
+  </React.StrictMode>,
 );
