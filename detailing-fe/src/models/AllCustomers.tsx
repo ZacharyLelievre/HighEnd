@@ -29,7 +29,9 @@ export default function AllCustomers(): JSX.Element {
   useEffect(() => {
     const fetchCustomers = async (): Promise<void> => {
       try {
-        const response = await axios.get("http://localhost:8080/api/customers");
+        const response = await axios.get(
+          "https://highend-zke6.onrender.com/api/customers",
+        );
         setCustomers(response.data);
       } catch (error) {
         console.error("Error fetching customers:", error);
@@ -41,7 +43,9 @@ export default function AllCustomers(): JSX.Element {
 
   const handleDeleteCustomer = async (customerId: string) => {
     try {
-      await axios.delete(`http://localhost:8080/api/customers/${customerId}`);
+      await axios.delete(
+        `https://highend-zke6.onrender.com/api/customers/${customerId}`,
+      );
       setCustomers(
         customers.filter((customer) => customer.customerId !== customerId),
       );
@@ -78,7 +82,7 @@ export default function AllCustomers(): JSX.Element {
     if (editingCustomer) {
       try {
         await axios.put(
-          `http://localhost:8080/api/customers/${editingCustomer.customerId}`,
+          `https://highend-zke6.onrender.com/api/customers/${editingCustomer.customerId}`,
           editingCustomer,
         );
         setCustomers(

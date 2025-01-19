@@ -13,7 +13,7 @@ export default function ServiceDetail(): JSX.Element {
     const fetchService = async (): Promise<void> => {
       try {
         const response = await axios.get(
-          `http://localhost:8080/api/services/${serviceId}`,
+          `https://highend-zke6.onrender.com/api/services/${serviceId}`,
         );
         setService(response.data);
       } catch (error) {
@@ -40,7 +40,7 @@ export default function ServiceDetail(): JSX.Element {
         <div className="service-image-wrapper">
           <img
             className="service-image"
-            src={`http://localhost:8080/${service.imagePath}`}
+            src={`https://highend-zke6.onrender.com/${service.imagePath}`}
             alt={service.serviceName}
           />
         </div>

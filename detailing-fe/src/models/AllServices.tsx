@@ -38,7 +38,9 @@ export default function AllServices(): JSX.Element {
   useEffect(() => {
     const fetchServices = async (): Promise<void> => {
       try {
-        const response = await axios.get("http://localhost:8080/api/services");
+        const response = await axios.get(
+          "https://highend-zke6.onrender.com/api/services",
+        );
         setServices(response.data);
       } catch (error) {
         console.error("Error fetching services:", error);
@@ -73,7 +75,7 @@ export default function AllServices(): JSX.Element {
     e.preventDefault();
     try {
       const response = await axios.post(
-        "http://localhost:8080/api/appointments",
+        "https://highend-zke6.onrender.com/api/appointments",
         appointmentData,
       );
       if (response.status === 201) {
@@ -109,7 +111,7 @@ export default function AllServices(): JSX.Element {
             >
               <img
                 className="service-image"
-                src={`http://localhost:8080/${service.imagePath}`}
+                src={`https://highend-zke6.onrender.com/${service.imagePath}`}
                 alt={service.serviceName}
               />
               <h3 className="service-name">{service.serviceName}</h3>
