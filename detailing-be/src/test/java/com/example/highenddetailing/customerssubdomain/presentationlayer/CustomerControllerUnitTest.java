@@ -1,5 +1,6 @@
 package com.example.highenddetailing.customerssubdomain.presentationlayer;
 
+import com.example.highenddetailing.authsubdomain.SecurityConfig;
 import com.example.highenddetailing.customerssubdomain.businesslayer.CustomerService;
 import com.example.highenddetailing.customerssubdomain.datalayer.Address;
 import com.example.highenddetailing.customerssubdomain.datalayer.Customer;
@@ -9,6 +10,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.context.annotation.Import;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -19,6 +22,8 @@ import java.util.List;
 
 import static org.mockito.Mockito.when;
 
+@Import(SecurityConfig.class)
+@ActiveProfiles("test")
 @WebMvcTest(CustomerController.class)
 public class CustomerControllerUnitTest {
 
@@ -68,17 +73,17 @@ public class CustomerControllerUnitTest {
         );
     }
 
-//    @Test
-//    public void whenGetAllCustomers_thenReturnAllCustomers() throws Exception {
-//        // Mock the service to return predefined data
-//        when(customerService.getCustomers()).thenReturn(customerResponseModels);
-//
-//        // Perform the GET request and verify the response
-//        mockMvc.perform(get("/api/customers"))  // Provide the URL in the get() method
-//                .andExpect(status().isOk())  // Assert the status is 200 OK
-//                .andExpect(jsonPath("$.size()").value(2))  // Assert there are 2 customers in the response
-//                .andExpect(jsonPath("$[0].customerFirstName").value("John"))  // Assert first customer's first name is "John"
-//                .andExpect(jsonPath("$[1].customerFirstName").value("Alice"));  // Assert second customer's first name is "Jane"
-//    }
+    @Test
+    public void whenGetAllCustomers_thenReturnAllCustomers() throws Exception {
+        // Mock the service to return predefined data
+        when(customerService.getCustomers()).thenReturn(customerResponseModels);
+
+        // Perform the GET request and verify the response
+        mockMvc.perform(get("/api/customers"))  // Provide the URL in the get() method
+                .andExpect(status().isOk())  // Assert the status is 200 OK
+                .andExpect(jsonPath("$.size()").value(2))  // Assert there are 2 customers in the response
+                .andExpect(jsonPath("$[0].customerFirstName").value("John"))  // Assert first customer's first name is "John"
+                .andExpect(jsonPath("$[1].customerFirstName").value("Alice"));  // Assert second customer's first name is "Jane"
+    }
 
 }
