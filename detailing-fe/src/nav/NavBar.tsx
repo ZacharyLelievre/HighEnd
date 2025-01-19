@@ -185,9 +185,9 @@ export function NavBar(): JSX.Element {
                   Login
                 </Button>
                 <Button
-                    onClick={handleRegister}
-                    variant="outline-light"
-                    className="btn-signin"
+                  onClick={handleRegister}
+                  variant="outline-light"
+                  className="btn-signin"
                 >
                   Register
                 </Button>
