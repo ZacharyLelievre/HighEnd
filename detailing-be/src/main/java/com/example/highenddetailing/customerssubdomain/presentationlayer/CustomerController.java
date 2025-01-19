@@ -59,6 +59,22 @@ public class CustomerController {
         }
     }
 
+//    @PostMapping
+//    public ResponseEntity<CustomerResponseModel> createCustomer(@RequestBody CustomerRequestModel customerRequestModel) {
+//        String auth0UserId = customerRequestModel.getAuth0Sub();
+//
+//        if (auth0UserId == null || auth0UserId.isEmpty()) {
+//            return ResponseEntity.badRequest().body(null);
+//        }
+//
+//        try {
+//            CustomerResponseModel customerResponse = customerService.createCustomer(customerRequestModel, auth0UserId);
+//            return ResponseEntity.status(201).body(customerResponse);
+//        } catch (Exception e) {
+//            return ResponseEntity.status(500).body(null);
+//        }
+//    }
+
 
 
 }
