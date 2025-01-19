@@ -17,9 +17,8 @@ services:
       - SPRING_DATASOURCE_PASSWORD=${SPRING_DATASOURCE_PASSWORD}
     depends_on: []
 
-
     healthcheck:
-      test: [ "CMD-SHELL", "curl -f http://backend:8080 || exit 1" ] # Check if backend is accessible
+      test: ["CMD-SHELL", "curl -f http://backend:8080 || exit 1"] # Check if backend is accessible
       interval: 30s
       timeout: 10s
       retries: 3
@@ -46,7 +45,7 @@ services:
       - /app/node_modules # Avoid overwriting node_modules
       - /app/build
     healthcheck:
-      test: [ "CMD", "curl", "-f", "http://localhost:3000" ] # Check if the frontend is accessible
+      test: ["CMD", "curl", "-f", "http://localhost:3000"] # Check if the frontend is accessible
       interval: 30s # Check every 30 seconds
       timeout: 10s # Timeout after 10 seconds
       retries: 3 # Mark as unhealthy after 3 failed checks
@@ -61,7 +60,7 @@ services:
       PMA_USER: ${SPRING_DATASOURCE_USERNAME}
       PMA_PASSWORD: ${SPRING_DATASOURCE_PASSWORD}
     healthcheck:
-      test: [ "CMD-SHELL", "curl -f http://localhost:80 || exit 1" ]
+      test: ["CMD-SHELL", "curl -f http://localhost:80 || exit 1"]
       interval: 30s
       timeout: 10s
       retries: 3
