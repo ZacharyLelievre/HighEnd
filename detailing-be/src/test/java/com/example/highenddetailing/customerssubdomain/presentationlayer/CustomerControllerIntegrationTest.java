@@ -11,9 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.context.annotation.Import;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.web.client.RestTemplate;
 
@@ -79,4 +77,86 @@ public class CustomerControllerIntegrationTest {
         assertNotNull(response.getBody(), "Response body should not be null");
         assertEquals(5, response.getBody().size(), "There should be 5 customers in the response");
     }
+    @Test
+    public void whenCreateCustomerWithValidRequest_thenReturnCreatedCustomer() {
+        // Construct the URL for the customers API
+        String url = "http://localhost:" + port + "/api/customers";
+
+        // Create a valid CustomerRequestModel
+        CustomerRequestModel requestModel = new CustomerRequestModel(
+                "Jane",              // First Name
+                "Doe",               // Last Name
+                "jane.doe@example.com", // Email
+                "123 Main St",       // Street Address
+                "Anytown",           // City
+                "12345",             // Postal Code
+                "Province",          // Province
+                "Country",           // Country
+                "auth0-id-jane"      // Auth0 Sub
+        );
+
+        // Set headers for the request
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+
+        // Create an HttpEntity with the request body and headers
+        HttpEntity<CustomerRequestModel> request = new HttpEntity<>(requestModel, headers);
+
+        // Make a POST request to the API
+        ResponseEntity<CustomerResponseModel> response = restTemplate.exchange(
+                url,
+                HttpMethod.POST,
+                request,
+                CustomerResponseModel.class
+        );
+
+        // Assert the response
+        assertEquals(HttpStatus.CREATED, response.getStatusCode(), "Response status should be CREATED");
+        assertNotNull(response.getBody(), "Response body should not be null");
+
+        // Assert the response body
+        CustomerResponseModel responseBody = response.getBody();
+        assertEquals("Jane", responseBody.getCustomerFirstName(), "First name should match");
+        assertEquals("Doe", responseBody.getCustomerLastName(), "Last name should match");
+        assertEquals("jane.doe@example.com", responseBody.getCustomerEmailAddress(), "Email should match");
+    }
+    @Test
+    public void whenCreateCustomerWithInvalidRequest_thenReturnBadRequest() {
+
+        String url = "http://localhost:" + port + "/api/customers";
+
+
+        CustomerRequestModel requestModel = new CustomerRequestModel(
+                "Jane",
+                "Doe",
+                "jane.doe@example.com",
+                "123 Main St",
+                "Anytown",
+                "12345",
+                "Province",
+                "Country",
+                null
+        );
+
+        // Set headers for the request
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+
+        // Create an HttpEntity with the request body and headers
+        HttpEntity<CustomerRequestModel> request = new HttpEntity<>(requestModel, headers);
+
+        try {
+            // Make a POST request to the API
+            restTemplate.exchange(
+                    url,
+                    HttpMethod.POST,
+                    request,
+                    Void.class
+            );
+        } catch (org.springframework.web.client.HttpClientErrorException.BadRequest ex) {
+            // Assert that the exception contains a 400 status code
+            assertEquals(HttpStatus.BAD_REQUEST, ex.getStatusCode(), "Response status should be BAD_REQUEST");
+        }
+    }
+
 }
