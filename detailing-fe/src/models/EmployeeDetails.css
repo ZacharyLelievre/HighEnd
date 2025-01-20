@@ -1,166 +1,85 @@
-body {
-  background-color: #f5f5f5; /* Light gray background for the page */
-  margin: 0;
-  font-family: Arial, sans-serif; /* Consistent font */
-}
-
 .details-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  width: 90%; /* Adjust width for responsiveness */
-  max-width: 600px; /* Limit the max width of the card */
-  margin: 50px auto; /* Center the card horizontally and add vertical spacing */
-  background-color: #ffffff; /* White background for the card */
-  border-radius: 8px; /* Optional: Rounded corners */
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow */
-  padding: 20px; /* Add padding inside the card */
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 1rem;
 }
 
+/* Profile Header */
 .profile-header {
   display: flex;
   align-items: center;
-  margin-bottom: 20px;
+  margin-bottom: 1rem;
 }
 
-.profile-header img {
-  border-radius: 50%; /* Circular image */
-  width: 70px;
-  height: 70px;
-  margin-right: 15px;
+.employee-image {
+  width: 80px;
+  height: 80px;
+  object-fit: cover;
+  border-radius: 50%;
+  margin-right: 1rem;
 }
 
-.profile-header .info {
-  display: flex;
-  flex-direction: column;
-}
-
-.profile-header .info h2 {
+.info h2 {
   margin: 0;
-  font-size: 18px;
-  color: #333; /* Dark gray text for header */
-}
-
-.profile-header .info p {
-  margin: 0;
-  font-size: 14px;
-  color: #777; /* Lighter gray text for subheader */
+  font-size: 1.5rem;
 }
 
 .details {
   display: grid;
-  grid-template-columns: 1fr 1fr; /* Two-column layout */
-  gap: 15px; /* Space between fields */
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
 }
 
-.details .field {
-  display: flex;
-  flex-direction: column;
+.field label {
+  display: block;
+  font-weight: 600;
+  margin-bottom: 0.25rem;
 }
 
-.details .field label {
-  font-size: 12px;
-  color: #555; /* Medium gray for labels */
-  margin-bottom: 5px;
-}
-
-.details .field input {
-  padding: 10px;
-  border: 1px solid #ddd;
-  border-radius: 5px;
-  font-size: 14px;
-  background-color: #f9f9f9; /* Slightly off-white background */
-}
-
-.email-section {
-  margin-top: 20px;
+.field input,
+.field select {
   width: 100%;
+  padding: 0.4rem;
+  margin-bottom: 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
 }
 
-.email-section h3 {
-  font-size: 14px;
-  margin-bottom: 10px;
-  color: #333; /* Dark gray for heading */
+.availability-section {
+  margin-top: 2rem;
 }
 
-.email-section .email {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  background: #f9f9f9; /* Slightly off-white background for email section */
-  border: 1px solid #ddd;
-  padding: 10px;
-  border-radius: 5px;
-}
-
-.email-section .email p {
-  margin: 0;
-  font-size: 14px;
-  color: #555; /* Medium gray text */
-}
-
-.email-section .email span {
-  font-size: 12px;
-  color: #999; /* Light gray text */
-}
-
-.email-section button {
-  margin-top: 10px;
-  padding: 10px;
-  font-size: 14px;
-  color: #fff;
-  background-color: #007bff; /* Primary blue button */
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-}
-
-.email-section button:hover {
-  background-color: #0056b3; /* Darker blue on hover */
-}
+/* Table-based availability grid */
 .availability-grid {
-  display: flex;
-  flex-direction: column;
-  margin-top: 20px;
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 1.5rem;
 }
-
-.grid-header {
-  display: flex;
-  justify-content: space-between;
-}
-
-.grid-day {
-  flex: 1;
+.availability-grid th,
+.availability-grid td {
+  border: 1px solid #ccc;
   text-align: center;
+  padding: 0.5rem;
+}
+.availability-grid thead th {
+  background-color: #f1f1f1;
+}
+
+/* Highlight cells that are covered by availability */
+.covered-cell {
+  background-color: #cce5ff; /* light blue */
   font-weight: bold;
-  padding: 5px;
-  border: 1px solid #ccc;
 }
 
-.grid-body {
-  display: flex;
-  flex-direction: column;
+/* The Add Availability form */
+.add-availability-form {
+  background: #f9f9f9;
+  padding: 1rem;
+  border-radius: 8px;
+  margin-top: 1rem;
 }
 
-.grid-row {
-  display: flex;
-}
-
-.time-slot {
-  width: 50px;
-  text-align: center;
-  border: 1px solid #ccc;
-  background-color: #f9f9f9;
-}
-
-.grid-cell {
-  flex: 1;
-  height: 30px;
-  border: 1px solid #ccc;
-  cursor: pointer;
-}
-
-.grid-cell.available {
-  background-color: #90ee90;
+.add-availability-form h4 {
+  margin-top: 0;
 }
