@@ -4,6 +4,7 @@ import com.example.highenddetailing.appointmentssubdomain.businesslayer.Appointm
 import com.example.highenddetailing.appointmentssubdomain.datalayer.*;
 import com.example.highenddetailing.appointmentssubdomain.domainclientlayer.AppointmentResponseModel;
 import com.example.highenddetailing.appointmentssubdomain.mapperlayer.AppointmentResponseMapper;
+import com.example.highenddetailing.employeessubdomain.datalayer.Availability;
 import com.example.highenddetailing.employeessubdomain.datalayer.Employee;
 import com.example.highenddetailing.employeessubdomain.datalayer.EmployeeIdentifier;
 import com.example.highenddetailing.employeessubdomain.datalayer.EmployeeRepository;
@@ -16,6 +17,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -24,6 +26,8 @@ import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 public class AppointmentServiceUnitTest {
+
+    List<Availability> availabilityList = new ArrayList<>();
 
     @Mock
     private AppointmentRepository appointmentRepository;
@@ -158,7 +162,8 @@ public class AppointmentServiceUnitTest {
                 "john.smith@example.com",
                 "123-456-7890",
                 50000.0,
-                "johndoe.jpg"
+                "johndoe.jpg",
+                availabilityList
         );
 
         // Mock the response model after assignment
