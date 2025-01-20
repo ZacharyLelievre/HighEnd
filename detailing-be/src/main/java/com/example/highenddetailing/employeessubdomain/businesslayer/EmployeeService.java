@@ -17,4 +17,5 @@ public interface EmployeeService {
 
     List<AvailabilityResponseModel> getAvailabilityForEmployee(String employeeId);
 
+    void setAvailabilityForEmployee(String employeeId, List<Availability> newAvailability);
 }
