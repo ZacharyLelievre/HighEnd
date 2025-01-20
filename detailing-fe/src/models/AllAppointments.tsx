@@ -71,6 +71,7 @@ export default function AllAppointments(): JSX.Element {
         { status: "CONFIRMED" },
         {
           headers: {
+            "Content-Type": "application/json",
             Authorization: `Bearer ${token}`,
           },
         },
@@ -105,6 +106,7 @@ export default function AllAppointments(): JSX.Element {
         { employeeId: employeeId },
         {
           headers: {
+            "Content-Type": "application/json",
             Authorization: `Bearer ${token}`,
           },
         },
