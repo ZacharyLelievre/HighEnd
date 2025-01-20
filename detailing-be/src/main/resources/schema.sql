@@ -33,11 +33,8 @@ CREATE TABLE IF NOT EXISTS galleries (
                                          gallery_id VARCHAR(255) NOT NULL,
     description VARCHAR(255) NOT NULL,
     image_url VARCHAR(255) NOT NULL
-<<<<<<< HEAD
     );
-=======
-);
->>>>>>> aabd24f (Add avaliabilitys)
+
 
 DROP TABLE IF EXISTS employee_availability;
 DROP TABLE IF EXISTS employees;
