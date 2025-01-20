@@ -38,5 +38,14 @@ public class EmployeeController {
         return ResponseEntity.ok(availability);
     }
 
+    @PutMapping(value = "/{employeeId}/availability", consumes = "application/json")
+    public ResponseEntity<Void> setEmployeeAvailability(
+            @PathVariable String employeeId,
+            @RequestBody List<Availability> newAvailability) {
+
+        employeeService.setAvailabilityForEmployee(employeeId, newAvailability);
+        return ResponseEntity.ok().build();
+    }
+
 
 }

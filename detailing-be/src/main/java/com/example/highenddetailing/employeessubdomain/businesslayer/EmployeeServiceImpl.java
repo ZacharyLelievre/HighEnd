@@ -54,6 +54,18 @@ public class EmployeeServiceImpl implements EmployeeService {
                 .toList();
     }
 
+    @Override
+    public void setAvailabilityForEmployee(String employeeId, List<Availability> newAvailability) {
+        Employee employee = employeeRepository.findByEmployeeId(employeeId)
+                .orElseThrow(() -> new RuntimeException("Employee not found with id: " + employeeId));
+
+        // You can choose to either replace the entire availability list
+        // or you can manipulate it further (e.g., add new slots).
+        employee.setAvailability(newAvailability);
+
+        // Save changes to DB
+        employeeRepository.save(employee);
+    }
 
 }
 
