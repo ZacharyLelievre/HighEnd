@@ -2,6 +2,7 @@ import "./EmployeeDetails.css"; // Reusing the same CSS
 import { useParams } from "react-router-dom";
 import React, { useEffect, useState } from "react";
 import { EmployeeModel } from "./dtos/EmployeeModel"; // Importing EmployeeModel
+import { AvailabilityModel } from "./dtos/AvailabilityModel"; // Importing AvailabilityModel
 import axios from "axios";
 import { NavBar } from "../nav/NavBar";
 import { useAuth0 } from "@auth0/auth0-react";
@@ -9,9 +10,10 @@ import { useAuth0 } from "@auth0/auth0-react";
 export default function EmployeeDetails(): JSX.Element {
   const { employeeId } = useParams<{ employeeId: string }>();
   const [employee, setEmployee] = useState<EmployeeModel | null>(null);
-
+  const [availability, setAvailability] = useState<AvailabilityModel[]>([]); // State for availability
   const { getAccessTokenSilently } = useAuth0();
 
+  // Fetch employee details
   useEffect(() => {
     const fetchEmployeeDetails = async (): Promise<void> => {
       try {
@@ -31,6 +33,29 @@ export default function EmployeeDetails(): JSX.Element {
     };
 
     fetchEmployeeDetails();
+  }, [employeeId, getAccessTokenSilently]);
+
+  // Fetch employee availability
+  useEffect(() => {
+    const fetchAvailability = async (): Promise<void> => {
+      try {
+        const token = await getAccessTokenSilently();
+        const response = await axios.get(
+          `https://highend-zke6.onrender.com/api/employees/${employeeId}/availability`,
+          {
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${token}`,
+            },
+          },
+        );
+        setAvailability(response.data);
+      } catch (error) {
+        console.error("Error fetching employee availability: ", error);
+      }
+    };
+
+    fetchAvailability();
   }, [employeeId, getAccessTokenSilently]);
 
   if (!employee) {
@@ -86,14 +111,31 @@ export default function EmployeeDetails(): JSX.Element {
           </div>
         </div>
 
-        {/* Email Section */}
-        <div className="email-section">
-          <h3>My Email Address</h3>
-          <div className="email">
-            <p>{employee.email}</p>
-            <span>1 month ago</span>
-          </div>
-          <button>+ Add Email Address</button>
+        {/* Availability Section */}
+        <div className="availability-section">
+          <h3>Availability</h3>
+          {availability.length > 0 ? (
+            <table>
+              <thead>
+                <tr>
+                  <th>Day of Week</th>
+                  <th>Start Time</th>
+                  <th>End Time</th>
+                </tr>
+              </thead>
+              <tbody>
+                {availability.map((avail, index) => (
+                  <tr key={index}>
+                    <td>{avail.dayOfWeek}</td>
+                    <td>{avail.startTime}</td>
+                    <td>{avail.endTime}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          ) : (
+            <p>No availability data available.</p>
+          )}
         </div>
       </div>
     </>

@@ -1,6 +1,7 @@
 package com.example.highenddetailing.employeessubdomain.presentationlayer;
 
 import com.example.highenddetailing.employeessubdomain.businesslayer.EmployeeServiceImpl;
+import com.example.highenddetailing.employeessubdomain.datalayer.Availability;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
@@ -30,4 +31,12 @@ public class EmployeeController {
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
+
+    @GetMapping(value = "/{employeeId}/availability", produces = "application/json")
+    public ResponseEntity<List<Availability>> getAvailability(@PathVariable String employeeId, @RequestHeader("Authorization") String authorization) {
+        System.out.println("Authorization Header: " + authorization);
+        return ResponseEntity.ok(employeeService.getAvailabilityByEmployeeId(employeeId));
+    }
+
+
 }

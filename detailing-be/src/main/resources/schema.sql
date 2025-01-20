@@ -35,6 +35,7 @@ CREATE TABLE IF NOT EXISTS galleries (
     image_url VARCHAR(255) NOT NULL
     );
 
+
 DROP TABLE IF EXISTS employee_availability;
 DROP TABLE IF EXISTS employees;
 
@@ -43,14 +44,15 @@ CREATE TABLE IF NOT EXISTS employees (
                                          id INTEGER NOT NULL AUTO_INCREMENT PRIMARY KEY,
                                          employee_id VARCHAR(36) NOT NULL UNIQUE,
 
-    first_name VARCHAR(50) NOT NULL,
-    last_name VARCHAR(50) NOT NULL,
-    position VARCHAR(50) NOT NULL,
-    email VARCHAR(100) NOT NULL UNIQUE,
-    phone VARCHAR(32) NOT NULL,
-    salary DECIMAL(10, 2) NOT NULL,
-    image_path VARCHAR(255)
-    );
+                                         first_name VARCHAR(50) NOT NULL,
+                                         last_name VARCHAR(50) NOT NULL,
+                                         position VARCHAR(50) NOT NULL,
+                                         email VARCHAR(100) NOT NULL UNIQUE,
+                                         phone VARCHAR(32) NOT NULL,
+                                         salary DECIMAL(10, 2) NOT NULL,
+                                         image_path VARCHAR(255)
+);
+
 DROP TABLE IF EXISTS employee_availability;
 CREATE TABLE IF NOT EXISTS employee_availability (
                                                      id INTEGER NOT NULL AUTO_INCREMENT PRIMARY KEY,
