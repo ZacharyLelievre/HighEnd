@@ -26,7 +26,6 @@ public class Service {
     private float price;
     private String imagePath;
 
-
     public Service(String serviceName, String timeRequired, float price, String imagePath){
         this.serviceIdentifier = new ServiceIdentifier();
         this.serviceName = serviceName;
