@@ -41,22 +41,21 @@ DROP TABLE IF EXISTS employees;
 
 
 CREATE TABLE IF NOT EXISTS employees (
-                                         id INTEGER NOT NULL AUTO_INCREMENT PRIMARY KEY,
-                                         employee_id VARCHAR(36) NOT NULL UNIQUE,
+    employee_id VARCHAR(36) NOT NULL,
+    first_name VARCHAR(50) NOT NULL,
+    last_name VARCHAR(50) NOT NULL,
+    position VARCHAR(50) NOT NULL,
+    email VARCHAR(100) NOT NULL UNIQUE,
+    phone VARCHAR(32) NOT NULL,
+    salary DECIMAL(10, 2) NOT NULL,
+    image_path VARCHAR(255),
+    PRIMARY KEY (employee_id)
+    );
 
-                                         first_name VARCHAR(50) NOT NULL,
-                                         last_name VARCHAR(50) NOT NULL,
-                                         position VARCHAR(50) NOT NULL,
-                                         email VARCHAR(100) NOT NULL UNIQUE,
-                                         phone VARCHAR(32) NOT NULL,
-                                         salary DECIMAL(10, 2) NOT NULL,
-                                         image_path VARCHAR(255)
-);
-
-DROP TABLE IF EXISTS employee_availability;
+-- Recreate employee_availability with FK on employees(employee_id)
 CREATE TABLE IF NOT EXISTS employee_availability (
                                                      id INTEGER NOT NULL AUTO_INCREMENT PRIMARY KEY,
-                                                     employee_id VARCHAR(36) NOT NULL,
+                                                     employee_id VARCHAR(36) NOT NULL,                 -- This matches the PK in employees
     day_of_week VARCHAR(10) NOT NULL,
     start_time TIME NOT NULL,
     end_time TIME NOT NULL,

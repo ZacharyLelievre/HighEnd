@@ -1,6 +1,7 @@
 package com.example.highenddetailing.employeessubdomain.businesslayer;
 
 import com.example.highenddetailing.employeessubdomain.datalayer.Availability;
+import com.example.highenddetailing.employeessubdomain.presentationlayer.AvailabilityResponseModel;
 import com.example.highenddetailing.employeessubdomain.presentationlayer.EmployeeResponseModel;
 
 import java.util.List;
@@ -14,6 +15,6 @@ public interface EmployeeService {
 
     //Availability
 
-    List<Availability> getAvailabilityByEmployeeId(String employeeId);
+    List<AvailabilityResponseModel> getAvailabilityForEmployee(String employeeId);
 
 }
