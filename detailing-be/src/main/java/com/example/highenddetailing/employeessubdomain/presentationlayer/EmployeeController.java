@@ -32,9 +32,11 @@ public class EmployeeController {
                 .orElse(ResponseEntity.notFound().build());
     }
 
-    @GetMapping("/{employeeId}/availability")
-    public ResponseEntity<List<Availability>> getAvailability(@PathVariable String employeeId) {
+    @GetMapping(value = "/{employeeId}/availability", produces = "application/json")
+    public ResponseEntity<List<Availability>> getAvailability(@PathVariable String employeeId, @RequestHeader("Authorization") String authorization) {
+        System.out.println("Authorization Header: " + authorization);
         return ResponseEntity.ok(employeeService.getAvailabilityByEmployeeId(employeeId));
     }
+
 
 }
