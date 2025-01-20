@@ -119,3 +119,48 @@ body {
 .email-section button:hover {
   background-color: #0056b3; /* Darker blue on hover */
 }
+.availability-grid {
+  display: flex;
+  flex-direction: column;
+  margin-top: 20px;
+}
+
+.grid-header {
+  display: flex;
+  justify-content: space-between;
+}
+
+.grid-day {
+  flex: 1;
+  text-align: center;
+  font-weight: bold;
+  padding: 5px;
+  border: 1px solid #ccc;
+}
+
+.grid-body {
+  display: flex;
+  flex-direction: column;
+}
+
+.grid-row {
+  display: flex;
+}
+
+.time-slot {
+  width: 50px;
+  text-align: center;
+  border: 1px solid #ccc;
+  background-color: #f9f9f9;
+}
+
+.grid-cell {
+  flex: 1;
+  height: 30px;
+  border: 1px solid #ccc;
+  cursor: pointer;
+}
+
+.grid-cell.available {
+  background-color: #90ee90;
+}

@@ -1,3 +1,5 @@
+import { AvailabilityModel } from "./AvailabilityModel";
+
 export interface EmployeeModel {
   employeeId: string;
   first_name: string;
@@ -7,4 +9,5 @@ export interface EmployeeModel {
   phone: string;
   salary: number;
   imagePath: string;
+  availability: AvailabilityModel[];
 }

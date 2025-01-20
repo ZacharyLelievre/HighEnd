@@ -6,6 +6,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @Data
 @Entity
 @Table(name = "employees")
@@ -25,6 +27,10 @@ public class Employee {
     private String phone;
     private double salary;
     private String imagePath;
+
+    @ElementCollection
+    @CollectionTable(name = "employee_availability", joinColumns = @JoinColumn(name = "employee_id"))
+    private List<Availability> availability;
 
     // Parameterized constructor
     public Employee(Integer id, String first_name, String last_name, String position, String email, String phone, double salary, String imagePath) {

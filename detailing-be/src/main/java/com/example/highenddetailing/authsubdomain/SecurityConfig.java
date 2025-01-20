@@ -48,10 +48,11 @@ public class SecurityConfig {
                         .requestMatchers("/api/services/**").permitAll()
                         .requestMatchers("/api/employees/**").permitAll()
                         .requestMatchers("/api/galleries/**").permitAll()
+
                         //added more here below this comment
                         .requestMatchers("/api/customers/**").permitAll() // Allow customer POST requests
                         .requestMatchers("/api/customers/me").authenticated() // Secure /me endpoint
-                        .anyRequest().authenticated()
+                        .anyRequest().permitAll()
                 )
                 .oauth2ResourceServer(oauth2 ->
                         oauth2.jwt(jwt -> jwt.jwtAuthenticationConverter(jwtAuthenticationConverter()))
