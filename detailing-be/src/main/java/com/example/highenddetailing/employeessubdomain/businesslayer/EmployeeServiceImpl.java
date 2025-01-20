@@ -6,6 +6,7 @@ import com.example.highenddetailing.appointmentssubdomain.datalayer.AppointmentR
 import com.example.highenddetailing.appointmentssubdomain.domainclientlayer.AppointmentResponseModel;
 import com.example.highenddetailing.appointmentssubdomain.mapperlayer.AppointmentResponseMapper;
 import com.example.highenddetailing.employeessubdomain.businesslayer.EmployeeService;
+import com.example.highenddetailing.employeessubdomain.datalayer.Availability;
 import com.example.highenddetailing.employeessubdomain.datalayer.Employee;
 import com.example.highenddetailing.employeessubdomain.datalayer.EmployeeRepository;
 import com.example.highenddetailing.employeessubdomain.mapperlayer.EmployeeResponseMapper;
@@ -35,6 +36,14 @@ public class EmployeeServiceImpl implements EmployeeService {
         return employeeRepository.findByEmployeeIdentifier_EmployeeId(employeeIds)
                 .map(employeeResponseMapper::entityToResponseModel);
     }
+
+    @Override
+    public List<Availability> getAvailabilityByEmployeeId(String employeeId) {
+        Employee employee = employeeRepository.findByEmployeeIdentifier_EmployeeId(employeeId)
+                .orElseThrow(() -> new RuntimeException("Employee not found"));
+        return employee.getAvailability();
+    }
+
 }
 
 

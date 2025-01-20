@@ -5,6 +5,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @Data
 @Builder
 @NoArgsConstructor
@@ -19,4 +21,6 @@ public class EmployeeResponseModel {
     private String phone;
     private double salary;
     private String imagePath;
+
+    private List<AvailabilityResponseModel> availability;
 }
