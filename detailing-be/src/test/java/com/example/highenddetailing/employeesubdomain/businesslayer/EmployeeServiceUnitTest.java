@@ -44,7 +44,8 @@ public class EmployeeServiceUnitTest {
                         "jane.smith@example.com",
                         "1321232",
                         75000.00,
-                        "profile.png"
+                        "profile.png",
+                        List.of()
                 ),
                 new Employee(2,
                         new EmployeeIdentifier(),
@@ -54,7 +55,8 @@ public class EmployeeServiceUnitTest {
                         "john.doe@example.com",
                         "121212",
                         55000.00,
-                        "profile.png"
+                        "profile.png",
+                        List.of()
                 )
         );
 
@@ -68,7 +70,8 @@ public class EmployeeServiceUnitTest {
                         "jane.smith@example.com",
                         "23232323",
                         75000.00,
-                        "profile.png"
+                        "profile.png",
+                        List.of()
                 ),
                 new EmployeeResponseModel(
                         "e2f14c90-ec5e-4f82-a9b7-2548a7325b34",
@@ -78,7 +81,8 @@ public class EmployeeServiceUnitTest {
                         "john.doe@example.com",
                         "232323",
                         55000.00,
-                        "profile.png"
+                        "profile.png",
+                        List.of()
                 )
         );
 

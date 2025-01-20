@@ -1,4 +1,4 @@
-import {AvailabilityModel} from "./AvailabilityModel";
+import { AvailabilityModel } from "./AvailabilityModel";
 
 export interface EmployeeModel {
   employeeId: string;
