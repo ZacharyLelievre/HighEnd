@@ -4,7 +4,7 @@ import "./AllCustomers.css";
 import axios from "axios";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import {useNavigate} from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 export default function AllCustomers(): JSX.Element {
   const [customers, setCustomers] = useState<CustomerModel[]>([]);
@@ -119,10 +119,8 @@ export default function AllCustomers(): JSX.Element {
     setEditingCustomer(null);
   };
   const handleViewCustomer = (customerId: string): void => {
-  navigate(`/customers/${customerId}`); // Navigate to CustomerDetails
-};
-
-
+    navigate(`/customers/${customerId}`); // Navigate to CustomerDetails
+  };
 
   return (
     <div className="container">
