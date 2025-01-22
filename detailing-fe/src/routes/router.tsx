@@ -10,7 +10,8 @@ import EmployeeDetails from "../models/EmployeeDetails";
 import { OnboardingForm } from "../pages/OnboardingForm";
 import { ProfilePage } from "../pages/ProfilePage";
 import { Navigate } from "react-router-dom";
-import CustomerDetailsPage from "../pages/CustomerDetailsPage"; // Import Navigate
+import CustomerDetailsPage from "../pages/CustomerDetailsPage";
+import {AppointmentDetailPage} from "../pages/AppointmentDetailPage"; // Import Navigate
 
 const router = createBrowserRouter([
   {
@@ -52,6 +53,10 @@ const router = createBrowserRouter([
   {
     path: "/customers/:customerId",
     element: <CustomerDetailsPage />,
+  },
+  {
+    path: "/appointments/:appointmentId",
+    element: <AppointmentDetailPage />,
   },
 ]);
 

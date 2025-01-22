@@ -50,4 +50,10 @@ public class AppointmentController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
         }
     }
+    @GetMapping("/employee/{employeeId}")
+    public ResponseEntity<List<AppointmentResponseModel>> getAppointmentsByEmployeeId(
+            @PathVariable String employeeId) {
+        List<AppointmentResponseModel> appointments = appointmentService.getAppointmentsByEmployeeId(employeeId);
+        return ResponseEntity.ok(appointments);
+    }
 }
