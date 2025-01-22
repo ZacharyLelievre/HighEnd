@@ -10,16 +10,18 @@ export default function AllCustomers(): JSX.Element {
   const [customers, setCustomers] = useState<CustomerModel[]>([]);
   const [isEditing, setIsEditing] = useState<boolean>(false);
   const [editingCustomer, setEditingCustomer] = useState<CustomerModel | null>(
-      null,
+      null
   );
   const [viewingCustomer, setViewingCustomer] = useState<CustomerModel | null>(
-      null,
+      null
   );
 
   useEffect(() => {
     const fetchCustomers = async (): Promise<void> => {
       try {
-        const response = await axios.get("http://localhost:8080/api/customers");
+        const response = await axios.get(
+            "https://highend-zke6.onrender.com/api/customers"
+        );
         setCustomers(response.data);
       } catch (error) {
         console.error("Error fetching customers:", error);
@@ -32,7 +34,7 @@ export default function AllCustomers(): JSX.Element {
   const handleViewCustomer = async (customerId: string) => {
     try {
       const response = await axios.get(
-          `http://localhost:8080/api/customers/${customerId}`,
+          `http://localhost:8080/api/customers/${customerId}`
       );
       setViewingCustomer(response.data);
     } catch (error) {
@@ -51,9 +53,11 @@ export default function AllCustomers(): JSX.Element {
 
   const handleDeleteCustomer = async (customerId: string) => {
     try {
-      await axios.delete(`http://localhost:8080/api/customers/${customerId}`);
+      await axios.delete(
+          `https://highend-zke6.onrender.com/api/customers/${customerId}`
+      );
       setCustomers(
-          customers.filter((customer) => customer.customerId !== customerId),
+          customers.filter((customer) => customer.customerId !== customerId)
       );
       toast.success("Customer deleted successfully!", {
         position: "top-right",
@@ -73,6 +77,51 @@ export default function AllCustomers(): JSX.Element {
   const handleEditCustomer = (customer: CustomerModel) => {
     setEditingCustomer(customer);
     setIsEditing(true);
+  };
+
+  const handleSubmitEdit = async (event: React.FormEvent) => {
+    event.preventDefault();
+    if (editingCustomer) {
+      try {
+        await axios.put(
+            `https://highend-zke6.onrender.com/api/customers/${editingCustomer.customerId}`,
+            editingCustomer
+        );
+        setCustomers(
+            customers.map((customer) =>
+                customer.customerId === editingCustomer.customerId
+                    ? editingCustomer
+                    : customer
+            )
+        );
+        setIsEditing(false);
+        setEditingCustomer(null);
+        toast.success("Customer updated successfully!", {
+          position: "top-right",
+          autoClose: 3000,
+          theme: "colored",
+        });
+      } catch (error) {
+        console.error("Error updating customer:", error);
+        toast.error("Failed to update customer.", {
+          position: "top-right",
+          autoClose: 3000,
+          theme: "colored",
+        });
+      }
+    }
+  };
+
+  const handleChange = (
+      event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+  ) => {
+    if (editingCustomer) {
+      const { name, value } = event.target;
+      setEditingCustomer({
+        ...editingCustomer,
+        [name]: value,
+      });
+    }
   };
 
   const handleCloseEdit = () => {
@@ -104,7 +153,9 @@ export default function AllCustomers(): JSX.Element {
                       <button onClick={() => handleEditCustomer(customer)}>
                         Edit
                       </button>
-                      <button onClick={() => handleViewCustomer(customer.customerId)}>
+                      <button
+                          onClick={() => handleViewCustomer(customer.customerId)}
+                      >
                         View Details
                       </button>
                     </div>
@@ -117,8 +168,31 @@ export default function AllCustomers(): JSX.Element {
             <div className="modal-overlay">
               <div className="modal">
                 <h3>Edit Customer</h3>
-                {/* Edit form here */}
-                <button onClick={handleCloseEdit}>Close</button>
+                <form onSubmit={handleSubmitEdit}>
+                  <input
+                      type="text"
+                      name="customerFirstName"
+                      value={editingCustomer.customerFirstName || ""}
+                      onChange={handleChange}
+                      placeholder="First Name"
+                  />
+                  <input
+                      type="text"
+                      name="customerLastName"
+                      value={editingCustomer.customerLastName || ""}
+                      onChange={handleChange}
+                      placeholder="Last Name"
+                  />
+                  <input
+                      type="email"
+                      name="customerEmailAddress"
+                      value={editingCustomer.customerEmailAddress || ""}
+                      onChange={handleChange}
+                      placeholder="Email"
+                  />
+                  <button type="submit">Save</button>
+                  <button onClick={handleCloseEdit}>Cancel</button>
+                </form>
               </div>
             </div>
         )}

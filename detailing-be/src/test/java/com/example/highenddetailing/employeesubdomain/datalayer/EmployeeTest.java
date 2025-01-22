@@ -11,7 +11,7 @@ public class EmployeeTest {
     @Test
     void testEqualsAndHashCode() {
         Employee employee1 = new Employee();
-        employee1.setId(1);
+        employee1.setEmployeeId("e1");
         employee1.setFirst_name("Jane");
         employee1.setLast_name("Smith");
         employee1.setPosition("Manager");
@@ -21,7 +21,7 @@ public class EmployeeTest {
         employee1.setImagePath("/images/employee1.jpg");
 
         Employee employee2 = new Employee();
-        employee2.setId(1);
+        employee2.setEmployeeId("e1"); // Same employeeId => should be equal
         employee2.setFirst_name("Jane");
         employee2.setLast_name("Smith");
         employee2.setPosition("Manager");
@@ -37,7 +37,8 @@ public class EmployeeTest {
     @Test
     void testSettersAndGetters() {
         Employee employee = new Employee();
-        employee.setId(1);
+
+        employee.setEmployeeId("e123");
         employee.setFirst_name("Jane");
         employee.setLast_name("Smith");
         employee.setPosition("Manager");
@@ -46,7 +47,7 @@ public class EmployeeTest {
         employee.setSalary(75000.00);
         employee.setImagePath("/images/employee1.jpg");
 
-        assertEquals(1, employee.getId());
+        assertEquals("e123", employee.getEmployeeId());
         assertEquals("Jane", employee.getFirst_name());
         assertEquals("Smith", employee.getLast_name());
         assertEquals("Manager", employee.getPosition());
@@ -59,24 +60,34 @@ public class EmployeeTest {
     @Test
     void testCanEqual() {
         Employee employee1 = new Employee();
-        employee1.setId(1);
+        employee1.setEmployeeId("e1");
         employee1.setFirst_name("Jane");
-        employee1.setLast_name("Smith");
 
         Employee employee2 = new Employee();
-        employee2.setId(1);
+        employee2.setEmployeeId("e1");
         employee2.setFirst_name("Jane");
-        employee2.setLast_name("Smith");
 
+        // Should be true because they share the same PK (employeeId)
         assertThat(employee1.equals(employee2)).isTrue();
+
+        // Compare to an unrelated object => false
         assertThat(employee1.equals(new Object())).isFalse();
     }
 
     @Test
     void testConstructorWithAllArgs() {
-        Employee employee = new Employee(1, "Jane", "Smith", "Manager", "jane.smith@example.com","121223", 75000.00, "/images/employee1.jpg");
+        Employee employee = new Employee(
+                "e1",
+                "Jane",
+                "Smith",
+                "Manager",
+                "jane.smith@example.com",
+                "121223",
+                75000.00,
+                "/images/employee1.jpg"
+        );
 
-        assertEquals(1, employee.getId());
+        assertEquals("e1", employee.getEmployeeId());
         assertEquals("Jane", employee.getFirst_name());
         assertEquals("Smith", employee.getLast_name());
         assertEquals("Manager", employee.getPosition());
@@ -89,20 +100,22 @@ public class EmployeeTest {
     @Test
     void testEmployeeBuilder() {
         Employee employee = Employee.builder()
-                .id(1)
+                .employeeId("e1")
                 .first_name("Jane")
                 .last_name("Smith")
                 .position("Manager")
                 .email("jane.smith@example.com")
+                .phone("121223")
                 .salary(75000.00)
                 .imagePath("/images/employee1.jpg")
                 .build();
 
-        assertEquals(1, employee.getId());
+        assertEquals("e1", employee.getEmployeeId());
         assertEquals("Jane", employee.getFirst_name());
         assertEquals("Smith", employee.getLast_name());
         assertEquals("Manager", employee.getPosition());
         assertEquals("jane.smith@example.com", employee.getEmail());
+        assertEquals("121223", employee.getPhone());
         assertEquals(75000.00, employee.getSalary());
         assertEquals("/images/employee1.jpg", employee.getImagePath());
     }
@@ -110,13 +123,13 @@ public class EmployeeTest {
     @Test
     void testEquals() {
         Employee employee1 = new Employee();
-        employee1.setId(1);
+        employee1.setEmployeeId("e1");
         employee1.setFirst_name("Jane");
         employee1.setLast_name("Smith");
         employee1.setPosition("Manager");
 
         Employee employee2 = new Employee();
-        employee2.setId(1);
+        employee2.setEmployeeId("e1");
         employee2.setFirst_name("Jane");
         employee2.setLast_name("Smith");
         employee2.setPosition("Manager");
@@ -127,37 +140,17 @@ public class EmployeeTest {
     @Test
     void testHashCode() {
         Employee employee1 = new Employee();
-        employee1.setId(1);
+        employee1.setEmployeeId("e1");
         employee1.setFirst_name("Jane");
         employee1.setLast_name("Smith");
         employee1.setPosition("Manager");
 
         Employee employee2 = new Employee();
-        employee2.setId(1);
+        employee2.setEmployeeId("e1");
         employee2.setFirst_name("Jane");
         employee2.setLast_name("Smith");
         employee2.setPosition("Manager");
 
         assertThat(employee1.hashCode()).isEqualTo(employee2.hashCode());
-    }
-
-    @Test
-    void testGettersAndSetters() {
-        Employee employee = new Employee();
-        employee.setId(1);
-        employee.setFirst_name("Jane");
-        employee.setLast_name("Smith");
-        employee.setPosition("Manager");
-        employee.setEmail("jane.smith@example.com");
-        employee.setSalary(75000.00);
-        employee.setImagePath("/images/employee1.jpg");
-
-        assertEquals(1, employee.getId());
-        assertEquals("Jane", employee.getFirst_name());
-        assertEquals("Smith", employee.getLast_name());
-        assertEquals("Manager", employee.getPosition());
-        assertEquals("jane.smith@example.com", employee.getEmail());
-        assertEquals(75000.00, employee.getSalary());
-        assertEquals("/images/employee1.jpg", employee.getImagePath());
     }
 }

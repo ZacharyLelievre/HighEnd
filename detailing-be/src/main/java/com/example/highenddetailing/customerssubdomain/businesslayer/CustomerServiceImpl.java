@@ -97,4 +97,34 @@ public class CustomerServiceImpl implements CustomerService {
         return customerResponseMapper.entityToResponseModel(savedCustomer);
     }
 
+//    @Override
+//    public CustomerResponseModel createCustomer(CustomerRequestModel customerRequestModel, String auth0UserId) {
+//        // Check if customer already exists
+//        Customer existingCustomer = customerRepository.findByCustomerIdentifier_CustomerId(auth0UserId);
+//        if (existingCustomer != null) {
+//            return customerResponseMapper.entityToResponseModel(existingCustomer);
+//        }
+//
+//        Address address = new Address(
+//                customerRequestModel.getStreetAddress(),
+//                customerRequestModel.getCity(),
+//                customerRequestModel.getPostalCode(),
+//                customerRequestModel.getProvince(),
+//                customerRequestModel.getCountry()
+//        );
+//
+//        CustomerIdentifier customerIdentifier = new CustomerIdentifier(auth0UserId);
+//
+//        Customer newCustomer = Customer.builder()
+//                .customerIdentifier(customerIdentifier)
+//                .customerFirstName(customerRequestModel.getCustomerFirstName())
+//                .customerLastName(customerRequestModel.getCustomerLastName())
+//                .customerEmailAddress(customerRequestModel.getCustomerEmailAddress())
+//                .address(address)
+//                .build();
+//
+//        Customer savedCustomer = customerRepository.save(newCustomer);
+//        return customerResponseMapper.entityToResponseModel(savedCustomer);
+//    }
+
 }

@@ -6,14 +6,12 @@ import com.example.highenddetailing.appointmentssubdomain.datalayer.Status;
 import com.example.highenddetailing.employeessubdomain.presentationlayer.EmployeeRequestModel;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
 @RequestMapping("/api/appointments")
-@CrossOrigin(origins = "http://localhost:3000")
 public class AppointmentController {
 
     private final AppointmentService appointmentService;
@@ -29,7 +27,8 @@ public class AppointmentController {
 
     @PostMapping(produces = "application/json")
     public ResponseEntity<AppointmentResponseModel> createAppointment(@RequestBody AppointmentRequestModel appointmentRequestModel) {
-        return ResponseEntity.ok(appointmentService.createAppointment(appointmentRequestModel));
+        AppointmentResponseModel response = appointmentService.createAppointment(appointmentRequestModel);
+        return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
     @PutMapping("/{id}/status")
     public ResponseEntity<Appointment> updateAppointmentStatus(@PathVariable String id,

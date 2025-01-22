@@ -60,11 +60,11 @@ public class AppointmentServiceImpl implements AppointmentService {
 
         // Check that the employee exists
         Employee employee = employeeRepository
-                .findByEmployeeIdentifier_EmployeeId(request.getEmployeeId())
+                .findByEmployeeId(request.getEmployeeId())
                 .orElseThrow(() -> new RuntimeException("Employee not found with id: " + request.getEmployeeId()));
 
         // Assign the employee to the appointment
-        appointment.setEmployeeId(employee.getEmployeeIdentifier().getEmployeeId());
+        appointment.setEmployeeId(employee.getEmployeeId());
         appointment.setEmployeeName(employee.getFirst_name() + " " + employee.getLast_name());
 
         Appointment updatedAppointment = appointmentRepository.save(appointment);

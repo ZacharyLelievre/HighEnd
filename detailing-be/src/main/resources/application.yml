@@ -27,22 +27,21 @@ spring:
       mode: always
 
 auth0:
-  domain: ${AUTH0_DOMAIN}
+  domain: dev-vmtwqb6p6lr3if0d.us.auth0.com
   clientId: ${AUTH0_CLIENT_ID}
   clientSecret: ${AUTH0_CLIENT_SECRET}
-  audience: ${AUTH0_AUDIENCE}
-  issuer: https://${AUTH0_DOMAIN}/
+  audience: https://highenddetailing/api
+  issuer: https://dev-vmtwqb6p6lr3if0d.us.auth0.com/
 
 okta:
   oauth2:
-    issuer: https://${AUTH0_DOMAIN}/
-    audience: ${AUTH0_AUDIENCE}
+    issuer: https://dev-vmtwqb6p6lr3if0d.us.auth0.com/
+    audience: https://highenddetailing/api
 
 server:
   port: 8080
 
 ---
-
 spring:
   config:
     activate:
@@ -64,3 +63,15 @@ spring:
   web:
     resources:
       static-locations: classpath:/custom/, classpath:/static/
+
+auth0:
+  domain: test-domain.auth0.com
+  clientId: testClientId
+  clientSecret: testClientSecret
+  audience: test-audience
+  issuer: https://test-domain.auth0.com/
+
+okta:
+  oauth2:
+    issuer: https://test-domain.auth0.com/
+    audience: test-audience

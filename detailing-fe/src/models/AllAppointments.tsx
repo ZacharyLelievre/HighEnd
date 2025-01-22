@@ -21,7 +21,7 @@ export default function AllAppointments(): JSX.Element {
       try {
         const token = await getAccessTokenSilently();
         const response = await axios.get(
-          "http://localhost:8080/api/appointments",
+          "https://highend-zke6.onrender.com/api/appointments",
           {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -44,7 +44,7 @@ export default function AllAppointments(): JSX.Element {
       try {
         const token = await getAccessTokenSilently();
         const response = await axios.get(
-          "http://localhost:8080/api/employees",
+          "https://highend-zke6.onrender.com/api/employees",
           {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -67,10 +67,11 @@ export default function AllAppointments(): JSX.Element {
     try {
       const token = await getAccessTokenSilently();
       const response = await axios.put(
-        `http://localhost:8080/api/appointments/${appointmentId}/status`,
+        `https://highend-zke6.onrender.com/api/appointments/${appointmentId}/status`,
         { status: "CONFIRMED" },
         {
           headers: {
+            "Content-Type": "application/json",
             Authorization: `Bearer ${token}`,
           },
         },
@@ -101,10 +102,11 @@ export default function AllAppointments(): JSX.Element {
     try {
       const token = await getAccessTokenSilently();
       const response = await axios.put(
-        `http://localhost:8080/api/appointments/${appointmentId}/assign`,
+        `https://highend-zke6.onrender.com/api/appointments/${appointmentId}/assign`,
         { employeeId: employeeId },
         {
           headers: {
+            "Content-Type": "application/json",
             Authorization: `Bearer ${token}`,
           },
         },
@@ -150,7 +152,7 @@ export default function AllAppointments(): JSX.Element {
             <div className="appointment-box" key={appointment.appointmentId}>
               <img
                 className="appointment-image"
-                src={`http://localhost:8080/${appointment.imagePath}`}
+                src={`https://highend-zke6.onrender.com/${appointment.imagePath}`}
                 alt="appointment"
               />
               <div className="appointment-details">

@@ -1,6 +1,7 @@
 package com.example.highenddetailing.employeessubdomain.presentationlayer;
 
 import com.example.highenddetailing.employeessubdomain.businesslayer.EmployeeServiceImpl;
+import com.example.highenddetailing.employeessubdomain.datalayer.Availability;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
@@ -12,7 +13,6 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/employees")
-@CrossOrigin(origins = "http://localhost:3000")
 public class EmployeeController {
 
     @Autowired
@@ -31,4 +31,21 @@ public class EmployeeController {
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
+
+    @GetMapping("/{employeeId}/availability")
+    public ResponseEntity<List<AvailabilityResponseModel>> getEmployeeAvailability(@PathVariable String employeeId) {
+        List<AvailabilityResponseModel> availability = employeeService.getAvailabilityForEmployee(employeeId);
+        return ResponseEntity.ok(availability);
+    }
+
+    @PutMapping(value = "/{employeeId}/availability", consumes = "application/json")
+    public ResponseEntity<Void> setEmployeeAvailability(
+            @PathVariable String employeeId,
+            @RequestBody List<Availability> newAvailability) {
+
+        employeeService.setAvailabilityForEmployee(employeeId, newAvailability);
+        return ResponseEntity.ok().build();
+    }
+
+
 }

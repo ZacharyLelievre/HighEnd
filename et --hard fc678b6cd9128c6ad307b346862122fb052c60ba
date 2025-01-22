@@ -1,0 +1,533 @@
+[33mcommit 2ff3a508782d494f58655f33e77fe21f6d6e6fe1[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m, [m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m)[m
+Author: TheUnnamedOne1 <jesse.bou@outlook.com>
+Date:   Sun Jan 19 14:38:18 2025 -0500
+
+    prettier
+
+[33mcommit 7ca0c0b032b7287c694ce63a18096ee06081919a[m
+Merge: fc678b6 f020568
+Author: TheUnnamedOne1 <jesse.bou@outlook.com>
+Date:   Sun Jan 19 14:35:20 2025 -0500
+
+    Merge branch 'main' of https://github.com/ZacharyLelievre/HighEnd
+
+[33mcommit fc678b6cd9128c6ad307b346862122fb052c60ba[m
+Author: TheUnnamedOne1 <jesse.bou@outlook.com>
+Date:   Sun Jan 19 14:34:53 2025 -0500
+
+    fix auth on deployment
+
+[33mcommit f0205682e908d07ac93279ef36aa891ed40e455e[m
+Author: ZacharyLelievre <lelievrezachary@gmail.com>
+Date:   Sun Jan 19 14:15:57 2025 -0500
+
+    fixed prettier
+
+[33mcommit 3310494f96f578d98e4c66ff43973f0d268481eb[m
+Author: ZacharyLelievre <lelievrezachary@gmail.com>
+Date:   Sun Jan 19 14:14:15 2025 -0500
+
+    debug for auth0 not working
+
+[33mcommit 74c12040a4f069f1178cbfe2ea75b92b7a8b6eec[m
+Author: ZacharyLelievre <lelievrezachary@gmail.com>
+Date:   Sun Jan 19 12:52:46 2025 -0500
+
+    fixed CORS test issue
+
+[33mcommit 2b6d4fa79acb122aef7e3970952b16296f329e91[m
+Author: ZacharyLelievre <lelievrezachary@gmail.com>
+Date:   Sun Jan 19 12:48:16 2025 -0500
+
+    fixed issues with CORS
+
+[33mcommit cc6291c46ff1f9aeeac207cb4d898b6411f1ce3c[m[33m ([m[1;32mSet_working_hours[m[33m)[m
+Author: ZacharyLelievre <lelievrezachary@gmail.com>
+Date:   Sun Jan 19 12:24:46 2025 -0500
+
+    fixed issues with appointment and modal in production
+
+[33mcommit 7b5254ee1d3ac9f09e88cd5ca3c5a9ebaa705338[m
+Merge: 87a5123 40d2dc7
+Author: ZacharyLelievre <lelievrezachary@gmail.com>
+Date:   Sun Jan 19 01:19:04 2025 -0500
+
+    Merge branch 'main' of https://github.com/ZacharyLelievre/HighEnd
+
+[33mcommit 87a51234abdf5193a6310e5628fa90652bc82050[m
+Author: ZacharyLelievre <lelievrezachary@gmail.com>
+Date:   Sun Jan 19 01:18:29 2025 -0500
+
+    Add CORS configuration for local and production environments
+
+[33mcommit 40d2dc76e63b989a77ecb02242b7f67d3374c96e[m
+Merge: 201993d 66ff9b9
+Author: Ntsoa Elie Ramampiarison <113870458+NtsoaElie@users.noreply.github.com>
+Date:   Sat Jan 18 22:39:31 2025 -0500
+
+    Merge pull request #35 from ZacharyLelievre/feat/HD-2_Book_Services_FE
+    
+    (FEAT): front end for booking appointment
+
+[33mcommit 66ff9b95e5299f868dc32e253a6502a991406c25[m
+Author: ntsoaelie <ntsoaelie@gmail.com>
+Date:   Sat Jan 18 21:17:26 2025 -0500
+
+    fix prettier ci check
+
+[33mcommit 6693bb6986fcf257acae9dd696237c26af7b0282[m
+Author: ntsoaelie <ntsoaelie@gmail.com>
+Date:   Sat Jan 18 21:06:33 2025 -0500
+
+    prettier check fix
+
+[33mcommit 5dd3406e1d4ee07ae2be2083cf62845f87c3b151[m
+Author: ntsoaelie <ntsoaelie@gmail.com>
+Date:   Sat Jan 18 21:02:47 2025 -0500
+
+    front end for booking appointment
+
+[33mcommit 201993d18e482727015cfda5465824f8d92a0d8c[m
+Merge: c7487e4 c122c95
+Author: Zachary Lelièvre <93009892+ZacharyLelievre@users.noreply.github.com>
+Date:   Sat Jan 18 01:22:39 2025 -0500
+
+    Merge pull request #34 from ZacharyLelievre/feat/HD-2_Book_Services
+    
+    (FEAT): Book Services
+
+[33mcommit c122c95f406fd961ed3ce86090d8aee619654c43[m
+Author: ntsoaelie <ntsoaelie@gmail.com>
+Date:   Fri Jan 17 17:58:58 2025 -0500
+
+    fix request mapper issue for CI check
+
+[33mcommit 1364735506b699b4308aa4356049dd22622f68b0[m
+Author: ntsoaelie <ntsoaelie@gmail.com>
+Date:   Fri Jan 17 17:55:54 2025 -0500
+
+    fixed failing test for CI check
+
+[33mcommit 728a40cc0973b5dc07af3d87696cb7be7a482b17[m
+Author: ntsoaelie <ntsoaelie@gmail.com>
+Date:   Fri Jan 17 17:44:36 2025 -0500
+
+    fix CI check backend test
+
+[33mcommit c7487e4bc5e6d0f6332d9d83c63adeb168911e60[m
+Merge: de5ef64 a692ff0
+Author: Jesse Bourassa <129144730+Jesse-Bourassa@users.noreply.github.com>
+Date:   Thu Jan 16 17:09:14 2025 -0500
+
+    Merge pull request #33 from ZacharyLelievre/test
+    
+    test
+
+[33mcommit de5ef6467e00ef2d65ac50bf5215b760227c63f0[m
+Merge: 1ca0d3b aa9247f
+Author: Jesse Bourassa <129144730+Jesse-Bourassa@users.noreply.github.com>
+Date:   Thu Jan 16 17:05:17 2025 -0500
+
+    Merge pull request #30 from ZacharyLelievre/conf/Frontend-CI
+    
+    frontend ci pipeline
+
+[33mcommit a692ff01ec9b5159afb56f3c725b680e2e82c4bc[m
+Author: Jesse Bourassa <jessebourassa@Jesses-MacBook-Air.local>
+Date:   Thu Jan 16 16:37:59 2025 -0500
+
+    test
+
+[33mcommit 1ca0d3be3643fa2223f55e2299687e6e8313391f[m
+Author: Jesse Bourassa <jessebourassa@Jesses-MacBook-Air.local>
+Date:   Thu Jan 16 16:12:33 2025 -0500
+
+    fix
+
+[33mcommit 9a260ecac229fd10dff0833616e590127e4970bc[m
+Author: Jesse Bourassa <jessebourassa@Jesses-MacBook-Air.local>
+Date:   Thu Jan 16 16:01:40 2025 -0500
+
+    qucik fix
+
+[33mcommit 7df375cce1617158c385f405486d35dc4e9ebd5c[m
+Merge: 0e05dd7 88a4da3
+Author: Jesse Bourassa <129144730+Jesse-Bourassa@users.noreply.github.com>
+Date:   Thu Jan 16 15:29:25 2025 -0500
+
+    Merge pull request #32 from ZacharyLelievre/Url_Fix
+    
+    fixed
+
+[33mcommit 88a4da3b42e165657467e7e73a0a7a1bbcfcdbea[m
+Author: Jesse Bourassa <jessebourassa@Jesses-MacBook-Air.local>
+Date:   Thu Jan 16 15:24:28 2025 -0500
+
+    fixed
+
+[33mcommit 0e05dd71acd134f45359246c0beb5c193d5fb2c6[m
+Merge: 8bb26d2 63df825
+Author: Jesse Bourassa <129144730+Jesse-Bourassa@users.noreply.github.com>
+Date:   Thu Jan 16 14:47:42 2025 -0500
+
+    Merge pull request #29 from ZacharyLelievre/Changing_URLs
+    
+    Chnaged axiosInstance
+
+[33mcommit 63df82587f52bc7ed384595a4fb0de0e77665f6a[m
+Merge: 2f95dc0 c0e6f8a
+Author: Jesse Bourassa <jessebourassa@Jesses-MacBook-Air.local>
+Date:   Thu Jan 16 14:44:15 2025 -0500
+
+    changed
+
+[33mcommit 2f95dc098f4e6f353002ed14d241f7014df77382[m
+Author: Jesse Bourassa <jessebourassa@Jesses-MacBook-Air.local>
+Date:   Thu Jan 16 14:31:13 2025 -0500
+
+    change
+
+[33mcommit 7ee27fe5b3bbab445fece4553db8fd3dc6bc7f04[m
+Author: Jesse Bourassa <jessebourassa@Jesses-MacBook-Air.local>
+Date:   Thu Jan 16 14:22:45 2025 -0500
+
+    Chnaged axiosInstance
+
+[33mcommit aa9247fb42e625197b31ac830b6aebd81b5e0018[m
+Author: ntsoaelie <ntsoaelie@gmail.com>
+Date:   Thu Jan 16 14:36:36 2025 -0500
+
+    frontend ci pipeline
+
+[33mcommit c0e6f8a6cae2ae1fe306ac24ab66969abba68e07[m
+Merge: ee1b49f 8bb26d2
+Author: Jesse Bourassa <129144730+Jesse-Bourassa@users.noreply.github.com>
+Date:   Thu Jan 16 14:33:23 2025 -0500
+
+    Merge branch 'main' into Changing_URLs
+
+[33mcommit ee1b49f7bdb5428777208f8030646e109acce07c[m
+Author: Jesse Bourassa <jessebourassa@Jesses-MacBook-Air.local>
+Date:   Thu Jan 16 14:31:13 2025 -0500
+
+    change
+
+[33mcommit 8bb26d2ffc7f2b6db71b420a2f249e5d41d5570c[m
+Merge: 64891a7 e565b7a
+Author: Zachary Lelièvre <93009892+ZacharyLelievre@users.noreply.github.com>
+Date:   Thu Jan 16 14:25:12 2025 -0500
+
+    Merge pull request #21 from ZacharyLelievre/conf/HD-46_Pipelines
+    
+    conf/HD-46 Pipelines
+
+[33mcommit 613f48bf020bff41b11f7d1e8f4e3dff8a789b41[m
+Author: Jesse Bourassa <jessebourassa@Jesses-MacBook-Air.local>
+Date:   Thu Jan 16 14:22:45 2025 -0500
+
+    Chnaged axiosInstance
+
+[33mcommit e565b7a9f094cac655916e3e767148038f974bb0[m
+Author: ZacharyLelievre <lelievrezachary@gmail.com>
+Date:   Thu Jan 16 14:21:16 2025 -0500
+
+    updated
+
+[33mcommit 64891a791c5e3079cc364df7fc443974eeb5b884[m
+Author: Jesse Bourassa <jessebourassa@Jesses-MacBook-Air.local>
+Date:   Thu Jan 16 13:52:31 2025 -0500
+
+    test connection from frontend and backend
+
+[33mcommit cf5510f877f634e65c282aa5e34df4e835189eed[m
+Author: ZacharyLelievre <lelievrezachary@gmail.com>
+Date:   Thu Jan 16 12:11:35 2025 -0500
+
+    added Prettier in the CI
+
+[33mcommit 249f1444561217627991d3924c15bcac4f0a6c5c[m
+Merge: 89be915 6f01469
+Author: ZacharyLelievre <lelievrezachary@gmail.com>
+Date:   Thu Jan 16 12:10:08 2025 -0500
+
+    added Prettier in the CI
+
+[33mcommit 6f01469ddc73d39d014b71033797b2c7ad2a7656[m
+Author: TheUnnamedOne1 <jesse.bou@outlook.com>
+Date:   Thu Jan 16 12:04:44 2025 -0500
+
+    fixed auth
+
+[33mcommit 89be9153f4efb58e08620fd94a4c295ca9f5dcca[m
+Author: ZacharyLelievre <lelievrezachary@gmail.com>
+Date:   Thu Jan 16 11:54:55 2025 -0500
+
+    added Prettier in the CI
+
+[33mcommit d6f663ef4ae3c13b5fba3184deb9d98f2463050d[m
+Merge: cb94045 9794928
+Author: ZacharyLelievre <lelievrezachary@gmail.com>
+Date:   Thu Jan 16 11:52:58 2025 -0500
+
+    added Prettier in the CI
+
+[33mcommit fb89b1397f564033c6b66aa4c4ecd2199d87b1c0[m
+Author: TheUnnamedOne1 <jesse.bou@outlook.com>
+Date:   Thu Jan 16 11:52:50 2025 -0500
+
+    Change Url for galleries
+
+[33mcommit cb94045c7e28e78d675ffe2882fe89e519071e53[m
+Author: ZacharyLelievre <lelievrezachary@gmail.com>
+Date:   Thu Jan 16 11:37:08 2025 -0500
+
+    added Prettier in the CI
+
+[33mcommit 979492824af3e128291bed5952a2aa2109d02bcd[m
+Merge: 6b7fc4f 17e853b
+Author: TheUnnamedOne1 <jesse.bou@outlook.com>
+Date:   Thu Jan 16 11:30:12 2025 -0500
+
+    Merge branch 'main' of https://github.com/ZacharyLelievre/HighEnd
+
+[33mcommit 6b7fc4f54344f0d7d7e5b0613f2f9c95471e43b7[m
+Author: TheUnnamedOne1 <jesse.bou@outlook.com>
+Date:   Thu Jan 16 11:29:33 2025 -0500
+
+    Fixed Login
+
+[33mcommit 72a370d5b48898d9009d9ba0e842297dd8792a4d[m
+Author: ntsoaelie <ntsoaelie@gmail.com>
+Date:   Thu Jan 16 11:06:12 2025 -0500
+
+    Booking conflict exception
+
+[33mcommit 3b891ed2da1d009e3ddcaf6e820282212cfeab73[m
+Author: ntsoaelie <ntsoaelie@gmail.com>
+Date:   Thu Jan 16 11:05:20 2025 -0500
+
+    booking conflict exception
+
+[33mcommit 17e853bb4fc8db917beb41790132bd9743d2ee11[m
+Merge: 02cf1ee abf1866
+Author: Jesse Bourassa <129144730+Jesse-Bourassa@users.noreply.github.com>
+Date:   Thu Jan 16 02:01:41 2025 -0500
+
+    Merge pull request #26 from ZacharyLelievre/Database_Deployment
+    
+    Database deployment
+
+[33mcommit abf1866774b1c590d7cc767beb5789cd468ddf21[m
+Author: TheUnnamedOne1 <jesse.bou@outlook.com>
+Date:   Thu Jan 16 01:52:57 2025 -0500
+
+    Deployed DB
+
+[33mcommit 8ae7957ca442da7417569e3fb1b15513ff307d8a[m
+Author: TheUnnamedOne1 <jesse.bou@outlook.com>
+Date:   Wed Jan 15 20:47:37 2025 -0500
+
+    Deplyed DB
+
+[33mcommit 13b488b8d22501128aa4b66a67760b0cd0efb6d3[m
+Author: ZacharyLelievre <lelievrezachary@gmail.com>
+Date:   Wed Jan 15 14:11:55 2025 -0500
+
+    head is now at pull request #22 from ZacharyLelievre/feat/HD-33_User_Login and fixed docker images issue
+
+[33mcommit 4b409d0ed9a066a33cf6e8bfee21ee2551439913[m
+Author: ZacharyLelievre <lelievrezachary@gmail.com>
+Date:   Wed Jan 15 13:55:01 2025 -0500
+
+    fixed docker issue
+
+[33mcommit 8f6afb2690dfd0aba1a177bb41801e6730f70ade[m
+Author: ntsoaelie <ntsoaelie@gmail.com>
+Date:   Wed Jan 15 10:04:01 2025 -0500
+
+    added .env files
+
+[33mcommit 19bb76c6bc276fe0de2c4a5798ffe2fc314b09c9[m
+Merge: e637376 02cf1ee
+Author: ZacharyLelievre <lelievrezachary@gmail.com>
+Date:   Wed Jan 15 09:23:36 2025 -0500
+
+    Merge branch 'main' of https://github.com/ZacharyLelievre/HighEnd into conf/HD-46_Pipelines
+
+[33mcommit 458f54e01f007639e59656db43e75aa3da3f09ff[m
+Author: ntsoaelie <ntsoaelie@gmail.com>
+Date:   Wed Jan 15 09:08:52 2025 -0500
+
+    create booking backend
+
+[33mcommit bdddaae9293f9f8382618c41de2fc316f00cb827[m
+Author: ntsoaelie <ntsoaelie@gmail.com>
+Date:   Wed Jan 15 09:00:35 2025 -0500
+
+    create appointment/booking implemented
+
+[33mcommit 02cf1eea96c20fd4644d312b8d4599798c209a06[m
+Merge: f4638ce 699e844
+Author: Jesse Bourassa <129144730+Jesse-Bourassa@users.noreply.github.com>
+Date:   Wed Jan 15 08:56:24 2025 -0500
+
+    Merge pull request #22 from ZacharyLelievre/feat/HD-33_User_Login
+    
+    feat/HD-33 User Login
+
+[33mcommit 699e844f042ee2fd1dfa2e0d8ba678d88c839458[m
+Author: ZacharyLelievre <lelievrezachary@gmail.com>
+Date:   Wed Jan 15 08:49:09 2025 -0500
+
+    tweaked the playwright test
+
+[33mcommit 752ee1f36d4d7178e7fd5d5ad8194eaa32a47cf3[m
+Author: ZacharyLelievre <lelievrezachary@gmail.com>
+Date:   Wed Jan 15 08:30:59 2025 -0500
+
+    added playwright test for auth
+
+[33mcommit d6e7f8c16015695a8f6a8fd8b2da29a6e681bb2c[m
+Author: ZacharyLelievre <lelievrezachary@gmail.com>
+Date:   Wed Jan 15 08:16:32 2025 -0500
+
+    made some quick changes
+
+[33mcommit e637376e706aadeb1e2486b76e4183b76f468f7b[m
+Author: ZacharyLelievre <lelievrezachary@gmail.com>
+Date:   Tue Jan 14 23:00:54 2025 -0500
+
+    added qodana in the CI pipelines
+
+[33mcommit 253561be136b5aa6cbd160599934b19c2ed6022c[m
+Author: ZacharyLelievre <lelievrezachary@gmail.com>
+Date:   Tue Jan 14 22:14:57 2025 -0500
+
+    added testing
+
+[33mcommit 22cfdec3bd79e6454b28acc2eacf5fd5f775cd75[m
+Author: ZacharyLelievre <lelievrezachary@gmail.com>
+Date:   Tue Jan 14 15:53:16 2025 -0500
+
+    fixed the issue with the account not displaying
+
+[33mcommit 1d54adca6780434222dfe41f470d4a8f1b720e34[m
+Author: ZacharyLelievre <lelievrezachary@gmail.com>
+Date:   Tue Jan 14 13:34:14 2025 -0500
+
+    did some changes
+
+[33mcommit c99cbe6409fceaea5267a99c9b027fc2a3f5be55[m
+Author: ZacharyLelievre <lelievrezachary@gmail.com>
+Date:   Tue Jan 14 13:29:41 2025 -0500
+
+    Add Gradle wrapper files for detailing-be
+
+[33mcommit ff41eced09dabd437ed61f9c2d1514a392642ad6[m
+Author: ZacharyLelievre <lelievrezachary@gmail.com>
+Date:   Tue Jan 14 13:22:50 2025 -0500
+
+    added changes
+
+[33mcommit 24c15e6c7686f9cec6eccacda61afe1ba7fe1ade[m
+Author: ZacharyLelievre <lelievrezachary@gmail.com>
+Date:   Tue Jan 14 13:19:32 2025 -0500
+
+    made some tweaks
+
+[33mcommit b360badade8daefab7a2c4507af92cb3261a0c26[m
+Author: ZacharyLelievre <lelievrezachary@gmail.com>
+Date:   Tue Jan 14 13:14:46 2025 -0500
+
+    added file path
+
+[33mcommit 4c2b4d40309c4b910cecbbcb27e1e4e05903973a[m
+Author: ZacharyLelievre <lelievrezachary@gmail.com>
+Date:   Tue Jan 14 13:09:18 2025 -0500
+
+    Added the testing in the pipelines
+
+[33mcommit df33c1fca1a8c3b7e44d45a26b64bc624c0494bb[m
+Author: ZacharyLelievre <lelievrezachary@gmail.com>
+Date:   Mon Jan 13 21:27:48 2025 -0500
+
+    added file for backend CI
+
+[33mcommit 96ba92521d9938cf38d4f5856cb7eb8f5e6452da[m
+Author: ZacharyLelievre <lelievrezachary@gmail.com>
+Date:   Mon Jan 13 09:02:46 2025 -0500
+
+    update some things regarding auth
+
+[33mcommit f4638ce7be847a3497cac6aad8e8670cd7de64ab[m
+Merge: 6c37273 79c3a83
+Author: Jesse Bourassa <129144730+Jesse-Bourassa@users.noreply.github.com>
+Date:   Sun Jan 12 05:34:05 2025 -0500
+
+    Merge pull request #20 from ZacharyLelievre/fix/ram_usage
+    
+    Fix/ram usage
+
+[33mcommit 79c3a8358e2e3d78b3dc276d55d33b087a32f18b[m
+Merge: ed17ed9 6c37273
+Author: Jesse Bourassa <129144730+Jesse-Bourassa@users.noreply.github.com>
+Date:   Sun Jan 12 05:32:51 2025 -0500
+
+    Merge branch 'main' into fix/ram_usage
+
+[33mcommit ed17ed97cb8563b0d28fc785cdcb946f3a189b80[m
+Author: TheUnnamedOne1 <jesse.bou@outlook.com>
+Date:   Sun Jan 12 05:31:44 2025 -0500
+
+    changed docker file
+
+[33mcommit a7a88a6c60028d23a3a258455bc952f73319dd53[m
+Author: TheUnnamedOne1 <jesse.bou@outlook.com>
+Date:   Sun Jan 12 05:29:07 2025 -0500
+
+    Second atttemped
+
+[33mcommit 6c372734fd2ead53eb8bd98db2e915f7dce05ee0[m
+Merge: 1ac022a ecd56d1
+Author: Jesse Bourassa <129144730+Jesse-Bourassa@users.noreply.github.com>
+Date:   Sun Jan 12 04:42:21 2025 -0500
+
+    Merge pull request #19 from ZacharyLelievre/feat/fix-ram-usage
+    
+    Fixed ram usages for deployment
+
+[33mcommit ecd56d1aa905ccc6d331dd906a256799c9dfc276[m
+Author: TheUnnamedOne1 <jesse.bou@outlook.com>
+Date:   Sun Jan 12 04:38:30 2025 -0500
+
+    Fixed ram usages for deployment
+
+[33mcommit 67944446093ab604494481fb8d56fdf4cc8496d6[m[33m ([m[1;31morigin/feat/HD-33_User_Login[m[33m)[m
+Author: ZacharyLelievre <lelievrezachary@gmail.com>
+Date:   Mon Dec 23 14:03:46 2024 -0500
+
+    Implemented the sign up and login feature
+
+[33mcommit 1ac022aec52b563934ad241e5b0dc4faaa3f38d6[m[33m ([m[1;32mfeat/fix-ram-usage[m[33m)[m
+Author: Zachary Lelièvre <93009892+ZacharyLelievre@users.noreply.github.com>
+Date:   Tue Dec 17 18:46:49 2024 -0500
+
+    Update editCustomer.spec.ts
+
+[33mcommit 957cbf6edf60aaed711edd73bdb9e1a9509126b1[m
+Author: Zachary Lelièvre <93009892+ZacharyLelievre@users.noreply.github.com>
+Date:   Tue Dec 17 16:28:01 2024 -0500
+
+    Update editCustomer.spec.ts
+
+[33mcommit f8040b1d4efc7d48786f63968eb1f746a080afb8[m
+Author: Zachary Lelièvre <93009892+ZacharyLelievre@users.noreply.github.com>
+Date:   Tue Dec 17 16:21:30 2024 -0500
+
+    Update .gitignore
+
+[33mcommit bbef62cf2e26317d195f6dc0bc3b4f878b3fb5c4[m
+Author: ZacharyLelievre <lelievrezachary@gmail.com>
+Date:   Tue Dec 17 16:16:45 2024 -0500
+
+    Added testings
