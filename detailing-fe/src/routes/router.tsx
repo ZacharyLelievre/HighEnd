@@ -9,7 +9,8 @@ import DashboardPage from "../pages/DashhoardPage";
 import EmployeeDetails from "../models/EmployeeDetails";
 import { OnboardingForm } from "../pages/OnboardingForm";
 import { ProfilePage } from "../pages/ProfilePage";
-import { Navigate } from "react-router-dom"; // Import Navigate
+import { Navigate } from "react-router-dom";
+import CustomerDetailsPage from "../pages/CustomerDetailsPage"; // Import Navigate
 
 const router = createBrowserRouter([
   {
@@ -47,6 +48,10 @@ const router = createBrowserRouter([
   {
     path: AppRoutePath.Profile,
     element: <ProfilePage />,
+  },
+  {
+    path: "/customers/:customerId",
+    element: <CustomerDetailsPage />,
   },
 ]);
 

@@ -115,4 +115,39 @@ class CustomerServiceUnitTest {
 
         verify(customerRepository).delete(customer);
     }
+    @Test
+    void testGetCustomerById_ShouldReturnCustomerResponseModel() {
+        // Arrange
+        String customerId = "CUST-123";
+        Customer customer = new Customer();
+        customer.setId(1);
+        customer.setCustomerIdentifier(new CustomerIdentifier(customerId));
+        customer.setCustomerFirstName("John");
+        customer.setCustomerLastName("Doe");
+        customer.setCustomerEmailAddress("johndoe@example.com");
+        customer.setAddress(new Address("123 Main St", "Anytown", "12345", "Ontario", "Canada"));
+
+        CustomerResponseModel expectedResponse = new CustomerResponseModel();
+        expectedResponse.setCustomerId(customerId);
+        expectedResponse.setCustomerFirstName("John");
+        expectedResponse.setCustomerLastName("Doe");
+        expectedResponse.setCustomerEmailAddress("johndoe@example.com");
+        expectedResponse.setStreetAddress("123 Main St");
+        expectedResponse.setCity("Anytown");
+        expectedResponse.setPostalCode("12345");
+        expectedResponse.setProvince("Ontario");
+        expectedResponse.setCountry("Canada");
+
+        when(customerRepository.findByCustomerIdentifier_CustomerId(customerId)).thenReturn(customer);
+        when(customerResponseMapper.entityToResponseModel(customer)).thenReturn(expectedResponse);
+
+        // Act
+        CustomerResponseModel actualResponse = customerService.getCustomerById(customerId);
+
+        // Assert
+        assertNotNull(actualResponse);
+        assertEquals(expectedResponse, actualResponse);
+        verify(customerRepository).findByCustomerIdentifier_CustomerId(customerId);
+        verify(customerResponseMapper).entityToResponseModel(customer);
+    }
 }
