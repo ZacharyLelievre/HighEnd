@@ -46,6 +46,11 @@ public class EmployeeController {
         employeeService.setAvailabilityForEmployee(employeeId, newAvailability);
         return ResponseEntity.ok().build();
     }
+    @PostMapping(consumes = "application/json", produces = "application/json")
+    public ResponseEntity<EmployeeResponseModel> createEmployee(@RequestBody EmployeeRequestModel request) {
+        EmployeeResponseModel createdEmployee = employeeService.createEmployee(request);
+        return ResponseEntity.status(201).body(createdEmployee);
+    }
 
 
 }

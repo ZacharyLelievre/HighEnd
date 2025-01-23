@@ -9,12 +9,15 @@ import DashboardPage from "../pages/DashhoardPage";
 import EmployeeDetails from "../models/EmployeeDetails";
 import { OnboardingForm } from "../pages/OnboardingForm";
 import { ProfilePage } from "../pages/ProfilePage";
-import { Navigate } from "react-router-dom"; // Import Navigate
+import { Navigate } from "react-router-dom";
+import {EmployeeOnboardingForm} from "../models/EmployeeOnboardingForm";
+import {EmployeeInviteSuccessPage} from "../models/EmployeeInviteSuccessPage";
+import HomeCallbackHandler from "../pages/HomeCallbackHandler"; // Import Navigate
 
 const router = createBrowserRouter([
   {
     path: AppRoutePath.Default,
-    element: <Navigate to={AppRoutePath.Home} replace={true} />,
+    element: <Navigate to={AppRoutePath.Home} replace />,
   },
   {
     path: AppRoutePath.Onboarding,
@@ -22,7 +25,7 @@ const router = createBrowserRouter([
   },
   {
     path: AppRoutePath.Home,
-    element: <Home />,
+    element: <HomeCallbackHandler />,
   },
   {
     path: AppRoutePath.AllServicesPage,
@@ -47,6 +50,14 @@ const router = createBrowserRouter([
   {
     path: AppRoutePath.Profile,
     element: <ProfilePage />,
+  },
+  {
+    path: "/employee-invite/:token",
+    element: <EmployeeOnboardingForm />
+  },
+  {
+    path: "/employee-invite-success",
+    element: <EmployeeInviteSuccessPage />
   },
 ]);
 
