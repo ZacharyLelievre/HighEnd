@@ -27,7 +27,7 @@ export function EmployeeInviteSuccessPage() {
       const data = JSON.parse(formJson);
 
       try {
-        await axios.post("http://localhost:8080/api/employees", {
+        await axios.post("https://highend-zke6.onrender.com/api/employees", {
           employeeId: sub,
           first_name: data.firstName,
           last_name: data.lastName,

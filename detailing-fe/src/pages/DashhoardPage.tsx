@@ -13,7 +13,7 @@ export default function DashboardPage(): JSX.Element {
   const handleGenerateLink = async () => {
     try {
       const response = await axios.post(
-        "http://localhost:8080/api/employee-invites",
+        "https://highend-zke6.onrender.com/api/employee-invites",
         {},
       );
       setInviteLink(response.data.inviteLink);

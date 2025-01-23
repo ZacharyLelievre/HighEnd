@@ -19,7 +19,7 @@ export function EmployeeOnboardingForm() {
     async function validateToken() {
       try {
         const response = await axios.get(
-          `http://localhost:8080/api/employee-invites/${token}`,
+          `https://highend-zke6.onrender.com/api/employee-invites/${token}`,
         );
         setIsInviteValid(response.data === true);
       } catch (err) {

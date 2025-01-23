@@ -27,7 +27,7 @@ public class EmployeeInviteServiceImpl implements EmployeeInviteService {
                 .build();
         inviteRepo.save(invite);
 
-        return "http://localhost:3000/employee-invite/" + token;
+        return "https://highend-zke6.onrender.com/employee-invite/" + token;
     }
 
     @Override
