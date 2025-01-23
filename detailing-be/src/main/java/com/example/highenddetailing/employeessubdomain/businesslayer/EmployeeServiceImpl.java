@@ -8,9 +8,11 @@ import com.example.highenddetailing.appointmentssubdomain.mapperlayer.Appointmen
 import com.example.highenddetailing.employeessubdomain.businesslayer.EmployeeService;
 import com.example.highenddetailing.employeessubdomain.datalayer.Availability;
 import com.example.highenddetailing.employeessubdomain.datalayer.Employee;
+import com.example.highenddetailing.employeessubdomain.datalayer.EmployeeIdentifier;
 import com.example.highenddetailing.employeessubdomain.datalayer.EmployeeRepository;
 import com.example.highenddetailing.employeessubdomain.mapperlayer.EmployeeResponseMapper;
 import com.example.highenddetailing.employeessubdomain.presentationlayer.AvailabilityResponseModel;
+import com.example.highenddetailing.employeessubdomain.presentationlayer.EmployeeRequestModel;
 import com.example.highenddetailing.employeessubdomain.presentationlayer.EmployeeResponseModel;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -34,13 +36,13 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Override
     public Optional<EmployeeResponseModel> getEmployeeById(String employeeIds){
-        return employeeRepository.findByEmployeeId(employeeIds)
+        return employeeRepository.findByEmployeeIdentifier_EmployeeId(employeeIds)
                 .map(employeeResponseMapper::entityToResponseModel);
     }
 
     @Override
     public List<AvailabilityResponseModel> getAvailabilityForEmployee(String employeeId) {
-        Employee employee = employeeRepository.findByEmployeeId(employeeId)
+        Employee employee = employeeRepository.findByEmployeeIdentifier_EmployeeId(employeeId)
                 .orElseThrow(() -> new RuntimeException("Employee not found with id: " + employeeId));
 
         log.debug("Employee found: {}", employee);
@@ -56,7 +58,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Override
     public void setAvailabilityForEmployee(String employeeId, List<Availability> newAvailability) {
-        Employee employee = employeeRepository.findByEmployeeId(employeeId)
+        Employee employee = employeeRepository.findByEmployeeIdentifier_EmployeeId(employeeId)
                 .orElseThrow(() -> new RuntimeException("Employee not found with id: " + employeeId));
 
         // You can choose to either replace the entire availability list
@@ -66,6 +68,32 @@ public class EmployeeServiceImpl implements EmployeeService {
         // Save changes to DB
         employeeRepository.save(employee);
     }
+    @Override
+    public EmployeeResponseModel createEmployee(EmployeeRequestModel employeeRequestModel, String auth0UserId) {
+        // 1. Check if employee already exists (employeeId = sub)
+        Optional<Employee> existing = employeeRepository.findByEmployeeIdentifier_EmployeeId(auth0UserId);
+        if (existing.isPresent()) {
+            // If yes, return existing record instead of making a new one
+            return employeeResponseMapper.entityToResponseModel(existing.get());
+        }
+
+        EmployeeIdentifier employeeIdentifier = new EmployeeIdentifier(auth0UserId);
+
+        Employee newEmployee = Employee.builder()
+                .employeeIdentifier(employeeIdentifier)
+                .first_name(employeeRequestModel.getFirst_name())
+                .last_name(employeeRequestModel.getLast_name())
+                .position(employeeRequestModel.getPosition())
+                .email(employeeRequestModel.getEmail())
+                .phone(employeeRequestModel.getPhone())
+                .salary(employeeRequestModel.getSalary())
+                .imagePath(employeeRequestModel.getImagePath())
+                .build();
+
+        Employee savedEmployee = employeeRepository.save(newEmployee);
+        return employeeResponseMapper.entityToResponseModel(savedEmployee);
+    }
+
 
 }
 

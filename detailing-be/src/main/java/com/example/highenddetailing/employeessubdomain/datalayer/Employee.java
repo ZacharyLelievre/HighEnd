@@ -1,5 +1,6 @@
 package com.example.highenddetailing.employeessubdomain.datalayer;
 
+import com.example.highenddetailing.customerssubdomain.datalayer.CustomerIdentifier;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -16,8 +17,14 @@ import java.util.List;
 @Builder
 public class Employee {
 
-    @Id  // Make this the real PK
-    private String employeeId;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
+    @Embedded
+    @AttributeOverrides({
+            @AttributeOverride(name = "employeeId", column = @Column(name = "employee_id", unique = true, nullable = false))
+    })
+    private EmployeeIdentifier employeeIdentifier;
 
     private String first_name;
     private String last_name;
@@ -35,9 +42,9 @@ public class Employee {
     private List<Availability> availability;
 
     // If you need a constructor, you can pass the employeeId string
-    public Employee(String employeeId, String first_name, String last_name, String position, String email,
+    public Employee(EmployeeIdentifier employeeIdentifier, String first_name, String last_name, String position, String email,
                     String phone, double salary, String imagePath) {
-        this.employeeId = employeeId;
+        this.employeeIdentifier=employeeIdentifier;
         this.first_name = first_name;
         this.last_name = last_name;
         this.position = position;

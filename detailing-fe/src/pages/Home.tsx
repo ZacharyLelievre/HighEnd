@@ -1,3 +1,6 @@
+// src/pages/Home.tsx
+// (Parts are the same, but note the "createOrLinkEmployee()" addition)
+
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { AppRoutePath } from "../routes/path.routes";
@@ -36,21 +39,43 @@ export default function Home(): JSX.Element {
     isLoading,
     loginWithRedirect,
   } = useAuth0();
+
   const [accessToken, setAccessToken] = useState<string | null>(null);
   const [customerInfo, setCustomerInfo] = useState<CustomerInfo | null>(null);
   const navigate = useNavigate();
 
-  const fetchAccessToken = async () => {
+  // ---- NEW FUNCTION: createOrLinkEmployee
+  const createOrLinkEmployee = async () => {
+    if (!isAuthenticated) return;
+
     try {
-      const token = await getAccessTokenSilently();
-      setAccessToken(token);
-    } catch (e: any) {
-      if (e.error === "consent_required" || e.error === "login_required") {
-        await loginWithRedirect();
+      const auth0Sub = user?.sub;
+      const storedFormData = localStorage.getItem("employeeFormData");
+
+      if (storedFormData && auth0Sub) {
+        // parse the localStorage data
+        const formData = JSON.parse(storedFormData);
+        const token = await getAccessTokenSilently();
+
+        // POST to your employees endpoint
+        await axios.post(
+            "https://highend-zke6.onrender.com/api/employees",
+            { ...formData, auth0Sub },  // your EmployeeRequestModel
+            {
+              headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${token}`,
+              },
+            },
+        );
+        localStorage.removeItem("employeeFormData");
       }
+    } catch (error) {
+      console.error("Error linking/creating employee:", error);
     }
   };
 
+  // For customers (unchanged)
   const createOrLinkCustomer = async () => {
     if (!isAuthenticated) return;
 
@@ -63,50 +88,64 @@ export default function Home(): JSX.Element {
         const token = await getAccessTokenSilently();
 
         await axios.post(
-          "https://highend-zke6.onrender.com/api/customers",
-          { ...formData, auth0Sub },
-          {
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: `Bearer ${token}`,
+            "https://highend-zke6.onrender.com/api/customers",
+            { ...formData, auth0Sub },
+            {
+              headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${token}`,
+              },
             },
-          },
         );
 
         localStorage.removeItem("customFormData");
       }
     } catch (error) {
-      // Error handling
+      console.error("Error linking/creating customer:", error);
     }
   };
 
+  // same as before: fetchAccessToken
+  const fetchAccessToken = async () => {
+    try {
+      const token = await getAccessTokenSilently();
+      setAccessToken(token);
+    } catch (e: any) {
+      if (e.error === "consent_required" || e.error === "login_required") {
+        await loginWithRedirect();
+      }
+    }
+  };
+
+  // same as before: fetchCustomerInfo
   const fetchCustomerInfo = async () => {
     if (!accessToken) return;
-
     try {
       const response = await axios.get<CustomerInfo>(
-        "https://highend-zke6.onrender.com/api/customers/me",
-        {
-          headers: { Authorization: `Bearer ${accessToken}` },
-        },
+          "https://highend-zke6.onrender.com/api/customers/me",
+          { headers: { Authorization: `Bearer ${accessToken}` } },
       );
       setCustomerInfo(response.data);
     } catch (error) {
-      // Error handling
+      console.error("Error fetching customer info:", error);
     }
   };
 
+  // On first load (or when user changes),
+  // run both createOrLinkCustomer and createOrLinkEmployee, then fetch info
   useEffect(() => {
     const handleUserData = async () => {
       if (!isAuthenticated) return;
-
+      // 1) create/link new user if they had just done sign-up
       await createOrLinkCustomer();
-      await fetchCustomerInfo();
+      await createOrLinkEmployee();
+      // 2) fetch customer info if we want to display it on homepage
+      await fetchAccessToken();
     };
-
     handleUserData();
-  }, [isAuthenticated, getAccessTokenSilently, user]);
+  }, [isAuthenticated, user]);
 
+  // Whenever accessToken changes, re-fetch the profile
   useEffect(() => {
     const fetchInfo = async () => {
       if (accessToken && isAuthenticated) {
@@ -117,74 +156,73 @@ export default function Home(): JSX.Element {
   }, [accessToken, isAuthenticated]);
 
   return (
-    <div>
-      <NavBar />
-      <div className="home-container">
-        <h1>Our Mission & Vision</h1>
-        <div className="mission-vision-section">
-          <div className="image-container">
-            <img src={Urus} alt="Car Detailing" />
-          </div>
-          <div className="text-container">
-            <h2>Our Mission</h2>
-            <p>
-              Our mission is to provide top-quality car detailing services that
-              exceed customer expectations, enhancing every vehicle's appearance
-              and value with meticulous attention to detail and exceptional
-              customer care.
-            </p>
-          </div>
-        </div>
-        <div className="vision-section">
-          <div className="text-container">
-            <h2>Our Vision</h2>
-            <p>
-              Our vision is to be the leading choice for car detailing,
-              recognized for our dedication to excellence, innovation, and a
-              personalized customer experience that sets a new standard in the
-              industry.
-            </p>
-          </div>
-          <div className="image-container">
-            <img src={Gwagon} alt="G-Wagon Detailing" />
-          </div>
-        </div>
-        <div className="content">
-          {isLoading ? (
-            <Spinner animation="border" variant="primary" />
-          ) : (
-            <>
-              <button
-                onClick={fetchAccessToken}
-                className="btn btn-primary mb-3"
-              >
-                Fetch Access Token
-              </button>
+      <div>
+        <NavBar />
+        <div className="home-container">
+          <h1>Our Mission & Vision</h1>
 
-              {accessToken && (
-                <p>
-                  <strong>Access Token:</strong> {accessToken}
-                </p>
-              )}
-              {customerInfo ? (
-                <div>
-                  <h2>
-                    Welcome, {customerInfo.customerFirstName}{" "}
-                    {customerInfo.customerLastName}!
-                  </h2>
-                  <p>Email: {customerInfo.customerEmailAddress}</p>
-                  <p>
-                    Address: {customerInfo.streetAddress}, {customerInfo.city},{" "}
-                    {customerInfo.province}, {customerInfo.country}
-                  </p>
-                </div>
-              ) : (
-                <p>No customer info available yet.</p>
-              )}
-            </>
-          )}
+          {/* Your same UI layout */}
+          <div className="mission-vision-section">
+            <div className="image-container">
+              <img src={Urus} alt="Car Detailing" />
+            </div>
+            <div className="text-container">
+              <h2>Our Mission</h2>
+              <p>
+                Our mission is to provide top-quality car detailing ...
+              </p>
+            </div>
+          </div>
+
+          <div className="vision-section">
+            <div className="text-container">
+              <h2>Our Vision</h2>
+              <p>
+                Our vision is to be the leading choice ...
+              </p>
+            </div>
+            <div className="image-container">
+              <img src={Gwagon} alt="G-Wagon Detailing" />
+            </div>
+          </div>
+
+          <div className="content">
+            {isLoading ? (
+                <Spinner animation="border" variant="primary" />
+            ) : (
+                <>
+                  <button
+                      onClick={fetchAccessToken}
+                      className="btn btn-primary mb-3"
+                  >
+                    Fetch Access Token
+                  </button>
+
+                  {accessToken && (
+                      <div className="access-token-box">
+                        <strong>Access Token:</strong> {accessToken}
+                      </div>
+                  )}
+
+                  {customerInfo ? (
+                      <div>
+                        <h2>
+                          Welcome, {customerInfo.customerFirstName}{" "}
+                          {customerInfo.customerLastName}!
+                        </h2>
+                        <p>Email: {customerInfo.customerEmailAddress}</p>
+                        <p>
+                          Address: {customerInfo.streetAddress}, {customerInfo.city},{" "}
+                          {customerInfo.province}, {customerInfo.country}
+                        </p>
+                      </div>
+                  ) : (
+                      <p>No customer info available yet.</p>
+                  )}
+                </>
+            )}
+          </div>
         </div>
       </div>
-    </div>
   );
 }

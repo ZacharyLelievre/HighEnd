@@ -12,7 +12,7 @@ import java.util.List;
 @Mapper(componentModel = "spring")
 public interface EmployeeResponseMapper {
 
-    @Mapping(expression = "java(employee.getEmployeeId())", target = "employeeId")
+    @Mapping(expression = "java(employee.getEmployeeIdentifier().getEmployeeId())", target = "employeeId")
     @Mapping(expression = "java(employee.getFirst_name())", target = "first_name")
     @Mapping(expression = "java(employee.getLast_name())", target = "last_name")
     @Mapping(expression = "java(employee.getPosition())", target = "position")

@@ -46,6 +46,24 @@ public class EmployeeController {
         employeeService.setAvailabilityForEmployee(employeeId, newAvailability);
         return ResponseEntity.ok().build();
     }
+    @PostMapping(produces = "application/json")
+    public ResponseEntity<EmployeeResponseModel> createEmployee(@RequestBody EmployeeRequestModel employeeRequestModel) {
+        // 1. Extract Auth0 sub from the request
+        String auth0UserId = employeeRequestModel.getAuth0Sub();
+        if (auth0UserId == null || auth0UserId.isEmpty()) {
+            return ResponseEntity.badRequest().build();
+        }
+
+        // 2. Call service to create/return existing
+        try {
+            EmployeeResponseModel response =
+                    employeeService.createEmployee(employeeRequestModel, auth0UserId);
+            return ResponseEntity.status(201).body(response);
+        } catch (Exception e) {
+            // Handle exceptions gracefully
+            return ResponseEntity.status(500).build();
+        }
+    }
 
 
 }
