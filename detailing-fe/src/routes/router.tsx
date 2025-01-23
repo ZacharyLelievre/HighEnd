@@ -12,7 +12,8 @@ import { ProfilePage } from "../pages/ProfilePage";
 import { Navigate } from "react-router-dom";
 import {EmployeeOnboardingForm} from "../models/EmployeeOnboardingForm";
 import {EmployeeInviteSuccessPage} from "../models/EmployeeInviteSuccessPage";
-import HomeCallbackHandler from "../pages/HomeCallbackHandler"; // Import Navigate
+import HomeCallbackHandler from "../pages/HomeCallbackHandler";
+import CustomerDetailsPage from "../pages/CustomerDetailsPage";
 
 const router = createBrowserRouter([
   {
@@ -57,7 +58,11 @@ const router = createBrowserRouter([
   },
   {
     path: "/employee-invite-success",
-    element: <EmployeeInviteSuccessPage />
+    element:<EmployeeInviteSuccessPage/>
+  },
+  {
+    path: "/customers/:customerId",
+    element: <CustomerDetailsPage />,
   },
 ]);
 

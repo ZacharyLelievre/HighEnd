@@ -125,8 +125,32 @@ public class CustomerRepositoryIntegrationTest {
                 .build();
 
    }
+    @Test
+    void testFindByCustomerId_ShouldReturnCustomer() {
+        // Arrange
+        Customer customer = new Customer();
+        customer.setCustomerIdentifier(new CustomerIdentifier("CUST-123"));
+        customer.setCustomerFirstName("John");
+        customer.setCustomerLastName("Doe");
+        customer.setCustomerEmailAddress("johndoe@example.com");
+        customer.setAddress(new Address("123 Main St", "Anytown", "12345", "Ontario", "Canada"));
 
-//
+        customerRepository.save(customer);
 
+        // Act
+        Customer fetchedCustomer = customerRepository.findByCustomerIdentifier_CustomerId("CUST-123");
+
+        // Assert
+        assertNotNull(fetchedCustomer);
+        assertEquals("CUST-123", fetchedCustomer.getCustomerIdentifier().getCustomerId());
+        assertEquals("John", fetchedCustomer.getCustomerFirstName());
+        assertEquals("Doe", fetchedCustomer.getCustomerLastName());
+        assertEquals("johndoe@example.com", fetchedCustomer.getCustomerEmailAddress());
+        assertEquals("123 Main St", fetchedCustomer.getAddress().getStreetAddress());
+        assertEquals("Anytown", fetchedCustomer.getAddress().getCity());
+        assertEquals("12345", fetchedCustomer.getAddress().getPostalCode());
+        assertEquals("Ontario", fetchedCustomer.getAddress().getProvince());
+        assertEquals("Canada", fetchedCustomer.getAddress().getCountry());
+    }
 
 }

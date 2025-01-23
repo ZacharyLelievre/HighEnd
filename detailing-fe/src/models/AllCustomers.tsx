@@ -4,6 +4,7 @@ import "./AllCustomers.css";
 import axios from "axios";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { useNavigate } from "react-router-dom";
 
 export default function AllCustomers(): JSX.Element {
   const [customers, setCustomers] = useState<CustomerModel[]>([]);
@@ -11,6 +12,7 @@ export default function AllCustomers(): JSX.Element {
   const [editingCustomer, setEditingCustomer] = useState<CustomerModel | null>(
     null,
   );
+  const navigate = useNavigate();
 
   const provinces = [
     "Alberta",
@@ -116,6 +118,9 @@ export default function AllCustomers(): JSX.Element {
     setIsEditing(false);
     setEditingCustomer(null);
   };
+  const handleViewCustomer = (customerId: string): void => {
+    navigate(`/customers/${customerId}`); // Navigate to CustomerDetails
+  };
 
   return (
     <div className="container">
@@ -145,6 +150,9 @@ export default function AllCustomers(): JSX.Element {
                 </button>
                 <button onClick={() => handleEditCustomer(customer)}>
                   Edit
+                </button>
+                <button onClick={() => handleViewCustomer(customer.customerId)}>
+                  View
                 </button>
               </div>
             </div>

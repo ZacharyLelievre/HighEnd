@@ -58,13 +58,18 @@ public class CustomerServiceImpl implements CustomerService {
 
     }
     @Override
-    public CustomerResponseModel getCustomerById(String auth0UserId) {
+    public CustomerResponseModel getCurrentCustomer(String auth0UserId) {
         Customer customer = customerRepository.findByCustomerIdentifier_CustomerId(auth0UserId);
         if (customer != null) {
             return customerResponseMapper.entityToResponseModel(customer);
         } else {
             return null;
         }
+    }
+    @Override
+    public CustomerResponseModel getCustomerById(String customerId) {
+        Customer customer = customerRepository.findByCustomerIdentifier_CustomerId(customerId);
+        return (customer != null) ? customerResponseMapper.entityToResponseModel(customer) : null;
     }
 
     @Override

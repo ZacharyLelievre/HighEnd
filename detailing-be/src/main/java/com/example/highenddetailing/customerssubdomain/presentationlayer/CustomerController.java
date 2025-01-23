@@ -39,8 +39,17 @@ public class CustomerController {
     @GetMapping("/me")
     public ResponseEntity<CustomerResponseModel> getCurrentCustomer(@AuthenticationPrincipal Jwt jwt) {
         String auth0UserId = jwt.getSubject();
-        CustomerResponseModel customer = customerService.getCustomerById(auth0UserId);
+        CustomerResponseModel customer = customerService.getCurrentCustomer(auth0UserId);
         return (customer != null) ? ResponseEntity.ok(customer) : ResponseEntity.notFound().build();
+    }
+
+    @GetMapping("/{customerId}")
+    public ResponseEntity<CustomerResponseModel> getCustomerById(@PathVariable String customerId) {
+        CustomerResponseModel customer = customerService.getCustomerById(customerId);
+        if (customer == null) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(customer);
     }
 
     @PostMapping
