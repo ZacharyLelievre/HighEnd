@@ -75,3 +75,9 @@ CREATE TABLE IF NOT EXISTS customers(
     province VARCHAR (50),
     country VARCHAR (50)
     );
+DROP TABLE IF EXISTS employee_invites;
+CREATE TABLE IF NOT EXISTS employee_invites (
+                                                id INTEGER NOT NULL AUTO_INCREMENT PRIMARY KEY,
+                                                invite_token VARCHAR(255) NOT NULL,
+                                                expires_at DATETIME NOT NULL
+);

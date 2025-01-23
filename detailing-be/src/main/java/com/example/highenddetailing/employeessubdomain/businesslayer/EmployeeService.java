@@ -2,6 +2,7 @@ package com.example.highenddetailing.employeessubdomain.businesslayer;
 
 import com.example.highenddetailing.employeessubdomain.datalayer.Availability;
 import com.example.highenddetailing.employeessubdomain.presentationlayer.AvailabilityResponseModel;
+import com.example.highenddetailing.employeessubdomain.presentationlayer.EmployeeRequestModel;
 import com.example.highenddetailing.employeessubdomain.presentationlayer.EmployeeResponseModel;
 
 import java.util.List;
@@ -18,4 +19,6 @@ public interface EmployeeService {
     List<AvailabilityResponseModel> getAvailabilityForEmployee(String employeeId);
 
     void setAvailabilityForEmployee(String employeeId, List<Availability> newAvailability);
+
+    EmployeeResponseModel createEmployee(EmployeeRequestModel request);
 }

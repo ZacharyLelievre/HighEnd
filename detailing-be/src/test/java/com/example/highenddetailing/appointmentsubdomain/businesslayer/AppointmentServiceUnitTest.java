@@ -200,7 +200,16 @@ public class AppointmentServiceUnitTest {
     void whenAppointmentNotFound_thenThrowRuntimeException() {
         // Arrange
         String invalidId = "invalid-id";
-        EmployeeRequestModel request = new EmployeeRequestModel("e1f14c90-ec5e-4f82-a9b7-2548a7325b34", null);
+        EmployeeRequestModel request = new EmployeeRequestModel(
+                "e1f14c90-ec5e-4f82-a9b7-2548a7325b34", // employeeId
+                "John",                                  // first_name
+                "Doe",                                   // last_name
+                "Manager",                               // position
+                "john.doe@example.com",                  // email
+                "123-456-7890",                          // phone
+                75000.0,                                 // salary
+                "/images/john-doe.jpg"                   // imagePath
+        );
 
         when(appointmentRepository.findByAppointmentIdentifier_AppointmentId(invalidId))
                 .thenReturn(Optional.empty());
@@ -219,7 +228,16 @@ public class AppointmentServiceUnitTest {
     void whenEmployeeNotFound_thenThrowRuntimeException() {
         // Arrange
         String appointmentId = "a1f14c90-ec5e-4f82-a9b7-2548a7325b34";
-        EmployeeRequestModel request = new EmployeeRequestModel("non-existent-id", null);
+        EmployeeRequestModel request = new EmployeeRequestModel(
+                "non-existent-id",       // employeeId
+                "Jane",                  // first_name
+                "Doe",                   // last_name
+                "Technician",            // position
+                "jane.doe@example.com",  // email
+                "987-654-3210",          // phone
+                50000.0,                 // salary
+                "/images/jane-doe.jpg"   // imagePath
+        );
 
         Appointment existingAppointment = new Appointment(
                 1,

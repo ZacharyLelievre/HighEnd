@@ -62,15 +62,26 @@ public class EmployeeTest {
         Employee employee1 = new Employee();
         employee1.setEmployeeId("e1");
         employee1.setFirst_name("Jane");
+        employee1.setLast_name("Doe");
+        employee1.setPosition("Technician");
+        employee1.setEmail("jane.doe@example.com");
+        employee1.setPhone("123-456-7890");
+        employee1.setSalary(60000.0);
+        employee1.setImagePath("/images/jane-doe.jpg");
 
         Employee employee2 = new Employee();
         employee2.setEmployeeId("e1");
         employee2.setFirst_name("Jane");
+        employee2.setLast_name("Doe");
+        employee2.setPosition("Technician");
+        employee2.setEmail("jane.doe@example.com");
+        employee2.setPhone("123-456-7890");
+        employee2.setSalary(60000.0);
+        employee2.setImagePath("/images/jane-doe.jpg");
 
-        // Should be true because they share the same PK (employeeId)
+        // Act & Assert
         assertThat(employee1.equals(employee2)).isTrue();
 
-        // Compare to an unrelated object => false
         assertThat(employee1.equals(new Object())).isFalse();
     }
 

@@ -11,6 +11,7 @@ import com.example.highenddetailing.employeessubdomain.datalayer.Employee;
 import com.example.highenddetailing.employeessubdomain.datalayer.EmployeeRepository;
 import com.example.highenddetailing.employeessubdomain.mapperlayer.EmployeeResponseMapper;
 import com.example.highenddetailing.employeessubdomain.presentationlayer.AvailabilityResponseModel;
+import com.example.highenddetailing.employeessubdomain.presentationlayer.EmployeeRequestModel;
 import com.example.highenddetailing.employeessubdomain.presentationlayer.EmployeeResponseModel;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -65,6 +66,23 @@ public class EmployeeServiceImpl implements EmployeeService {
 
         // Save changes to DB
         employeeRepository.save(employee);
+    }
+    @Override
+    public EmployeeResponseModel createEmployee(EmployeeRequestModel request) {
+        Employee newEmployee = Employee.builder()
+                .employeeId(request.getEmployeeId())
+                .first_name(request.getFirst_name())
+                .last_name(request.getLast_name())
+                .position(request.getPosition())
+                .email(request.getEmail())
+                .phone(request.getPhone())
+                .salary(request.getSalary())
+                .imagePath(request.getImagePath())
+                .build();
+
+        Employee savedEmployee = employeeRepository.save(newEmployee);
+
+        return employeeResponseMapper.entityToResponseModel(savedEmployee);
     }
 
 }
