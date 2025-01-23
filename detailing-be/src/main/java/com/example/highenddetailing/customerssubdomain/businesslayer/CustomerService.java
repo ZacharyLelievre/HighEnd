@@ -11,7 +11,10 @@ public interface CustomerService {
     List<CustomerResponseModel> getCustomers();
     void deleteCustomer(String customerId);
     CustomerResponseModel updateCustomer(CustomerRequestModel customerRequestModel, String customerId);
-    CustomerResponseModel getCustomerById(String auth0UserId);
+    CustomerResponseModel getCurrentCustomer(String auth0UserId);
+
+
+    CustomerResponseModel getCustomerById(String customerId);
 
     CustomerResponseModel createCustomer(CustomerRequestModel customerRequestModel, String auth0UserId);
 }
