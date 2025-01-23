@@ -12,7 +12,10 @@ export default function DashboardPage(): JSX.Element {
 
   const handleGenerateLink = async () => {
     try {
-      const response = await axios.post("http://localhost:8080/api/employee-invites", {});
+      const response = await axios.post(
+        "http://localhost:8080/api/employee-invites",
+        {},
+      );
       setInviteLink(response.data.inviteLink);
       setIsOpen(true); // Open the container
     } catch (error) {
@@ -26,41 +29,43 @@ export default function DashboardPage(): JSX.Element {
   };
 
   return (
-      <div>
-        <NavBar />
-        <div className="dashboard-container">
-          <div className="section-container">
-            <h2 className="section-title">Appointments</h2>
-            <AllAppointments />
-          </div>
+    <div>
+      <NavBar />
+      <div className="dashboard-container">
+        <div className="section-container">
+          <h2 className="section-title">Appointments</h2>
+          <AllAppointments />
+        </div>
 
-          <div className="section-container">
-            <h2 className="section-title">Customers</h2>
-            <AllCustomers />
-          </div>
+        <div className="section-container">
+          <h2 className="section-title">Customers</h2>
+          <AllCustomers />
+        </div>
 
-          <div className="invite-section-container">
-            {!isOpen && (
-                <button className="generate-button" onClick={handleGenerateLink}>
-                  Generate Employee Invite
-                </button>
-            )}
+        <div className="invite-section-container">
+          {!isOpen && (
+            <button className="generate-button" onClick={handleGenerateLink}>
+              Generate Employee Invite
+            </button>
+          )}
 
-            {isOpen && (
-                <div className="invite-link-container">
-                  <button className="close-button" onClick={handleClose}>
-                    &times;
-                  </button>
-                  <p className="invite-link-text">Share this link with your new employee:</p>
-                  <textarea value={inviteLink} readOnly />
-                </div>
-            )}
-          </div>
-          <div className="section-container">
-            <h2 className="section-title">Employees</h2>
-            <AllEmployees />
-          </div>
+          {isOpen && (
+            <div className="invite-link-container">
+              <button className="close-button" onClick={handleClose}>
+                &times;
+              </button>
+              <p className="invite-link-text">
+                Share this link with your new employee:
+              </p>
+              <textarea value={inviteLink} readOnly />
+            </div>
+          )}
+        </div>
+        <div className="section-container">
+          <h2 className="section-title">Employees</h2>
+          <AllEmployees />
         </div>
       </div>
+    </div>
   );
 }

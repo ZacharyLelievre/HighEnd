@@ -10,8 +10,8 @@ import EmployeeDetails from "../models/EmployeeDetails";
 import { OnboardingForm } from "../pages/OnboardingForm";
 import { ProfilePage } from "../pages/ProfilePage";
 import { Navigate } from "react-router-dom";
-import {EmployeeOnboardingForm} from "../models/EmployeeOnboardingForm";
-import {EmployeeInviteSuccessPage} from "../models/EmployeeInviteSuccessPage";
+import { EmployeeOnboardingForm } from "../models/EmployeeOnboardingForm";
+import { EmployeeInviteSuccessPage } from "../models/EmployeeInviteSuccessPage";
 import HomeCallbackHandler from "../pages/HomeCallbackHandler";
 import CustomerDetailsPage from "../pages/CustomerDetailsPage";
 
@@ -54,11 +54,11 @@ const router = createBrowserRouter([
   },
   {
     path: "/employee-invite/:token",
-    element: <EmployeeOnboardingForm />
+    element: <EmployeeOnboardingForm />,
   },
   {
     path: "/employee-invite-success",
-    element:<EmployeeInviteSuccessPage/>
+    element: <EmployeeInviteSuccessPage />,
   },
   {
     path: "/customers/:customerId",
