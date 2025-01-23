@@ -40,13 +40,34 @@ public class EmployeeRequestModelTest {
         // Arrange
         String employeeId = "emp123";
         String firstName = "John";
+        String lastName = "Doe";
+        String position = "Technician";
+        String email = "john.doe@example.com";
+        String phone = "123-456-7890";
+        double salary = 60000.0;
+        String imagePath = "/images/john-doe.jpg";
 
         // Act
-        EmployeeRequestModel requestModel = new EmployeeRequestModel(employeeId, firstName);
+        EmployeeRequestModel requestModel = new EmployeeRequestModel(
+                employeeId,
+                firstName,
+                lastName,
+                position,
+                email,
+                phone,
+                salary,
+                imagePath
+        );
 
         // Assert
-        assertEquals(requestModel.getEmployeeId(), employeeId);
-        assertEquals(requestModel.getFirst_name(), firstName);
+        assertEquals(employeeId, requestModel.getEmployeeId());
+        assertEquals(firstName, requestModel.getFirst_name());
+        assertEquals(lastName, requestModel.getLast_name());
+        assertEquals(position, requestModel.getPosition());
+        assertEquals(email, requestModel.getEmail());
+        assertEquals(phone, requestModel.getPhone());
+        assertEquals(salary, requestModel.getSalary(), 0.001);
+        assertEquals(imagePath, requestModel.getImagePath());
     }
 
     @Test
@@ -78,9 +99,38 @@ public class EmployeeRequestModelTest {
     @Test
     void testEqualsAndHashCode() {
         // Arrange
-        EmployeeRequestModel requestModel1 = new EmployeeRequestModel("emp123", "John");
-        EmployeeRequestModel requestModel2 = new EmployeeRequestModel("emp123", "John");
-        EmployeeRequestModel requestModel3 = new EmployeeRequestModel("emp124", "Jane");
+        EmployeeRequestModel requestModel1 = new EmployeeRequestModel(
+                "emp123",    // employeeId
+                "John",      // first_name
+                "Doe",       // last_name
+                "Technician",// position
+                "john.doe@example.com", // email
+                "123-456-7890",         // phone
+                60000.0,                // salary
+                "/images/john-doe.jpg"  // imagePath
+        );
+
+        EmployeeRequestModel requestModel2 = new EmployeeRequestModel(
+                "emp123",    // employeeId
+                "John",      // first_name
+                "Doe",       // last_name
+                "Technician",// position
+                "john.doe@example.com", // email
+                "123-456-7890",         // phone
+                60000.0,                // salary
+                "/images/john-doe.jpg"  // imagePath
+        );
+
+        EmployeeRequestModel requestModel3 = new EmployeeRequestModel(
+                "emp124",    // employeeId
+                "Jane",      // first_name
+                "Smith",     // last_name
+                "Manager",   // position
+                "jane.smith@example.com", // email
+                "987-654-3210",           // phone
+                80000.0,                  // salary
+                "/images/jane-smith.jpg"  // imagePath
+        );
 
         // Act & Assert
         assertThat(requestModel1).isEqualTo(requestModel2);
