@@ -4,5 +4,7 @@ public enum Status {
     CONFIRMED,
     REJECTED,
     CANCELLED,
-    PENDING
+    PENDING,
+    IN_PROGRESS,
+    COMPLETED
 }

@@ -95,5 +95,9 @@ public class AppointmentServiceImpl implements AppointmentService {
         Appointment savedAppointment = appointmentRepository.save(appointment);
         return appointmentResponseMapper.entityToResponseModel(savedAppointment);
     }
+    @Override
+    public List<Appointment> getAppointmentsByEmployeeId(String employeeId) {
+        return appointmentRepository.findByEmployeeId(employeeId);
+    }
 
 }

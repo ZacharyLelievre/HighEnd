@@ -13,4 +13,6 @@ public interface AppointmentService {
     Appointment updateStatus(String id, Status newStatus);
     AppointmentResponseModel assignEmployee(String id, EmployeeRequestModel request);
     AppointmentResponseModel createAppointment(AppointmentRequestModel request);
+
+    List<Appointment> getAppointmentsByEmployeeId(String employeeId);
 }

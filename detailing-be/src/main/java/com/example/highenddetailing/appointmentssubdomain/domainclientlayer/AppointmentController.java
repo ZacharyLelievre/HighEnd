@@ -3,6 +3,7 @@ package com.example.highenddetailing.appointmentssubdomain.domainclientlayer;
 import com.example.highenddetailing.appointmentssubdomain.businesslayer.AppointmentService;
 import com.example.highenddetailing.appointmentssubdomain.datalayer.Appointment;
 import com.example.highenddetailing.appointmentssubdomain.datalayer.Status;
+import com.example.highenddetailing.appointmentssubdomain.mapperlayer.AppointmentResponseMapper;
 import com.example.highenddetailing.employeessubdomain.presentationlayer.EmployeeRequestModel;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,9 +16,11 @@ import java.util.List;
 public class AppointmentController {
 
     private final AppointmentService appointmentService;
+    private final AppointmentResponseMapper responseMapper;
 
-    public AppointmentController(AppointmentService appointmentService) {
+    public AppointmentController(AppointmentService appointmentService,AppointmentResponseMapper responseMapper) {
         this.appointmentService = appointmentService;
+        this.responseMapper=responseMapper;
     }
 
     @GetMapping(produces = "application/json")
@@ -50,4 +53,10 @@ public class AppointmentController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
         }
     }
+    @GetMapping("/employee/{employeeId}")
+    public List<AppointmentResponseModel> getAppointmentsForEmployee(@PathVariable String employeeId) {
+        List<Appointment> appointments = appointmentService.getAppointmentsByEmployeeId(employeeId);
+        return responseMapper.entityListToResponseModel(appointments);
+    }
+
 }

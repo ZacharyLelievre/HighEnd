@@ -17,5 +17,7 @@ public interface AppointmentRepository extends JpaRepository<Appointment, Intege
     @Query("SELECT a FROM Appointment a WHERE a.appointmentDate = :date AND (a.appointmentTime < :endTime AND a.appointmentEndTime > :startTime)")
     List<Appointment> findOverlappingAppointments(@Param("date") LocalDate date, @Param("startTime") LocalTime startTime, @Param("endTime") LocalTime endTime);
 
+    @Query("SELECT a FROM Appointment a WHERE a.employeeId = :employeeId")
+    List<Appointment> findByEmployeeId(@Param("employeeId") String employeeId);
 
 }
