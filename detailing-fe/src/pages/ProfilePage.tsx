@@ -1,4 +1,5 @@
 // src/models/ProfilePage.tsx
+
 import React, { useEffect, useState } from "react";
 import { useAuth0 } from "@auth0/auth0-react";
 import axios from "axios";
@@ -6,17 +7,24 @@ import { NavBar } from "../nav/NavBar";
 import "./ProfilePage.css";
 import { CustomerModel } from "../models/dtos/CustomerModel";
 import { EmployeeModel } from "../models/dtos/EmployeeModel";
+import { AppointmentModel } from "../models/dtos/AppointmentModel";
+import { useNavigate } from "react-router-dom";
 
 type UserProfile = CustomerModel | EmployeeModel;
 
 export function ProfilePage() {
   const { getAccessTokenSilently, user } = useAuth0();
+  const navigate = useNavigate();
+
   const [profile, setProfile] = useState<UserProfile | null>(null);
   const [userType, setUserType] = useState<"Customer" | "Employee" | null>(
     null,
   );
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
+
+  // NEW STATE: appointments for employees
+  const [appointments, setAppointments] = useState<AppointmentModel[]>([]);
 
   useEffect(() => {
     const fetchProfile = async () => {
@@ -82,6 +90,35 @@ export function ProfilePage() {
     fetchProfile();
   }, [getAccessTokenSilently]);
 
+  // Once we know it’s an Employee, fetch their appointments
+  useEffect(() => {
+    const fetchEmployeeAppointments = async () => {
+      try {
+        if (userType !== "Employee" || !profile) return;
+        const token = await getAccessTokenSilently();
+
+        const emp = profile as EmployeeModel;
+        if (!emp.employeeId) return;
+
+        const response = await axios.get<AppointmentModel[]>(
+          `http://localhost:8080/api/appointments/employee/${emp.employeeId}`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          },
+        );
+        setAppointments(response.data);
+      } catch (err) {
+        console.error("Error fetching employee's appointments:", err);
+      }
+    };
+
+    fetchEmployeeAppointments();
+  }, [userType, profile, getAccessTokenSilently]);
+
+  // Simple click handler to navigate to an appointment details page
+
   // Loading State
   if (loading) {
     return (
@@ -118,12 +155,34 @@ export function ProfilePage() {
     );
   }
 
-  // Render Profile Based on User Type
   return (
     <div>
       <NavBar />
       <div className="profile-container">
         <div className="profile-card">
+          {/* NEW: Only show appointments if user is an employee */}
+          {userType === "Employee" && (
+            <div style={{ marginBottom: "20px", textAlign: "left" }}>
+              <h3>My Appointments</h3>
+              {appointments.length === 0 ? (
+                <p>No appointments assigned.</p>
+              ) : (
+                <ul>
+                  {appointments.map((appt) => (
+                    <li
+                      key={appt.appointmentId}
+                      style={{ cursor: "pointer", marginBottom: "6px" }}
+                    >
+                      <b>{appt.serviceName}</b> on {appt.appointmentDate}{" "}
+                      (status: {appt.status})
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </div>
+          )}
+
+          {/* Existing profile UI below */}
           <div className="profile-header">
             <div className="profile-avatar">
               <img
@@ -131,21 +190,31 @@ export function ProfilePage() {
                   user?.picture ||
                   (userType === "Employee" &&
                   (profile as EmployeeModel).imagePath
-                    ? `https://highend-zke6.onrender.com/${(profile as EmployeeModel).imagePath}`
+                    ? `https://highend-zke6.onrender.com/${
+                        (profile as EmployeeModel).imagePath
+                      }`
                     : "https://via.placeholder.com/100")
                 }
                 alt={
                   userType === "Customer"
-                    ? `${(profile as CustomerModel).customerFirstName} ${(profile as CustomerModel).customerLastName}`
-                    : `${(profile as EmployeeModel).first_name} ${(profile as EmployeeModel).last_name}`
+                    ? `${(profile as CustomerModel).customerFirstName} ${
+                        (profile as CustomerModel).customerLastName
+                      }`
+                    : `${(profile as EmployeeModel).first_name} ${
+                        (profile as EmployeeModel).last_name
+                      }`
                 }
               />
             </div>
             <div className="profile-name">
               <h2>
                 {userType === "Customer"
-                  ? `${(profile as CustomerModel).customerFirstName} ${(profile as CustomerModel).customerLastName}`
-                  : `${(profile as EmployeeModel).first_name} ${(profile as EmployeeModel).last_name}`}
+                  ? `${(profile as CustomerModel).customerFirstName} ${
+                      (profile as CustomerModel).customerLastName
+                    }`
+                  : `${(profile as EmployeeModel).first_name} ${
+                      (profile as EmployeeModel).last_name
+                    }`}
               </h2>
               <p className="profile-email">
                 {userType === "Customer"
@@ -154,6 +223,7 @@ export function ProfilePage() {
               </p>
             </div>
           </div>
+
           <div className="profile-details">
             {userType === "Customer" && (
               <>
