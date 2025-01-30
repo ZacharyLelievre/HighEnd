@@ -104,4 +104,10 @@ public class AppointmentServiceImpl implements AppointmentService {
         appointmentRepository.delete(appointment);
     }
 
+    @Override
+    public List<AppointmentResponseModel> getAppointmentsByEmployeeId(String employeeId) {
+        List<Appointment> appointments = appointmentRepository.findByEmployeeId(employeeId);
+        return appointmentResponseMapper.entityListToResponseModel(appointments);
+    }
+
 }

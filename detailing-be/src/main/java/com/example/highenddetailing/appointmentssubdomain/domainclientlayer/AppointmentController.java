@@ -50,6 +50,7 @@ public class AppointmentController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
         }
     }
+
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteAppointment(@PathVariable String id) {
         try {
@@ -58,5 +59,9 @@ public class AppointmentController {
         } catch (RuntimeException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
+    }
+    @GetMapping("/employee/{employeeId}")
+    public ResponseEntity<List<AppointmentResponseModel>> getAppointmentsByEmployeeId(@PathVariable String employeeId) {
+        return ResponseEntity.ok(appointmentService.getAppointmentsByEmployeeId(employeeId));
     }
 }
