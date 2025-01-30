@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -50,6 +52,16 @@ public class EmployeeController {
     public ResponseEntity<EmployeeResponseModel> createEmployee(@RequestBody EmployeeRequestModel request) {
         EmployeeResponseModel createdEmployee = employeeService.createEmployee(request);
         return ResponseEntity.status(201).body(createdEmployee);
+    }
+    @GetMapping("/me")
+    public ResponseEntity<EmployeeResponseModel> getCurrentEmployee(@AuthenticationPrincipal Jwt jwt) {
+        String auth0UserId = jwt.getSubject();
+        EmployeeResponseModel employee = employeeService.getCurrentEmployee(auth0UserId);
+        if (employee != null) {
+            return ResponseEntity.ok(employee);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
     }
 
 

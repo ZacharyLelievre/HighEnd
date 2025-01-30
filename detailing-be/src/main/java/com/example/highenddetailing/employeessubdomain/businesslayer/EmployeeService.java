@@ -21,4 +21,5 @@ public interface EmployeeService {
     void setAvailabilityForEmployee(String employeeId, List<Availability> newAvailability);
 
     EmployeeResponseModel createEmployee(EmployeeRequestModel request);
+    EmployeeResponseModel getCurrentEmployee(String auth0UserId);
 }

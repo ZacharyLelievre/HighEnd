@@ -30,7 +30,7 @@ export function EmployeeOnboardingForm() {
     validateToken();
   }, [token]);
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     // 1) Save form data
