@@ -11,11 +11,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithMockUser;
+import org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.List;
 
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -24,6 +27,7 @@ public class AppointmentControllerUnitTest {
 
     @Autowired
     private MockMvc mockMvc; // Simulates HTTP requests
+
 
     @MockBean
     private AppointmentService appointmentService; // Mock AppointmentService
@@ -57,8 +61,24 @@ public class AppointmentControllerUnitTest {
                         .build()
         );
     }
+    @Test
+    @WithMockUser // Adds a mock authenticated user for Spring Security
+    void whenDeleteAppointment_thenReturnNoContentWithCsrf() throws Exception {
+        // Arrange
+        String appointmentId = "a1f14c90-ec5e-4f82-a9b7-2548a7325b34";
 
+        // Mock the service behavior
+        doNothing().when(appointmentService).deleteAppointment(appointmentId);
 
+        // Act & Assert
+        mockMvc.perform(delete("/api/appointments/{id}", appointmentId)
+                        .with(SecurityMockMvcRequestPostProcessors.csrf())  // Add CSRF token
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isNoContent());
+
+        // Verify the service interaction
+        verify(appointmentService, times(1)).deleteAppointment(appointmentId);
+    }
 
 //    @Test
 //    void testGetAllAppointments_EmptyList() throws Exception {

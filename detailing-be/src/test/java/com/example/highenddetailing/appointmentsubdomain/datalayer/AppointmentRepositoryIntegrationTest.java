@@ -11,9 +11,9 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
+import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.*;
 
 @DataJpaTest
 public class AppointmentRepositoryIntegrationTest {
@@ -80,5 +80,37 @@ public class AppointmentRepositoryIntegrationTest {
         assertEquals(appointment2.getCustomerName(), appointments.get(1).getCustomerName()); // Assert for customerName
         assertEquals(appointment2.getEmployeeName(), appointments.get(1).getEmployeeName()); // Assert for employeeName
     }
+
+    @Test
+    void whenDeleteAppointment_thenAppointmentIsRemoved() {
+        // Arrange: Create and save an appointment
+        String appointmentId = "c1f14c90-ec5e-4f82-a9b7-2548a7325b34";
+        Appointment appointment = Appointment.builder()
+                .appointmentIdentifier(new AppointmentIdentifier(appointmentId))
+                .customerId("CUST003")
+                .customerName("Sarah Johnson")
+                .serviceId("SERVICE003")
+                .serviceName("Oil Change")
+                .employeeId("EMP003")
+                .employeeName("James Brown")
+                .appointmentDate(LocalDate.parse("2022-01-15"))
+                .appointmentTime(LocalTime.parse("09:00"))
+                .status(Status.PENDING)
+                .imagePath("/images/appointment3.jpg")
+                .build();
+
+        appointmentRepository.save(appointment);
+
+        // Act: Delete the appointment by finding it first
+        Optional<Appointment> savedAppointment = appointmentRepository.findByAppointmentIdentifier_AppointmentId(appointmentId);
+        assertTrue(savedAppointment.isPresent());
+
+        appointmentRepository.delete(savedAppointment.get());
+
+        // Assert: Verify the appointment is deleted
+        Optional<Appointment> deletedAppointment = appointmentRepository.findByAppointmentIdentifier_AppointmentId(appointmentId);
+        assertFalse(deletedAppointment.isPresent());
+    }
+
 
 }

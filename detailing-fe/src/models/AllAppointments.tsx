@@ -62,6 +62,35 @@ export default function AllAppointments(): JSX.Element {
     fetchEmployees();
   }, [getAccessTokenSilently]);
 
+  const handleDelete = async (appointmentId: string): Promise<void> => {
+    if (!window.confirm("Are you sure you want to delete this appointment?"))
+      return;
+
+    try {
+      const token = await getAccessTokenSilently();
+      await axios.delete(
+        `https://highend-zke6.onrender.com/api/appointments/${appointmentId}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        },
+      );
+
+      setAppointments((prevAppointments) =>
+        prevAppointments.filter(
+          (appointment) => appointment.appointmentId !== appointmentId,
+        ),
+      );
+
+      alert("Appointment deleted successfully.");
+    } catch (error) {
+      console.error("Error deleting appointment:", error);
+      alert("Error deleting appointment. Please try again.");
+      console.log("Deleting appointment with ID:", appointmentId);
+    }
+  };
+
   // Handle Confirm Appointment
   const handleConfirm = async (appointmentId: string): Promise<void> => {
     try {
@@ -219,6 +248,12 @@ export default function AllAppointments(): JSX.Element {
                     {appointment.status === "CONFIRMED"
                       ? "Confirmed"
                       : "Confirm"}
+                  </button>
+                  <button
+                    className="delete-button"
+                    onClick={() => handleDelete(appointment.appointmentId)}
+                  >
+                    Delete
                   </button>
                 </div>
               </div>
