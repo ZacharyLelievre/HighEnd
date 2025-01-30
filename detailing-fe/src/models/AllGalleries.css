@@ -1,15 +1,197 @@
-.gallery {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  grid-gap: 20px;
+/* Container Styling */
+.gallery-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+  text-align: center;
 }
 
-.gallery-item {
-  border-radius: 10px; /* Adjust the radius as desired */
-  overflow: hidden; /* Hide content that overflows the rounded corners */
+/* Title Styling */
+.gallery-title {
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 20px;
 }
 
+/* Swiper Container */
+.swiper-container {
+  padding-bottom: 40px; /* Space for pagination dots */
+}
+
+/* Swiper Slide */
+.swiper-slide {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Image Styling */
 .gallery-image {
   width: 100%;
   height: auto;
+  border-radius: 10px;
+  object-fit: cover;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+  transition: transform 0.3s ease-in-out;
 }
+
+/* Hover Effect */
+.gallery-image:hover {
+  transform: scale(1.05);
+}
+
+/* Swiper Navigation Arrows */
+.swiper-button-prev,
+.swiper-button-next {
+  color: black;
+}
+
+/* Swiper Pagination Dots */
+.swiper-pagination-bullet {
+  background-color: black;
+}
+
+
+
+
+/* Lightbox (Full-Screen Preview) */
+.lightbox {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.8);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.lightbox-content {
+  position: relative;
+  max-width: 90%;
+  max-height: 90%;
+}
+
+.lightbox-image {
+  width: 100%;
+  height: auto;
+  max-height: 80vh;
+  border-radius: 8px;
+  box-shadow: 0px 4px 10px rgba(255, 255, 255, 0.2);
+}
+
+/* Close Button */
+.close-button {
+  position: absolute;
+  top: -40px;
+  right: -10px;
+  background: white;
+  color: black;
+  border: none;
+  font-size: 24px;
+  cursor: pointer;
+  padding: 5px 10px;
+  border-radius: 5px;
+  transition: 0.3s;
+}
+
+.close-button:hover {
+  background: red;
+  color: white;
+}
+
+.gallery-container {
+  animation: fadeIn 1s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.swiper-slide {
+  opacity: 0;
+  transform: translateX(-20px);
+  animation: slideIn 0.5s forwards;
+}
+
+@keyframes slideIn {
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.gallery-image {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.gallery-image:hover {
+  transform: scale(1.05);
+  box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.4);
+}
+
+.lightbox-content {
+  animation: zoomIn 0.4s ease-out;
+}
+
+@keyframes zoomIn {
+  from {
+    transform: scale(0.8);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.swiper-button-prev,
+.swiper-button-next {
+  animation: bounce 1s infinite alternate;
+}
+
+@keyframes bounce {
+  from {
+    transform: translateY(0);
+  }
+  to {
+    transform: translateY(-5px);
+  }
+}
+
+.close-button {
+  opacity: 0;
+  animation: fadeInButton 0.3s forwards;
+}
+
+@keyframes fadeInButton {
+  to {
+    opacity: 1;
+  }
+}
+
+.gallery-title {
+  opacity: 0;
+  animation: fadeInTitle 1s ease-out forwards;
+}
+
+@keyframes fadeInTitle {
+  to {
+    opacity: 1;
+  }
+}
+
+
+
+
+
+
+
+
