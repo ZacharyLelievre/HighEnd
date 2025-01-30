@@ -51,9 +51,6 @@
   background-color: black;
 }
 
-
-
-
 /* Lightbox (Full-Screen Preview) */
 .lightbox {
   position: fixed;
@@ -129,7 +126,9 @@
 }
 
 .gallery-image {
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease;
 }
 
 .gallery-image:hover {
@@ -187,11 +186,3 @@
     opacity: 1;
   }
 }
-
-
-
-
-
-
-
-

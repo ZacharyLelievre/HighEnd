@@ -16,7 +16,7 @@ export default function AllGalleries(): JSX.Element {
     const fetchGalleries = async (): Promise<void> => {
       try {
         const response = await axios.get(
-          "https://highend-zke6.onrender.com/api/galleries"
+          "https://highend-zke6.onrender.com/api/galleries",
         );
         setGalleries(response.data);
       } catch (error) {
@@ -60,8 +60,17 @@ export default function AllGalleries(): JSX.Element {
       {selectedImage && (
         <div className="lightbox" onClick={() => setSelectedImage(null)}>
           <div className="lightbox-content">
-            <button className="close-button" onClick={() => setSelectedImage(null)}>✖</button>
-            <img className="lightbox-image" src={selectedImage} alt="Full Preview" />
+            <button
+              className="close-button"
+              onClick={() => setSelectedImage(null)}
+            >
+              ✖
+            </button>
+            <img
+              className="lightbox-image"
+              src={selectedImage}
+              alt="Full Preview"
+            />
           </div>
         </div>
       )}
