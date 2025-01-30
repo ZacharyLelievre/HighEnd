@@ -84,6 +84,11 @@ public class EmployeeServiceImpl implements EmployeeService {
 
         return employeeResponseMapper.entityToResponseModel(savedEmployee);
     }
+    @Override
+    public EmployeeResponseModel getCurrentEmployee(String auth0UserId) {
+        Optional<Employee> employeeOpt = employeeRepository.findByEmployeeId(auth0UserId);
+        return employeeOpt.map(employeeResponseMapper::entityToResponseModel).orElse(null);
+    }
 
 }
 

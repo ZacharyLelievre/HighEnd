@@ -52,6 +52,7 @@ public class SecurityConfig {
                         //added more here below this comment
                         .requestMatchers("/api/customers/**").permitAll() // Allow customer POST requests
                         .requestMatchers("/api/customers/me").authenticated() // Secure /me endpoint
+                        .requestMatchers("/api/employees/me").authenticated()
                         .anyRequest().permitAll()
                 )
                 .oauth2ResourceServer(oauth2 ->

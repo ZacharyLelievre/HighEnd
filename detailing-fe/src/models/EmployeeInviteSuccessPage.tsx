@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useAuth0 } from "@auth0/auth0-react";
+import "./EmployeeInviteSuccessPage.css";
 
 export function EmployeeInviteSuccessPage() {
   const { isAuthenticated, getIdTokenClaims } = useAuth0();
@@ -35,15 +36,19 @@ export function EmployeeInviteSuccessPage() {
           email: data.email,
           phone: data.phone,
         });
-        setStatus("Success! Your employee account is created.");
+        setStatus("✅ Success! Your employee account is created.");
         localStorage.removeItem("employeeFormData");
       } catch (err) {
         console.error("Error creating employee:", err);
-        setStatus("An error occurred while creating your employee account.");
+        setStatus("❌ An error occurred while creating your employee account.");
       }
     }
     doStuff();
   }, [isAuthenticated, getIdTokenClaims]);
 
-  return <div>{status}</div>;
+  return (
+    <div className="invite-success-container">
+      <div className="invite-success-message">{status}</div>
+    </div>
+  );
 }
