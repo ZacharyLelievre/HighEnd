@@ -47,8 +47,8 @@ export function EmployeeInviteSuccessPage() {
   }, [isAuthenticated, getIdTokenClaims]);
 
   return (
-      <div className="invite-success-container">
-        <div className="invite-success-message">{status}</div>
-      </div>
+    <div className="invite-success-container">
+      <div className="invite-success-message">{status}</div>
+    </div>
   );
 }
