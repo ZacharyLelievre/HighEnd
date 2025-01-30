@@ -27,7 +27,7 @@ export function ProfilePage() {
         // Attempt to fetch Customer profile
         try {
           const customerResponse = await axios.get<CustomerModel>(
-            "http://localhost:8080/api/customers/me",
+            "https://highend-zke6.onrender.com/api/customers/me",
             {
               headers: {
                 Authorization: `Bearer ${token}`,
@@ -41,7 +41,7 @@ export function ProfilePage() {
             // If Customer not found, attempt to fetch Employee profile
             try {
               const employeeResponse = await axios.get<EmployeeModel>(
-                "http://localhost:8080/api/employees/me",
+                "https://highend-zke6.onrender.com/api/employees/me",
                 {
                   headers: {
                     Authorization: `Bearer ${token}`,
