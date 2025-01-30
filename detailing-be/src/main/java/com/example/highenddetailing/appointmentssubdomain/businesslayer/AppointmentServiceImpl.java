@@ -95,5 +95,13 @@ public class AppointmentServiceImpl implements AppointmentService {
         Appointment savedAppointment = appointmentRepository.save(appointment);
         return appointmentResponseMapper.entityToResponseModel(savedAppointment);
     }
+    @Override
+    public void deleteAppointment(String id) {
+        Appointment appointment = appointmentRepository
+                .findByAppointmentIdentifier_AppointmentId(id)
+                .orElseThrow(() -> new RuntimeException("Appointment not found with id: " + id));
+
+        appointmentRepository.delete(appointment);
+    }
 
 }
