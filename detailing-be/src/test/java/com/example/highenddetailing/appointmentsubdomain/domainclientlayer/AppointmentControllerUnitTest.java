@@ -4,6 +4,7 @@ import com.example.highenddetailing.appointmentssubdomain.businesslayer.Appointm
 import com.example.highenddetailing.appointmentssubdomain.datalayer.Status;
 import com.example.highenddetailing.appointmentssubdomain.domainclientlayer.AppointmentController;
 import com.example.highenddetailing.appointmentssubdomain.domainclientlayer.AppointmentResponseModel;
+import com.example.highenddetailing.appointmentssubdomain.mapperlayer.AppointmentResponseMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.MockitoAnnotations;
@@ -28,10 +29,11 @@ public class AppointmentControllerUnitTest {
     @Autowired
     private MockMvc mockMvc; // Simulates HTTP requests
 
-
     @MockBean
     private AppointmentService appointmentService; // Mock AppointmentService
 
+    @MockBean
+    private AppointmentResponseMapper appointmentResponseMapper; // Mock AppointmentResponseMapper
     private List<AppointmentResponseModel> appointmentResponseModels;
 
     @BeforeEach

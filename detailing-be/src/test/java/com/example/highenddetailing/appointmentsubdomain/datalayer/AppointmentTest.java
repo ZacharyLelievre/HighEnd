@@ -2,11 +2,13 @@ package com.example.highenddetailing.appointmentsubdomain.datalayer;
 
 import com.example.highenddetailing.appointmentssubdomain.datalayer.Appointment;
 import com.example.highenddetailing.appointmentssubdomain.datalayer.Status;
+import com.example.highenddetailing.appointmentssubdomain.utlis.ErrorResponse;
 import org.junit.jupiter.api.Test;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 
 public class AppointmentTest {
@@ -174,5 +176,112 @@ public class AppointmentTest {
         assertEquals("John Doe", appointment.getCustomerName());
         assertEquals("Car Wash", appointment.getServiceName());
         assertEquals("Jane Smith", appointment.getEmployeeName());
+    }
+    @Test
+    void testEqualsAndHashCode2() {
+        // Arrange
+        String message = "Error occurred";
+        String timestamp = LocalDateTime.now().toString();
+        int status = 404;
+        String path = "/api/resource";
+
+        ErrorResponse errorResponse1 = new ErrorResponse(message, timestamp, status, path);
+        ErrorResponse errorResponse2 = new ErrorResponse(message, timestamp, status, path);
+
+        // Act & Assert
+        assertEquals(errorResponse1, errorResponse2, "Both ErrorResponse objects should be equal");
+        assertEquals(errorResponse1.hashCode(), errorResponse2.hashCode(), "Hash codes should be equal");
+    }
+
+    @Test
+    void testSettersAndGetters2() {
+        // Arrange
+        ErrorResponse errorResponse = new ErrorResponse("Initial Message", "2024-01-01T10:00:00", 500, "/initial/path");
+
+        // Act
+        errorResponse.setMessage("Updated Message");
+        errorResponse.setTimestamp("2024-01-01T11:00:00");
+        errorResponse.setStatus(400);
+        errorResponse.setPath("/updated/path");
+
+        // Assert
+        assertEquals("Updated Message", errorResponse.getMessage(), "Message should be updated correctly");
+        assertEquals("2024-01-01T11:00:00", errorResponse.getTimestamp(), "Timestamp should be updated correctly");
+        assertEquals(400, errorResponse.getStatus(), "Status should be updated correctly");
+        assertEquals("/updated/path", errorResponse.getPath(), "Path should be updated correctly");
+    }
+
+    @Test
+    void testCanEqual2() {
+        // Arrange
+        ErrorResponse errorResponse1 = new ErrorResponse("Message1", "2024-01-01T10:00:00", 500, "/path1");
+        ErrorResponse errorResponse2 = new ErrorResponse("Message1", "2024-01-01T10:00:00", 500, "/path1");
+        Object otherObject = new Object();
+
+        // Act & Assert
+        assertThat(errorResponse1.equals(errorResponse2)).isTrue();
+        assertThat(errorResponse1.equals(otherObject)).isFalse();
+    }
+
+    @Test
+    void testConstructorWithAllArgs2() {
+        // Arrange
+        String message = "Error occurred";
+        String timestamp = "2024-01-01T10:00:00";
+        int status = 404;
+        String path = "/api/resource";
+
+        // Act
+        ErrorResponse errorResponse = new ErrorResponse(message, timestamp, status, path);
+
+        // Assert
+        assertEquals(message, errorResponse.getMessage(), "Message should be initialized correctly");
+        assertEquals(timestamp, errorResponse.getTimestamp(), "Timestamp should be initialized correctly");
+        assertEquals(status, errorResponse.getStatus(), "Status should be initialized correctly");
+        assertEquals(path, errorResponse.getPath(), "Path should be initialized correctly");
+    }
+
+
+
+    @Test
+    void testEquals2() {
+        // Arrange
+        ErrorResponse errorResponse1 = new ErrorResponse("Error occurred", "2024-01-01T10:00:00", 404, "/api/resource");
+        ErrorResponse errorResponse2 = new ErrorResponse("Error occurred", "2024-01-01T10:00:00", 404, "/api/resource");
+        ErrorResponse errorResponse3 = new ErrorResponse("Different error", "2024-01-01T11:00:00", 500, "/api/other");
+
+        // Act & Assert
+        assertThat(errorResponse1).isEqualTo(errorResponse2);
+        assertThat(errorResponse1).isNotEqualTo(errorResponse3);
+    }
+
+    @Test
+    void testHashCode2() {
+        // Arrange
+        ErrorResponse errorResponse1 = new ErrorResponse("Error occurred", "2024-01-01T10:00:00", 404, "/api/resource");
+        ErrorResponse errorResponse2 = new ErrorResponse("Error occurred", "2024-01-01T10:00:00", 404, "/api/resource");
+        ErrorResponse errorResponse3 = new ErrorResponse("Different error", "2024-01-01T11:00:00", 500, "/api/other");
+
+        // Act & Assert
+        assertEquals(errorResponse1.hashCode(), errorResponse2.hashCode(), "Hash codes should be equal for identical objects");
+        assertNotEquals(errorResponse1.hashCode(), errorResponse3.hashCode(), "Hash codes should differ for different objects");
+    }
+
+    @Test
+    void testGettersAndSetters2() {
+        // Arrange
+        ErrorResponse errorResponse = new ErrorResponse("Initial Message", "2024-01-01T10:00:00", 500, "/initial/path");
+
+        // Act
+        errorResponse.setMessage("New Message");
+        errorResponse.setTimestamp("2024-01-01T12:00:00");
+        errorResponse.setStatus(401);
+        errorResponse.setPath("/new/path");
+
+        // Assert
+        assertEquals("New Message", errorResponse.getMessage(), "Getter for message should return updated value");
+        assertEquals("2024-01-01T12:00:00", errorResponse.getTimestamp(), "Getter for timestamp should return updated value");
+        assertEquals(401, errorResponse.getStatus(), "Getter for status should return updated value");
+        assertEquals("/new/path", errorResponse.getPath(), "Getter for path should return updated value");
     }
 }

@@ -101,7 +101,7 @@ export function ProfilePage() {
         if (!emp.employeeId) return;
 
         const response = await axios.get<AppointmentModel[]>(
-          `http://localhost:8080/api/appointments/employee/${emp.employeeId}`,
+          `https://highend-zke6.onrender.com/api/appointments/employee/${emp.employeeId}`,
           {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -117,170 +117,168 @@ export function ProfilePage() {
     fetchEmployeeAppointments();
   }, [userType, profile, getAccessTokenSilently]);
 
-  // Simple click handler to navigate to an appointment details page
-
-  // Loading State
-  if (loading) {
-    return (
-      <div>
-        <NavBar />
-        <div className="profile-container">
-          <p>Loading your profile...</p>
-        </div>
-      </div>
-    );
-  }
-
-  // Error State
-  if (error) {
-    return (
-      <div>
-        <NavBar />
-        <div className="profile-container">
-          <p>{error}</p>
-        </div>
-      </div>
-    );
-  }
-
-  // Profile Not Found
-  if (!profile || !userType) {
-    return (
-      <div>
-        <NavBar />
-        <div className="profile-container">
-          <p>No profile information available.</p>
-        </div>
-      </div>
-    );
+  // Click handler to navigate to an appointment details page
+  function handleAppointmentClick(appointmentId: string) {
+    navigate(`/my-appointments/${appointmentId}`);
   }
 
   return (
-    <div>
+    <div className="profile-page">
       <NavBar />
       <div className="profile-container">
-        <div className="profile-card">
-          {/* NEW: Only show appointments if user is an employee */}
-          {userType === "Employee" && (
-            <div style={{ marginBottom: "20px", textAlign: "left" }}>
-              <h3>My Appointments</h3>
-              {appointments.length === 0 ? (
-                <p>No appointments assigned.</p>
-              ) : (
-                <ul>
-                  {appointments.map((appt) => (
-                    <li
-                      key={appt.appointmentId}
-                      style={{ cursor: "pointer", marginBottom: "6px" }}
-                    >
-                      <b>{appt.serviceName}</b> on {appt.appointmentDate}{" "}
-                      (status: {appt.status})
-                    </li>
-                  ))}
-                </ul>
-              )}
-            </div>
-          )}
-
-          {/* Existing profile UI below */}
-          <div className="profile-header">
-            <div className="profile-avatar">
-              <img
-                src={
-                  user?.picture ||
-                  (userType === "Employee" &&
-                  (profile as EmployeeModel).imagePath
-                    ? `https://highend-zke6.onrender.com/${
-                        (profile as EmployeeModel).imagePath
-                      }`
-                    : "https://via.placeholder.com/100")
-                }
-                alt={
-                  userType === "Customer"
+        {loading ? (
+          <div className="profile-card">
+            <p>Loading your profile...</p>
+          </div>
+        ) : error ? (
+          <div className="profile-card">
+            <p className="error-message">{error}</p>
+          </div>
+        ) : profile && userType ? (
+          <div className="profile-card">
+            {/* Profile Header */}
+            <div className="profile-header">
+              <div className="profile-avatar">
+                <img
+                  src={
+                    user?.picture ||
+                    (userType === "Employee" &&
+                    (profile as EmployeeModel).imagePath
+                      ? `https://highend-zke6.onrender.com/${
+                          (profile as EmployeeModel).imagePath
+                        }`
+                      : "https://via.placeholder.com/100")
+                  }
+                  alt={
+                    userType === "Customer"
+                      ? `${(profile as CustomerModel).customerFirstName} ${
+                          (profile as CustomerModel).customerLastName
+                        }`
+                      : `${(profile as EmployeeModel).first_name} ${
+                          (profile as EmployeeModel).last_name
+                        }`
+                  }
+                />
+              </div>
+              <div className="profile-name">
+                <h2>
+                  {userType === "Customer"
                     ? `${(profile as CustomerModel).customerFirstName} ${
                         (profile as CustomerModel).customerLastName
                       }`
                     : `${(profile as EmployeeModel).first_name} ${
                         (profile as EmployeeModel).last_name
-                      }`
-                }
-              />
+                      }`}
+                </h2>
+                <p className="profile-email">
+                  {userType === "Customer"
+                    ? (profile as CustomerModel).customerEmailAddress
+                    : (profile as EmployeeModel).email}
+                </p>
+              </div>
             </div>
-            <div className="profile-name">
-              <h2>
-                {userType === "Customer"
-                  ? `${(profile as CustomerModel).customerFirstName} ${
-                      (profile as CustomerModel).customerLastName
-                    }`
-                  : `${(profile as EmployeeModel).first_name} ${
-                      (profile as EmployeeModel).last_name
-                    }`}
-              </h2>
-              <p className="profile-email">
-                {userType === "Customer"
-                  ? (profile as CustomerModel).customerEmailAddress
-                  : (profile as EmployeeModel).email}
-              </p>
-            </div>
-          </div>
 
-          <div className="profile-details">
-            {userType === "Customer" && (
-              <>
-                <div className="detail-row">
-                  <span>Street Address:</span>{" "}
-                  {(profile as CustomerModel).streetAddress}
-                </div>
-                <div className="detail-row">
-                  <span>City:</span> {(profile as CustomerModel).city}
-                </div>
-                <div className="detail-row">
-                  <span>Province:</span> {(profile as CustomerModel).province}
-                </div>
-                <div className="detail-row">
-                  <span>Postal Code:</span>{" "}
-                  {(profile as CustomerModel).postalCode}
-                </div>
-                <div className="detail-row">
-                  <span>Country:</span> {(profile as CustomerModel).country}
-                </div>
-              </>
-            )}
-
+            {/* Appointments Section for Employees */}
             {userType === "Employee" && (
-              <>
-                <div className="detail-row">
-                  <span>First Name:</span>{" "}
-                  {(profile as EmployeeModel).first_name}
-                </div>
-                <div className="detail-row">
-                  <span>Last Name:</span> {(profile as EmployeeModel).last_name}
-                </div>
-                <div className="detail-row">
-                  <span>Position:</span> {(profile as EmployeeModel).position}
-                </div>
-                <div className="detail-row">
-                  <span>Email:</span> {(profile as EmployeeModel).email}
-                </div>
-                <div className="detail-row">
-                  <span>Phone:</span> {(profile as EmployeeModel).phone}
-                </div>
-                <div className="detail-row">
-                  <span>Availability:</span>
-                  <ul>
-                    {(profile as EmployeeModel).availability.map(
-                      (avail, index) => (
-                        <li key={index}>
-                          {avail.dayOfWeek}: {avail.startTime} - {avail.endTime}
-                        </li>
-                      ),
-                    )}
+              <div className="appointments-section">
+                <h3>My Appointments</h3>
+                {appointments.length === 0 ? (
+                  <p>No appointments assigned.</p>
+                ) : (
+                  <ul className="appointments-list">
+                    {appointments.map((appt) => (
+                      <li
+                        key={appt.appointmentId}
+                        className="appointment-item"
+                        onClick={() =>
+                          handleAppointmentClick(appt.appointmentId)
+                        }
+                      >
+                        <span className="appointment-service">
+                          {appt.serviceName}
+                        </span>
+                        <span className="appointment-date">
+                          {new Date(appt.appointmentDate).toLocaleDateString()}
+                        </span>
+                        <span className="appointment-status">
+                          {appt.status}
+                        </span>
+                      </li>
+                    ))}
                   </ul>
-                </div>
-              </>
+                )}
+              </div>
             )}
+
+            {/* Profile Details */}
+            <div className="profile-details">
+              {userType === "Customer" ? (
+                <>
+                  <div className="detail-row">
+                    <span>Street Address:</span>
+                    <span>{(profile as CustomerModel).streetAddress}</span>
+                  </div>
+                  <div className="detail-row">
+                    <span>City:</span>
+                    <span>{(profile as CustomerModel).city}</span>
+                  </div>
+                  <div className="detail-row">
+                    <span>Province:</span>
+                    <span>{(profile as CustomerModel).province}</span>
+                  </div>
+                  <div className="detail-row">
+                    <span>Postal Code:</span>
+                    <span>{(profile as CustomerModel).postalCode}</span>
+                  </div>
+                  <div className="detail-row">
+                    <span>Country:</span>
+                    <span>{(profile as CustomerModel).country}</span>
+                  </div>
+                </>
+              ) : (
+                <>
+                  <div className="detail-row">
+                    <span>First Name:</span>
+                    <span>{(profile as EmployeeModel).first_name}</span>
+                  </div>
+                  <div className="detail-row">
+                    <span>Last Name:</span>
+                    <span>{(profile as EmployeeModel).last_name}</span>
+                  </div>
+                  <div className="detail-row">
+                    <span>Position:</span>
+                    <span>{(profile as EmployeeModel).position}</span>
+                  </div>
+                  <div className="detail-row">
+                    <span>Email:</span>
+                    <span>{(profile as EmployeeModel).email}</span>
+                  </div>
+                  <div className="detail-row">
+                    <span>Phone:</span>
+                    <span>{(profile as EmployeeModel).phone}</span>
+                  </div>
+                  <div className="detail-row">
+                    <span>Availability:</span>
+                    <ul className="availability-list">
+                      {(profile as EmployeeModel).availability.map(
+                        (avail, index) => (
+                          <li key={index}>
+                            {avail.dayOfWeek}: {avail.startTime} -{" "}
+                            {avail.endTime}
+                          </li>
+                        ),
+                      )}
+                    </ul>
+                  </div>
+                </>
+              )}
+            </div>
           </div>
-        </div>
+        ) : (
+          <div className="profile-card">
+            <p>No profile information available.</p>
+          </div>
+        )}
       </div>
     </div>
   );
