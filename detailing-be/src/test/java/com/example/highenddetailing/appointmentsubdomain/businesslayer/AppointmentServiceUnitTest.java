@@ -41,6 +41,45 @@ public class AppointmentServiceUnitTest {
     private AppointmentServiceImpl appointmentService;
 
     @Test
+    void whenDeleteExistingAppointment_thenDeleteSuccessfully() {
+        // Arrange
+        String appointmentId = "a1f14c90-ec5e-4f82-a9b7-2548a7325b34";
+        Appointment existingAppointment = new Appointment();
+        existingAppointment.setAppointmentIdentifier(new AppointmentIdentifier(appointmentId));
+
+        // Mock repository behavior
+        when(appointmentRepository.findByAppointmentIdentifier_AppointmentId(appointmentId))
+                .thenReturn(Optional.of(existingAppointment));
+        doNothing().when(appointmentRepository).delete(existingAppointment);
+
+        // Act
+        appointmentService.deleteAppointment(appointmentId);
+
+        // Assert
+        verify(appointmentRepository, times(1)).findByAppointmentIdentifier_AppointmentId(appointmentId);
+        verify(appointmentRepository, times(1)).delete(existingAppointment);
+    }
+
+    @Test
+    void whenDeleteNonExistentAppointment_thenThrowRuntimeException() {
+        // Arrange
+        String invalidAppointmentId = "non-existent-id";
+
+        // Mock repository to return empty Optional
+        when(appointmentRepository.findByAppointmentIdentifier_AppointmentId(invalidAppointmentId))
+                .thenReturn(Optional.empty());
+
+        // Act & Assert
+        RuntimeException exception = assertThrows(
+                RuntimeException.class,
+                () -> appointmentService.deleteAppointment(invalidAppointmentId)
+        );
+
+        assertEquals("Appointment not found with id: " + invalidAppointmentId, exception.getMessage());
+        verify(appointmentRepository, times(1)).findByAppointmentIdentifier_AppointmentId(invalidAppointmentId);
+        verify(appointmentRepository, never()).delete(any(Appointment.class));
+    }
+    @Test
     void whenGetAllAppointments_thenReturnAllAppointments() {
         // Arrange (Original)
         List<Appointment> appointments = List.of(
@@ -267,4 +306,5 @@ public class AppointmentServiceUnitTest {
         verify(employeeRepository, times(1))
                 .findByEmployeeId("non-existent-id");
     }
+
 }

@@ -1,24 +1,32 @@
 package com.example.highenddetailing.appointmentsubdomain.domainclientlayer;
 
+import com.example.highenddetailing.appointmentssubdomain.businesslayer.AppointmentService;
 import com.example.highenddetailing.appointmentssubdomain.datalayer.Appointment;
 import com.example.highenddetailing.appointmentssubdomain.datalayer.AppointmentIdentifier;
 import com.example.highenddetailing.appointmentssubdomain.datalayer.AppointmentRepository;
 import com.example.highenddetailing.appointmentssubdomain.datalayer.Status;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.boot.test.web.server.LocalServerPort;
-import org.springframework.context.annotation.Import;
+import org.springframework.http.*;
+import org.springframework.security.test.context.support.WithMockUser;
+import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.TestPropertySource;
+import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.Arrays;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.doThrow;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@ActiveProfiles("test") // ensures the 'test' profile is used
 public class AppointmentControllerIntegrationTest {
 
     @LocalServerPort
@@ -26,6 +34,9 @@ public class AppointmentControllerIntegrationTest {
 
     @Autowired
     private AppointmentRepository appointmentRepository;
+
+    @MockBean
+    private AppointmentService appointmentService;
 
     private RestTemplate restTemplate;
 
@@ -49,6 +60,8 @@ public class AppointmentControllerIntegrationTest {
                         .employeeName("Jane Smith")
                         .appointmentDate(LocalDate.of(2024, 12, 25))
                         .appointmentTime(LocalTime.of(10, 30))
+                        // FIX: Add an end time, e.g. 11:30
+                        .appointmentEndTime(LocalTime.of(11, 30))
                         .status(Status.PENDING)
                         .imagePath("/images/appointment1.jpg")
                         .build()
@@ -93,4 +106,26 @@ public class AppointmentControllerIntegrationTest {
 //        assertNotNull(updatedAppointment, "Updated appointment should exist in the database");
 //        assertEquals(Status.CONFIRMED, updatedAppointment.getStatus(), "Status in the database should be CONFIRMED");
 //    }
+
+    @Test
+    @WithMockUser  // or disable security in a @TestConfiguration
+    void whenDeleteThrowsRuntimeException_then404NotFound() {
+        // Arrange
+        String appointmentId = "some-bad-id";
+
+        // Force the service to throw a RuntimeException
+        doThrow(new RuntimeException("Not found"))
+                .when(appointmentService).deleteAppointment(appointmentId);
+
+        // Act & Assert: Expect 404
+        HttpClientErrorException ex = assertThrows(HttpClientErrorException.class, () -> {
+            restTemplate.exchange(
+                    "http://localhost:" + port + "/api/appointments/" + appointmentId,
+                    HttpMethod.DELETE,
+                    null,
+                    Void.class
+            );
+        });
+        assertEquals(HttpStatus.NOT_FOUND, ex.getStatusCode());
+    }
 }

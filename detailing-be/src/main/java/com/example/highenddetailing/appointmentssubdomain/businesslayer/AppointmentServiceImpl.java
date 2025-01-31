@@ -101,6 +101,14 @@ public class AppointmentServiceImpl implements AppointmentService {
 
         return appointmentResponseMapper.entityToResponseModel(appointment);
     }
+    @Override
+    public void deleteAppointment(String id) {
+        Appointment appointment = appointmentRepository
+                .findByAppointmentIdentifier_AppointmentId(id)
+                .orElseThrow(() -> new RuntimeException("Appointment not found with id: " + id));
+
+        appointmentRepository.delete(appointment);
+    }
 
     @Override
     public List<AppointmentResponseModel> getAppointmentsByEmployeeId(String employeeId) {
