@@ -4,6 +4,7 @@ import com.example.highenddetailing.appointmentssubdomain.businesslayer.Appointm
 import com.example.highenddetailing.appointmentssubdomain.datalayer.Status;
 import com.example.highenddetailing.appointmentssubdomain.domainclientlayer.AppointmentController;
 import com.example.highenddetailing.appointmentssubdomain.domainclientlayer.AppointmentResponseModel;
+import com.example.highenddetailing.appointmentssubdomain.utlis.BookingConflictException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.MockitoAnnotations;
@@ -15,7 +16,14 @@ import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors;
 import org.springframework.test.web.servlet.MockMvc;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.List;
+
+import static org.mockito.ArgumentMatchers.*;
+import static org.mockito.Mockito.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
@@ -91,5 +99,86 @@ public class AppointmentControllerUnitTest {
 //                .andExpect(status().isOk())
 //                .andExpect(jsonPath("$.length()").value(0));
 //    }
+
+    @Test
+    @WithMockUser
+    void whenRescheduleAppointment_thenReturnUpdatedAppointment() throws Exception {
+        // Given: Mocked service response
+        AppointmentResponseModel updatedResponse = AppointmentResponseModel.builder()
+                .appointmentId("A001")
+                .appointmentDate("2024-12-26")
+                .appointmentTime("14:00")
+                .appointmentEndTime("15:00")
+                // ...set other fields as needed...
+                .build();
+
+        // Mock the behavior of appointmentService
+        when(appointmentService.rescheduleAppointment(
+                eq("A001"),  // expecting id
+                eq(LocalDate.parse("2024-12-26")),
+                eq(LocalTime.parse("14:00")),
+                eq(LocalTime.parse("15:00")))
+        ).thenReturn(updatedResponse);
+
+        // JSON request body to match RescheduleRequest fields in the controller
+        String requestBody = """
+        {
+          "newDate": "2024-12-26",
+          "newStartTime": "14:00",
+          "newEndTime": "15:00"
+        }
+        """;
+
+        // When: Perform the PUT request
+        mockMvc.perform(
+                        put("/api/appointments/{id}/reschedule", "A001")
+                                .with(SecurityMockMvcRequestPostProcessors.csrf())
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .content(requestBody)
+                )
+                // Then: Expect a 200 response and JSON matching the updated appointment
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.appointmentId").value("A001"))
+                .andExpect(jsonPath("$.appointmentDate").value("2024-12-26"))
+                .andExpect(jsonPath("$.appointmentTime").value("14:00"))
+                .andExpect(jsonPath("$.appointmentEndTime").value("15:00"));
+
+        // Verify the service was called exactly once with the specified parameters
+        verify(appointmentService, times(1)).rescheduleAppointment(
+                "A001", LocalDate.parse("2024-12-26"),
+                LocalTime.parse("14:00"),
+                LocalTime.parse("15:00")
+        );
+    }
+
+    @Test
+    @WithMockUser
+    void whenRescheduleAppointmentConflict_thenReturn409() throws Exception {
+        // Force the service to throw a BookingConflictException
+        doThrow(new BookingConflictException("The new time slot is already booked."))
+                .when(appointmentService)
+                .rescheduleAppointment(eq("A001"),
+                        eq(LocalDate.parse("2024-12-26")),
+                        eq(LocalTime.parse("14:00")),
+                        eq(LocalTime.parse("15:00")));
+
+        String requestBody = """
+        {
+           "newDate": "2024-12-26",
+           "newStartTime": "14:00",
+           "newEndTime": "15:00"
+        }
+        """;
+
+        mockMvc.perform(put("/api/appointments/{id}/reschedule", "A001")
+                        .with(SecurityMockMvcRequestPostProcessors.csrf())
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(requestBody))
+                .andExpect(status().isConflict());
+
+        verify(appointmentService, times(1)).rescheduleAppointment(
+                "A001", LocalDate.parse("2024-12-26"),
+                LocalTime.parse("14:00"), LocalTime.parse("15:00"));
+    }
 
 }

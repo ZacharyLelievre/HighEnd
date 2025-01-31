@@ -9,6 +9,7 @@ import com.example.highenddetailing.employeessubdomain.datalayer.Employee;
 import com.example.highenddetailing.employeessubdomain.datalayer.EmployeeIdentifier;
 import com.example.highenddetailing.employeessubdomain.datalayer.EmployeeRepository;
 import com.example.highenddetailing.employeessubdomain.presentationlayer.EmployeeRequestModel;
+import com.example.highenddetailing.appointmentssubdomain.utlis.BookingConflictException;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -305,6 +306,97 @@ public class AppointmentServiceUnitTest {
                 .findByAppointmentIdentifier_AppointmentId(appointmentId);
         verify(employeeRepository, times(1))
                 .findByEmployeeId("non-existent-id");
+    }
+
+    @Test
+    void whenRescheduleAppointmentWithNoConflicts_thenUpdateAppointmentSuccessfully() {
+        // Arrange
+        String appointmentId = "a1f14c90-ec5e-4f82-a9b7-2548a7325b34";
+        LocalDate newDate = LocalDate.parse("2025-07-03");
+        LocalTime newStartTime = LocalTime.parse("12:00:00");
+        LocalTime newEndTime = LocalTime.parse("13:00:00");
+
+        // Mock existing appointment
+        Appointment existingAppointment = new Appointment(
+                1,
+                new AppointmentIdentifier(appointmentId),
+                "c1f14c90-ec5e-4f82-a9b7-2548a7325b34", "John Doe",
+                "SERVICE001", "Car Wash",
+                "e1f14c90-ec5e-4f82-a9b7-2548a7325b34", "Jane Smith",
+                LocalDate.parse("2025-07-01"), LocalTime.parse("10:00:00"), LocalTime.parse("11:00:00"),
+                Status.PENDING,
+                "detailing-service-1.jpg"
+        );
+
+        // Mock repository responses
+        when(appointmentRepository.findByAppointmentIdentifier_AppointmentId(appointmentId))
+                .thenReturn(Optional.of(existingAppointment));
+        when(appointmentRepository.findOverlappingAppointmentsExcludingCurrent(appointmentId, newDate, newStartTime, newEndTime))
+                .thenReturn(List.of());  // No conflicts
+
+        // Mock the updated appointment response
+        Appointment updatedAppointment = new Appointment(
+                1,
+                new AppointmentIdentifier(appointmentId),
+                "c1f14c90-ec5e-4f82-a9b7-2548a7325b34", "John Doe",
+                "SERVICE001", "Car Wash",
+                "e1f14c90-ec5e-4f82-a9b7-2548a7325b34", "Jane Smith",
+                newDate, newStartTime, newEndTime,
+                Status.PENDING,
+                "detailing-service-1.jpg"
+        );
+
+        when(appointmentRepository.save(existingAppointment)).thenReturn(updatedAppointment);
+        when(appointmentResponseMapper.entityToResponseModel(updatedAppointment))
+                .thenReturn(new AppointmentResponseModel(
+                        appointmentId, newDate.toString(), newStartTime.toString(), newEndTime.toString(),
+                        "SERVICE001", "Car Wash",
+                        "c1f14c90-ec5e-4f82-a9b7-2548a7325b34", "John Doe",
+                        "e1f14c90-ec5e-4f82-a9b7-2548a7325b34", "Jane Smith",
+                        Status.PENDING, "detailing-service-1.jpg"
+                ));
+
+        // Act
+        AppointmentResponseModel result = appointmentService.rescheduleAppointment(appointmentId, newDate, newStartTime, newEndTime);
+
+        // Assert
+        assertNotNull(result, "The result should not be null");
+        assertEquals(newDate.toString(), result.getAppointmentDate(), "The date should be updated correctly");
+        assertEquals(newStartTime.toString(), result.getAppointmentTime(), "The start time should be updated correctly");
+        assertEquals(newEndTime.toString(), result.getAppointmentEndTime(), "The end time should be updated correctly");
+        verify(appointmentRepository, times(1)).save(existingAppointment);
+    }
+
+    @Test
+    void whenRescheduleAppointmentWithConflict_thenThrowBookingConflictException() {
+        // Arrange
+        String appointmentId = "a1f14c90-ec5e-4f82-a9b7-2548a7325b34";
+        LocalDate newDate = LocalDate.parse("2025-07-03");
+        LocalTime newStartTime = LocalTime.parse("12:00:00");
+        LocalTime newEndTime = LocalTime.parse("13:00:00");
+
+        Appointment conflictingAppointment = new Appointment(
+                2,
+                new AppointmentIdentifier(),
+                "another-customer-id", "Alice Doe",
+                "SERVICE002", "Brake Check",
+                "e1f14c90-ec5e-4f82-a9b7-2548a7325b34", "Bob Smith",
+                newDate, newStartTime, newEndTime,
+                Status.PENDING,
+                "detailing-service-2.jpg"
+        );
+
+        when(appointmentRepository.findOverlappingAppointmentsExcludingCurrent(appointmentId, newDate, newStartTime, newEndTime))
+                .thenReturn(List.of(conflictingAppointment));
+
+        // Act & Assert
+        BookingConflictException exception = assertThrows(
+                BookingConflictException.class,
+                () -> appointmentService.rescheduleAppointment(appointmentId, newDate, newStartTime, newEndTime)
+        );
+
+        assertEquals("The new time slot is already booked.", exception.getMessage());
+        verify(appointmentRepository, never()).save(any(Appointment.class));
     }
 
 }

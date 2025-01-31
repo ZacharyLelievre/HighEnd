@@ -3,11 +3,14 @@ package com.example.highenddetailing.appointmentssubdomain.domainclientlayer;
 import com.example.highenddetailing.appointmentssubdomain.businesslayer.AppointmentService;
 import com.example.highenddetailing.appointmentssubdomain.datalayer.Appointment;
 import com.example.highenddetailing.appointmentssubdomain.datalayer.Status;
+import com.example.highenddetailing.appointmentssubdomain.utlis.BookingConflictException;
 import com.example.highenddetailing.employeessubdomain.presentationlayer.EmployeeRequestModel;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.List;
 
 @RestController
@@ -64,5 +67,21 @@ public class AppointmentController {
     @GetMapping("/employee/{employeeId}")
     public ResponseEntity<List<AppointmentResponseModel>> getAppointmentsByEmployeeId(@PathVariable String employeeId) {
         return ResponseEntity.ok(appointmentService.getAppointmentsByEmployeeId(employeeId));
+    }
+
+    @PutMapping("/{id}/reschedule")
+    public ResponseEntity<AppointmentResponseModel> rescheduleAppointment(
+            @PathVariable String id, @RequestBody RescheduleRequest request) {
+        try {
+            AppointmentResponseModel updatedAppointment = appointmentService.rescheduleAppointment(
+                    id,
+                    LocalDate.parse(request.getNewDate()),
+                    LocalTime.parse(request.getNewStartTime()),
+                    LocalTime.parse(request.getNewEndTime())
+            );
+            return ResponseEntity.ok(updatedAppointment);
+        } catch (BookingConflictException e) {
+            return ResponseEntity.status(HttpStatus.CONFLICT).body(null);
+        }
     }
 }

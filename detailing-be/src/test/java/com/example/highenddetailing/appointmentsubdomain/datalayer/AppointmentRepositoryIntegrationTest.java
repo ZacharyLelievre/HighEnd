@@ -112,5 +112,103 @@ public class AppointmentRepositoryIntegrationTest {
         assertFalse(deletedAppointment.isPresent());
     }
 
+    @Test
+    void whenRescheduleAppointmentWithoutConflict_thenUpdateAppointmentSuccessfully() {
+        // Arrange: Create and save an initial appointment
+        String appointmentId = "a1f14c90-ec5e-4f82-a9b7-2548a7325b34";
+        Appointment appointment = Appointment.builder()
+                .appointmentIdentifier(new AppointmentIdentifier(appointmentId))
+                .customerId("CUST004")
+                .customerName("Tom Hanks")
+                .serviceId("SERVICE004")
+                .serviceName("Tire Rotation")
+                .employeeId("EMP004")
+                .employeeName("Chris Evans")
+                .appointmentDate(LocalDate.parse("2023-03-10"))
+                .appointmentTime(LocalTime.parse("09:00"))
+                .appointmentEndTime(LocalTime.parse("10:00"))
+                .status(Status.PENDING)
+                .imagePath("/images/appointment4.jpg")
+                .build();
 
+        appointmentRepository.save(appointment);
+
+        // Act: Reschedule the appointment to a new date and time with no conflicts
+        LocalDate newDate = LocalDate.parse("2023-03-12");
+        LocalTime newStartTime = LocalTime.parse("14:00");
+        LocalTime newEndTime = LocalTime.parse("15:00");
+
+        Optional<Appointment> savedAppointment = appointmentRepository.findByAppointmentIdentifier_AppointmentId(appointmentId);
+        assertTrue(savedAppointment.isPresent());
+
+        Appointment rescheduledAppointment = savedAppointment.get();
+        rescheduledAppointment.setAppointmentDate(newDate);
+        rescheduledAppointment.setAppointmentTime(newStartTime);
+        rescheduledAppointment.setAppointmentEndTime(newEndTime);
+        appointmentRepository.save(rescheduledAppointment);
+
+        // Assert: Verify the appointment was updated
+        Appointment updatedAppointment = appointmentRepository.findByAppointmentIdentifier_AppointmentId(appointmentId).orElse(null);
+        assertNotNull(updatedAppointment);
+        assertEquals(newDate, updatedAppointment.getAppointmentDate());
+        assertEquals(newStartTime, updatedAppointment.getAppointmentTime());
+        assertEquals(newEndTime, updatedAppointment.getAppointmentEndTime());
+    }
+
+    @Test
+    void whenRescheduleAppointmentWithConflict_thenDoNotUpdateAppointment() {
+        // Arrange: Create and save two overlapping appointments
+        String appointmentId1 = "a1f14c90-ec5e-4f82-a9b7-2548a7325b34";
+        String appointmentId2 = "b1f14c90-ec5e-4f82-a9b7-2548a7325b35";
+
+        Appointment appointment1 = Appointment.builder()
+                .appointmentIdentifier(new AppointmentIdentifier(appointmentId1))
+                .customerId("CUST005")
+                .customerName("Robert Downey Jr.")
+                .serviceId("SERVICE005")
+                .serviceName("Wheel Alignment")
+                .employeeId("EMP005")
+                .employeeName("Scarlett Johansson")
+                .appointmentDate(LocalDate.parse("2023-03-15"))
+                .appointmentTime(LocalTime.parse("09:00"))
+                .appointmentEndTime(LocalTime.parse("10:00"))
+                .status(Status.PENDING)
+                .imagePath("/images/appointment5.jpg")
+                .build();
+
+        Appointment appointment2 = Appointment.builder()
+                .appointmentIdentifier(new AppointmentIdentifier(appointmentId2))
+                .customerId("CUST006")
+                .customerName("Natalie Portman")
+                .serviceId("SERVICE006")
+                .serviceName("Engine Tune-Up")
+                .employeeId("EMP006")
+                .employeeName("Chris Hemsworth")
+                .appointmentDate(LocalDate.parse("2023-03-15"))
+                .appointmentTime(LocalTime.parse("09:30"))
+                .appointmentEndTime(LocalTime.parse("10:30"))
+                .status(Status.CONFIRMED)
+                .imagePath("/images/appointment6.jpg")
+                .build();
+
+        appointmentRepository.save(appointment1);
+        appointmentRepository.save(appointment2);
+
+        // Act: Attempt to reschedule the first appointment to the same time as the conflicting appointment
+        Optional<Appointment> savedAppointment = appointmentRepository.findByAppointmentIdentifier_AppointmentId(appointmentId1);
+        assertTrue(savedAppointment.isPresent());
+
+        Appointment reschedulingAppointment = savedAppointment.get();
+        reschedulingAppointment.setAppointmentDate(appointment2.getAppointmentDate());
+        reschedulingAppointment.setAppointmentTime(appointment2.getAppointmentTime());
+        reschedulingAppointment.setAppointmentEndTime(appointment2.getAppointmentEndTime());
+
+        // Check if there's a conflict using the repository method
+        List<Appointment> overlappingAppointments = appointmentRepository.findOverlappingAppointmentsExcludingCurrent(
+                appointmentId1, appointment2.getAppointmentDate(), appointment2.getAppointmentTime(), appointment2.getAppointmentEndTime()
+        );
+
+        // Assert: Verify that the appointment cannot be rescheduled due to conflict
+        assertFalse(overlappingAppointments.isEmpty(), "There should be a conflict preventing rescheduling.");
+    }
 }
