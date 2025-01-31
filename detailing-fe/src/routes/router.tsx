@@ -14,7 +14,7 @@ import { EmployeeOnboardingForm } from "../models/EmployeeOnboardingForm";
 import { EmployeeInviteSuccessPage } from "../models/EmployeeInviteSuccessPage";
 import HomeCallbackHandler from "../pages/HomeCallbackHandler";
 import CustomerDetailsPage from "../pages/CustomerDetailsPage";
-import {MyAppointmentDetails} from "../pages/MyAppointmentDetails";
+import { MyAppointmentDetails } from "../pages/MyAppointmentDetails";
 
 const router = createBrowserRouter([
   {
