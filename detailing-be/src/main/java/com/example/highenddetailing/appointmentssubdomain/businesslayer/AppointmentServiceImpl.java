@@ -12,7 +12,6 @@ import com.example.highenddetailing.appointmentssubdomain.utlis.BookingConflictE
 import com.example.highenddetailing.employeessubdomain.datalayer.Employee;
 import com.example.highenddetailing.employeessubdomain.datalayer.EmployeeRepository;
 import com.example.highenddetailing.employeessubdomain.presentationlayer.EmployeeRequestModel;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
@@ -94,6 +93,13 @@ public class AppointmentServiceImpl implements AppointmentService {
         appointment.setStatus(Status.PENDING);
         Appointment savedAppointment = appointmentRepository.save(appointment);
         return appointmentResponseMapper.entityToResponseModel(savedAppointment);
+    }
+    @Override
+    public AppointmentResponseModel getAppointmentById(String appointmentId) {
+        Appointment appointment = appointmentRepository.findByAppointmentIdentifier_AppointmentId(appointmentId)
+                .orElseThrow(() -> new RuntimeException("Appointment not found: " + appointmentId));
+
+        return appointmentResponseMapper.entityToResponseModel(appointment);
     }
     @Override
     public void deleteAppointment(String id) {

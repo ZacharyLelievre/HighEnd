@@ -4,5 +4,10 @@ public enum Status {
     CONFIRMED,
     REJECTED,
     CANCELLED,
-    PENDING
+    PENDING,
+    PROGRESS,
+    COMPLETED
 }
+//<option value="PROGRESS">Progress</option>
+//<option value="COMPLETED">Completed</option>
+//<option value="CANCELLED">Cancelled</option>
