@@ -15,4 +15,5 @@ public interface AppointmentService {
     AppointmentResponseModel createAppointment(AppointmentRequestModel request);
     List<AppointmentResponseModel> getAppointmentsByEmployeeId(String employeeId);
     AppointmentResponseModel getAppointmentById(String appointmentId);
+
 }
