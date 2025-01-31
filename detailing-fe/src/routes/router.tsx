@@ -14,6 +14,7 @@ import { EmployeeOnboardingForm } from "../models/EmployeeOnboardingForm";
 import { EmployeeInviteSuccessPage } from "../models/EmployeeInviteSuccessPage";
 import HomeCallbackHandler from "../pages/HomeCallbackHandler";
 import CustomerDetailsPage from "../pages/CustomerDetailsPage";
+import {MyAppointmentDetails} from "../pages/MyAppointmentDetails";
 
 const router = createBrowserRouter([
   {
@@ -63,6 +64,10 @@ const router = createBrowserRouter([
   {
     path: "/customers/:customerId",
     element: <CustomerDetailsPage />,
+  },
+  {
+    path: "/my-appointments/:appointmentId",
+    element: <MyAppointmentDetails />,
   },
 ]);
 

@@ -7,7 +7,8 @@ const createAxiosInstance = (): AxiosInstance => {
   const instance = axios.create({
     baseURL:
       process.env.REACT_APP_API_BASE_URL ||
-      "https://highend-zke6.onrender.com/api/",
+        "https://highend-zke6.onrender.com/api/",
+      // "http://localhost:8080/api/",
     headers: {
       "Content-Type": "application/json",
     },

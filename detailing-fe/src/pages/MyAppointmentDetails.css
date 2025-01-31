@@ -1,0 +1,132 @@
+/* src/pages/MyAppointmentDetails.css */
+
+/* General Container */
+.appointment-details-container {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f4f6f8;
+    min-height: 100vh;
+    padding: 0;
+    margin: 0;
+}
+
+/* Loading State */
+.loading {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 80vh;
+    font-size: 1.5rem;
+    color: #555;
+}
+
+/* Appointment Details Section */
+.appointment-details {
+    background-color: #fff;
+    max-width: 800px;
+    margin: 2rem auto;
+    padding: 2rem;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Title */
+.title {
+    text-align: center;
+    margin-bottom: 1.5rem;
+    color: #333;
+    font-size: 2rem;
+    border-bottom: 2px solid #e0e0e0;
+    padding-bottom: 0.5rem;
+}
+
+/* Details Grid */
+.details-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem 2rem;
+    margin-bottom: 2rem;
+}
+
+.detail-item {
+    display: flex;
+    flex-direction: column;
+}
+
+.detail-label {
+    font-weight: bold;
+    color: #555;
+    margin-bottom: 0.3rem;
+}
+
+.detail-value {
+    color: #333;
+    font-size: 1.1rem;
+}
+
+/* Status Update Section */
+.status-update {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.status-label {
+    font-weight: 600;
+    margin-right: 0.5rem;
+    color: #555;
+}
+
+.status-select {
+    padding: 0.5rem 1rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    margin-right: 1rem;
+    min-width: 200px;
+    transition: border-color 0.3s ease;
+}
+
+.status-select:focus {
+    border-color: #007bff;
+    outline: none;
+}
+
+.save-button {
+    padding: 0.6rem 1.2rem;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    font-size: 1rem;
+}
+
+.save-button:hover {
+    background-color: #0056b3;
+}
+
+.save-button:active {
+    background-color: #004085;
+}
+
+/* Responsive Design */
+@media (max-width: 600px) {
+    .details-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .status-update {
+        flex-direction: column;
+    }
+
+    .status-select {
+        margin-right: 0;
+        margin-bottom: 1rem;
+        width: 100%;
+    }
+
+    .save-button {
+        width: 100%;
+    }
+}
