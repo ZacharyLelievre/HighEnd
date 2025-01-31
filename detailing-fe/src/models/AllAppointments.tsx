@@ -14,6 +14,14 @@ export default function AllAppointments(): JSX.Element {
   const [loadingAppointments, setLoadingAppointments] = useState<boolean>(true);
   const [loadingEmployees, setLoadingEmployees] = useState<boolean>(true);
 
+  const [showRescheduleModal, setShowRescheduleModal] =
+    useState<boolean>(false);
+  const [selectedAppointment, setSelectedAppointment] =
+    useState<AppointmentModel | null>(null);
+  const [newDate, setNewDate] = useState<string>("");
+  const [newStartTime, setNewStartTime] = useState<string>("");
+  const [newEndTime, setNewEndTime] = useState<string>("");
+
   const { getAccessTokenSilently } = useAuth0();
 
   useEffect(() => {
@@ -171,6 +179,51 @@ export default function AllAppointments(): JSX.Element {
     }));
   };
 
+  const handleRescheduleClick = (appointment: AppointmentModel): void => {
+    setSelectedAppointment(appointment);
+    setNewDate(appointment.appointmentDate);
+    setNewStartTime(appointment.appointmentTime);
+    setNewEndTime(appointment.appointmentEndTime || "");
+    setShowRescheduleModal(true);
+  };
+
+  const handleReschedule = async (): Promise<void> => {
+    if (!selectedAppointment) return;
+
+    try {
+      const token = await getAccessTokenSilently();
+      await axios.put(
+        `https://highend-zke6.onrender.com/api/appointments/${selectedAppointment.appointmentId}/reschedule`,
+        { newDate, newStartTime, newEndTime },
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        },
+      );
+
+      setAppointments((prevAppointments) =>
+        prevAppointments.map((appointment) =>
+          appointment.appointmentId === selectedAppointment.appointmentId
+            ? {
+                ...appointment,
+                appointmentDate: newDate,
+                appointmentTime: newStartTime,
+                appointmentEndTime: newEndTime,
+              }
+            : appointment,
+        ),
+      );
+
+      alert("Appointment rescheduled successfully.");
+      setShowRescheduleModal(false);
+    } catch (error) {
+      console.error("Error rescheduling appointment:", error);
+      alert("Error rescheduling appointment. Please try again.");
+    }
+  };
+
   return (
     <div>
       {loadingAppointments ? (
@@ -255,10 +308,45 @@ export default function AllAppointments(): JSX.Element {
                   >
                     Delete
                   </button>
+                  <button onClick={() => handleRescheduleClick(appointment)}>
+                    Reschedule
+                  </button>
                 </div>
               </div>
             </div>
           ))}
+        </div>
+      )}
+      {showRescheduleModal && (
+        <div className="modal">
+          <h3>Reschedule Appointment</h3>
+          <label>Date:</label>
+          <input
+            type="date"
+            value={newDate}
+            onChange={(e) => setNewDate(e.target.value)}
+          />
+
+          <label>Start Time:</label>
+          <input
+            type="time"
+            value={newStartTime}
+            onChange={(e) => setNewStartTime(e.target.value)}
+          />
+
+          <label>End Time:</label>
+          <input
+            type="time"
+            value={newEndTime}
+            onChange={(e) => setNewEndTime(e.target.value)}
+          />
+
+          <div className="modal-buttons">
+            <button onClick={handleReschedule}>Confirm</button>
+            <button onClick={() => setShowRescheduleModal(false)}>
+              Cancel
+            </button>
+          </div>
         </div>
       )}
     </div>

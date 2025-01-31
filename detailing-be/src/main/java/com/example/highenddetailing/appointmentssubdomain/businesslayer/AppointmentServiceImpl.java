@@ -111,6 +111,28 @@ public class AppointmentServiceImpl implements AppointmentService {
     }
 
     @Override
+    public AppointmentResponseModel rescheduleAppointment(String id, LocalDate newDate, LocalTime newStartTime, LocalTime newEndTime) {
+        // Exclude the current appointment in the overlap check
+        if (!appointmentRepository.findOverlappingAppointmentsExcludingCurrent(id, newDate, newStartTime, newEndTime).isEmpty()) {
+            throw new BookingConflictException("The new time slot is already booked.");
+        }
+
+        // Find the appointment and update it
+        Appointment appointment = appointmentRepository
+                .findByAppointmentIdentifier_AppointmentId(id)
+                .orElseThrow(() -> new RuntimeException("Appointment not found with id: " + id));
+
+        // Set the new values without converting to string
+        appointment.setAppointmentDate(newDate);         // LocalDate directly
+        appointment.setAppointmentTime(newStartTime);    // LocalTime directly
+        appointment.setAppointmentEndTime(newEndTime);   // LocalTime directly
+
+        // Save and return the updated appointment
+        Appointment updatedAppointment = appointmentRepository.save(appointment);
+        return appointmentResponseMapper.entityToResponseModel(updatedAppointment);
+    }
+
+    @Override
     public List<AppointmentResponseModel> getAppointmentsByEmployeeId(String employeeId) {
         List<Appointment> appointments = appointmentRepository.findByEmployeeId(employeeId);
         return appointmentResponseMapper.entityListToResponseModel(appointments);
