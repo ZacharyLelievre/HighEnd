@@ -4,7 +4,7 @@ import "swiper/css/pagination";
 import "swiper/css/navigation";
 import { Pagination, Navigation, Autoplay } from "swiper/modules";
 import axios from "axios";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { GalleryModel } from "./dtos/GalleryModel";
 import "./AllGalleries.css";
 
@@ -29,7 +29,7 @@ export default function AllGalleries(): JSX.Element {
 
   return (
     <div className="gallery-container">
-      <h2 className="gallery-title">Gallery</h2>
+      <h2 className="gallery-title" style={{ textAlign: "center", color: "white" }}>Gallery</h2>
       <Swiper
         modules={[Pagination, Navigation, Autoplay]}
         spaceBetween={20}
