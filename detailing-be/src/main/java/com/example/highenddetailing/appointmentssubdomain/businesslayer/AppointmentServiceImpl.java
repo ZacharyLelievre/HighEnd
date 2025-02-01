@@ -12,7 +12,6 @@ import com.example.highenddetailing.appointmentssubdomain.utlis.BookingConflictE
 import com.example.highenddetailing.employeessubdomain.datalayer.Employee;
 import com.example.highenddetailing.employeessubdomain.datalayer.EmployeeRepository;
 import com.example.highenddetailing.employeessubdomain.presentationlayer.EmployeeRequestModel;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
@@ -94,6 +93,49 @@ public class AppointmentServiceImpl implements AppointmentService {
         appointment.setStatus(Status.PENDING);
         Appointment savedAppointment = appointmentRepository.save(appointment);
         return appointmentResponseMapper.entityToResponseModel(savedAppointment);
+    }
+    @Override
+    public AppointmentResponseModel getAppointmentById(String appointmentId) {
+        Appointment appointment = appointmentRepository.findByAppointmentIdentifier_AppointmentId(appointmentId)
+                .orElseThrow(() -> new RuntimeException("Appointment not found: " + appointmentId));
+
+        return appointmentResponseMapper.entityToResponseModel(appointment);
+    }
+    @Override
+    public void deleteAppointment(String id) {
+        Appointment appointment = appointmentRepository
+                .findByAppointmentIdentifier_AppointmentId(id)
+                .orElseThrow(() -> new RuntimeException("Appointment not found with id: " + id));
+
+        appointmentRepository.delete(appointment);
+    }
+
+    @Override
+    public AppointmentResponseModel rescheduleAppointment(String id, LocalDate newDate, LocalTime newStartTime, LocalTime newEndTime) {
+        // Exclude the current appointment in the overlap check
+        if (!appointmentRepository.findOverlappingAppointmentsExcludingCurrent(id, newDate, newStartTime, newEndTime).isEmpty()) {
+            throw new BookingConflictException("The new time slot is already booked.");
+        }
+
+        // Find the appointment and update it
+        Appointment appointment = appointmentRepository
+                .findByAppointmentIdentifier_AppointmentId(id)
+                .orElseThrow(() -> new RuntimeException("Appointment not found with id: " + id));
+
+        // Set the new values without converting to string
+        appointment.setAppointmentDate(newDate);         // LocalDate directly
+        appointment.setAppointmentTime(newStartTime);    // LocalTime directly
+        appointment.setAppointmentEndTime(newEndTime);   // LocalTime directly
+
+        // Save and return the updated appointment
+        Appointment updatedAppointment = appointmentRepository.save(appointment);
+        return appointmentResponseMapper.entityToResponseModel(updatedAppointment);
+    }
+
+    @Override
+    public List<AppointmentResponseModel> getAppointmentsByEmployeeId(String employeeId) {
+        List<Appointment> appointments = appointmentRepository.findByEmployeeId(employeeId);
+        return appointmentResponseMapper.entityListToResponseModel(appointments);
     }
 
 }

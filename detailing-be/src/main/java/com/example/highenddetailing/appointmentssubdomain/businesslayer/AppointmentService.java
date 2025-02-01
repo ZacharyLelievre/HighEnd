@@ -6,6 +6,9 @@ import com.example.highenddetailing.appointmentssubdomain.domainclientlayer.Appo
 import com.example.highenddetailing.appointmentssubdomain.domainclientlayer.AppointmentResponseModel;
 import com.example.highenddetailing.employeessubdomain.presentationlayer.EmployeeRequestModel;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
+
 import java.util.List;
 
 public interface AppointmentService {
@@ -13,4 +16,11 @@ public interface AppointmentService {
     Appointment updateStatus(String id, Status newStatus);
     AppointmentResponseModel assignEmployee(String id, EmployeeRequestModel request);
     AppointmentResponseModel createAppointment(AppointmentRequestModel request);
+    void deleteAppointment(String id);  // Add this method
+    List<AppointmentResponseModel> getAppointmentsByEmployeeId(String employeeId);
+    AppointmentResponseModel rescheduleAppointment(String id, LocalDate newDate, LocalTime newStartTime, LocalTime newEndTime);
+    AppointmentResponseModel getAppointmentById(String appointmentId);
+
+
+
 }
