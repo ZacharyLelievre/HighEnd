@@ -1,0 +1,49 @@
+/* Global Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: black;
+}
+.footer {
+    background-color: #000; /* Matches black home background */
+    color: #fff;
+    padding: 20px;
+    margin-top: 40px;
+    width: 100%;
+}
+
+.footer-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1200px; /* Adjust as needed */
+    margin: 0 auto;
+}
+
+.footer-details {
+    text-align: left;
+}
+
+.footer-details p {
+    margin: 5px 0;
+    font-size: 0.9rem;
+}
+
+.social-links {
+    display: flex;
+    gap: 15px;
+    font-size: 1.2rem; /* Icon size */
+}
+
+.social-links a {
+    color: #fff;
+    transition: color 0.3s ease;
+}
+
+.social-links a:hover {
+    color: #ccc;
+}

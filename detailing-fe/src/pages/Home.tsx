@@ -16,6 +16,7 @@ import Gwagon from "./Images/Gwagon.png";
 import { NavBar } from "../nav/NavBar";
 import axios from "axios";
 import { motion } from "framer-motion";
+import {Footer} from "./Footer";
 
 interface CustomerInfo {
   customerId: string;
@@ -202,6 +203,7 @@ export default function Home(): JSX.Element {
             </motion.div>
           </motion.div>
         </motion.div>
+        <Footer />
       </div>
   );
 }
