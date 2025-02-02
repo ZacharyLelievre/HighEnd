@@ -8,6 +8,9 @@ import com.example.highenddetailing.customerssubdomain.mapperlayer.CustomerReque
 import com.example.highenddetailing.customerssubdomain.mapperlayer.CustomerResponseMapper;
 import com.example.highenddetailing.customerssubdomain.presentationlayer.CustomerRequestModel;
 import com.example.highenddetailing.customerssubdomain.presentationlayer.CustomerResponseModel;
+import com.example.highenddetailing.employeessubdomain.businesslayer.EmployeeInviteServiceImpl;
+import com.example.highenddetailing.employeessubdomain.datalayer.EmployeeInvite;
+import com.example.highenddetailing.employeessubdomain.datalayer.EmployeeInviteRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -18,6 +21,7 @@ import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.boot.test.mock.mockito.MockBean;
 
+import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
@@ -39,6 +43,12 @@ class CustomerServiceUnitTest {
 
     @InjectMocks
     private CustomerServiceImpl customerService;
+
+    @Mock
+    private EmployeeInviteRepository inviteRepo;
+
+    @InjectMocks
+    private EmployeeInviteServiceImpl employeeInviteService;
 
     @Test
     void testGetCustomers_ShouldReturnEmptyList() {
@@ -149,5 +159,79 @@ class CustomerServiceUnitTest {
         assertEquals(expectedResponse, actualResponse);
         verify(customerRepository).findByCustomerIdentifier_CustomerId(customerId);
         verify(customerResponseMapper).entityToResponseModel(customer);
+    }
+    @Test
+    void testGenerateInviteLink_ShouldSaveInviteAndReturnLink() {
+        // Arrange
+        String expectedToken = UUID.randomUUID().toString();
+        LocalDateTime expectedExpiry = LocalDateTime.now().plusDays(1);
+
+        EmployeeInvite invite = EmployeeInvite.builder()
+                .inviteToken(expectedToken)
+                .expiresAt(expectedExpiry)
+                .build();
+
+        when(inviteRepo.save(any(EmployeeInvite.class))).thenReturn(invite);
+
+        // Act
+        String inviteLink = employeeInviteService.generateInviteLink();
+
+        // Assert
+        assertNotNull(inviteLink);
+        assertTrue(inviteLink.contains("https://highend-1.onrender.com/employee-invite/"));
+        verify(inviteRepo).save(any(EmployeeInvite.class));
+    }
+
+    @Test
+    void testIsInviteValid_ShouldReturnTrueForValidInvite() {
+        // Arrange
+        String token = "valid-token";
+        EmployeeInvite validInvite = EmployeeInvite.builder()
+                .inviteToken(token)
+                .expiresAt(LocalDateTime.now().plusDays(1)) // Not expired
+                .build();
+
+        when(inviteRepo.findByInviteToken(token)).thenReturn(Optional.of(validInvite));
+
+        // Act
+        boolean result = employeeInviteService.isInviteValid(token);
+
+        // Assert
+        assertTrue(result);
+        verify(inviteRepo).findByInviteToken(token);
+    }
+
+    @Test
+    void testIsInviteValid_ShouldReturnFalseForExpiredInvite() {
+        // Arrange
+        String token = "expired-token";
+        EmployeeInvite expiredInvite = EmployeeInvite.builder()
+                .inviteToken(token)
+                .expiresAt(LocalDateTime.now().minusDays(1)) // Expired
+                .build();
+
+        when(inviteRepo.findByInviteToken(token)).thenReturn(Optional.of(expiredInvite));
+
+        // Act
+        boolean result = employeeInviteService.isInviteValid(token);
+
+        // Assert
+        assertFalse(result);
+        verify(inviteRepo).findByInviteToken(token);
+    }
+
+    @Test
+    void testIsInviteValid_ShouldReturnFalseForNonExistentInvite() {
+        // Arrange
+        String token = "non-existent-token";
+
+        when(inviteRepo.findByInviteToken(token)).thenReturn(Optional.empty());
+
+        // Act
+        boolean result = employeeInviteService.isInviteValid(token);
+
+        // Assert
+        assertFalse(result);
+        verify(inviteRepo).findByInviteToken(token);
     }
 }

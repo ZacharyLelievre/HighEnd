@@ -129,7 +129,7 @@ export default function AllServices(): JSX.Element {
 
   return (
     <div>
-      <h2 style={{ textAlign: "center" }}>Services</h2>
+      <h2 style={{ textAlign: "center", color: "white" }}>Services</h2>
       <div className="services-container">
         {services.map((service) => (
           <div className="service-card" key={service.serviceId}>
@@ -137,13 +137,15 @@ export default function AllServices(): JSX.Element {
               to={`/services/${service.serviceId}`}
               className="service-link"
             >
-              <img
-                className="service-image"
-                src={`https://highend-zke6.onrender.com/${service.imagePath}`}
-                alt={service.serviceName}
-              />
-              <h3 className="service-name">{service.serviceName}</h3>
-              <p className="service-price">${service.price.toFixed(2)}</p>
+              <div className="service-card-content">
+                <img
+                  className="service-image"
+                  src={`https://highend-zke6.onrender.com/${service.imagePath}`}
+                  alt={service.serviceName}
+                />
+                <h3 className="service-name">{service.serviceName}</h3>
+                <p className="service-price">${service.price.toFixed(2)}</p>
+              </div>
             </Link>
             <button onClick={() => openModal(service)}>Book Appointment</button>
           </div>
