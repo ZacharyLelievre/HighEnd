@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.boot.test.web.server.LocalServerPort;
+import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.*;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.ActiveProfiles;
@@ -27,6 +28,7 @@ import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.doThrow;
+import static org.mockito.Mockito.when;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @ActiveProfiles("test") // ensures the 'test' profile is used
@@ -130,5 +132,69 @@ public class AppointmentControllerIntegrationTest {
             );
         });
         assertEquals(HttpStatus.NOT_FOUND, ex.getStatusCode());
+    }
+
+
+
+    @Test
+    @WithMockUser  // or disable security in a @TestConfiguration
+    void whenGetAppointmentsByEmployeeId_thenReturnsAppointments() {
+        // Arrange
+        String employeeId = "EMP001"; // Valid employeeId
+        String url = "http://localhost:" + port + "/api/appointments/employee/" + employeeId;
+
+        // Expected AppointmentResponseModel (you can mock the response if needed)
+        AppointmentResponseModel expectedAppointment = AppointmentResponseModel.builder()
+                .appointmentId(UUID.randomUUID().toString())
+                .customerName("John Doe")
+                .serviceName("Car Wash")
+                .appointmentDate("2025-12-25")
+                .appointmentTime("10:30")
+                .appointmentEndTime("11:30")
+                .status(Status.PENDING)
+                .build();
+
+        // Mocking the service to return the expected appointment response
+        when(appointmentService.getAppointmentsByEmployeeId(employeeId))
+                .thenReturn(Arrays.asList(expectedAppointment));
+
+        // Act
+        ResponseEntity<List<AppointmentResponseModel>> response = restTemplate.exchange(
+                url,
+                HttpMethod.GET,
+                null,
+                new ParameterizedTypeReference<List<AppointmentResponseModel>>() {}
+        );
+
+        // Assert
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertNotNull(response.getBody());
+        assertFalse(response.getBody().isEmpty(), "Response should not be empty");
+        assertEquals(expectedAppointment.getCustomerName(), response.getBody().get(0).getCustomerName());
+    }
+
+
+
+    @Test
+    @WithMockUser
+    void whenEmployeeIdNotFound_thenReturnsEmptyList() {
+        // Arrange
+        String employeeId = "EMP999"; // Non-existent employeeId
+        String url = "http://localhost:" + port + "/api/appointments/employee/" + employeeId;
+
+        // Mocking the service to return an empty list for a non-existent employeeId
+        when(appointmentService.getAppointmentsByEmployeeId(employeeId)).thenReturn(Arrays.asList());
+
+        // Act
+        ResponseEntity<List<AppointmentResponseModel>> response = restTemplate.exchange(
+                url,
+                HttpMethod.GET,
+                null,
+                new ParameterizedTypeReference<List<AppointmentResponseModel>>() {}
+        );
+
+        // Assert
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertTrue(response.getBody().isEmpty(), "Response should be empty for non-existent employeeId");
     }
 }
