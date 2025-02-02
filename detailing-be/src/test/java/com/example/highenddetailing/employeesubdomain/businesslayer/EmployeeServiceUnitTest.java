@@ -6,6 +6,7 @@ import com.example.highenddetailing.employeessubdomain.datalayer.Employee;
 import com.example.highenddetailing.employeessubdomain.datalayer.EmployeeRepository;
 import com.example.highenddetailing.employeessubdomain.mapperlayer.EmployeeResponseMapper;
 import com.example.highenddetailing.employeessubdomain.presentationlayer.AvailabilityResponseModel;
+import com.example.highenddetailing.employeessubdomain.presentationlayer.EmployeeRequestModel;
 import com.example.highenddetailing.employeessubdomain.presentationlayer.EmployeeResponseModel;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -17,6 +18,8 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -158,5 +161,48 @@ public class EmployeeServiceUnitTest {
         assertEquals("Monday", availabilityList.get(0).getDayOfWeek());
         assertEquals("08:00", availabilityList.get(0).getStartTime());
         assertEquals("12:00", availabilityList.get(0).getEndTime());
+    }
+    @Test
+    void testCreateEmployee_ShouldCreateAndReturnEmployeeResponse() {
+        // Arrange
+        EmployeeRequestModel request = new EmployeeRequestModel(
+                "EMP-456", "Alice", "Brown", "Engineer",
+                "alice.brown@example.com", "123-456-7890", 70000.00, "alice.png"
+        );
+
+        Employee newEmployee = Employee.builder()
+                .employeeId(request.getEmployeeId())
+                .first_name(request.getFirst_name())
+                .last_name(request.getLast_name())
+                .position(request.getPosition())
+                .email(request.getEmail())
+                .phone(request.getPhone())
+                .salary(request.getSalary())
+                .imagePath(request.getImagePath())
+                .build();
+
+        EmployeeResponseModel expectedResponse = EmployeeResponseModel.builder()
+                .employeeId(request.getEmployeeId())
+                .first_name(request.getFirst_name())
+                .last_name(request.getLast_name())
+                .position(request.getPosition())
+                .email(request.getEmail())
+                .phone(request.getPhone())
+                .salary(request.getSalary())
+                .imagePath(request.getImagePath())
+                .build();
+
+        when(employeeRepository.save(any(Employee.class))).thenReturn(newEmployee);
+        when(employeeResponseMapper.entityToResponseModel(newEmployee)).thenReturn(expectedResponse);
+
+        // Act
+        EmployeeResponseModel response = employeeService.createEmployee(request);
+
+        // Assert
+        assertNotNull(response);
+        assertEquals(request.getEmployeeId(), response.getEmployeeId());
+        assertEquals(request.getFirst_name(), response.getFirst_name());
+        verify(employeeRepository).save(any(Employee.class));
+        verify(employeeResponseMapper).entityToResponseModel(newEmployee);
     }
 }
