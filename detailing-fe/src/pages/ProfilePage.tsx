@@ -26,6 +26,11 @@ export function ProfilePage() {
   // NEW STATE: appointments for employees
   const [appointments, setAppointments] = useState<AppointmentModel[]>([]);
 
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [editedProfile, setEditedProfile] = useState<CustomerModel | null>(
+    null,
+  );
+
   useEffect(() => {
     const fetchProfile = async () => {
       try {
@@ -122,6 +127,41 @@ export function ProfilePage() {
     navigate(`/my-appointments/${appointmentId}`);
   }
 
+  const openModal = () => {
+    setEditedProfile(profile as CustomerModel);
+    setIsModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+  };
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (editedProfile) {
+      setEditedProfile({ ...editedProfile, [e.target.name]: e.target.value });
+    }
+  };
+
+  const handleSaveChanges = async () => {
+    try {
+      const token = await getAccessTokenSilently();
+      const cus = profile as CustomerModel;
+      await axios.put(
+        `https://highend-zke6.onrender.com/api/customers/${cus.customerId}`,
+        editedProfile,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        },
+      );
+      setProfile(editedProfile);
+      closeModal();
+    } catch (error) {
+      console.error("Error updating customer profile:", error);
+    }
+  };
+
   return (
     <div className="profile-page">
       <NavBar />
@@ -176,7 +216,107 @@ export function ProfilePage() {
                     : (profile as EmployeeModel).email}
                 </p>
               </div>
+
+              {/* Edit Profile Button */}
+              <button className="edit-button" onClick={() => openModal()}>
+                Edit Profile
+              </button>
             </div>
+
+            {/* Modal */}
+            {isModalOpen && (
+              <div className="modal-overlay">
+                <div className="modal">
+                  <h2>Edit Profile</h2>
+                  <label>
+                    First Name:
+                    <input
+                      type="text"
+                      name="customerFirstName"
+                      value={
+                        (editedProfile as CustomerModel).customerFirstName || ""
+                      }
+                      onChange={handleInputChange}
+                    />
+                  </label>
+                  <label>
+                    Last Name:
+                    <input
+                      type="text"
+                      name="customerLastName"
+                      value={
+                        (editedProfile as CustomerModel).customerLastName || ""
+                      }
+                      onChange={handleInputChange}
+                    />
+                  </label>
+                  <label>
+                    Email:
+                    <input
+                      type="email"
+                      name="customerEmailAddress"
+                      value={
+                        (editedProfile as CustomerModel).customerEmailAddress ||
+                        ""
+                      }
+                      onChange={handleInputChange}
+                    />
+                  </label>
+                  <label>
+                    Street Address:
+                    <input
+                      type="text"
+                      name="streetAddress"
+                      value={
+                        (editedProfile as CustomerModel).streetAddress || ""
+                      }
+                      onChange={handleInputChange}
+                    />
+                  </label>
+                  <label>
+                    City:
+                    <input
+                      type="text"
+                      name="city"
+                      value={(editedProfile as CustomerModel).city || ""}
+                      onChange={handleInputChange}
+                    />
+                  </label>
+                  <label>
+                    Email:
+                    <input
+                      type="text"
+                      name="postalCode"
+                      value={(editedProfile as CustomerModel).postalCode || ""}
+                      onChange={handleInputChange}
+                    />
+                  </label>
+                  <label>
+                    Province:
+                    <input
+                      type="text"
+                      name="province"
+                      value={(editedProfile as CustomerModel).province || ""}
+                      onChange={handleInputChange}
+                    />
+                  </label>
+                  <label>
+                    Email:
+                    <input
+                      type="text"
+                      name="country"
+                      value={(editedProfile as CustomerModel).country || ""}
+                      onChange={handleInputChange}
+                    />
+                  </label>
+
+                  <div className="modal-buttons">
+                    <button onClick={closeModal}>Cancel</button>
+                    <button onClick={handleSaveChanges}>Save Changes</button>
+                  </div>
+                </div>
+              </div>
+            )}
 
             {/* Appointments Section for Employees */}
             {userType === "Employee" && (

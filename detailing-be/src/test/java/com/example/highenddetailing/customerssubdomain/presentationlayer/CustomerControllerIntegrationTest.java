@@ -18,8 +18,7 @@ import org.springframework.web.client.RestTemplate;
 import java.util.Arrays;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @ActiveProfiles("test")
@@ -158,5 +157,90 @@ public class CustomerControllerIntegrationTest {
             assertEquals(HttpStatus.BAD_REQUEST, ex.getStatusCode(), "Response status should be BAD_REQUEST");
         }
     }
+
+    @Test
+    public void whenUpdateCustomerWithValidRequest_thenReturnUpdatedCustomer() {
+        // Prepare the customer ID you want to update (use an existing ID from the mock data)
+        String customerId = "id1";
+
+        // Construct the URL for the PUT request
+        String url = "http://localhost:" + port + "/api/customers/" + customerId;
+
+        // Create a valid CustomerRequestModel to update the customer
+        CustomerRequestModel requestModel = new CustomerRequestModel(
+                "UpdatedName",              // Updated First Name
+                "UpdatedLastName",          // Updated Last Name
+                "updated.email@example.com", // Updated Email
+                "456 New St",               // Updated Street Address
+                "NewCity",                  // Updated City
+                "67890",                    // Updated Postal Code
+                "NewProvince",              // Updated Province
+                "NewCountry",               // Updated Country
+                "auth0-id-updated"          // Updated Auth0 Sub
+        );
+
+        // Set headers for the request
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+
+        // Create an HttpEntity with the request body and headers
+        HttpEntity<CustomerRequestModel> request = new HttpEntity<>(requestModel, headers);
+
+        // Make a PUT request to the API
+        ResponseEntity<CustomerResponseModel> response = restTemplate.exchange(
+                url,
+                HttpMethod.PUT,
+                request,
+                CustomerResponseModel.class
+        );
+
+        // Assert the response
+        assertEquals(HttpStatus.OK, response.getStatusCode(), "Response status should be OK");
+        assertNotNull(response.getBody(), "Response body should not be null");
+
+        // Assert the response body
+        CustomerResponseModel responseBody = response.getBody();
+        assertEquals("UpdatedName", responseBody.getCustomerFirstName(), "First name should be updated");
+        assertEquals("UpdatedLastName", responseBody.getCustomerLastName(), "Last name should be updated");
+        assertEquals("updated.email@example.com", responseBody.getCustomerEmailAddress(), "Email should be updated");
+    }
+
+    @Test
+    public void whenGetCustomerByIdWithValidId_thenReturnCustomer() {
+        // Prepare the valid customer ID (use an existing ID from the mock data)
+        String customerId = "id1";
+
+        // Construct the URL for the GET request
+        String url = "http://localhost:" + port + "/api/customers/" + customerId;
+
+        // Make a GET request to the API
+        ResponseEntity<CustomerResponseModel> response = restTemplate.exchange(
+                url,
+                HttpMethod.GET,
+                null,
+                CustomerResponseModel.class
+        );
+
+        // Assert the response
+        assertEquals(HttpStatus.OK, response.getStatusCode(), "Response status should be OK");
+        assertNotNull(response.getBody(), "Response body should not be null");
+
+        // Assert the response body
+        CustomerResponseModel responseBody = response.getBody();
+        assertEquals("John", responseBody.getCustomerFirstName(), "First name should match");
+        assertEquals("Doe", responseBody.getCustomerLastName(), "Last name should match");
+        assertEquals("johndoe@example.com", responseBody.getCustomerEmailAddress(), "Email should match");
+    }
+
+
+
+
+
+
+
+
+
+
+
 
 }
