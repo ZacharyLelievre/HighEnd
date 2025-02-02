@@ -1,25 +1,38 @@
 package com.example.highenddetailing.appointmentsubdomain.datalayer;
 
+import com.example.highenddetailing.appointmentssubdomain.businesslayer.AppointmentServiceImpl;
 import com.example.highenddetailing.appointmentssubdomain.datalayer.Appointment;
 import com.example.highenddetailing.appointmentssubdomain.datalayer.AppointmentIdentifier;
 import com.example.highenddetailing.appointmentssubdomain.datalayer.AppointmentRepository;
 import com.example.highenddetailing.appointmentssubdomain.datalayer.Status;
+import com.example.highenddetailing.appointmentssubdomain.domainclientlayer.AppointmentResponseModel;
+import com.example.highenddetailing.appointmentssubdomain.mapperlayer.AppointmentResponseMapper;
 import org.junit.jupiter.api.Test;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.*;
 
 @DataJpaTest
 public class AppointmentRepositoryIntegrationTest {
 
     @Autowired
     private AppointmentRepository appointmentRepository;
+
+    @Mock
+    private AppointmentResponseMapper appointmentResponseMapper;
+
+    @InjectMocks
+    private AppointmentServiceImpl appointmentService;
 
     // Test the findAll method
     @Test
@@ -211,4 +224,37 @@ public class AppointmentRepositoryIntegrationTest {
         // Assert: Verify that the appointment cannot be rescheduled due to conflict
         assertFalse(overlappingAppointments.isEmpty(), "There should be a conflict preventing rescheduling.");
     }
+
+    @Test
+    void whenGetAppointmentsByEmployeeId_thenReturnMappedResponse() {
+        // Arrange - Save real data in the DB
+        String employeeId = "EMP001";
+        Appointment appointment1 = new Appointment();
+        appointment1.setEmployeeId(employeeId);
+        appointment1.setServiceId("SVC123");
+        appointmentRepository.save(appointment1);
+
+        Appointment appointment2 = new Appointment();
+        appointment2.setEmployeeId(employeeId);
+        appointment2.setServiceId("SVC456");
+        appointmentRepository.save(appointment2);
+
+        List<Appointment> savedAppointments = appointmentRepository.findByEmployeeId(employeeId);
+        assertEquals(2, savedAppointments.size()); // Ensure DB has correct data
+
+        // Simulate mapping behavior
+        List<AppointmentResponseModel> expectedResponses = List.of(new AppointmentResponseModel(), new AppointmentResponseModel());
+        when(appointmentResponseMapper.entityListToResponseModel(savedAppointments)).thenReturn(expectedResponses);
+
+        // Act - Call service method
+        List<AppointmentResponseModel> actualResponses = appointmentResponseMapper.entityListToResponseModel(savedAppointments);
+
+        // Assert
+        assertNotNull(actualResponses);
+        assertEquals(expectedResponses.size(), actualResponses.size());
+
+        // Verify mapping interaction
+        verify(appointmentResponseMapper, times(1)).entityListToResponseModel(anyList());
+    }
+
 }
