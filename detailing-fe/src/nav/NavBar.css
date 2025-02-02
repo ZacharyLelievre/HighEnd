@@ -1,13 +1,10 @@
-/* ========== HEADER / BANNER WRAPPER ========== */
 .custom-nav-header {
   position: relative;
   min-height: 100px;
 }
 
-/* ========== MAIN NAVBAR ========== */
 .navbar {
   padding: 1rem 2rem;
-  /* Transparent so the background image is visible */
   background-color: transparent;
   position: relative;
   z-index: 10;
@@ -16,7 +13,6 @@
   justify-content: space-between;
 }
 
-/* Left side: brand + login/register/logout */
 .nav-left {
   display: flex;
   align-items: center;
@@ -28,13 +24,12 @@
 }
 
 .brand-logo {
-  height: 120px; /* increased from 70px */
+  height: 100px;
   width: auto;
   margin-right: 15px;
-  max-height: 120px; /* updated to match the new height */
+  max-height: 100px;
 }
 
-/* Right side: nav links (desktop) + hamburger */
 .nav-right {
   display: flex;
   align-items: center;
@@ -56,16 +51,14 @@
   font-size: 1rem;
   text-transform: uppercase;
   padding: 0.5rem 1rem;
-  transition:
-    color 0.3s ease,
-    background-color 0.3s ease;
+  transition: color 0.3s ease, background-color 0.3s ease;
 }
+
 .desktop-nav li a:hover {
   color: #ffd700;
   background-color: rgba(0, 0, 0, 0.2);
 }
 
-/* Hamburger Menu (shown only on mobile) */
 .hamburger-btn {
   display: none;
   flex-direction: column;
@@ -82,7 +75,6 @@
   transition: transform 0.3s ease;
 }
 
-/* ========== OFF-CANVAS NAV (MOBILE) ========== */
 .nav-links {
   position: fixed;
   top: 0;
@@ -92,7 +84,7 @@
   background-color: #1a1a2e;
   box-shadow: -2px 0 8px rgba(0, 0, 0, 0.3);
   transition: right 0.3s ease;
-  padding: 1rem; /* Adjust as you like */
+  padding: 1rem;
   z-index: 9999;
   display: flex;
   flex-direction: column;
@@ -103,28 +95,23 @@
   right: 0;
 }
 
-/* "X" button to close off-canvas - top-left corner, circular shape */
 .close-btn {
   background: transparent;
   border: none;
   color: #ffd700;
   font-size: 1.5rem;
   cursor: pointer;
-
-  width: 40px; /* Circular shape, tweak if you want bigger */
+  width: 40px;
   height: 40px;
   border-radius: 50%;
-
-  display: flex; /* So we can center the X in the circle */
+  display: flex;
   align-items: center;
   justify-content: center;
-
-  align-self: flex-start; /* Top-left corner inside nav-links */
-  margin-bottom: 1rem; /* some spacing below the X */
-  margin-top: 0.5rem; /* spacing from the top */
+  align-self: flex-start;
+  margin-bottom: 1rem;
+  margin-top: 0.5rem;
 }
 
-/* The rest of the items in the off-canvas menu */
 .nav-links ul {
   list-style: none;
   padding: 0;
@@ -152,7 +139,6 @@
   color: #ffd700;
 }
 
-/* ========== AUTH BUTTONS (Login, Register, Logout) ========== */
 .btn-signin {
   font-weight: 700;
   font-size: 0.9rem;
@@ -161,10 +147,7 @@
   border: 2px solid #ffd700;
   background-color: transparent;
   color: #ffd700;
-  transition:
-    background 0.3s ease,
-    color 0.3s ease,
-    box-shadow 0.3s ease;
+  transition: background 0.3s ease, color 0.3s ease, box-shadow 0.3s ease;
 }
 
 .btn-signin:hover {
@@ -173,21 +156,18 @@
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
 }
 
-/* Spinner styling */
 .loading-container {
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
-/* ====== RESPONSIVE BREAKPOINTS ====== */
 @media (max-width: 991px) {
   .desktop-nav {
-    display: none; /* Hide desktop links on mobile */
+    display: none;
   }
-
   .hamburger-btn {
-    display: flex; /* Show hamburger on mobile */
+    display: flex;
   }
 }
 
@@ -195,20 +175,16 @@
   .navbar {
     padding: 0.5rem 1rem;
   }
-
   .brand-logo {
     height: 50px;
   }
-
   .hamburger-btn .bar {
     width: 20px;
   }
-
   .btn-signin {
     font-size: 0.8rem;
     padding: 0.4rem 1rem;
   }
-
   .nav-links {
     width: 200px;
   }

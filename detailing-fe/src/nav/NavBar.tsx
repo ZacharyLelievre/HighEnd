@@ -19,7 +19,7 @@ export function NavBar(): JSX.Element {
   const [menuOpen, setMenuOpen] = useState(false);
   const navigate = useNavigate();
 
-  // Toggles the off-canvas menu on small screens
+  // Toggle for off-canvas menu (mobile)
   const toggleMenu = () => setMenuOpen(!menuOpen);
 
   useEffect(() => {
@@ -33,7 +33,6 @@ export function NavBar(): JSX.Element {
             Authorization: `Bearer ${accessToken}`,
           },
         });
-
         if (response.status === 404) {
           console.log("User does not exist, redirecting to /onboarding");
           navigate(AppRoutePath.Onboarding);
@@ -53,7 +52,7 @@ export function NavBar(): JSX.Element {
         const decodedPayload = atob(base64Url);
         const tokenData = JSON.parse(decodedPayload);
         const roles =
-          tokenData["https://highenddetailing/roles"] || tokenData.roles || [];
+            tokenData["https://highenddetailing/roles"] || tokenData.roles || [];
         setIsAdmin(roles.includes("ADMIN"));
       } catch (error) {
         console.error("Error fetching access token or roles:", error);
@@ -72,121 +71,113 @@ export function NavBar(): JSX.Element {
   };
 
   return (
-    <header
-      className="custom-nav-header"
-      style={{
-        // The banner image
-        backgroundImage: "url('/images/he_banner.png')",
-        backgroundSize: "cover",
-        backgroundPosition: "center",
-      }}
-    >
-      <div className="navbar">
-        {/* Left side: Logo + Auth Buttons (Login/Register or Logout) */}
-        <div className="nav-left">
-          <Link to={AppRoutePath.Home} className="brand-link">
-            <img src="/images/he_logo.jpg" alt="Logo" className="brand-logo" />
-          </Link>
-
-          {/* If user is loading => show spinner */}
-          {isLoading ? (
-            <div className="loading-container">
-              <Spinner animation="grow" variant="primary" />
-            </div>
-          ) : (
-            <>
-              {/* If authenticated => show "Log Out" */}
-              {isAuthenticated && user ? (
-                <button className="btn-signin" onClick={handleLogout}>
-                  Log Out
-                </button>
-              ) : (
-                /* Otherwise => show Login & Register */
+      <header
+          className="custom-nav-header"
+          style={{
+            backgroundImage: "url('/images/he_banner.png')",
+            backgroundSize: "cover",
+            backgroundPosition: "center",
+          }}
+      >
+        <div className="navbar">
+          {/* Left side: Logo + Auth Buttons */}
+          <div className="nav-left">
+            <Link to={AppRoutePath.Home} className="brand-link">
+              <img src="/images/he_logo.jpg" alt="Logo" className="brand-logo" />
+            </Link>
+            {isLoading ? (
+                <div className="loading-container">
+                  <Spinner animation="grow" variant="primary" />
+                </div>
+            ) : (
                 <>
-                  <button className="btn-signin" onClick={handleLogin}>
-                    Login
-                  </button>
-                  <button className="btn-signin" onClick={handleRegister}>
-                    Register
-                  </button>
+                  {isAuthenticated && user ? (
+                      <button className="btn-signin" onClick={handleLogout}>
+                        Log Out
+                      </button>
+                  ) : (
+                      <>
+                        <button className="btn-signin" onClick={handleLogin}>
+                          Login
+                        </button>
+                        <button className="btn-signin" onClick={handleRegister}>
+                          Register
+                        </button>
+                      </>
+                  )}
                 </>
+            )}
+          </div>
+
+          {/* Right side: Navigation links (desktop) */}
+          <div className="nav-right">
+            <ul className="nav-list desktop-nav">
+              <li>
+                <Link to={AppRoutePath.Home}>Homes</Link>
+              </li>
+              <li>
+                <Link to={AppRoutePath.AllServicesPage}>Services</Link>
+              </li>
+              <li>
+                <Link to={AppRoutePath.AllGalleriesPage}>Gallery</Link>
+              </li>
+              {isAuthenticated && isAdmin && (
+                  <li>
+                    <Link to={AppRoutePath.DashboardPage}>Dashboard</Link>
+                  </li>
               )}
-            </>
-          )}
+              {isAuthenticated && (
+                  <li>
+                    <Link to={AppRoutePath.Profile}>Profile</Link>
+                  </li>
+              )}
+            </ul>
+            {/* Hamburger for mobile */}
+            <button className="hamburger-btn" onClick={toggleMenu}>
+              <span className="bar"></span>
+              <span className="bar"></span>
+              <span className="bar"></span>
+            </button>
+          </div>
         </div>
 
-        {/* Right side (desktop) => Nav links in a horizontal list */}
-        <div className="nav-right">
-          <ul className="nav-list desktop-nav">
+        {/* Off-Canvas Nav for mobile */}
+        <nav className={`nav-links ${menuOpen ? "open" : ""}`}>
+          <button className="close-btn" onClick={toggleMenu}>
+            &times;
+          </button>
+          <ul>
             <li>
-              <Link to={AppRoutePath.Home}>Homes</Link>
+              <Link to={AppRoutePath.Home} onClick={toggleMenu}>
+                Homes
+              </Link>
             </li>
             <li>
-              <Link to={AppRoutePath.AllServicesPage}>Services</Link>
+              <Link to={AppRoutePath.AllServicesPage} onClick={toggleMenu}>
+                Services
+              </Link>
             </li>
             <li>
-              <Link to={AppRoutePath.AllGalleriesPage}>Gallery</Link>
+              <Link to={AppRoutePath.AllGalleriesPage} onClick={toggleMenu}>
+                Gallery
+              </Link>
             </li>
             {isAuthenticated && isAdmin && (
-              <li>
-                <Link to={AppRoutePath.DashboardPage}>Dashboard</Link>
-              </li>
+                <li>
+                  <Link to={AppRoutePath.DashboardPage} onClick={toggleMenu}>
+                    Dashboard
+                  </Link>
+                </li>
             )}
             {isAuthenticated && (
-              <li>
-                <Link to={AppRoutePath.Profile}>Profile</Link>
-              </li>
+                <li>
+                  <Link to={AppRoutePath.Profile} onClick={toggleMenu}>
+                    Profile
+                  </Link>
+                </li>
             )}
           </ul>
-
-          {/* Hamburger for mobile screens */}
-          <button className="hamburger-btn" onClick={toggleMenu}>
-            <span className="bar"></span>
-            <span className="bar"></span>
-            <span className="bar"></span>
-          </button>
-        </div>
-      </div>
-
-      {/* Off-Canvas Nav for mobile */}
-      <nav className={`nav-links ${menuOpen ? "open" : ""}`}>
-        {/* "X" button to close the off-canvas */}
-        <button className="close-btn" onClick={toggleMenu}>
-          &times;
-        </button>
-
-        <ul>
-          <li>
-            <Link to={AppRoutePath.Home} onClick={toggleMenu}>
-              Homes
-            </Link>
-          </li>
-          <li>
-            <Link to={AppRoutePath.AllServicesPage} onClick={toggleMenu}>
-              Services
-            </Link>
-          </li>
-          <li>
-            <Link to={AppRoutePath.AllGalleriesPage} onClick={toggleMenu}>
-              Gallery
-            </Link>
-          </li>
-          {isAuthenticated && isAdmin && (
-            <li>
-              <Link to={AppRoutePath.DashboardPage} onClick={toggleMenu}>
-                Dashboard
-              </Link>
-            </li>
-          )}
-          {isAuthenticated && (
-            <li>
-              <Link to={AppRoutePath.Profile} onClick={toggleMenu}>
-                Profile
-              </Link>
-            </li>
-          )}
-        </ul>
-      </nav>
-    </header>
+        </nav>
+      </header>
   );
 }
