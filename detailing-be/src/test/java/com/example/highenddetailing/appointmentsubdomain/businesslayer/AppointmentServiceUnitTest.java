@@ -22,6 +22,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -619,5 +620,68 @@ public class AppointmentServiceUnitTest {
         assertEquals("The new time slot is already booked.", exception.getMessage());
         verify(appointmentRepository, never()).save(any(Appointment.class));
     }
+
+    @Test
+    void whenGetAppointmentsByEmployeeId_thenReturnAppointmentsList() {
+        // Arrange
+        String employeeId = "e1f14c90-ec5e-4f82-a9b7-2548a7325b34";
+
+        List<Appointment> appointments = List.of(
+                new Appointment(1,
+                        new AppointmentIdentifier("a1f14c90-ec5e-4f82-a9b7-2548a7325b34"),
+                        "c1f14c90-ec5e-4f82-a9b7-2548a7325b34", "John Doe",
+                        "SERVICE001", "Car Wash",
+                        employeeId, "Jane Smith",
+                        LocalDate.parse("2025-07-01"), LocalTime.parse("10:00:00"), LocalTime.parse("11:00:00"),
+                        Status.CONFIRMED, "detailing-service-1.jpg"
+                )
+        );
+
+        List<AppointmentResponseModel> responseModels = List.of(
+                new AppointmentResponseModel(
+                        "a1f14c90-ec5e-4f82-a9b7-2548a7325b34", "2025-07-01", "10:00:00", "11:00:00",
+                        "SERVICE001", "Car Wash",
+                        "c1f14c90-ec5e-4f82-a9b7-2548a7325b34", "John Doe",
+                        employeeId, "Jane Smith",
+                        Status.CONFIRMED, "detailing-service-1.jpg"
+                )
+        );
+
+        when(appointmentRepository.findByEmployeeId(employeeId)).thenReturn(appointments);
+        when(appointmentResponseMapper.entityListToResponseModel(appointments)).thenReturn(responseModels);
+
+        // Act
+        List<AppointmentResponseModel> result = appointmentService.getAppointmentsByEmployeeId(employeeId);
+
+        // Assert
+        assertEquals(responseModels, result);
+        verify(appointmentRepository, times(1)).findByEmployeeId(employeeId);
+        verify(appointmentResponseMapper, times(1)).entityListToResponseModel(appointments);
+    }
+
+    @Test
+    void whenGetAppointmentsByInvalidEmployeeId_thenReturnEmptyList() {
+        // Arrange
+        String invalidEmployeeId = "non-existent-employee";
+        List<Appointment> emptyAppointments = Collections.emptyList();
+
+        // Mock repository to return an empty list
+        when(appointmentRepository.findByEmployeeId(invalidEmployeeId)).thenReturn(emptyAppointments);
+        when(appointmentResponseMapper.entityListToResponseModel(emptyAppointments)).thenReturn(Collections.emptyList());
+
+        // Act
+        List<AppointmentResponseModel> result = appointmentService.getAppointmentsByEmployeeId(invalidEmployeeId);
+
+        // Assert
+        assertNotNull(result);
+        assertTrue(result.isEmpty());
+
+        // Verify repository call
+        verify(appointmentRepository, times(1)).findByEmployeeId(invalidEmployeeId);
+
+        // Verify mapper call with an empty list
+        verify(appointmentResponseMapper, times(1)).entityListToResponseModel(emptyAppointments);
+    }
+
 
 }
