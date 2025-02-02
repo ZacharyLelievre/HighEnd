@@ -27,8 +27,9 @@ export function ProfilePage() {
   const [appointments, setAppointments] = useState<AppointmentModel[]>([]);
 
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [editedProfile, setEditedProfile] = useState<CustomerModel | null>(null);
-
+  const [editedProfile, setEditedProfile] = useState<CustomerModel | null>(
+    null,
+  );
 
   useEffect(() => {
     const fetchProfile = async () => {
@@ -152,7 +153,7 @@ export function ProfilePage() {
           headers: {
             Authorization: `Bearer ${token}`,
           },
-        }
+        },
       );
       setProfile(editedProfile);
       closeModal();
@@ -160,8 +161,6 @@ export function ProfilePage() {
       console.error("Error updating customer profile:", error);
     }
   };
-
-
 
   return (
     <div className="profile-page">
@@ -234,7 +233,9 @@ export function ProfilePage() {
                     <input
                       type="text"
                       name="customerFirstName"
-                      value={(editedProfile as CustomerModel).customerFirstName || ""}
+                      value={
+                        (editedProfile as CustomerModel).customerFirstName || ""
+                      }
                       onChange={handleInputChange}
                     />
                   </label>
@@ -243,7 +244,9 @@ export function ProfilePage() {
                     <input
                       type="text"
                       name="customerLastName"
-                      value={(editedProfile as CustomerModel).customerLastName || ""}
+                      value={
+                        (editedProfile as CustomerModel).customerLastName || ""
+                      }
                       onChange={handleInputChange}
                     />
                   </label>
@@ -252,7 +255,10 @@ export function ProfilePage() {
                     <input
                       type="email"
                       name="customerEmailAddress"
-                      value={(editedProfile as CustomerModel).customerEmailAddress || ""}
+                      value={
+                        (editedProfile as CustomerModel).customerEmailAddress ||
+                        ""
+                      }
                       onChange={handleInputChange}
                     />
                   </label>
@@ -261,7 +267,9 @@ export function ProfilePage() {
                     <input
                       type="text"
                       name="streetAddress"
-                      value={(editedProfile as CustomerModel).streetAddress || ""}
+                      value={
+                        (editedProfile as CustomerModel).streetAddress || ""
+                      }
                       onChange={handleInputChange}
                     />
                   </label>
@@ -301,7 +309,7 @@ export function ProfilePage() {
                       onChange={handleInputChange}
                     />
                   </label>
-                  
+
                   <div className="modal-buttons">
                     <button onClick={closeModal}>Cancel</button>
                     <button onClick={handleSaveChanges}>Save Changes</button>
@@ -309,7 +317,6 @@ export function ProfilePage() {
                 </div>
               </div>
             )}
-
 
             {/* Appointments Section for Employees */}
             {userType === "Employee" && (
