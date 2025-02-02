@@ -1,7 +1,7 @@
 import { test, expect } from '@playwright/test';
 
 test('View Assigned Appointment As Employee', async ({ page }) => {
-  await page.goto('http://localhost:3000/home');
+  await page.goto('https://highend-1.onrender.com//home');
   await page.getByRole('button', { name: 'Login' }).click();
   await page.getByLabel('Email address').click();
   await page.getByLabel('Email address').fill('ros@ros.com');
