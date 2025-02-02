@@ -1,23 +1,43 @@
+/* src/models/ProfilePage.css */
+
+.profile-page {
+  background-color: #f0f2f5;
+  min-height: 100vh;
+}
+
 .profile-container {
   display: flex;
   justify-content: center;
   align-items: center;
-  min-height: 100vh;
-  background-color: #f8f9fa;
-  padding: 20px;
+  padding: 40px 20px;
 }
 
 .profile-card {
-  background: white;
-  border-radius: 8px;
-  padding: 20px;
-  width: 400px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  text-align: center;
+  background: #ffffff;
+  border-radius: 12px;
+  padding: 30px 25px;
+  width: 100%;
+  max-width: 500px;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+  text-align: left;
+  transition: transform 0.3s ease;
+}
+
+.profile-card:hover {
+  transform: translateY(-5px);
 }
 
 .profile-header {
-  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  margin-bottom: 25px;
+  border-bottom: 1px solid #e0e0e0;
+  padding-bottom: 20px;
+}
+
+.profile-avatar {
+  flex-shrink: 0;
+  margin-right: 20px;
 }
 
 .profile-avatar img {
@@ -25,35 +45,138 @@
   height: 100px;
   border-radius: 50%;
   object-fit: cover;
-  margin-bottom: 10px;
+  border: 2px solid #4a90e2;
 }
 
 .profile-name h2 {
-  margin: 0;
-  font-size: 22px;
-  color: #333;
+  margin: 0 0 5px 0;
+  font-size: 24px;
+  color: #333333;
 }
 
 .profile-name .profile-email {
+  font-size: 16px;
+  color: #777777;
+}
+
+.appointments-section {
+  margin-bottom: 25px;
+}
+
+.appointments-section h3 {
+  font-size: 20px;
+  color: #4a90e2;
+  margin-bottom: 15px;
+}
+
+.appointments-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.appointment-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 15px;
+  margin-bottom: 10px;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.appointment-item:hover {
+  background-color: #e6f0ff;
+}
+
+.appointment-service {
+  font-weight: bold;
+  color: #333333;
+}
+
+.appointment-date {
   font-size: 14px;
-  color: #666;
+  color: #555555;
+}
+
+.appointment-status {
+  font-size: 14px;
+  color: #4caf50;
 }
 
 .profile-details {
-  margin-top: 20px;
-  text-align: left;
+  margin-top: 10px;
 }
 
-.profile-details .detail-row {
+.detail-row {
   display: flex;
   justify-content: space-between;
   padding: 10px 0;
   border-bottom: 1px solid #f1f1f1;
-  font-size: 14px;
-  color: #555;
+  font-size: 16px;
+  color: #555555;
 }
 
-.profile-details .detail-row span {
+.detail-row span:first-child {
+  font-weight: 600;
+  color: #333333;
+  width: 40%;
+}
+
+.detail-row span:last-child {
+  text-align: right;
+  width: 55%;
+}
+
+.availability-list {
+  list-style: disc inside;
+  margin: 5px 0 0 15px;
+  padding: 0;
+  color: #555555;
+}
+
+.error-message {
+  color: #d32f2f;
   font-weight: bold;
-  color: #333;
+  text-align: center;
+}
+
+/* Responsive Design */
+@media (max-width: 600px) {
+  .profile-card {
+    padding: 20px 15px;
+  }
+
+  .profile-header {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .profile-avatar {
+    margin-right: 0;
+    margin-bottom: 15px;
+  }
+
+  .detail-row {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .detail-row span:last-child {
+    text-align: left;
+    width: 100%;
+    margin-top: 5px;
+  }
+
+  .appointment-item {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .appointment-status {
+    margin-top: 5px;
+  }
 }
