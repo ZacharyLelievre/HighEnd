@@ -66,7 +66,9 @@
   padding: 10px 20px;
   border-radius: 30px;
   font-size: 1.2rem;
-  transition: background-color 0.3s ease, color 0.3s ease;
+  transition:
+    background-color 0.3s ease,
+    color 0.3s ease;
   cursor: pointer;
   display: inline-block;
   width: auto !important;
