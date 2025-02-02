@@ -18,5 +18,8 @@ public interface AppointmentRepository extends JpaRepository<Appointment, Intege
     List<Appointment> findOverlappingAppointments(@Param("date") LocalDate date, @Param("startTime") LocalTime startTime, @Param("endTime") LocalTime endTime);
     List<Appointment> findByEmployeeId(String employeeId);
 
+        List<Appointment> findByCustomerId(String customerId);
+
+
 
 }
