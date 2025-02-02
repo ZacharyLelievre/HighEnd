@@ -16,7 +16,7 @@ import Gwagon from "./Images/Gwagon.png";
 import { NavBar } from "../nav/NavBar";
 import axios from "axios";
 import { motion } from "framer-motion";
-import {Footer} from "./Footer";
+import { Footer } from "./Footer";
 
 interface CustomerInfo {
   customerId: string;
@@ -119,91 +119,91 @@ export default function Home(): JSX.Element {
   }, [accessToken, isAuthenticated]);
 
   return (
-      <div>
-        <NavBar />
-        <motion.div
-            className="home-container"
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
+    <div>
+      <NavBar />
+      <motion.div
+        className="home-container"
+        initial={{ opacity: 0, y: -20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5 }}
+      >
+        <motion.h1
+          initial={{ opacity: 0, scale: 0.8 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.5 }}
         >
-          <motion.h1
-              initial={{ opacity: 0, scale: 0.8 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.5 }}
-          >
-            Our Mission & Vision
-          </motion.h1>
+          Our Mission & Vision
+        </motion.h1>
 
+        <motion.div
+          className="mission-vision-section"
+          initial={{ opacity: 0, x: -50 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.6 }}
+        >
           <motion.div
-              className="mission-vision-section"
-              initial={{ opacity: 0, x: -50 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.6 }}
+            className="image-container"
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.5 }}
           >
-            <motion.div
-                className="image-container"
-                initial={{ opacity: 0, scale: 0.9 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 0.5 }}
-            >
-              <motion.img
-                  src={Urus}
-                  alt="Car Detailing"
-                  whileHover={{ scale: 1.05 }}
-              />
-            </motion.div>
-            <motion.div
-                className="text-container"
-                initial={{ opacity: 0, x: 50 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.6 }}
-            >
-              <h2>Our Mission</h2>
-              <p>
-                Our mission is to provide top-quality car detailing services that
-                exceed customer expectations, enhancing every vehicle's appearance
-                and value with meticulous attention to detail and exceptional
-                customer care.
-              </p>
-            </motion.div>
+            <motion.img
+              src={Urus}
+              alt="Car Detailing"
+              whileHover={{ scale: 1.05 }}
+            />
           </motion.div>
-
           <motion.div
-              className="vision-section"
-              initial={{ opacity: 0, x: 50 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.6, delay: 0.3 }}
+            className="text-container"
+            initial={{ opacity: 0, x: 50 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.6 }}
           >
-            <motion.div
-                className="text-container"
-                initial={{ opacity: 0, x: -50 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.6 }}
-            >
-              <h2>Our Vision</h2>
-              <p>
-                Our vision is to be the leading choice for car detailing,
-                recognized for our dedication to excellence, innovation, and a
-                personalized customer experience that sets a new standard in the
-                industry.
-              </p>
-            </motion.div>
-            <motion.div
-                className="image-container"
-                initial={{ opacity: 0, scale: 0.9 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 0.5 }}
-            >
-              <motion.img
-                  src={Gwagon}
-                  alt="G-Wagon Detailing"
-                  whileHover={{ scale: 1.05 }}
-              />
-            </motion.div>
+            <h2>Our Mission</h2>
+            <p>
+              Our mission is to provide top-quality car detailing services that
+              exceed customer expectations, enhancing every vehicle's appearance
+              and value with meticulous attention to detail and exceptional
+              customer care.
+            </p>
           </motion.div>
         </motion.div>
-        <Footer />
-      </div>
+
+        <motion.div
+          className="vision-section"
+          initial={{ opacity: 0, x: 50 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.6, delay: 0.3 }}
+        >
+          <motion.div
+            className="text-container"
+            initial={{ opacity: 0, x: -50 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.6 }}
+          >
+            <h2>Our Vision</h2>
+            <p>
+              Our vision is to be the leading choice for car detailing,
+              recognized for our dedication to excellence, innovation, and a
+              personalized customer experience that sets a new standard in the
+              industry.
+            </p>
+          </motion.div>
+          <motion.div
+            className="image-container"
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.5 }}
+          >
+            <motion.img
+              src={Gwagon}
+              alt="G-Wagon Detailing"
+              whileHover={{ scale: 1.05 }}
+            />
+          </motion.div>
+        </motion.div>
+      </motion.div>
+      <Footer />
+    </div>
   );
 }

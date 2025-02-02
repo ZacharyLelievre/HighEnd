@@ -1,6 +1,6 @@
 import { NavBar } from "../nav/NavBar";
 import AllServices from "../models/AllServices";
-import {Footer} from "./Footer";
+import { Footer } from "./Footer";
 import React from "react";
 
 export default function AllServicesPage(): JSX.Element {
@@ -8,7 +8,7 @@ export default function AllServicesPage(): JSX.Element {
     <div>
       <NavBar />
       <AllServices />
-        <Footer />
+      <Footer />
     </div>
   );
 }

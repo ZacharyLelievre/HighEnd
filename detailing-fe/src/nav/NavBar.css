@@ -28,10 +28,10 @@
 }
 
 .brand-logo {
-  height: 120px;      /* increased from 70px */
+  height: 120px; /* increased from 70px */
   width: auto;
   margin-right: 15px;
-  max-height: 120px;  /* updated to match the new height */
+  max-height: 120px; /* updated to match the new height */
 }
 
 /* Right side: nav links (desktop) + hamburger */
@@ -56,7 +56,9 @@
   font-size: 1rem;
   text-transform: uppercase;
   padding: 0.5rem 1rem;
-  transition: color 0.3s ease, background-color 0.3s ease;
+  transition:
+    color 0.3s ease,
+    background-color 0.3s ease;
 }
 .desktop-nav li a:hover {
   color: #ffd700;
@@ -109,17 +111,17 @@
   font-size: 1.5rem;
   cursor: pointer;
 
-  width: 40px;   /* Circular shape, tweak if you want bigger */
+  width: 40px; /* Circular shape, tweak if you want bigger */
   height: 40px;
   border-radius: 50%;
 
-  display: flex;       /* So we can center the X in the circle */
+  display: flex; /* So we can center the X in the circle */
   align-items: center;
   justify-content: center;
 
   align-self: flex-start; /* Top-left corner inside nav-links */
-  margin-bottom: 1rem;    /* some spacing below the X */
-  margin-top: 0.5rem;     /* spacing from the top */
+  margin-bottom: 1rem; /* some spacing below the X */
+  margin-top: 0.5rem; /* spacing from the top */
 }
 
 /* The rest of the items in the off-canvas menu */
@@ -160,9 +162,9 @@
   background-color: transparent;
   color: #ffd700;
   transition:
-          background 0.3s ease,
-          color 0.3s ease,
-          box-shadow 0.3s ease;
+    background 0.3s ease,
+    color 0.3s ease,
+    box-shadow 0.3s ease;
 }
 
 .btn-signin:hover {

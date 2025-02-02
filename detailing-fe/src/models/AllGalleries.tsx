@@ -29,7 +29,12 @@ export default function AllGalleries(): JSX.Element {
 
   return (
     <div className="gallery-container">
-      <h2 className="gallery-title" style={{ textAlign: "center", color: "white" }}>Gallery</h2>
+      <h2
+        className="gallery-title"
+        style={{ textAlign: "center", color: "white" }}
+      >
+        Gallery
+      </h2>
       <Swiper
         modules={[Pagination, Navigation, Autoplay]}
         spaceBetween={20}
