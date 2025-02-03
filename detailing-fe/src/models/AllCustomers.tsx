@@ -46,7 +46,7 @@ export default function AllCustomers(): JSX.Element {
   const handleDeleteCustomer = async (customerId: string) => {
     try {
       await axios.delete(
-        `https://highend-zke6.onrender.com/api/customers/${customerId}`,
+        `http://localhost:8080/api/customers/${customerId}`,
       );
       setCustomers(
         customers.filter((customer) => customer.customerId !== customerId),
