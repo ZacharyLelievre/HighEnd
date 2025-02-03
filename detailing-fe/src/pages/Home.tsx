@@ -1,20 +1,15 @@
 import React, { useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { AppRoutePath } from "../routes/path.routes";
-import {
-  Navbar,
-  Container,
-  Nav,
-  NavDropdown,
-  Button,
-  Spinner,
-} from "react-bootstrap";
+import { Button } from "react-bootstrap";
 import { useAuth0 } from "@auth0/auth0-react";
 import "./Home.css";
 import Urus from "./Images/Urus.png";
 import Gwagon from "./Images/Gwagon.png";
 import { NavBar } from "../nav/NavBar";
 import axios from "axios";
+import { motion } from "framer-motion";
+import { Footer } from "./Footer";
 
 interface CustomerInfo {
   customerId: string;
@@ -29,13 +24,8 @@ interface CustomerInfo {
 }
 
 export default function Home(): JSX.Element {
-  const {
-    getAccessTokenSilently,
-    user,
-    isAuthenticated,
-    isLoading,
-    loginWithRedirect,
-  } = useAuth0();
+  const { getAccessTokenSilently, user, isAuthenticated, loginWithRedirect } =
+    useAuth0();
   const [accessToken, setAccessToken] = useState<string | null>(null);
   const [customerInfo, setCustomerInfo] = useState<CustomerInfo | null>(null);
   const navigate = useNavigate();
@@ -99,33 +89,90 @@ export default function Home(): JSX.Element {
   useEffect(() => {
     const handleUserData = async () => {
       if (!isAuthenticated) return;
-
       await createOrLinkCustomer();
       await fetchCustomerInfo();
     };
-
     handleUserData();
   }, [isAuthenticated, getAccessTokenSilently, user]);
 
   useEffect(() => {
-    const fetchInfo = async () => {
-      if (accessToken && isAuthenticated) {
-        await fetchCustomerInfo();
-      }
-    };
-    fetchInfo();
+    if (accessToken && isAuthenticated) {
+      fetchCustomerInfo();
+    }
   }, [accessToken, isAuthenticated]);
 
   return (
-    <div>
-      <NavBar />
+    <div className="home-page">
+      <div className="hero">
+        <div className="video-wrapper">
+          <iframe
+            title="Highend Detailing Loop Video"
+            src="https://player.vimeo.com/video/854048415?h=2b2e4feb91&autoplay=1&loop=1&muted=1&title=0&byline=0&portrait=0&controls=0"
+            frameBorder="0"
+            allow="autoplay; fullscreen"
+            allowFullScreen
+            className="vimeo-iframe"
+          ></iframe>
+          {/* Centered overlay message and button */}
+          <motion.div
+            className="video-overlay"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.5 }}
+          >
+            <h2>Rev Up Your Ride!</h2>
+            <p>
+              Discover our premium car detailing services that make your ride
+              shine.
+            </p>
+            <Button
+              className="video-button"
+              onClick={() => navigate(AppRoutePath.AllServicesPage)}
+            >
+              Explore Services
+            </Button>
+          </motion.div>
+        </div>
+        {/* NavBar placed at the top of the hero section */}
+        <div className="nav-container">
+          <NavBar />
+        </div>
+      </div>
+
+      {/* Main Content below the hero */}
       <div className="home-container">
-        <h1>Our Mission & Vision</h1>
-        <div className="mission-vision-section">
-          <div className="image-container">
-            <img src={Urus} alt="Car Detailing" />
-          </div>
-          <div className="text-container">
+        <motion.h1
+          initial={{ opacity: 0, scale: 0.8 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.5 }}
+        >
+          Our Mission & Vision
+        </motion.h1>
+
+        <motion.div
+          className="mission-vision-section"
+          initial={{ opacity: 0, x: -50 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.6 }}
+        >
+          <motion.div
+            className="image-container"
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.5 }}
+          >
+            <motion.img
+              src={Urus}
+              alt="Car Detailing"
+              whileHover={{ scale: 1.05 }}
+            />
+          </motion.div>
+          <motion.div
+            className="text-container"
+            initial={{ opacity: 0, x: 50 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.6 }}
+          >
             <h2>Our Mission</h2>
             <p>
               Our mission is to provide top-quality car detailing services that
@@ -133,10 +180,21 @@ export default function Home(): JSX.Element {
               and value with meticulous attention to detail and exceptional
               customer care.
             </p>
-          </div>
-        </div>
-        <div className="vision-section">
-          <div className="text-container">
+          </motion.div>
+        </motion.div>
+
+        <motion.div
+          className="vision-section"
+          initial={{ opacity: 0, x: 50 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.6, delay: 0.3 }}
+        >
+          <motion.div
+            className="text-container"
+            initial={{ opacity: 0, x: -50 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.6 }}
+          >
             <h2>Our Vision</h2>
             <p>
               Our vision is to be the leading choice for car detailing,
@@ -144,47 +202,22 @@ export default function Home(): JSX.Element {
               personalized customer experience that sets a new standard in the
               industry.
             </p>
-          </div>
-          <div className="image-container">
-            <img src={Gwagon} alt="G-Wagon Detailing" />
-          </div>
-        </div>
-        <div className="content">
-          {isLoading ? (
-            <Spinner animation="border" variant="primary" />
-          ) : (
-            <>
-              <button
-                onClick={fetchAccessToken}
-                className="btn btn-primary mb-3"
-              >
-                Fetch Access Token
-              </button>
-
-              {accessToken && (
-                <p>
-                  <strong>Access Token:</strong> {accessToken}
-                </p>
-              )}
-              {customerInfo ? (
-                <div>
-                  <h2>
-                    Welcome, {customerInfo.customerFirstName}{" "}
-                    {customerInfo.customerLastName}!
-                  </h2>
-                  <p>Email: {customerInfo.customerEmailAddress}</p>
-                  <p>
-                    Address: {customerInfo.streetAddress}, {customerInfo.city},{" "}
-                    {customerInfo.province}, {customerInfo.country}
-                  </p>
-                </div>
-              ) : (
-                <p>No customer info available yet.</p>
-              )}
-            </>
-          )}
-        </div>
+          </motion.div>
+          <motion.div
+            className="image-container"
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.5 }}
+          >
+            <motion.img
+              src={Gwagon}
+              alt="G-Wagon Detailing"
+              whileHover={{ scale: 1.05 }}
+            />
+          </motion.div>
+        </motion.div>
       </div>
+      <Footer />
     </div>
   );
 }

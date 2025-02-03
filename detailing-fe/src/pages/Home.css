@@ -1,4 +1,97 @@
-/* Black background and section container */
+.home-page {
+  position: relative;
+  overflow-x: hidden;
+}
+
+.hero {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.video-wrapper {
+  width: 100%;
+  height: 100%;
+  background: black;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 1;
+}
+
+.vimeo-iframe {
+  width: 100%;
+  height: 100%;
+  border: none;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 1;
+}
+
+.video-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.3);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  z-index: 5;
+}
+
+.video-overlay h2 {
+  font-size: 3rem;
+  font-weight: bold;
+  color: #ffffff;
+  margin-bottom: 0.5rem;
+}
+
+.video-overlay p {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #ffffff;
+  margin-bottom: 1rem;
+}
+
+.video-button {
+  border: 2px solid #ff00ff;
+  background: transparent;
+  color: #ff00ff;
+  padding: 10px 20px;
+  border-radius: 30px;
+  font-size: 1.2rem;
+  transition:
+    background-color 0.3s ease,
+    color 0.3s ease;
+  cursor: pointer;
+  display: inline-block;
+  width: auto !important;
+  white-space: nowrap;
+}
+
+.video-button:hover {
+  background-color: #ff00ff;
+  color: white;
+}
+
+.nav-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 20;
+}
+
+.home-page .custom-nav-header {
+  background: transparent !important;
+}
+
 .home-container {
   background-color: black;
   color: white;
@@ -22,7 +115,7 @@
 .image-container img {
   width: 400px;
   height: auto;
-  border-radius: 20px; /* Rounded corners for the image */
+  border-radius: 20px;
 }
 
 .text-container {
@@ -52,18 +145,6 @@
   text-align: center;
 }
 
-button {
-  background-color: white;
-  color: black;
-  padding: 10px 20px;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-}
-
-button:hover {
-  background-color: gray;
-}
 .access-token-box {
   border: 1px solid #ccc;
   padding: 10px;

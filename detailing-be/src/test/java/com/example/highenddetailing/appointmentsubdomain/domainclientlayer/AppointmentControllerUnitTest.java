@@ -186,4 +186,23 @@ public class AppointmentControllerUnitTest {
                 LocalTime.parse("14:00"), LocalTime.parse("15:00"));
     }
 
+    @Test
+    @WithMockUser
+    void whenGetAppointmentsByEmployeeId_thenReturnAppointments() throws Exception {
+        // Arrange: Mock the service to return a list of appointments for the given employee ID
+        when(appointmentService.getAppointmentsByEmployeeId(eq("E001"))).thenReturn(appointmentResponseModels);
+
+        // Act & Assert: Perform the GET request and check for the response
+        mockMvc.perform(get("/api/appointments/employee/{employeeId}", "E001")
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.length()").value(2)) // Verify the number of appointments returned
+                .andExpect(jsonPath("$[0].appointmentId").value("A001")) // Check the first appointment's ID
+                .andExpect(jsonPath("$[1].appointmentId").value("A002")); // Check the second appointment's ID
+
+        // Verify the service interaction
+        verify(appointmentService, times(1)).getAppointmentsByEmployeeId("E001");
+    }
+
+
 }

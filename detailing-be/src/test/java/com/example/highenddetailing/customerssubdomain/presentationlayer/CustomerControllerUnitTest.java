@@ -13,14 +13,14 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Import;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
-import static org.mockito.Mockito.when;
+
+import static org.mockito.Mockito.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 import java.util.Arrays;
 import java.util.List;
-
-import static org.mockito.Mockito.when;
 
 @Import(SecurityConfig.class)
 @ActiveProfiles("test")
@@ -85,5 +85,23 @@ public class CustomerControllerUnitTest {
                 .andExpect(jsonPath("$[0].customerFirstName").value("John"))  // Assert first customer's first name is "John"
                 .andExpect(jsonPath("$[1].customerFirstName").value("Alice"));  // Assert second customer's first name is "Jane"
     }
+
+    @Test
+    public void whenDeleteCustomerWithValidId_thenReturnNoContent() throws Exception {
+        // Mock the service to indicate successful deletion
+        String customerId = "1"; // Using string customerId, as per your CustomerResponseModel
+
+        // Mock the delete behavior
+        doNothing().when(customerService).deleteCustomer(customerId);
+
+        // Perform the DELETE request
+        mockMvc.perform(delete("/api/customers/{customerId}", customerId))
+                .andExpect(status().isNoContent());  // Assert that the response status is 204 No Content
+
+        // Verify that the delete method in the service was called with the correct ID
+        verify(customerService, times(1)).deleteCustomer(customerId);
+    }
+
+
 
 }
