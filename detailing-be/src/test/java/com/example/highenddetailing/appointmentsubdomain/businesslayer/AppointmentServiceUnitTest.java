@@ -683,5 +683,69 @@ public class AppointmentServiceUnitTest {
         verify(appointmentResponseMapper, times(1)).entityListToResponseModel(emptyAppointments);
     }
 
+    @Test
+    void whenGetAppointmentsByCustomerId_thenReturnAppointmentsList() {
+        // Arrange
+        String customerId = "c1f14c90-ec5e-4f82-a9b7-2548a7325b34";
+
+        // Mocking Appointment data
+        List<Appointment> appointments = List.of(
+                new Appointment(1,
+                        new AppointmentIdentifier("a1f14c90-ec5e-4f82-a9b7-2548a7325b34"),
+                        customerId, "John Doe",
+                        "SERVICE001", "Car Wash",
+                        "e1f14c90-ec5e-4f82-a9b7-2548a7325b34", "Jane Smith",
+                        LocalDate.parse("2025-07-01"), LocalTime.parse("10:00:00"), LocalTime.parse("11:00:00"),
+                        Status.CONFIRMED, "detailing-service-1.jpg"
+                )
+        );
+
+        // Mocking Response data
+        List<AppointmentResponseModel> responseModels = List.of(
+                new AppointmentResponseModel(
+                        "a1f14c90-ec5e-4f82-a9b7-2548a7325b34", "2025-07-01", "10:00:00", "11:00:00",
+                        "SERVICE001", "Car Wash",
+                        customerId, "John Doe",
+                        "e1f14c90-ec5e-4f82-a9b7-2548a7325b34", "Jane Smith",
+                        Status.CONFIRMED, "detailing-service-1.jpg"
+                )
+        );
+
+        // Mock repository and mapper behavior
+        when(appointmentRepository.findByCustomerId(customerId)).thenReturn(appointments);
+        when(appointmentResponseMapper.entityListToResponseModel(appointments)).thenReturn(responseModels);
+
+        // Act
+        List<AppointmentResponseModel> result = appointmentService.getAppointmentsByCustomerId(customerId);
+
+        // Assert
+        assertEquals(responseModels, result, "The returned list should match the expected response models");
+        verify(appointmentRepository, times(1)).findByCustomerId(customerId);
+        verify(appointmentResponseMapper, times(1)).entityListToResponseModel(appointments);
+    }
+
+    @Test
+    void whenGetAppointmentsByInvalidCustomerId_thenReturnEmptyList() {
+        // Arrange
+        String invalidCustomerId = "non-existent-customer";
+        List<Appointment> emptyAppointments = Collections.emptyList();
+
+        // Mock repository to return an empty list
+        when(appointmentRepository.findByCustomerId(invalidCustomerId)).thenReturn(emptyAppointments);
+        when(appointmentResponseMapper.entityListToResponseModel(emptyAppointments)).thenReturn(Collections.emptyList());
+
+        // Act
+        List<AppointmentResponseModel> result = appointmentService.getAppointmentsByCustomerId(invalidCustomerId);
+
+        // Assert
+        assertNotNull(result, "The result should not be null");
+        assertTrue(result.isEmpty(), "The result should be an empty list");
+
+        // Verify repository and mapper calls
+        verify(appointmentRepository, times(1)).findByCustomerId(invalidCustomerId);
+        verify(appointmentResponseMapper, times(1)).entityListToResponseModel(emptyAppointments);
+    }
+
+
 
 }

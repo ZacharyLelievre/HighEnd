@@ -36,6 +36,7 @@ public class AppointmentController {
         AppointmentResponseModel response = appointmentService.createAppointment(appointmentRequestModel);
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
+
     @PutMapping("/{id}/status")
     public ResponseEntity<AppointmentResponseModel> updateAppointmentStatus(
             @PathVariable String id,
@@ -47,6 +48,7 @@ public class AppointmentController {
         AppointmentResponseModel updatedResponse = appointmentResponseMapper.entityToResponseModel(updatedAppointment);
         return ResponseEntity.ok(updatedResponse);
     }
+
     @PutMapping("/{id}/assign")
     public ResponseEntity<AppointmentResponseModel> assignEmployee(@PathVariable String id,
                                                                    @RequestBody EmployeeRequestModel request) {
@@ -97,25 +99,31 @@ public class AppointmentController {
         return ResponseEntity.ok(appointmentService.getAppointmentsByEmployeeId(employeeId));
     }
 
-    @PutMapping("/{id}/reschedule")
-    public ResponseEntity<AppointmentResponseModel> rescheduleAppointment(
-            @PathVariable String id, @RequestBody RescheduleRequest request) {
-        try {
-            AppointmentResponseModel updatedAppointment = appointmentService.rescheduleAppointment(
-                    id,
-                    LocalDate.parse(request.getNewDate()),
-                    LocalTime.parse(request.getNewStartTime()),
-                    LocalTime.parse(request.getNewEndTime())
-            );
-            return ResponseEntity.ok(updatedAppointment);
-        } catch (BookingConflictException e) {
-            return ResponseEntity.status(HttpStatus.CONFLICT).body(null);
-        }
+    @GetMapping("/customer/{customerId}")
+    public ResponseEntity<List<AppointmentResponseModel>> getAppointmentsByCustomerId(@PathVariable String customerId) {
+        List<AppointmentResponseModel> appointments = appointmentService.getAppointmentsByCustomerId(customerId);
+        return ResponseEntity.ok(appointments);
     }
 
-    @GetMapping("/{appointmentId}")
-    public ResponseEntity<AppointmentResponseModel> getAppointmentById(@PathVariable String appointmentId) {
-        AppointmentResponseModel appt = appointmentService.getAppointmentById(appointmentId);
-        return ResponseEntity.ok(appt);
+        @PutMapping("/{id}/reschedule")
+        public ResponseEntity<AppointmentResponseModel> rescheduleAppointment (
+                @PathVariable String id, @RequestBody RescheduleRequest request){
+            try {
+                AppointmentResponseModel updatedAppointment = appointmentService.rescheduleAppointment(
+                        id,
+                        LocalDate.parse(request.getNewDate()),
+                        LocalTime.parse(request.getNewStartTime()),
+                        LocalTime.parse(request.getNewEndTime())
+                );
+                return ResponseEntity.ok(updatedAppointment);
+            } catch (BookingConflictException e) {
+                return ResponseEntity.status(HttpStatus.CONFLICT).body(null);
+            }
+        }
+
+        @GetMapping("/{appointmentId}")
+        public ResponseEntity<AppointmentResponseModel> getAppointmentById (@PathVariable String appointmentId){
+            AppointmentResponseModel appt = appointmentService.getAppointmentById(appointmentId);
+            return ResponseEntity.ok(appt);
+        }
     }
-}

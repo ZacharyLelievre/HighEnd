@@ -18,6 +18,9 @@ public interface AppointmentService {
     AppointmentResponseModel createAppointment(AppointmentRequestModel request);
     void deleteAppointment(String id);  // Add this method
     List<AppointmentResponseModel> getAppointmentsByEmployeeId(String employeeId);
+
+    List<AppointmentResponseModel> getAppointmentsByCustomerId(String customerId);
+
     AppointmentResponseModel rescheduleAppointment(String id, LocalDate newDate, LocalTime newStartTime, LocalTime newEndTime);
     AppointmentResponseModel getAppointmentById(String appointmentId);
 

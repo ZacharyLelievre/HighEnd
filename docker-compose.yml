@@ -1,3 +1,5 @@
+version: "3.9"
+
 services:
   backend:
     build:
@@ -12,13 +14,15 @@ services:
       - AUTH0_CLIENT_ID=${AUTH0_CLIENT_ID}
       - AUTH0_CLIENT_SECRET=${AUTH0_CLIENT_SECRET}
       - AUTH0_AUDIENCE=${AUTH0_AUDIENCE}
-      - SPRING_DATASOURCE_URL=${SPRING_DATASOURCE_URL}
-      - SPRING_DATASOURCE_USERNAME=${SPRING_DATASOURCE_USERNAME}
-      - SPRING_DATASOURCE_PASSWORD=${SPRING_DATASOURCE_PASSWORD}
-    depends_on: []
+      - SPRING_DATASOURCE_URL=jdbc:mysql://db:3306/${MYSQL_DATABASE}
+      - SPRING_DATASOURCE_USERNAME=${MYSQL_USER}
+      - SPRING_DATASOURCE_PASSWORD=${MYSQL_PASSWORD}
+    depends_on:
+      db:
+        condition: service_healthy
 
     healthcheck:
-      test: ["CMD-SHELL", "curl -f http://backend:8080 || exit 1"] # Check if backend is accessible
+      test: ["CMD-SHELL", "curl -f http://backend:8080 || exit 1"]
       interval: 30s
       timeout: 10s
       retries: 3
@@ -39,16 +43,40 @@ services:
     deploy:
       resources:
         limits:
-          memory: 512M # Limit the container to 128 MB of RAM
+          memory: 512M
     volumes:
       - ./detailing-fe:/app
-      - /app/node_modules # Avoid overwriting node_modules
+      - /app/node_modules
       - /app/build
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:3000"] # Check if the frontend is accessible
-      interval: 30s # Check every 30 seconds
-      timeout: 10s # Timeout after 10 seconds
-      retries: 3 # Mark as unhealthy after 3 failed checks
+      test: ["CMD", "curl", "-f", "http://localhost:3000"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  db:
+    image: mysql:latest
+    container_name: mysql_db
+    restart: always
+    ports:
+      - "3307:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+    volumes:
+      - /mnt/cache/appdata/mysql/data:/var/lib/mysql
+      - /mnt/cache/appdata/mysql/logs:/var/log/mysql
+    healthcheck:
+      test:
+        [
+          "CMD-SHELL",
+          "mysqladmin ping -h localhost -uroot -p${MYSQL_ROOT_PASSWORD} || exit 1",
+        ]
+      interval: 30s
+      timeout: 10s
+      retries: 3
 
   phpmyadmin:
     image: phpmyadmin:5.2.0
@@ -57,8 +85,11 @@ services:
     ports:
       - "5013:80"
     environment:
-      PMA_USER: ${SPRING_DATASOURCE_USERNAME}
-      PMA_PASSWORD: ${SPRING_DATASOURCE_PASSWORD}
+      PMA_HOST: db
+      PMA_USER: ${MYSQL_USER}
+      PMA_PASSWORD: ${MYSQL_PASSWORD}
+    depends_on:
+      - db
     healthcheck:
       test: ["CMD-SHELL", "curl -f http://localhost:80 || exit 1"]
       interval: 30s
