@@ -274,3 +274,16 @@ input:focus {
 .modal-buttons button:first-child:hover {
   background-color: #e53935;
 }
+.cancel-button {
+  background-color: #ff4d4d;
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  margin-left: 10px;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+.cancel-button:hover {
+  background-color: #d43d3d;
+}
