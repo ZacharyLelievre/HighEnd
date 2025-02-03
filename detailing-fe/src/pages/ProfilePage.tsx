@@ -11,387 +11,448 @@ import { useNavigate } from "react-router-dom";
 type UserProfile = CustomerModel | EmployeeModel;
 
 export function ProfilePage() {
-    const { getAccessTokenSilently, user } = useAuth0();
-    const navigate = useNavigate();
+  const { getAccessTokenSilently, user } = useAuth0();
+  const navigate = useNavigate();
 
-    const [profile, setProfile] = useState<UserProfile | null>(null);
-    const [userType, setUserType] = useState<"Customer" | "Employee" | null>(null);
-    const [loading, setLoading] = useState<boolean>(true);
-    const [error, setError] = useState<string | null>(null);
-    const [appointments, setAppointments] = useState<AppointmentModel[]>([]);
-    const [isModalOpen, setIsModalOpen] = useState(false);
-    const [editedProfile, setEditedProfile] = useState<CustomerModel | EmployeeModel | null>(null);
+  const [profile, setProfile] = useState<UserProfile | null>(null);
+  const [userType, setUserType] = useState<"Customer" | "Employee" | null>(
+    null,
+  );
+  const [loading, setLoading] = useState<boolean>(true);
+  const [error, setError] = useState<string | null>(null);
+  const [appointments, setAppointments] = useState<AppointmentModel[]>([]);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [editedProfile, setEditedProfile] = useState<
+    CustomerModel | EmployeeModel | null
+  >(null);
 
-    useEffect(() => {
-        const fetchProfile = async () => {
-            try {
-                setLoading(true);
-                const token = await getAccessTokenSilently();
+  useEffect(() => {
+    const fetchProfile = async () => {
+      try {
+        setLoading(true);
+        const token = await getAccessTokenSilently();
 
-                try {
-                    const customerResponse = await axios.get<CustomerModel>(
-                        "https://highend-zke6.onrender.com/api/customers/me",
-                        {
-                            headers: { Authorization: `Bearer ${token}` },
-                        }
-                    );
-                    setProfile(customerResponse.data);
-                    setUserType("Customer");
-                } catch (customerError: any) {
-                    if (customerError.response && customerError.response.status === 404) {
-                        try {
-                            const employeeResponse = await axios.get<EmployeeModel>(
-                                "https://highend-zke6.onrender.com/api/employees/me",
-                                {
-                                    headers: { Authorization: `Bearer ${token}` },
-                                }
-                            );
-                            setProfile(employeeResponse.data);
-                            setUserType("Employee");
-                        } catch (employeeError: any) {
-                            if (employeeError.response && employeeError.response.status === 404) {
-                                setError("No profile information found for the authenticated user.");
-                            } else {
-                                setError("Error fetching employee profile.");
-                                console.error("Error fetching employee profile:", employeeError);
-                            }
-                        }
-                    } else {
-                        setError("Error fetching customer profile.");
-                        console.error("Error fetching customer profile:", customerError);
-                    }
-                }
-            } catch (err) {
-                setError("An unexpected error occurred while fetching the profile.");
-                console.error("Unexpected error:", err);
-            } finally {
-                setLoading(false);
-            }
-        };
-
-        fetchProfile();
-    }, [getAccessTokenSilently]);
-
-    useEffect(() => {
-        const fetchAppointments = async () => {
-            try {
-                if (!profile || !userType) return;
-                const token = await getAccessTokenSilently();
-
-                if (userType === "Employee") {
-                    const emp = profile as EmployeeModel;
-                    if (!emp.employeeId) return;
-
-                    const response = await axios.get<AppointmentModel[]>(
-                        `https://highend-zke6.onrender.com/api/appointments/employee/${emp.employeeId}`,
-                        {
-                            headers: { Authorization: `Bearer ${token}` },
-                        }
-                    );
-                    setAppointments(response.data);
-                } else if (userType === "Customer") {
-                    const cus = profile as CustomerModel;
-                    if (!cus.customerId) return;
-
-                    const response = await axios.get<AppointmentModel[]>(
-                        `https://highend-zke6.onrender.com/api/appointments/customer/${cus.customerId}`,
-                        {
-                            headers: { Authorization: `Bearer ${token}` },
-                        }
-                    );
-                    setAppointments(response.data);
-                }
-            } catch (err) {
-                console.error("Error fetching appointments:", err);
-            }
-        };
-
-        fetchAppointments();
-    }, [profile, userType, getAccessTokenSilently]);
-
-    const handleCancelAppointment = async (appointmentId: string) => {
-        if (window.confirm("Are you sure you want to cancel this appointment?")) {
-            try {
-                const token = await getAccessTokenSilently();
-                await axios.delete(
-                    `https://highend-zke6.onrender.com/api/appointments/${appointmentId}`,
-                    {
-                        headers: { Authorization: `Bearer ${token}` },
-                    }
-                );
-
-                setAppointments((prevAppointments) =>
-                    prevAppointments.filter((appt) => appt.appointmentId !== appointmentId)
-                );
-            } catch (error) {
-                console.error("Error canceling appointment:", error);
-            }
-        }
-    };
-
-    const openModal = () => {
-        setEditedProfile(profile);
-        setIsModalOpen(true);
-    };
-
-    const closeModal = () => {
-        setIsModalOpen(false);
-    };
-
-    const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        if (editedProfile) {
-            setEditedProfile({ ...editedProfile, [e.target.name]: e.target.value });
-        }
-    };
-
-    const handleSaveChanges = async () => {
         try {
-            const token = await getAccessTokenSilently();
-
-            if (userType === "Customer") {
-                const cus = profile as CustomerModel;
-                await axios.put(
-                    `https://highend-zke6.onrender.com/api/customers/${cus.customerId}`,
-                    editedProfile,
-                    { headers: { Authorization: `Bearer ${token}` } }
+          const customerResponse = await axios.get<CustomerModel>(
+            "https://highend-zke6.onrender.com/api/customers/me",
+            {
+              headers: { Authorization: `Bearer ${token}` },
+            },
+          );
+          setProfile(customerResponse.data);
+          setUserType("Customer");
+        } catch (customerError: any) {
+          if (customerError.response && customerError.response.status === 404) {
+            try {
+              const employeeResponse = await axios.get<EmployeeModel>(
+                "https://highend-zke6.onrender.com/api/employees/me",
+                {
+                  headers: { Authorization: `Bearer ${token}` },
+                },
+              );
+              setProfile(employeeResponse.data);
+              setUserType("Employee");
+            } catch (employeeError: any) {
+              if (
+                employeeError.response &&
+                employeeError.response.status === 404
+              ) {
+                setError(
+                  "No profile information found for the authenticated user.",
                 );
-            } else if (userType === "Employee") {
-                const emp = profile as EmployeeModel;
-                await axios.put(
-                    `https://highend-zke6.onrender.com/api/employees/${emp.employeeId}`,
-                    editedProfile,
-                    { headers: { Authorization: `Bearer ${token}` } }
+              } else {
+                setError("Error fetching employee profile.");
+                console.error(
+                  "Error fetching employee profile:",
+                  employeeError,
                 );
+              }
             }
-
-            setProfile(editedProfile);
-            closeModal();
-        } catch (error) {
-            console.error("Error updating profile:", error);
+          } else {
+            setError("Error fetching customer profile.");
+            console.error("Error fetching customer profile:", customerError);
+          }
         }
+      } catch (err) {
+        setError("An unexpected error occurred while fetching the profile.");
+        console.error("Unexpected error:", err);
+      } finally {
+        setLoading(false);
+      }
     };
 
-    const handleAppointmentClick = (appointmentId: string) => {
-        navigate(`/my-appointments/${appointmentId}`);
+    fetchProfile();
+  }, [getAccessTokenSilently]);
+
+  useEffect(() => {
+    const fetchAppointments = async () => {
+      try {
+        if (!profile || !userType) return;
+        const token = await getAccessTokenSilently();
+
+        if (userType === "Employee") {
+          const emp = profile as EmployeeModel;
+          if (!emp.employeeId) return;
+
+          const response = await axios.get<AppointmentModel[]>(
+            `https://highend-zke6.onrender.com/api/appointments/employee/${emp.employeeId}`,
+            {
+              headers: { Authorization: `Bearer ${token}` },
+            },
+          );
+          setAppointments(response.data);
+        } else if (userType === "Customer") {
+          const cus = profile as CustomerModel;
+          if (!cus.customerId) return;
+
+          const response = await axios.get<AppointmentModel[]>(
+            `https://highend-zke6.onrender.com/api/appointments/customer/${cus.customerId}`,
+            {
+              headers: { Authorization: `Bearer ${token}` },
+            },
+          );
+          setAppointments(response.data);
+        }
+      } catch (err) {
+        console.error("Error fetching appointments:", err);
+      }
     };
 
-    return (
-        <div className="profile-page">
-            <NavBar />
-            <div className="profile-container">
-                {loading ? (
-                    <div className="profile-card">
-                        <p>Loading your profile...</p>
-                    </div>
-                ) : error ? (
-                    <div className="profile-card">
-                        <p className="error-message">{error}</p>
-                    </div>
-                ) : profile && userType ? (
-                    <div className="profile-card">
-                        <div className="profile-header">
-                            <div className="profile-avatar">
-                                <img
-                                    src={
-                                        user?.picture ||
-                                        (userType === "Employee" &&
-                                        (profile as EmployeeModel).imagePath
-                                            ? `https://highend-zke6.onrender.com/${(profile as EmployeeModel).imagePath}`
-                                            : "https://via.placeholder.com/100")
-                                    }
-                                    alt={user?.name || ""}
-                                />
-                            </div>
-                            <div className="profile-name">
-                                <h2>
-                                    {userType === "Customer"
-                                        ? `${(profile as CustomerModel).customerFirstName} ${(profile as CustomerModel).customerLastName}`
-                                        : `${(profile as EmployeeModel).first_name} ${(profile as EmployeeModel).last_name}`}
-                                </h2>
-                                <p className="profile-email">
-                                    {userType === "Customer"
-                                        ? (profile as CustomerModel).customerEmailAddress
-                                        : (profile as EmployeeModel).email}
-                                </p>
-                            </div>
-                            <button className="edit-button" onClick={openModal}>
-                                Edit Profile
-                            </button>
-                        </div>
+    fetchAppointments();
+  }, [profile, userType, getAccessTokenSilently]);
 
-                        {isModalOpen && (
-                            <div className="modal-overlay">
-                                <div className="modal">
-                                    <h3>Edit Profile</h3>
-                                    {userType === "Customer" ? (
-                                        <>
-                                            <input
-                                                type="text"
-                                                name="customerFirstName"
-                                                value={editedProfile && userType === "Customer" ? (editedProfile as CustomerModel).customerFirstName : ""}
-                                                onChange={handleInputChange}
-                                                placeholder="First Name"
-                                            />
-                                            <input
-                                                type="text"
-                                                name="customerLastName"
-                                                value={editedProfile && userType === "Customer" ? (editedProfile as CustomerModel).customerLastName : ""}
-                                                onChange={handleInputChange}
-                                                placeholder="Last Name"
-                                            />
-                                            <input
-                                                type="text"
-                                                name="streetAddress"
-                                                value={editedProfile && userType === "Customer" ? (editedProfile as CustomerModel).streetAddress : ""}
-                                                onChange={handleInputChange}
-                                                placeholder="Street Address"
-                                            />
-                                            <input
-                                                type="text"
-                                                name="city"
-                                                value={editedProfile && userType === "Customer" ? (editedProfile as CustomerModel).city : ""}
-                                                onChange={handleInputChange}
-                                                placeholder="City"
-                                            />
-                                            <input
-                                                type="text"
-                                                name="postalCode"
-                                                value={editedProfile && userType === "Customer" ? (editedProfile as CustomerModel).postalCode : ""}
-                                                onChange={handleInputChange}
-                                                placeholder="Postal Code"
-                                            />
-                                            <input
-                                                type="text"
-                                                name="province"
-                                                value={editedProfile && userType === "Customer" ? (editedProfile as CustomerModel).province : ""}
-                                                onChange={handleInputChange}
-                                                placeholder="Province"
-                                            />
-                                            <input
-                                                type="text"
-                                                name="country"
-                                                value={editedProfile && userType === "Customer" ? (editedProfile as CustomerModel).country : ""}
-                                                onChange={handleInputChange}
-                                                placeholder="Country"
-                                            />
-                                        </>
-                                    ) : (
-                                        <>
-                                            <input
-                                                type="text"
-                                                name="first_name"
-                                                value={editedProfile && userType === "Employee" ? (editedProfile as EmployeeModel).first_name : ""}
-                                                onChange={handleInputChange}
-                                                placeholder="First Name"
-                                            />
-                                            <input
-                                                type="text"
-                                                name="last_name"
-                                                value={editedProfile && userType === "Employee" ? (editedProfile as EmployeeModel).last_name : ""}
-                                                onChange={handleInputChange}
-                                                placeholder="Last Name"
-                                            />
-                                            <input
-                                                type="text"
-                                                name="position"
-                                                value={editedProfile && userType === "Employee" ? (editedProfile as EmployeeModel).position : ""}
-                                                onChange={handleInputChange}
-                                                placeholder="Position"
-                                            />
-                                            <input
-                                                type="text"
-                                                name="phone"
-                                                value={editedProfile && userType === "Employee" ? (editedProfile as EmployeeModel).phone : ""}
-                                                onChange={handleInputChange}
-                                                placeholder="Phone Number"
-                                            />
-                                        </>
-                                    )}
+  const handleCancelAppointment = async (appointmentId: string) => {
+    if (window.confirm("Are you sure you want to cancel this appointment?")) {
+      try {
+        const token = await getAccessTokenSilently();
+        await axios.delete(
+          `https://highend-zke6.onrender.com/api/appointments/${appointmentId}`,
+          {
+            headers: { Authorization: `Bearer ${token}` },
+          },
+        );
 
-                                    <button onClick={handleSaveChanges}>Save Changes</button>
-                                    <button onClick={closeModal}>Cancel</button>
-                                </div>
-                            </div>
-                        )}
+        setAppointments((prevAppointments) =>
+          prevAppointments.filter(
+            (appt) => appt.appointmentId !== appointmentId,
+          ),
+        );
+      } catch (error) {
+        console.error("Error canceling appointment:", error);
+      }
+    }
+  };
 
+  const openModal = () => {
+    setEditedProfile(profile);
+    setIsModalOpen(true);
+  };
 
-                        <div className="appointments-section">
-                            <h3>My Appointments</h3>
-                            {appointments.length === 0 ? (
-                                <p>No appointments assigned.</p>
-                            ) : (
-                                <ul className="appointments-list">
-                                    {appointments.map((appt) => (
-                                        <li key={appt.appointmentId} className="appointment-item">
-                                            <span className="appointment-service">{appt.serviceName}</span>
-                                            <span className="appointment-date">
-                                                {new Date(appt.appointmentDate).toLocaleDateString()}
-                                            </span>
-                                            <span className="appointment-status">{appt.status}</span>
-                                            <button
-                                                className="cancel-button"
-                                                onClick={() => handleCancelAppointment(appt.appointmentId)}
-                                            >
-                                                Cancel Appointment
-                                            </button>
-                                        </li>
-                                    ))}
-                                </ul>
-                            )}
-                        </div>
+  const closeModal = () => {
+    setIsModalOpen(false);
+  };
 
-                        <div className="profile-details">
-                            {userType === "Customer" ? (
-                                <>
-                                    <div className="detail-row">
-                                        <span>Street Address:</span>
-                                        <span>{(profile as CustomerModel).streetAddress}</span>
-                                    </div>
-                                    <div className="detail-row">
-                                        <span>City:</span>
-                                        <span>{(profile as CustomerModel).city}</span>
-                                    </div>
-                                    <div className="detail-row">
-                                        <span>Postal Code:</span>
-                                        <span>{(profile as CustomerModel).postalCode}</span>
-                                    </div>
-                                    <div className="detail-row">
-                                        <span>Province:</span>
-                                        <span>{(profile as CustomerModel).province}</span>
-                                    </div>
-                                    <div className="detail-row">
-                                        <span>Country:</span>
-                                        <span>{(profile as CustomerModel).country}</span>
-                                    </div>
-                                </>
-                            ) : (
-                                <>
-                                    <div className="detail-row">
-                                        <span>First Name:</span>
-                                        <span>{(profile as EmployeeModel).first_name}</span>
-                                    </div>
-                                    <div className="detail-row">
-                                        <span>Last Name:</span>
-                                        <span>{(profile as EmployeeModel).last_name}</span>
-                                    </div>
-                                    <div className="detail-row">
-                                        <span>Position:</span>
-                                        <span>{(profile as EmployeeModel).position}</span>
-                                    </div>
-                                    <div className="detail-row">
-                                        <span>Phone:</span>
-                                        <span>{(profile as EmployeeModel).phone}</span>
-                                    </div>
-                                </>
-                            )}
-                        </div>
-                    </div>
-                ) : (
-                    <div className="profile-card">
-                        <p>No profile information available.</p>
-                    </div>
-                )}
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (editedProfile) {
+      setEditedProfile({ ...editedProfile, [e.target.name]: e.target.value });
+    }
+  };
+
+  const handleSaveChanges = async () => {
+    try {
+      const token = await getAccessTokenSilently();
+
+      if (userType === "Customer") {
+        const cus = profile as CustomerModel;
+        await axios.put(
+          `https://highend-zke6.onrender.com/api/customers/${cus.customerId}`,
+          editedProfile,
+          { headers: { Authorization: `Bearer ${token}` } },
+        );
+      } else if (userType === "Employee") {
+        const emp = profile as EmployeeModel;
+        await axios.put(
+          `https://highend-zke6.onrender.com/api/employees/${emp.employeeId}`,
+          editedProfile,
+          { headers: { Authorization: `Bearer ${token}` } },
+        );
+      }
+
+      setProfile(editedProfile);
+      closeModal();
+    } catch (error) {
+      console.error("Error updating profile:", error);
+    }
+  };
+
+  const handleAppointmentClick = (appointmentId: string) => {
+    navigate(`/my-appointments/${appointmentId}`);
+  };
+
+  return (
+    <div className="profile-page">
+      <NavBar />
+      <div className="profile-container">
+        {loading ? (
+          <div className="profile-card">
+            <p>Loading your profile...</p>
+          </div>
+        ) : error ? (
+          <div className="profile-card">
+            <p className="error-message">{error}</p>
+          </div>
+        ) : profile && userType ? (
+          <div className="profile-card">
+            <div className="profile-header">
+              <div className="profile-avatar">
+                <img
+                  src={
+                    user?.picture ||
+                    (userType === "Employee" &&
+                    (profile as EmployeeModel).imagePath
+                      ? `https://highend-zke6.onrender.com/${(profile as EmployeeModel).imagePath}`
+                      : "https://via.placeholder.com/100")
+                  }
+                  alt={user?.name || ""}
+                />
+              </div>
+              <div className="profile-name">
+                <h2>
+                  {userType === "Customer"
+                    ? `${(profile as CustomerModel).customerFirstName} ${(profile as CustomerModel).customerLastName}`
+                    : `${(profile as EmployeeModel).first_name} ${(profile as EmployeeModel).last_name}`}
+                </h2>
+                <p className="profile-email">
+                  {userType === "Customer"
+                    ? (profile as CustomerModel).customerEmailAddress
+                    : (profile as EmployeeModel).email}
+                </p>
+              </div>
+              <button className="edit-button" onClick={openModal}>
+                Edit Profile
+              </button>
             </div>
-        </div>
-    );
+
+            {isModalOpen && (
+              <div className="modal-overlay">
+                <div className="modal">
+                  <h3>Edit Profile</h3>
+                  {userType === "Customer" ? (
+                    <>
+                      <input
+                        type="text"
+                        name="customerFirstName"
+                        value={
+                          editedProfile && userType === "Customer"
+                            ? (editedProfile as CustomerModel).customerFirstName
+                            : ""
+                        }
+                        onChange={handleInputChange}
+                        placeholder="First Name"
+                      />
+                      <input
+                        type="text"
+                        name="customerLastName"
+                        value={
+                          editedProfile && userType === "Customer"
+                            ? (editedProfile as CustomerModel).customerLastName
+                            : ""
+                        }
+                        onChange={handleInputChange}
+                        placeholder="Last Name"
+                      />
+                      <input
+                        type="text"
+                        name="streetAddress"
+                        value={
+                          editedProfile && userType === "Customer"
+                            ? (editedProfile as CustomerModel).streetAddress
+                            : ""
+                        }
+                        onChange={handleInputChange}
+                        placeholder="Street Address"
+                      />
+                      <input
+                        type="text"
+                        name="city"
+                        value={
+                          editedProfile && userType === "Customer"
+                            ? (editedProfile as CustomerModel).city
+                            : ""
+                        }
+                        onChange={handleInputChange}
+                        placeholder="City"
+                      />
+                      <input
+                        type="text"
+                        name="postalCode"
+                        value={
+                          editedProfile && userType === "Customer"
+                            ? (editedProfile as CustomerModel).postalCode
+                            : ""
+                        }
+                        onChange={handleInputChange}
+                        placeholder="Postal Code"
+                      />
+                      <input
+                        type="text"
+                        name="province"
+                        value={
+                          editedProfile && userType === "Customer"
+                            ? (editedProfile as CustomerModel).province
+                            : ""
+                        }
+                        onChange={handleInputChange}
+                        placeholder="Province"
+                      />
+                      <input
+                        type="text"
+                        name="country"
+                        value={
+                          editedProfile && userType === "Customer"
+                            ? (editedProfile as CustomerModel).country
+                            : ""
+                        }
+                        onChange={handleInputChange}
+                        placeholder="Country"
+                      />
+                    </>
+                  ) : (
+                    <>
+                      <input
+                        type="text"
+                        name="first_name"
+                        value={
+                          editedProfile && userType === "Employee"
+                            ? (editedProfile as EmployeeModel).first_name
+                            : ""
+                        }
+                        onChange={handleInputChange}
+                        placeholder="First Name"
+                      />
+                      <input
+                        type="text"
+                        name="last_name"
+                        value={
+                          editedProfile && userType === "Employee"
+                            ? (editedProfile as EmployeeModel).last_name
+                            : ""
+                        }
+                        onChange={handleInputChange}
+                        placeholder="Last Name"
+                      />
+                      <input
+                        type="text"
+                        name="position"
+                        value={
+                          editedProfile && userType === "Employee"
+                            ? (editedProfile as EmployeeModel).position
+                            : ""
+                        }
+                        onChange={handleInputChange}
+                        placeholder="Position"
+                      />
+                      <input
+                        type="text"
+                        name="phone"
+                        value={
+                          editedProfile && userType === "Employee"
+                            ? (editedProfile as EmployeeModel).phone
+                            : ""
+                        }
+                        onChange={handleInputChange}
+                        placeholder="Phone Number"
+                      />
+                    </>
+                  )}
+
+                  <button onClick={handleSaveChanges}>Save Changes</button>
+                  <button onClick={closeModal}>Cancel</button>
+                </div>
+              </div>
+            )}
+
+            <div className="appointments-section">
+              <h3>My Appointments</h3>
+              {appointments.length === 0 ? (
+                <p>No appointments assigned.</p>
+              ) : (
+                <ul className="appointments-list">
+                  {appointments.map((appt) => (
+                    <li key={appt.appointmentId} className="appointment-item">
+                      <span className="appointment-service">
+                        {appt.serviceName}
+                      </span>
+                      <span className="appointment-date">
+                        {new Date(appt.appointmentDate).toLocaleDateString()}
+                      </span>
+                      <span className="appointment-status">{appt.status}</span>
+                      <button
+                        className="cancel-button"
+                        onClick={() =>
+                          handleCancelAppointment(appt.appointmentId)
+                        }
+                      >
+                        Cancel Appointment
+                      </button>
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </div>
+
+            <div className="profile-details">
+              {userType === "Customer" ? (
+                <>
+                  <div className="detail-row">
+                    <span>Street Address:</span>
+                    <span>{(profile as CustomerModel).streetAddress}</span>
+                  </div>
+                  <div className="detail-row">
+                    <span>City:</span>
+                    <span>{(profile as CustomerModel).city}</span>
+                  </div>
+                  <div className="detail-row">
+                    <span>Postal Code:</span>
+                    <span>{(profile as CustomerModel).postalCode}</span>
+                  </div>
+                  <div className="detail-row">
+                    <span>Province:</span>
+                    <span>{(profile as CustomerModel).province}</span>
+                  </div>
+                  <div className="detail-row">
+                    <span>Country:</span>
+                    <span>{(profile as CustomerModel).country}</span>
+                  </div>
+                </>
+              ) : (
+                <>
+                  <div className="detail-row">
+                    <span>First Name:</span>
+                    <span>{(profile as EmployeeModel).first_name}</span>
+                  </div>
+                  <div className="detail-row">
+                    <span>Last Name:</span>
+                    <span>{(profile as EmployeeModel).last_name}</span>
+                  </div>
+                  <div className="detail-row">
+                    <span>Position:</span>
+                    <span>{(profile as EmployeeModel).position}</span>
+                  </div>
+                  <div className="detail-row">
+                    <span>Phone:</span>
+                    <span>{(profile as EmployeeModel).phone}</span>
+                  </div>
+                </>
+              )}
+            </div>
+          </div>
+        ) : (
+          <div className="profile-card">
+            <p>No profile information available.</p>
+          </div>
+        )}
+      </div>
+    </div>
+  );
 }
