@@ -27,8 +27,7 @@ import java.util.List;
 import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.doThrow;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @ActiveProfiles("test") // ensures the 'test' profile is used
@@ -197,4 +196,69 @@ public class AppointmentControllerIntegrationTest {
         assertEquals(HttpStatus.OK, response.getStatusCode());
         assertTrue(response.getBody().isEmpty(), "Response should be empty for non-existent employeeId");
     }
+
+    @Test
+    @WithMockUser
+    void whenGetAppointmentsByCustomerId_thenReturnAppointments() {
+        // Arrange
+        String customerId = "CUST001";  // Valid customerId from test data
+        String url = "http://localhost:" + port + "/api/appointments/customer/" + customerId;
+
+        // Mocking expected appointment data
+        AppointmentResponseModel expectedAppointment = AppointmentResponseModel.builder()
+                .appointmentId(UUID.randomUUID().toString())
+                .customerName("John Doe")
+                .serviceName("Car Wash")
+                .appointmentDate("2024-12-25")
+                .appointmentTime("10:30")
+                .appointmentEndTime("11:30")
+                .status(Status.PENDING)
+                .build();
+
+        // Mock service behavior
+        when(appointmentService.getAppointmentsByCustomerId(customerId))
+                .thenReturn(Arrays.asList(expectedAppointment));
+
+        // Act
+        ResponseEntity<List<AppointmentResponseModel>> response = restTemplate.exchange(
+                url,
+                HttpMethod.GET,
+                null,
+                new ParameterizedTypeReference<List<AppointmentResponseModel>>() {}
+        );
+
+        // Assert
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertNotNull(response.getBody(), "Response body should not be null");
+        assertFalse(response.getBody().isEmpty(), "Response should contain appointments");
+        assertEquals(expectedAppointment.getCustomerName(), response.getBody().get(0).getCustomerName());
+        verify(appointmentService, times(1)).getAppointmentsByCustomerId(customerId);
+    }
+
+    @Test
+    @WithMockUser
+    void whenGetAppointmentsByInvalidCustomerId_thenReturnEmptyList() {
+        // Arrange
+        String invalidCustomerId = "INVALID_CUST";
+        String url = "http://localhost:" + port + "/api/appointments/customer/" + invalidCustomerId;
+
+        // Mock service to return an empty list
+        when(appointmentService.getAppointmentsByCustomerId(invalidCustomerId)).thenReturn(Arrays.asList());
+
+        // Act
+        ResponseEntity<List<AppointmentResponseModel>> response = restTemplate.exchange(
+                url,
+                HttpMethod.GET,
+                null,
+                new ParameterizedTypeReference<List<AppointmentResponseModel>>() {}
+        );
+
+        // Assert
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertNotNull(response.getBody(), "Response body should not be null");
+        assertTrue(response.getBody().isEmpty(), "Response should be empty for invalid customer ID");
+        verify(appointmentService, times(1)).getAppointmentsByCustomerId(invalidCustomerId);
+    }
+
+
 }
