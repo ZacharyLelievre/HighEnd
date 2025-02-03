@@ -265,28 +265,28 @@ export function ProfilePage() {
 
             <div className="profile-details">
               {userType === "Customer" ? (
-                  <>
-                    <div className="detail-row">
-                      <span>Street Address:</span>
-                      <span>{(profile as CustomerModel).streetAddress}</span>
-                    </div>
-                    <div className="detail-row">
-                      <span>City:</span>
-                      <span>{(profile as CustomerModel).city}</span>
-                    </div>
-                    <div className="detail-row">
-                      <span>Postal Code:</span>
-                      <span>{(profile as CustomerModel).postalCode}</span>
-                    </div>
-                    <div className="detail-row">
-                      <span>Province:</span>
-                      <span>{(profile as CustomerModel).province}</span>
-                    </div>
-                    <div className="detail-row">
-                      <span>Country:</span>
-                      <span>{(profile as CustomerModel).country}</span>
-                    </div>
-                  </>
+                <>
+                  <div className="detail-row">
+                    <span>Street Address:</span>
+                    <span>{(profile as CustomerModel).streetAddress}</span>
+                  </div>
+                  <div className="detail-row">
+                    <span>City:</span>
+                    <span>{(profile as CustomerModel).city}</span>
+                  </div>
+                  <div className="detail-row">
+                    <span>Postal Code:</span>
+                    <span>{(profile as CustomerModel).postalCode}</span>
+                  </div>
+                  <div className="detail-row">
+                    <span>Province:</span>
+                    <span>{(profile as CustomerModel).province}</span>
+                  </div>
+                  <div className="detail-row">
+                    <span>Country:</span>
+                    <span>{(profile as CustomerModel).country}</span>
+                  </div>
+                </>
               ) : (
                 <>
                   <div className="detail-row">

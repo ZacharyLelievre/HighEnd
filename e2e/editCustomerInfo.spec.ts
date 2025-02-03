@@ -1,4 +1,4 @@
-import { test, expect } from '@playwright/test';
+import { test, expect } from "@playwright/test";
 //
 // test('edit customer information e2e', async ({ page }) => {
 //   await page.goto('http://localhost:3000/home');
