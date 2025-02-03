@@ -18,6 +18,17 @@ export function ProfilePage() {
   const [userType, setUserType] = useState<"Customer" | "Employee" | null>(
     null,
   );
+  const [rescheduleModal, setRescheduleModal] = useState<{
+    open: boolean;
+    appointmentId: string | null;
+  }>({
+    open: false,
+    appointmentId: null,
+  });
+  const [newDate, setNewDate] = useState<string>("");
+  const [newStartTime, setNewStartTime] = useState<string>("");
+  const [newEndTime, setNewEndTime] = useState<string>("");
+
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
   const [appointments, setAppointments] = useState<AppointmentModel[]>([]);
@@ -187,6 +198,47 @@ export function ProfilePage() {
 
   const handleAppointmentClick = (appointmentId: string) => {
     navigate(`/my-appointments/${appointmentId}`);
+  };
+
+  const openRescheduleModal = (appointmentId: string) => {
+    setRescheduleModal({ open: true, appointmentId });
+  };
+
+  const closeRescheduleModal = () => {
+    setRescheduleModal({ open: false, appointmentId: null });
+  };
+
+  const handleReschedule = async () => {
+    if (!rescheduleModal.appointmentId) return;
+
+    try {
+      const token = await getAccessTokenSilently();
+      await axios.put(
+        `https://highend-zke6.onrender.com/api/appointments/${rescheduleModal.appointmentId}/reschedule`,
+        {
+          newDate,
+          newStartTime,
+          newEndTime,
+        },
+        { headers: { Authorization: `Bearer ${token}` } },
+      );
+
+      // Refresh appointments after rescheduling
+      setAppointments((prev) =>
+        prev.map((appt) =>
+          appt.appointmentId === rescheduleModal.appointmentId
+            ? {
+                ...appt,
+                appointmentDate: newDate,
+                appointmentTime: newStartTime,
+              }
+            : appt,
+        ),
+      );
+      closeRescheduleModal();
+    } catch (error) {
+      console.error("Error rescheduling appointment:", error);
+    }
   };
 
   return (
@@ -395,11 +447,43 @@ export function ProfilePage() {
                       >
                         Cancel Appointment
                       </button>
+                      <button
+                        onClick={() => openRescheduleModal(appt.appointmentId)}
+                      >
+                        Reschedule
+                      </button>
                     </li>
                   ))}
                 </ul>
               )}
             </div>
+            {rescheduleModal.open && (
+              <div className="modal-overlay">
+                <div className="modal">
+                  <h3>Reschedule Appointment</h3>
+                  <input
+                    type="date"
+                    value={newDate}
+                    onChange={(e) => setNewDate(e.target.value)}
+                    placeholder="New Date"
+                  />
+                  <input
+                    type="time"
+                    value={newStartTime}
+                    onChange={(e) => setNewStartTime(e.target.value)}
+                    placeholder="New Start Time"
+                  />
+                  <input
+                    type="time"
+                    value={newEndTime}
+                    onChange={(e) => setNewEndTime(e.target.value)}
+                    placeholder="New End Time"
+                  />
+                  <button onClick={handleReschedule}>Confirm Reschedule</button>
+                  <button onClick={closeRescheduleModal}>Cancel</button>
+                </div>
+              </div>
+            )}
 
             <div className="profile-details">
               {userType === "Customer" ? (
