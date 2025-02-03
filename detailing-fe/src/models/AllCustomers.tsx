@@ -45,9 +45,7 @@ export default function AllCustomers(): JSX.Element {
 
   const handleDeleteCustomer = async (customerId: string) => {
     try {
-      await axios.delete(
-        `http://localhost:8080/api/customers/${customerId}`,
-      );
+      await axios.delete(`http://localhost:8080/api/customers/${customerId}`);
       setCustomers(
         customers.filter((customer) => customer.customerId !== customerId),
       );

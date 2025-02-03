@@ -18,9 +18,8 @@ services:
       - SPRING_DATASOURCE_USERNAME=${MYSQL_USER}
       - SPRING_DATASOURCE_PASSWORD=${MYSQL_PASSWORD}
     depends_on:
-       db:
+      db:
         condition: service_healthy
-
 
     healthcheck:
       test: ["CMD-SHELL", "curl -f http://backend:8080 || exit 1"]
@@ -70,25 +69,29 @@ services:
       - /mnt/cache/appdata/mysql/data:/var/lib/mysql
       - /mnt/cache/appdata/mysql/logs:/var/log/mysql
     healthcheck:
-      test: [ "CMD-SHELL", "mysqladmin ping -h localhost -uroot -p${MYSQL_ROOT_PASSWORD} || exit 1" ]
+      test:
+        [
+          "CMD-SHELL",
+          "mysqladmin ping -h localhost -uroot -p${MYSQL_ROOT_PASSWORD} || exit 1",
+        ]
       interval: 30s
       timeout: 10s
       retries: 3
 
   phpmyadmin:
-      image: phpmyadmin:5.2.0
-      container_name: PhpMyAdmin
-      restart: always
-      ports:
-        - "5013:80"
-      environment:
-        PMA_HOST: db
-        PMA_USER: ${MYSQL_USER}
-        PMA_PASSWORD: ${MYSQL_PASSWORD}
-      depends_on:
-        - db
-      healthcheck:
-        test: [ "CMD-SHELL", "curl -f http://localhost:80 || exit 1" ]
-        interval: 30s
-        timeout: 10s
-        retries: 3
+    image: phpmyadmin:5.2.0
+    container_name: PhpMyAdmin
+    restart: always
+    ports:
+      - "5013:80"
+    environment:
+      PMA_HOST: db
+      PMA_USER: ${MYSQL_USER}
+      PMA_PASSWORD: ${MYSQL_PASSWORD}
+    depends_on:
+      - db
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://localhost:80 || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
