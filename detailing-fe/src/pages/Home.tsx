@@ -126,8 +126,8 @@ export default function Home(): JSX.Element {
               shine.
             </p>
             <Button
-                className="video-button"
-                onClick={() => navigate(AppRoutePath.AllServicesPage)}
+              className="video-button"
+              onClick={() => navigate(AppRoutePath.AllServicesPage)}
             >
               <strong>Explore Services</strong>
             </Button>
