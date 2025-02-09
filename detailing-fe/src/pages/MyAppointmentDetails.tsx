@@ -19,7 +19,7 @@ export function MyAppointmentDetails() {
     const fetchAppointment = async () => {
       try {
         const response = await axiosInstance.get<AppointmentModel>(
-            `appointments/${appointmentId}`
+          `appointments/${appointmentId}`,
         );
         setAppointment(response.data);
       } catch (error) {
@@ -38,8 +38,8 @@ export function MyAppointmentDetails() {
         if (!appointment?.customerId) return;
         const token = await getAccessTokenSilently();
         const response = await axiosInstance.get(
-            `customers/${appointment.customerId}`,
-            { headers: { Authorization: `Bearer ${token}` } }
+          `customers/${appointment.customerId}`,
+          { headers: { Authorization: `Bearer ${token}` } },
         );
         setCustomer(response.data);
       } catch (error) {
@@ -52,9 +52,7 @@ export function MyAppointmentDetails() {
   }, [appointment, getAccessTokenSilently]);
 
   if (!appointment) {
-    return (
-        <div className="loading">Loading or appointment not found...</div>
-    );
+    return <div className="loading">Loading or appointment not found...</div>;
   }
 
   // Update status handler
@@ -65,8 +63,8 @@ export function MyAppointmentDetails() {
         return;
       }
       const updated = await updateAppointmentStatus(
-          appointment.appointmentId,
-          newStatus
+        appointment.appointmentId,
+        newStatus,
       );
       setAppointment(updated);
       alert("Status updated successfully!");
@@ -78,104 +76,94 @@ export function MyAppointmentDetails() {
   };
 
   return (
-      <div className="appointment-details-container">
-        <NavBar />
-        <div className="appointment-details">
-          <h2 className="title">Appointment Details</h2>
-          {/* Flex container to hold the left (appointment details) and right (customer address) */}
-          <div className="details-flex">
-            <div className="details-grid">
-              <div className="detail-item">
-                <span className="detail-label">Service:</span>
-                <span className="detail-value">{appointment.serviceName}</span>
-              </div>
-              <div className="detail-item">
-                <span className="detail-label">Date:</span>
-                <span className="detail-value">
+    <div className="appointment-details-container">
+      <NavBar />
+      <div className="appointment-details">
+        <h2 className="title">Appointment Details</h2>
+        {/* Flex container to hold the left (appointment details) and right (customer address) */}
+        <div className="details-flex">
+          <div className="details-grid">
+            <div className="detail-item">
+              <span className="detail-label">Service:</span>
+              <span className="detail-value">{appointment.serviceName}</span>
+            </div>
+            <div className="detail-item">
+              <span className="detail-label">Date:</span>
+              <span className="detail-value">
                 {appointment.appointmentDate}
               </span>
-              </div>
-              <div className="detail-item">
-                <span className="detail-label">Time:</span>
-                <span className="detail-value">
+            </div>
+            <div className="detail-item">
+              <span className="detail-label">Time:</span>
+              <span className="detail-value">
                 {appointment.appointmentTime}
               </span>
-              </div>
-              <div className="detail-item">
-                <span className="detail-label">Status:</span>
-                <span className="detail-value">{appointment.status}</span>
-              </div>
-              <div className="detail-item">
-                <span className="detail-label">Customer:</span>
-                <span className="detail-value">
-                {appointment.customerName}
-              </span>
-              </div>
             </div>
-
-            <div className="address-details">
-              <h3>Customer Address</h3>
-              {customer ? (
-                  <>
-                    <div className="detail-item">
-                      <span className="detail-label">Street:</span>
-                      <span className="detail-value">
-                    {customer.streetAddress}
-                  </span>
-                    </div>
-                    <div className="detail-item">
-                      <span className="detail-label">City:</span>
-                      <span className="detail-value">{customer.city}</span>
-                    </div>
-                    <div className="detail-item">
-                      <span className="detail-label">Postal Code:</span>
-                      <span className="detail-value">
-                    {customer.postalCode}
-                  </span>
-                    </div>
-                    <div className="detail-item">
-                      <span className="detail-label">Province:</span>
-                      <span className="detail-value">
-                    {customer.province}
-                  </span>
-                    </div>
-                    <div className="detail-item">
-                      <span className="detail-label">Country:</span>
-                      <span className="detail-value">
-                    {customer.country}
-                  </span>
-                    </div>
-                  </>
-              ) : (
-                  <p>Loading customer address...</p>
-              )}
+            <div className="detail-item">
+              <span className="detail-label">Status:</span>
+              <span className="detail-value">{appointment.status}</span>
+            </div>
+            <div className="detail-item">
+              <span className="detail-label">Customer:</span>
+              <span className="detail-value">{appointment.customerName}</span>
             </div>
           </div>
 
-          <div className="status-update">
-            <label htmlFor="statusSelect" className="status-label">
-              Update Status:
-            </label>
-            <select
-                id="statusSelect"
-                value={newStatus}
-                onChange={(e) => setNewStatus(e.target.value)}
-                className="status-select"
-            >
-              <option value="">--Select--</option>
-              <option value="PROGRESS">Progress</option>
-              <option value="COMPLETED">Completed</option>
-              <option value="CANCELLED">Cancelled</option>
-            </select>
-            <button
-                onClick={handleStatusChange}
-                className="save-button"
-                disabled={!newStatus}
-            >
-              Save
-            </button>
+          <div className="address-details">
+            <h3>Customer Address</h3>
+            {customer ? (
+              <>
+                <div className="detail-item">
+                  <span className="detail-label">Street:</span>
+                  <span className="detail-value">{customer.streetAddress}</span>
+                </div>
+                <div className="detail-item">
+                  <span className="detail-label">City:</span>
+                  <span className="detail-value">{customer.city}</span>
+                </div>
+                <div className="detail-item">
+                  <span className="detail-label">Postal Code:</span>
+                  <span className="detail-value">{customer.postalCode}</span>
+                </div>
+                <div className="detail-item">
+                  <span className="detail-label">Province:</span>
+                  <span className="detail-value">{customer.province}</span>
+                </div>
+                <div className="detail-item">
+                  <span className="detail-label">Country:</span>
+                  <span className="detail-value">{customer.country}</span>
+                </div>
+              </>
+            ) : (
+              <p>Loading customer address...</p>
+            )}
           </div>
         </div>
+
+        <div className="status-update">
+          <label htmlFor="statusSelect" className="status-label">
+            Update Status:
+          </label>
+          <select
+            id="statusSelect"
+            value={newStatus}
+            onChange={(e) => setNewStatus(e.target.value)}
+            className="status-select"
+          >
+            <option value="">--Select--</option>
+            <option value="PROGRESS">Progress</option>
+            <option value="COMPLETED">Completed</option>
+            <option value="CANCELLED">Cancelled</option>
+          </select>
+          <button
+            onClick={handleStatusChange}
+            className="save-button"
+            disabled={!newStatus}
+          >
+            Save
+          </button>
+        </div>
       </div>
+    </div>
   );
 }
