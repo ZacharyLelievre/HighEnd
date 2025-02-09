@@ -1,5 +1,4 @@
-/* src/models/ProfilePage.css */
-
+/* General Page & Container */
 .profile-page {
   background-color: #f0f2f5;
   min-height: 100vh;
@@ -8,25 +7,28 @@
 .profile-container {
   display: flex;
   justify-content: center;
-  align-items: center;
+  align-items: flex-start;
   padding: 40px 20px;
 }
 
+/* Main Profile Card */
 .profile-card {
   background: #ffffff;
   border-radius: 12px;
   padding: 30px 25px;
   width: 100%;
-  max-width: 500px;
+  max-width: 800px; /* Increased width for more room */
   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
   text-align: left;
   transition: transform 0.3s ease;
+  margin-bottom: 20px;
 }
 
 .profile-card:hover {
   transform: translateY(-5px);
 }
 
+/* Header Section */
 .profile-header {
   display: flex;
   align-items: center;
@@ -59,12 +61,13 @@
   color: #777777;
 }
 
+/* Appointments Section */
 .appointments-section {
   margin-bottom: 25px;
 }
 
 .appointments-section h3 {
-  font-size: 20px;
+  font-size: 22px;
   color: #4a90e2;
   margin-bottom: 15px;
 }
@@ -79,8 +82,8 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 12px 15px;
-  margin-bottom: 10px;
+  padding: 15px 20px;
+  margin-bottom: 15px;
   background-color: #f9f9f9;
   border-radius: 8px;
   cursor: pointer;
@@ -91,23 +94,56 @@
   background-color: #e6f0ff;
 }
 
+.appointment-info {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
 .appointment-service {
   font-weight: bold;
   color: #333333;
+  font-size: 18px;
 }
 
-.appointment-date {
-  font-size: 14px;
+.appointment-date,
+.appointment-status {
+  font-size: 16px;
   color: #555555;
 }
 
-.appointment-status {
-  font-size: 14px;
-  color: #4caf50;
+.appointment-actions {
+  display: flex;
+  gap: 10px;
 }
 
+.cancel-button,
+.reschedule-button {
+  background-color: #ff4d4d;
+  color: white;
+  border: none;
+  padding: 8px 12px;
+  cursor: pointer;
+  border-radius: 5px;
+  font-size: 14px;
+  transition: background-color 0.3s ease;
+}
+
+.reschedule-button {
+  background-color: #007bff;
+}
+
+.cancel-button:hover {
+  background-color: #d43d3d;
+}
+
+.reschedule-button:hover {
+  background-color: #0056b3;
+}
+
+/* Profile Details */
 .profile-details {
-  margin-top: 10px;
+  margin-top: 20px;
 }
 
 .detail-row {
@@ -130,55 +166,11 @@
   width: 55%;
 }
 
-.availability-list {
-  list-style: disc inside;
-  margin: 5px 0 0 15px;
-  padding: 0;
-  color: #555555;
-}
-
+/* Error Message */
 .error-message {
   color: #d32f2f;
   font-weight: bold;
   text-align: center;
-}
-
-/* Responsive Design */
-@media (max-width: 600px) {
-  .profile-card {
-    padding: 20px 15px;
-  }
-
-  .profile-header {
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-  }
-
-  .profile-avatar {
-    margin-right: 0;
-    margin-bottom: 15px;
-  }
-
-  .detail-row {
-    flex-direction: column;
-    align-items: flex-start;
-  }
-
-  .detail-row span:last-child {
-    text-align: left;
-    width: 100%;
-    margin-top: 5px;
-  }
-
-  .appointment-item {
-    flex-direction: column;
-    align-items: flex-start;
-  }
-
-  .appointment-status {
-    margin-top: 5px;
-  }
 }
 
 /* Edit Button */
@@ -220,7 +212,7 @@
   max-width: 90%;
 }
 
-.modal h2 {
+.modal h3 {
   text-align: center;
   margin-bottom: 20px;
   color: #333;
@@ -274,16 +266,41 @@ input:focus {
 .modal-buttons button:first-child:hover {
   background-color: #e53935;
 }
-.cancel-button {
-  background-color: #ff4d4d;
-  color: white;
-  border: none;
-  padding: 5px 10px;
-  margin-left: 10px;
-  cursor: pointer;
-  border-radius: 5px;
-}
 
-.cancel-button:hover {
-  background-color: #d43d3d;
+/* Responsive Design */
+@media (max-width: 600px) {
+  .profile-card {
+    padding: 20px 15px;
+  }
+
+  .profile-header {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .profile-avatar {
+    margin-right: 0;
+    margin-bottom: 15px;
+  }
+
+  .detail-row {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .detail-row span:last-child {
+    text-align: left;
+    width: 100%;
+    margin-top: 5px;
+  }
+
+  .appointment-item {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .appointment-actions {
+    margin-top: 10px;
+  }
 }

@@ -14,9 +14,9 @@ services:
       - AUTH0_CLIENT_ID=${AUTH0_CLIENT_ID}
       - AUTH0_CLIENT_SECRET=${AUTH0_CLIENT_SECRET}
       - AUTH0_AUDIENCE=${AUTH0_AUDIENCE}
-      - spring.datasource.url=jdbc:mysql://192.168.2.139:3306/high_end_DB?useSSL=false&allowPublicKeyRetrieval=true
-      - SPRING_DATASOURCE_USERNAME=${MYSQL_USER}
-      - SPRING_DATASOURCE_PASSWORD=${MYSQL_PASSWORD}
+#      - spring.datasource.url=jdbc:mysql://192.168.2.139:3306/high_end_DB?useSSL=false&allowPublicKeyRetrieval=true
+#      - SPRING_DATASOURCE_USERNAME=${MYSQL_USER}
+#      - SPRING_DATASOURCE_PASSWORD=${MYSQL_PASSWORD}
 
     healthcheck:
       test: ["CMD-SHELL", "curl -f http://backend:8080 || exit 1"]

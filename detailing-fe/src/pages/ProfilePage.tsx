@@ -15,13 +15,8 @@ export function ProfilePage() {
   const navigate = useNavigate();
 
   const [profile, setProfile] = useState<UserProfile | null>(null);
-  const [userType, setUserType] = useState<"Customer" | "Employee" | null>(
-    null,
-  );
-  const [rescheduleModal, setRescheduleModal] = useState<{
-    open: boolean;
-    appointmentId: string | null;
-  }>({
+  const [userType, setUserType] = useState<"Customer" | "Employee" | null>(null);
+  const [rescheduleModal, setRescheduleModal] = useState<{ open: boolean; appointmentId: string | null }>({
     open: false,
     appointmentId: null,
   });
@@ -33,9 +28,7 @@ export function ProfilePage() {
   const [error, setError] = useState<string | null>(null);
   const [appointments, setAppointments] = useState<AppointmentModel[]>([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [editedProfile, setEditedProfile] = useState<
-    CustomerModel | EmployeeModel | null
-  >(null);
+  const [editedProfile, setEditedProfile] = useState<CustomerModel | EmployeeModel | null>(null);
 
   useEffect(() => {
     const fetchProfile = async () => {
@@ -45,10 +38,8 @@ export function ProfilePage() {
 
         try {
           const customerResponse = await axios.get<CustomerModel>(
-            "https://highend-zke6.onrender.com/api/customers/me",
-            {
-              headers: { Authorization: `Bearer ${token}` },
-            },
+              "https://highend-zke6.onrender.com/api/customers/me",
+              { headers: { Authorization: `Bearer ${token}` } }
           );
           setProfile(customerResponse.data);
           setUserType("Customer");
@@ -56,27 +47,17 @@ export function ProfilePage() {
           if (customerError.response && customerError.response.status === 404) {
             try {
               const employeeResponse = await axios.get<EmployeeModel>(
-                "https://highend-zke6.onrender.com/api/employees/me",
-                {
-                  headers: { Authorization: `Bearer ${token}` },
-                },
+                  "https://highend-zke6.onrender.com/api/employees/me",
+                  { headers: { Authorization: `Bearer ${token}` } }
               );
               setProfile(employeeResponse.data);
               setUserType("Employee");
             } catch (employeeError: any) {
-              if (
-                employeeError.response &&
-                employeeError.response.status === 404
-              ) {
-                setError(
-                  "No profile information found for the authenticated user.",
-                );
+              if (employeeError.response && employeeError.response.status === 404) {
+                setError("No profile information found for the authenticated user.");
               } else {
                 setError("Error fetching employee profile.");
-                console.error(
-                  "Error fetching employee profile:",
-                  employeeError,
-                );
+                console.error("Error fetching employee profile:", employeeError);
               }
             }
           } else {
@@ -104,23 +85,17 @@ export function ProfilePage() {
         if (userType === "Employee") {
           const emp = profile as EmployeeModel;
           if (!emp.employeeId) return;
-
           const response = await axios.get<AppointmentModel[]>(
-            `https://highend-zke6.onrender.com/api/appointments/employee/${emp.employeeId}`,
-            {
-              headers: { Authorization: `Bearer ${token}` },
-            },
+              `https://highend-zke6.onrender.com/api/appointments/employee/${emp.employeeId}`,
+              { headers: { Authorization: `Bearer ${token}` } }
           );
           setAppointments(response.data);
         } else if (userType === "Customer") {
           const cus = profile as CustomerModel;
           if (!cus.customerId) return;
-
           const response = await axios.get<AppointmentModel[]>(
-            `https://highend-zke6.onrender.com/api/appointments/customer/${cus.customerId}`,
-            {
-              headers: { Authorization: `Bearer ${token}` },
-            },
+              `https://highend-zke6.onrender.com/api/appointments/customer/${cus.customerId}`,
+              { headers: { Authorization: `Bearer ${token}` } }
           );
           setAppointments(response.data);
         }
@@ -137,16 +112,11 @@ export function ProfilePage() {
       try {
         const token = await getAccessTokenSilently();
         await axios.delete(
-          `https://highend-zke6.onrender.com/api/appointments/${appointmentId}`,
-          {
-            headers: { Authorization: `Bearer ${token}` },
-          },
+            `https://highend-zke6.onrender.com/api/appointments/${appointmentId}`,
+            { headers: { Authorization: `Bearer ${token}` } }
         );
-
         setAppointments((prevAppointments) =>
-          prevAppointments.filter(
-            (appt) => appt.appointmentId !== appointmentId,
-          ),
+            prevAppointments.filter((appt) => appt.appointmentId !== appointmentId)
         );
       } catch (error) {
         console.error("Error canceling appointment:", error);
@@ -176,16 +146,16 @@ export function ProfilePage() {
       if (userType === "Customer") {
         const cus = profile as CustomerModel;
         await axios.put(
-          `https://highend-zke6.onrender.com/api/customers/${cus.customerId}`,
-          editedProfile,
-          { headers: { Authorization: `Bearer ${token}` } },
+            `https://highend-zke6.onrender.com/api/customers/${cus.customerId}`,
+            editedProfile,
+            { headers: { Authorization: `Bearer ${token}` } }
         );
       } else if (userType === "Employee") {
         const emp = profile as EmployeeModel;
         await axios.put(
-          `https://highend-zke6.onrender.com/api/employees/${emp.employeeId}`,
-          editedProfile,
-          { headers: { Authorization: `Bearer ${token}` } },
+            `https://highend-zke6.onrender.com/api/employees/${emp.employeeId}`,
+            editedProfile,
+            { headers: { Authorization: `Bearer ${token}` } }
         );
       }
 
@@ -214,26 +184,17 @@ export function ProfilePage() {
     try {
       const token = await getAccessTokenSilently();
       await axios.put(
-        `https://highend-zke6.onrender.com/api/appointments/${rescheduleModal.appointmentId}/reschedule`,
-        {
-          newDate,
-          newStartTime,
-          newEndTime,
-        },
-        { headers: { Authorization: `Bearer ${token}` } },
+          `https://highend-zke6.onrender.com/api/appointments/${rescheduleModal.appointmentId}/reschedule`,
+          { newDate, newStartTime, newEndTime },
+          { headers: { Authorization: `Bearer ${token}` } }
       );
 
-      // Refresh appointments after rescheduling
       setAppointments((prev) =>
-        prev.map((appt) =>
-          appt.appointmentId === rescheduleModal.appointmentId
-            ? {
-                ...appt,
-                appointmentDate: newDate,
-                appointmentTime: newStartTime,
-              }
-            : appt,
-        ),
+          prev.map((appt) =>
+              appt.appointmentId === rescheduleModal.appointmentId
+                  ? { ...appt, appointmentDate: newDate, appointmentTime: newStartTime }
+                  : appt
+          )
       );
       closeRescheduleModal();
     } catch (error) {
@@ -242,301 +203,315 @@ export function ProfilePage() {
   };
 
   return (
-    <div className="profile-page">
-      <NavBar />
-      <div className="profile-container">
-        {loading ? (
-          <div className="profile-card">
-            <p>Loading your profile...</p>
-          </div>
-        ) : error ? (
-          <div className="profile-card">
-            <p className="error-message">{error}</p>
-          </div>
-        ) : profile && userType ? (
-          <div className="profile-card">
-            <div className="profile-header">
-              <div className="profile-avatar">
-                <img
-                  src={
-                    user?.picture ||
-                    (userType === "Employee" &&
-                    (profile as EmployeeModel).imagePath
-                      ? `https://highend-zke6.onrender.com/${(profile as EmployeeModel).imagePath}`
-                      : "https://via.placeholder.com/100")
-                  }
-                  alt={user?.name || ""}
-                />
+      <div className="profile-page">
+        <NavBar />
+        <div className="profile-container">
+          {loading ? (
+              <div className="profile-card">
+                <p>Loading your profile...</p>
               </div>
-              <div className="profile-name">
-                <h2>
-                  {userType === "Customer"
-                    ? `${(profile as CustomerModel).customerFirstName} ${(profile as CustomerModel).customerLastName}`
-                    : `${(profile as EmployeeModel).first_name} ${(profile as EmployeeModel).last_name}`}
-                </h2>
-                <p className="profile-email">
-                  {userType === "Customer"
-                    ? (profile as CustomerModel).customerEmailAddress
-                    : (profile as EmployeeModel).email}
-                </p>
+          ) : error ? (
+              <div className="profile-card">
+                <p className="error-message">{error}</p>
               </div>
-              <button className="edit-button" onClick={openModal}>
-                Edit Profile
-              </button>
-            </div>
+          ) : profile && userType ? (
+              <div className="profile-card">
+                <div className="profile-header">
+                  <div className="profile-avatar">
+                    <img
+                        src={
+                            user?.picture ||
+                            (userType === "Employee" && (profile as EmployeeModel).imagePath
+                                ? `https://highend-zke6.onrender.com/${(profile as EmployeeModel).imagePath}`
+                                : "https://via.placeholder.com/100")
+                        }
+                        alt={user?.name || ""}
+                    />
+                  </div>
+                  <div className="profile-name">
+                    <h2>
+                      {userType === "Customer"
+                          ? `${(profile as CustomerModel).customerFirstName} ${(profile as CustomerModel).customerLastName}`
+                          : `${(profile as EmployeeModel).first_name} ${(profile as EmployeeModel).last_name}`}
+                    </h2>
+                    <p className="profile-email">
+                      {userType === "Customer"
+                          ? (profile as CustomerModel).customerEmailAddress
+                          : (profile as EmployeeModel).email}
+                    </p>
+                  </div>
+                  <button className="edit-button" onClick={openModal}>
+                    Edit Profile
+                  </button>
+                </div>
 
-            {isModalOpen && (
-              <div className="modal-overlay">
-                <div className="modal">
-                  <h3>Edit Profile</h3>
-                  {userType === "Customer" ? (
-                    <>
-                      <input
-                        type="text"
-                        name="customerFirstName"
-                        value={
-                          editedProfile && userType === "Customer"
-                            ? (editedProfile as CustomerModel).customerFirstName
-                            : ""
-                        }
-                        onChange={handleInputChange}
-                        placeholder="First Name"
-                      />
-                      <input
-                        type="text"
-                        name="customerLastName"
-                        value={
-                          editedProfile && userType === "Customer"
-                            ? (editedProfile as CustomerModel).customerLastName
-                            : ""
-                        }
-                        onChange={handleInputChange}
-                        placeholder="Last Name"
-                      />
-                      <input
-                        type="text"
-                        name="streetAddress"
-                        value={
-                          editedProfile && userType === "Customer"
-                            ? (editedProfile as CustomerModel).streetAddress
-                            : ""
-                        }
-                        onChange={handleInputChange}
-                        placeholder="Street Address"
-                      />
-                      <input
-                        type="text"
-                        name="city"
-                        value={
-                          editedProfile && userType === "Customer"
-                            ? (editedProfile as CustomerModel).city
-                            : ""
-                        }
-                        onChange={handleInputChange}
-                        placeholder="City"
-                      />
-                      <input
-                        type="text"
-                        name="postalCode"
-                        value={
-                          editedProfile && userType === "Customer"
-                            ? (editedProfile as CustomerModel).postalCode
-                            : ""
-                        }
-                        onChange={handleInputChange}
-                        placeholder="Postal Code"
-                      />
-                      <input
-                        type="text"
-                        name="province"
-                        value={
-                          editedProfile && userType === "Customer"
-                            ? (editedProfile as CustomerModel).province
-                            : ""
-                        }
-                        onChange={handleInputChange}
-                        placeholder="Province"
-                      />
-                      <input
-                        type="text"
-                        name="country"
-                        value={
-                          editedProfile && userType === "Customer"
-                            ? (editedProfile as CustomerModel).country
-                            : ""
-                        }
-                        onChange={handleInputChange}
-                        placeholder="Country"
-                      />
-                    </>
+                {isModalOpen && (
+                    <div className="modal-overlay">
+                      <div className="modal">
+                        <h3>Edit Profile</h3>
+                        {userType === "Customer" ? (
+                            <>
+                              <input
+                                  type="text"
+                                  name="customerFirstName"
+                                  value={
+                                    editedProfile && userType === "Customer"
+                                        ? (editedProfile as CustomerModel).customerFirstName
+                                        : ""
+                                  }
+                                  onChange={handleInputChange}
+                                  placeholder="First Name"
+                              />
+                              <input
+                                  type="text"
+                                  name="customerLastName"
+                                  value={
+                                    editedProfile && userType === "Customer"
+                                        ? (editedProfile as CustomerModel).customerLastName
+                                        : ""
+                                  }
+                                  onChange={handleInputChange}
+                                  placeholder="Last Name"
+                              />
+                              <input
+                                  type="text"
+                                  name="streetAddress"
+                                  value={
+                                    editedProfile && userType === "Customer"
+                                        ? (editedProfile as CustomerModel).streetAddress
+                                        : ""
+                                  }
+                                  onChange={handleInputChange}
+                                  placeholder="Street Address"
+                              />
+                              <input
+                                  type="text"
+                                  name="city"
+                                  value={
+                                    editedProfile && userType === "Customer"
+                                        ? (editedProfile as CustomerModel).city
+                                        : ""
+                                  }
+                                  onChange={handleInputChange}
+                                  placeholder="City"
+                              />
+                              <input
+                                  type="text"
+                                  name="postalCode"
+                                  value={
+                                    editedProfile && userType === "Customer"
+                                        ? (editedProfile as CustomerModel).postalCode
+                                        : ""
+                                  }
+                                  onChange={handleInputChange}
+                                  placeholder="Postal Code"
+                              />
+                              <input
+                                  type="text"
+                                  name="province"
+                                  value={
+                                    editedProfile && userType === "Customer"
+                                        ? (editedProfile as CustomerModel).province
+                                        : ""
+                                  }
+                                  onChange={handleInputChange}
+                                  placeholder="Province"
+                              />
+                              <input
+                                  type="text"
+                                  name="country"
+                                  value={
+                                    editedProfile && userType === "Customer"
+                                        ? (editedProfile as CustomerModel).country
+                                        : ""
+                                  }
+                                  onChange={handleInputChange}
+                                  placeholder="Country"
+                              />
+                            </>
+                        ) : (
+                            <>
+                              <input
+                                  type="text"
+                                  name="first_name"
+                                  value={
+                                    editedProfile && userType === "Employee"
+                                        ? (editedProfile as EmployeeModel).first_name
+                                        : ""
+                                  }
+                                  onChange={handleInputChange}
+                                  placeholder="First Name"
+                              />
+                              <input
+                                  type="text"
+                                  name="last_name"
+                                  value={
+                                    editedProfile && userType === "Employee"
+                                        ? (editedProfile as EmployeeModel).last_name
+                                        : ""
+                                  }
+                                  onChange={handleInputChange}
+                                  placeholder="Last Name"
+                              />
+                              <input
+                                  type="text"
+                                  name="position"
+                                  value={
+                                    editedProfile && userType === "Employee"
+                                        ? (editedProfile as EmployeeModel).position
+                                        : ""
+                                  }
+                                  onChange={handleInputChange}
+                                  placeholder="Position"
+                              />
+                              <input
+                                  type="text"
+                                  name="phone"
+                                  value={
+                                    editedProfile && userType === "Employee"
+                                        ? (editedProfile as EmployeeModel).phone
+                                        : ""
+                                  }
+                                  onChange={handleInputChange}
+                                  placeholder="Phone Number"
+                              />
+                            </>
+                        )}
+                        <div className="modal-buttons">
+                          <button onClick={handleSaveChanges}>Save Changes</button>
+                          <button onClick={closeModal}>Cancel</button>
+                        </div>
+                      </div>
+                    </div>
+                )}
+
+                <div className="appointments-section">
+                  <h3>My Appointments</h3>
+                  {appointments.length === 0 ? (
+                      <p>No appointments assigned.</p>
                   ) : (
-                    <>
-                      <input
-                        type="text"
-                        name="first_name"
-                        value={
-                          editedProfile && userType === "Employee"
-                            ? (editedProfile as EmployeeModel).first_name
-                            : ""
-                        }
-                        onChange={handleInputChange}
-                        placeholder="First Name"
-                      />
-                      <input
-                        type="text"
-                        name="last_name"
-                        value={
-                          editedProfile && userType === "Employee"
-                            ? (editedProfile as EmployeeModel).last_name
-                            : ""
-                        }
-                        onChange={handleInputChange}
-                        placeholder="Last Name"
-                      />
-                      <input
-                        type="text"
-                        name="position"
-                        value={
-                          editedProfile && userType === "Employee"
-                            ? (editedProfile as EmployeeModel).position
-                            : ""
-                        }
-                        onChange={handleInputChange}
-                        placeholder="Position"
-                      />
-                      <input
-                        type="text"
-                        name="phone"
-                        value={
-                          editedProfile && userType === "Employee"
-                            ? (editedProfile as EmployeeModel).phone
-                            : ""
-                        }
-                        onChange={handleInputChange}
-                        placeholder="Phone Number"
-                      />
-                    </>
+                      <ul className="appointments-list">
+                        {appointments.map((appt) => (
+                            <li
+                                key={appt.appointmentId}
+                                className="appointment-item"
+                                onClick={() => handleAppointmentClick(appt.appointmentId)}
+                            >
+                              <div className="appointment-info">
+                                <span className="appointment-service">{appt.serviceName}</span>
+                                <span className="appointment-date">
+                          {new Date(appt.appointmentDate).toLocaleDateString()}
+                        </span>
+                                <span className="appointment-status">{appt.status}</span>
+                              </div>
+                              <div className="appointment-actions">
+                                <button
+                                    className="cancel-button"
+                                    onClick={(e) => {
+                                      e.stopPropagation();
+                                      handleCancelAppointment(appt.appointmentId);
+                                    }}
+                                >
+                                  Cancel
+                                </button>
+                                <button
+                                    className="reschedule-button"
+                                    onClick={(e) => {
+                                      e.stopPropagation();
+                                      openRescheduleModal(appt.appointmentId);
+                                    }}
+                                >
+                                  Reschedule
+                                </button>
+                              </div>
+                            </li>
+                        ))}
+                      </ul>
                   )}
+                </div>
 
-                  <button onClick={handleSaveChanges}>Save Changes</button>
-                  <button onClick={closeModal}>Cancel</button>
+                {rescheduleModal.open && (
+                    <div className="modal-overlay">
+                      <div className="modal">
+                        <h3>Reschedule Appointment</h3>
+                        <input
+                            type="date"
+                            value={newDate}
+                            onChange={(e) => setNewDate(e.target.value)}
+                            placeholder="New Date"
+                        />
+                        <input
+                            type="time"
+                            value={newStartTime}
+                            onChange={(e) => setNewStartTime(e.target.value)}
+                            placeholder="New Start Time"
+                        />
+                        <input
+                            type="time"
+                            value={newEndTime}
+                            onChange={(e) => setNewEndTime(e.target.value)}
+                            placeholder="New End Time"
+                        />
+                        <div className="modal-buttons">
+                          <button onClick={handleReschedule}>Confirm</button>
+                          <button onClick={closeRescheduleModal}>Cancel</button>
+                        </div>
+                      </div>
+                    </div>
+                )}
+
+                <div className="profile-details">
+                  {userType === "Customer" ? (
+                      <>
+                        <div className="detail-row">
+                          <span>Street Address:</span>
+                          <span>{(profile as CustomerModel).streetAddress}</span>
+                        </div>
+                        <div className="detail-row">
+                          <span>City:</span>
+                          <span>{(profile as CustomerModel).city}</span>
+                        </div>
+                        <div className="detail-row">
+                          <span>Postal Code:</span>
+                          <span>{(profile as CustomerModel).postalCode}</span>
+                        </div>
+                        <div className="detail-row">
+                          <span>Province:</span>
+                          <span>{(profile as CustomerModel).province}</span>
+                        </div>
+                        <div className="detail-row">
+                          <span>Country:</span>
+                          <span>{(profile as CustomerModel).country}</span>
+                        </div>
+                      </>
+                  ) : (
+                      <>
+                        <div className="detail-row">
+                          <span>First Name:</span>
+                          <span>{(profile as EmployeeModel).first_name}</span>
+                        </div>
+                        <div className="detail-row">
+                          <span>Last Name:</span>
+                          <span>{(profile as EmployeeModel).last_name}</span>
+                        </div>
+                        <div className="detail-row">
+                          <span>Position:</span>
+                          <span>{(profile as EmployeeModel).position}</span>
+                        </div>
+                        <div className="detail-row">
+                          <span>Phone:</span>
+                          <span>{(profile as EmployeeModel).phone}</span>
+                        </div>
+                      </>
+                  )}
                 </div>
               </div>
-            )}
-
-            <div className="appointments-section">
-              <h3>My Appointments</h3>
-              {appointments.length === 0 ? (
-                <p>No appointments assigned.</p>
-              ) : (
-                <ul className="appointments-list">
-                  {appointments.map((appt) => (
-                    <li key={appt.appointmentId} className="appointment-item">
-                      <span className="appointment-service">
-                        {appt.serviceName}
-                      </span>
-                      <span className="appointment-date">
-                        {new Date(appt.appointmentDate).toLocaleDateString()}
-                      </span>
-                      <span className="appointment-status">{appt.status}</span>
-                      <button
-                        className="cancel-button"
-                        onClick={() =>
-                          handleCancelAppointment(appt.appointmentId)
-                        }
-                      >
-                        Cancel Appointment
-                      </button>
-                      <button
-                        onClick={() => openRescheduleModal(appt.appointmentId)}
-                      >
-                        Reschedule
-                      </button>
-                    </li>
-                  ))}
-                </ul>
-              )}
-            </div>
-            {rescheduleModal.open && (
-              <div className="modal-overlay">
-                <div className="modal">
-                  <h3>Reschedule Appointment</h3>
-                  <input
-                    type="date"
-                    value={newDate}
-                    onChange={(e) => setNewDate(e.target.value)}
-                    placeholder="New Date"
-                  />
-                  <input
-                    type="time"
-                    value={newStartTime}
-                    onChange={(e) => setNewStartTime(e.target.value)}
-                    placeholder="New Start Time"
-                  />
-                  <input
-                    type="time"
-                    value={newEndTime}
-                    onChange={(e) => setNewEndTime(e.target.value)}
-                    placeholder="New End Time"
-                  />
-                  <button onClick={handleReschedule}>Confirm Reschedule</button>
-                  <button onClick={closeRescheduleModal}>Cancel</button>
-                </div>
+          ) : (
+              <div className="profile-card">
+                <p>No profile information available.</p>
               </div>
-            )}
-
-            <div className="profile-details">
-              {userType === "Customer" ? (
-                <>
-                  <div className="detail-row">
-                    <span>Street Address:</span>
-                    <span>{(profile as CustomerModel).streetAddress}</span>
-                  </div>
-                  <div className="detail-row">
-                    <span>City:</span>
-                    <span>{(profile as CustomerModel).city}</span>
-                  </div>
-                  <div className="detail-row">
-                    <span>Postal Code:</span>
-                    <span>{(profile as CustomerModel).postalCode}</span>
-                  </div>
-                  <div className="detail-row">
-                    <span>Province:</span>
-                    <span>{(profile as CustomerModel).province}</span>
-                  </div>
-                  <div className="detail-row">
-                    <span>Country:</span>
-                    <span>{(profile as CustomerModel).country}</span>
-                  </div>
-                </>
-              ) : (
-                <>
-                  <div className="detail-row">
-                    <span>First Name:</span>
-                    <span>{(profile as EmployeeModel).first_name}</span>
-                  </div>
-                  <div className="detail-row">
-                    <span>Last Name:</span>
-                    <span>{(profile as EmployeeModel).last_name}</span>
-                  </div>
-                  <div className="detail-row">
-                    <span>Position:</span>
-                    <span>{(profile as EmployeeModel).position}</span>
-                  </div>
-                  <div className="detail-row">
-                    <span>Phone:</span>
-                    <span>{(profile as EmployeeModel).phone}</span>
-                  </div>
-                </>
-              )}
-            </div>
-          </div>
-        ) : (
-          <div className="profile-card">
-            <p>No profile information available.</p>
-          </div>
-        )}
+          )}
+        </div>
       </div>
-    </div>
   );
 }
