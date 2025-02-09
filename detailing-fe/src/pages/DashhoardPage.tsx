@@ -5,6 +5,8 @@ import AllCustomers from "../models/AllCustomers";
 import AllAppointments from "../models/AllAppointments";
 import AllEmployees from "../models/allEmployees";
 import "./DashboardPage.css";
+import ReportsTable from "../models/ReportsTable";
+import AppointmentsTable from "../models/AppointmentsTable";
 
 export default function DashboardPage(): JSX.Element {
   const [inviteLink, setInviteLink] = useState("");
@@ -40,6 +42,14 @@ export default function DashboardPage(): JSX.Element {
         <div className="section-container">
           <h2 className="section-title">Customers</h2>
           <AllCustomers />
+        </div>
+        <div className="section-container">
+          <h2 className="section-title">Report Services Section</h2>
+          <ReportsTable />
+        </div>
+        <div className="section-container">
+          <h2 className="section-title">Report Appointments Section</h2>
+          <AppointmentsTable />
         </div>
 
         <div className="invite-section-container">
