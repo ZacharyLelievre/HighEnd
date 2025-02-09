@@ -1,0 +1,55 @@
+@startuml
+left to right direction
+skinparam actorStyle awesome
+skinparam usecase {
+    BackgroundColor DarkSeaGreen
+    BorderColor DarkSlateGray
+    ArrowColor Black
+    ActorBorderColor black
+    ActorFontName Courier
+    ActorBackgroundColor<< Human >> Gold
+}
+
+actor "System Administrator" as Admin #Blue
+
+actor :External System: as Right3  #eaf0f9
+
+
+rectangle "High-End Car Detailing System" {
+    usecase "1.7 Manage Promotions"
+    usecase "1.8 View Customer Appointments"
+    usecase "1.9 Generate Reports"
+    usecase "2.3 View Images"
+    usecase "2.4 Reschedule Appointment"
+    usecase "2.5 Cancel Appointment"
+    usecase "2.6 View Clients List"
+    usecase "2.7 View Employees List"
+    usecase "2.8 Collect Data"
+    usecase "2.9 Access User Information"
+    usecase "3.0 Email Regular Check-up Reminders"
+    usecase "3.1 Assign Job to Employee"
+    usecase "3.2 Change User Information"
+}
+
+' Admin Connections
+Admin -- "1.7 Manage Promotions"
+Admin -- "1.9 Generate Reports"
+Admin -- "2.3 View Images"
+Admin -- "2.6 View Clients List"
+Admin -- "2.7 View Employees List"
+Admin - "1.8 View Customer Appointments"
+
+"1.8 View Customer Appointments" <.. "2.4 Reschedule Appointment" : <<extends>>
+"1.8 View Customer Appointments" <.. "2.5 Cancel Appointment" : <<extends>>
+"1.9 Generate Reports" ..> "2.8 Collect Data" : <<includes>>
+"2.6 View Clients List" <.. "2.9 Access User Information" : <<extends>>
+"2.7 View Employees List" <.. "2.9 Access User Information" : <<extends>>
+"1.8 View Customer Appointments" ..> "3.1 Assign Job to Employee" : <<includes>>
+"2.9 Access User Information" <. "3.2 Change User Information" : <<extends>>
+
+
+
+' External System connection
+"3.0 Email Regular Check-up Reminders" --- Right3
+
+@enduml

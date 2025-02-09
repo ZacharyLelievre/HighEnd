@@ -1,0 +1,14 @@
+@startuml
+actor Admin
+participant "System" as Sys
+
+Admin -> Sys: Request Report (dateRange, serviceType, status)
+Sys -> Sys: Validate Report Request
+Sys -> Sys: Fetch Appointments Data
+Sys -> Sys: Fetch Customers Data
+Sys -> Sys: Fetch Employee Work Data
+Sys -> Sys: Fetch Services Data
+Sys -> Sys: Calculate Metrics (Total Revenue, Avg Rating, etc.)
+Sys -> Sys: Generate Report
+Sys -> Admin: Return Generated Report
+@enduml

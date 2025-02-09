@@ -1,0 +1,169 @@
+@startuml
+
+' =========================================
+' Presentation Layer
+' =========================================
+package "Presentation Layer" {
+
+  ' REST Controller for employee invites
+  class EmployeeInviteController {
+    - inviteService : EmployeeInviteService
+    + createInvite(request: Map<String, String>) : InviteResponse
+    + validateInvite(token: String) : boolean
+  }
+
+  ' DTOs for employee data
+  class EmployeeRequestModel {
+    + employeeId : String
+    + first_name : String
+    + last_name : String
+    + position : String
+    + email : String
+    + phone : String
+    + salary : double
+    + imagePath : String
+  }
+
+  class EmployeeResponseModel {
+    + employeeId : String
+    + first_name : String
+    + last_name : String
+    + position : String
+    + email : String
+    + phone : String
+    + salary : double
+    + imagePath : String
+    + availability : List<AvailabilityResponseModel>
+  }
+
+  class AvailabilityResponseModel {
+    + dayOfWeek : String
+    + startTime : String
+    + endTime : String
+  }
+}
+
+' =========================================
+' Business Layer
+' =========================================
+package "Business Layer" {
+
+  ' Interface and implementation for invites
+  interface EmployeeInviteService {
+    + generateInviteLink() : String
+    + isInviteValid(token: String) : boolean
+  }
+
+  class EmployeeInviteServiceImpl {
+    - inviteRepo : EmployeeInviteRepository
+    + generateInviteLink() : String
+    + isInviteValid(token: String) : boolean
+  }
+
+  EmployeeInviteServiceImpl ..|> EmployeeInviteService
+
+  ' Interface for employee management services
+  interface EmployeeService {
+    + getAllEmployees() : List<EmployeeResponseModel>
+    + getEmployeeById(employeeId: String) : Optional<EmployeeResponseModel>
+    + getAvailabilityForEmployee(employeeId: String) : List<AvailabilityResponseModel>
+    + setAvailabilityForEmployee(employeeId: String, newAvailability: List<Availability>) : void
+    + createEmployee(request: EmployeeRequestModel) : EmployeeResponseModel
+    + getCurrentEmployee(auth0UserId: String) : EmployeeResponseModel
+  }
+}
+
+' =========================================
+' Mapping Layer
+' =========================================
+package "Mapping Layer" {
+
+  ' Mappers convert between entities and DTOs
+  interface EmployeeRequestMapper {
+    ' (Mapping methods can be defined here as needed)
+  }
+
+  interface EmployeeResponseMapper {
+    + entityToResponseModel(employee: Employee) : EmployeeResponseModel
+    + entityListToResponseModel(employees: List<Employee>) : List<EmployeeResponseModel>
+    + availabilityToAvailabilityResponseModel(availability: Availability) : AvailabilityResponseModel
+    + availabilityListToResponseModel(availability: List<Availability>) : List<AvailabilityResponseModel>
+  }
+}
+
+' =========================================
+' Data Layer
+' =========================================
+package "Data Layer" {
+
+  ' Employee entity with availability
+  class Employee {
+    + employeeId : String
+    + first_name : String
+    + last_name : String
+    + position : String
+    + email : String
+    + phone : String
+    + salary : double
+    + imagePath : String
+    + availability : List<Availability>
+  }
+
+  ' (Optional) Identifier helper (could be used in mapping)
+  class EmployeeIdentifier {
+    + employeeId : String
+  }
+
+  ' Availability embeddable
+  class Availability {
+    + dayOfWeek : String
+    + startTime : String
+    + endTime : String
+  }
+
+  ' Employee invite entity
+  class EmployeeInvite {
+    + id : Long
+    + inviteToken : String
+    + expiresAt : LocalDateTime
+  }
+
+  ' Repository interfaces for data access
+  interface EmployeeRepository {
+    + findByEmployeeId(employeeId: String) : Optional<Employee>
+  }
+
+  interface EmployeeInviteRepository {
+    + findByInviteToken(token: String) : Optional<EmployeeInvite>
+  }
+
+  ' DTO for returning invite link
+  class InviteResponse {
+    + inviteLink : String
+    + InviteResponse(inviteLink: String)
+  }
+
+  ' Relationships in Data Layer
+  EmployeeRepository --> Employee : manages
+  EmployeeInviteRepository --> EmployeeInvite : manages
+  Employee "1" o-- "0..*" Availability : contains
+}
+
+' =========================================
+' Relationships Across Layers
+' =========================================
+
+' Presentation uses business service
+EmployeeInviteController --> EmployeeInviteService : uses
+
+' Business implementation depends on data repository
+EmployeeInviteServiceImpl --> EmployeeInviteRepository : uses
+
+' Mapping layer converts entities to DTOs
+EmployeeResponseMapper ..> Employee : maps
+EmployeeResponseMapper ..> Availability : maps
+
+' Controller returns InviteResponse DTO
+EmployeeInviteController ..> InviteResponse : returns
+
+@enduml
