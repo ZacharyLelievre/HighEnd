@@ -1,66 +1,72 @@
-/* src/pages/MyAppointmentDetails.css */
-
 /* General Container */
 .appointment-details-container {
   font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-  background-color: #f4f6f8;
+  background: linear-gradient(135deg, #f4f6f8 0%, #e9eff5 100%);
   min-height: 100vh;
-  padding: 0;
-  margin: 0;
-}
-
-/* Loading State */
-.loading {
   display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 80vh;
-  font-size: 1.5rem;
-  color: #555;
+  flex-direction: column;
 }
 
-/* Appointment Details Section */
+/* Appointment Details Card */
 .appointment-details {
   background-color: #fff;
-  max-width: 800px;
+  max-width: 900px;
   margin: 2rem auto;
   padding: 2rem;
-  border-radius: 8px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
 }
 
 /* Title */
 .title {
   text-align: center;
-  margin-bottom: 1.5rem;
+  margin-bottom: 2rem;
   color: #333;
-  font-size: 2rem;
-  border-bottom: 2px solid #e0e0e0;
+  font-size: 2.2rem;
+  font-weight: 600;
+  border-bottom: 2px solid #ddd;
   padding-bottom: 0.5rem;
 }
 
-/* Details Grid */
-.details-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 1rem 2rem;
+/* Flex container for left/right sections */
+.details-flex {
+  display: flex;
+  gap: 2rem;
   margin-bottom: 2rem;
 }
 
+/* Left Section: Appointment Details */
+.details-grid {
+  flex: 1;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem 2rem;
+}
+
+/* Right Section: Customer Address */
+.address-details {
+  flex: 1;
+  background-color: #fafafa;
+  padding: 1.5rem;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+}
+
+/* Detail Items */
 .detail-item {
-  display: flex;
-  flex-direction: column;
+  margin-bottom: 1rem;
 }
 
 .detail-label {
-  font-weight: bold;
+  font-weight: 600;
   color: #555;
   margin-bottom: 0.3rem;
+  display: block;
 }
 
 .detail-value {
   color: #333;
-  font-size: 1.1rem;
+  font-size: 1rem;
 }
 
 /* Status Update Section */
@@ -69,19 +75,18 @@
   align-items: center;
   justify-content: center;
   flex-wrap: wrap;
+  gap: 1rem;
 }
 
 .status-label {
   font-weight: 600;
-  margin-right: 0.5rem;
   color: #555;
 }
 
 .status-select {
-  padding: 0.5rem 1rem;
+  padding: 0.6rem 1rem;
   border: 1px solid #ccc;
   border-radius: 4px;
-  margin-right: 1rem;
   min-width: 200px;
   transition: border-color 0.3s ease;
 }
@@ -92,7 +97,7 @@
 }
 
 .save-button {
-  padding: 0.6rem 1.2rem;
+  padding: 0.7rem 1.4rem;
   background-color: #007bff;
   color: #fff;
   border: none;
@@ -110,23 +115,26 @@
   background-color: #004085;
 }
 
+/* Loading State */
+.loading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 80vh;
+  font-size: 1.5rem;
+  color: #555;
+}
+
 /* Responsive Design */
-@media (max-width: 600px) {
+@media (max-width: 768px) {
+  .details-flex {
+    flex-direction: column;
+  }
   .details-grid {
     grid-template-columns: 1fr;
   }
-
-  .status-update {
-    flex-direction: column;
-  }
-
-  .status-select {
-    margin-right: 0;
-    margin-bottom: 1rem;
-    width: 100%;
-  }
-
-  .save-button {
-    width: 100%;
+  .address-details {
+    border: none;
+    padding: 1rem;
   }
 }
