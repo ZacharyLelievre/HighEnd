@@ -46,23 +46,23 @@ export function ProfilePage() {
         const token = await getAccessTokenSilently();
 
         try {
-            const customerResponse = await axios.get<CustomerModel>(
-                `${apiBaseUrl}/customers/me`,
-                {
-                    headers: { Authorization: `Bearer ${token}` },
-                }
-            );
+          const customerResponse = await axios.get<CustomerModel>(
+            `${apiBaseUrl}/customers/me`,
+            {
+              headers: { Authorization: `Bearer ${token}` },
+            },
+          );
           setProfile(customerResponse.data);
           setUserType("Customer");
         } catch (customerError: any) {
           if (customerError.response && customerError.response.status === 404) {
             try {
-                const employeeResponse = await axios.get<EmployeeModel>(
-                    `${apiBaseUrl}/employees/me`,
-                    { headers: { Authorization: `Bearer ${token}` } }
-                );
+              const employeeResponse = await axios.get<EmployeeModel>(
+                `${apiBaseUrl}/employees/me`,
+                { headers: { Authorization: `Bearer ${token}` } },
+              );
 
-                setProfile(employeeResponse.data);
+              setProfile(employeeResponse.data);
               setUserType("Employee");
             } catch (employeeError: any) {
               if (
@@ -105,18 +105,18 @@ export function ProfilePage() {
         if (userType === "Employee") {
           const emp = profile as EmployeeModel;
           if (!emp.employeeId) return;
-            const response = await axios.get<AppointmentModel[]>(
-                `${apiBaseUrl}/appointments/employee/${emp.employeeId}`,
-                { headers: { Authorization: `Bearer ${token}` } }
-            );
+          const response = await axios.get<AppointmentModel[]>(
+            `${apiBaseUrl}/appointments/employee/${emp.employeeId}`,
+            { headers: { Authorization: `Bearer ${token}` } },
+          );
           setAppointments(response.data);
         } else if (userType === "Customer") {
           const cus = profile as CustomerModel;
           if (!cus.customerId) return;
-            const response = await axios.get<AppointmentModel[]>(
-                `${apiBaseUrl}/appointments/employee/${cus.customerId}`,
-                { headers: { Authorization: `Bearer ${token}` } }
-            );
+          const response = await axios.get<AppointmentModel[]>(
+            `${apiBaseUrl}/appointments/employee/${cus.customerId}`,
+            { headers: { Authorization: `Bearer ${token}` } },
+          );
           setAppointments(response.data);
         }
       } catch (err) {
@@ -131,9 +131,9 @@ export function ProfilePage() {
     if (window.confirm("Are you sure you want to cancel this appointment?")) {
       try {
         const token = await getAccessTokenSilently();
-          await axios.delete(`${apiBaseUrl}/appointments/${appointmentId}`, {
-              headers: { Authorization: `Bearer ${token}` },
-          });
+        await axios.delete(`${apiBaseUrl}/appointments/${appointmentId}`, {
+          headers: { Authorization: `Bearer ${token}` },
+        });
 
         setAppointments((prevAppointments) =>
           prevAppointments.filter(
@@ -205,14 +205,13 @@ export function ProfilePage() {
 
     try {
       const token = await getAccessTokenSilently();
-        await axios.put(
-            `${apiBaseUrl}/appointments/${rescheduleModal.appointmentId}/reschedule`,
-            { newDate, newStartTime, newEndTime },
-            { headers: { Authorization: `Bearer ${token}` } }
-        );
+      await axios.put(
+        `${apiBaseUrl}/appointments/${rescheduleModal.appointmentId}/reschedule`,
+        { newDate, newStartTime, newEndTime },
+        { headers: { Authorization: `Bearer ${token}` } },
+      );
 
-
-        setAppointments((prev) =>
+      setAppointments((prev) =>
         prev.map((appt) =>
           appt.appointmentId === rescheduleModal.appointmentId
             ? {
