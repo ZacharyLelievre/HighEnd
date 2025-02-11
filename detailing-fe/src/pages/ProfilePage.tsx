@@ -11,6 +11,8 @@ import { useNavigate } from "react-router-dom";
 type UserProfile = CustomerModel | EmployeeModel;
 
 export function ProfilePage() {
+  const apiBaseUrl = process.env.REACT_APP_API_BASE_URL;
+
   const { getAccessTokenSilently, user } = useAuth0();
   const navigate = useNavigate();
 
@@ -45,7 +47,7 @@ export function ProfilePage() {
 
         try {
           const customerResponse = await axios.get<CustomerModel>(
-            "https://highend-zke6.onrender.com/api/customers/me",
+            `${apiBaseUrl}/customers/me`,
             {
               headers: { Authorization: `Bearer ${token}` },
             },
@@ -56,7 +58,7 @@ export function ProfilePage() {
           if (customerError.response && customerError.response.status === 404) {
             try {
               const employeeResponse = await axios.get<EmployeeModel>(
-                "https://highend-zke6.onrender.com/api/employees/me",
+                `${apiBaseUrl}/employees/me`,
                 {
                   headers: { Authorization: `Bearer ${token}` },
                 },
@@ -106,7 +108,7 @@ export function ProfilePage() {
           if (!emp.employeeId) return;
 
           const response = await axios.get<AppointmentModel[]>(
-            `https://highend-zke6.onrender.com/api/appointments/employee/${emp.employeeId}`,
+            `${apiBaseUrl}/appointments/employee/${emp.employeeId}`,
             {
               headers: { Authorization: `Bearer ${token}` },
             },
@@ -117,7 +119,7 @@ export function ProfilePage() {
           if (!cus.customerId) return;
 
           const response = await axios.get<AppointmentModel[]>(
-            `https://highend-zke6.onrender.com/api/appointments/customer/${cus.customerId}`,
+            `${apiBaseUrl}/appointments/customer/${cus.customerId}`,
             {
               headers: { Authorization: `Bearer ${token}` },
             },
@@ -137,7 +139,7 @@ export function ProfilePage() {
       try {
         const token = await getAccessTokenSilently();
         await axios.delete(
-          `https://highend-zke6.onrender.com/api/appointments/${appointmentId}`,
+          `${apiBaseUrl}/appointments/${appointmentId}`,
           {
             headers: { Authorization: `Bearer ${token}` },
           },
@@ -176,14 +178,14 @@ export function ProfilePage() {
       if (userType === "Customer") {
         const cus = profile as CustomerModel;
         await axios.put(
-          `https://highend-zke6.onrender.com/api/customers/${cus.customerId}`,
+          `${apiBaseUrl}/customers/${cus.customerId}`,
           editedProfile,
           { headers: { Authorization: `Bearer ${token}` } },
         );
       } else if (userType === "Employee") {
         const emp = profile as EmployeeModel;
         await axios.put(
-          `https://highend-zke6.onrender.com/api/employees/${emp.employeeId}`,
+          `${apiBaseUrl}/employees/${emp.employeeId}`,
           editedProfile,
           { headers: { Authorization: `Bearer ${token}` } },
         );
@@ -214,7 +216,7 @@ export function ProfilePage() {
     try {
       const token = await getAccessTokenSilently();
       await axios.put(
-        `https://highend-zke6.onrender.com/api/appointments/${rescheduleModal.appointmentId}/reschedule`,
+        `${apiBaseUrl}/appointments/${rescheduleModal.appointmentId}/reschedule`,
         {
           newDate,
           newStartTime,
@@ -262,7 +264,7 @@ export function ProfilePage() {
                     user?.picture ||
                     (userType === "Employee" &&
                     (profile as EmployeeModel).imagePath
-                      ? `https://highend-zke6.onrender.com/${(profile as EmployeeModel).imagePath}`
+                      ? `/${(profile as EmployeeModel).imagePath}`
                       : "https://via.placeholder.com/100")
                   }
                   alt={user?.name || ""}

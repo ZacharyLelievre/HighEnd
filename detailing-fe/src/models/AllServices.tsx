@@ -20,7 +20,7 @@ const customStyles = {
 
 export default function AllServices(): JSX.Element {
   const { getAccessTokenSilently, getIdTokenClaims } = useAuth0();
-
+  const apiBaseUrl = process.env.REACT_APP_API_BASE_URL;
   const [services, setServices] = useState<ServiceModel[]>([]);
   const [modalIsOpen, setModalIsOpen] = useState<boolean>(false);
   const [selectedService, setSelectedService] = useState<ServiceModel | null>(
@@ -41,9 +41,7 @@ export default function AllServices(): JSX.Element {
   useEffect(() => {
     const fetchServices = async (): Promise<void> => {
       try {
-        const response = await axios.get(
-          "https://highend-zke6.onrender.com/api/services",
-        );
+        const response = await axios.get(`${apiBaseUrl}/services`);
         setServices(response.data);
       } catch (error) {
         console.error("Error fetching services:", error);
@@ -97,7 +95,7 @@ export default function AllServices(): JSX.Element {
 
       // Make the POST request with the Authorization header
       const response = await axios.post(
-        "https://highend-zke6.onrender.com/api/appointments",
+        `${apiBaseUrl}/appointments`,
         appointmentData,
         {
           headers: {
@@ -140,7 +138,7 @@ export default function AllServices(): JSX.Element {
               <div className="service-card-content">
                 <img
                   className="service-image"
-                  src={`https://highend-zke6.onrender.com/${service.imagePath}`}
+                  src={`/${service.imagePath}`}
                   alt={service.serviceName}
                 />
                 <h3 className="service-name">{service.serviceName}</h3>

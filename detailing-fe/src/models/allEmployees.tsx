@@ -5,6 +5,8 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
 export default function AllEmployees(): JSX.Element {
+  const apiBaseUrl = process.env.REACT_APP_API_BASE_URL;
+
   const [employees, setEmployees] = useState<EmployeeModel[]>([]);
   const navigate = useNavigate();
 
@@ -12,7 +14,7 @@ export default function AllEmployees(): JSX.Element {
     const fetchEmployees = async (): Promise<void> => {
       try {
         const response = await axios.get(
-          "https://highend-zke6.onrender.com/api/employees",
+          `${apiBaseUrl}/employees`,
         );
         setEmployees(response.data);
       } catch (error) {

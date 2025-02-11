@@ -33,13 +33,10 @@ export function NavBar(): JSX.Element {
             Authorization: `Bearer ${accessToken}`,
           },
         });
-        if (response.status === 404) {
-          console.log("User does not exist, redirecting to /onboarding");
-          navigate(AppRoutePath.Onboarding);
-        } else {
+
           const data = await response.json();
           console.log("Customer Data:", data);
-        }
+
       } catch (error) {
         console.error("Error checking user existence:", error);
       }

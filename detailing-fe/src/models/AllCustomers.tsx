@@ -7,6 +7,8 @@ import "react-toastify/dist/ReactToastify.css";
 import { useNavigate } from "react-router-dom";
 
 export default function AllCustomers(): JSX.Element {
+  const apiBaseUrl = process.env.REACT_APP_API_BASE_URL;
+
   const [customers, setCustomers] = useState<CustomerModel[]>([]);
   const [isEditing, setIsEditing] = useState<boolean>(false);
   const [editingCustomer, setEditingCustomer] = useState<CustomerModel | null>(
@@ -32,7 +34,7 @@ export default function AllCustomers(): JSX.Element {
     const fetchCustomers = async (): Promise<void> => {
       try {
         const response = await axios.get(
-          "https://highend-zke6.onrender.com/api/customers",
+          `${apiBaseUrl}/customers`,
         );
         setCustomers(response.data);
       } catch (error) {
@@ -45,7 +47,7 @@ export default function AllCustomers(): JSX.Element {
 
   const handleDeleteCustomer = async (customerId: string) => {
     try {
-      await axios.delete(`http://localhost:8080/api/customers/${customerId}`);
+      await axios.delete(`${apiBaseUrl}/customers/${customerId}`);
       setCustomers(
         customers.filter((customer) => customer.customerId !== customerId),
       );
@@ -82,7 +84,7 @@ export default function AllCustomers(): JSX.Element {
     if (editingCustomer) {
       try {
         await axios.put(
-          `https://highend-zke6.onrender.com/api/customers/${editingCustomer.customerId}`,
+          `${apiBaseUrl}/customers/${editingCustomer.customerId}`,
           editingCustomer,
         );
         setCustomers(

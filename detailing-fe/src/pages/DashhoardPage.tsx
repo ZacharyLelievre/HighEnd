@@ -7,13 +7,15 @@ import AllEmployees from "../models/allEmployees";
 import "./DashboardPage.css";
 
 export default function DashboardPage(): JSX.Element {
+  const apiBaseUrl = process.env.REACT_APP_API_BASE_URL;
+
   const [inviteLink, setInviteLink] = useState("");
   const [isOpen, setIsOpen] = useState(false); // Toggle state for the container
 
   const handleGenerateLink = async () => {
     try {
       const response = await axios.post(
-        "https://highend-zke6.onrender.com/api/employee-invites",
+        `${apiBaseUrl}/employee-invites`,
         {},
       );
       setInviteLink(response.data.inviteLink);

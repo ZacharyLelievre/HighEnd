@@ -1,28 +1,50 @@
 version: "3.9"
 
 services:
+  db:
+    image: mysql:8
+    container_name: highend-mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_DATABASE: high_end_db
+      MYSQL_USER: ${SPRING_DATASOURCE_USERNAME}
+      MYSQL_PASSWORD:  ${SPRING_DATASOURCE_PASSWORD}
+    ports:
+      - "3307:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+    restart: always
+    healthcheck:
+      test: [ "CMD", "mysqladmin", "ping", "-h", "localhost" ]
+      interval: 30s
+      timeout: 10s
+      retries: 3
   backend:
     build:
       context: ./detailing-be
       dockerfile: Dockerfile
     hostname: highenddetailing
     ports:
-      - "8080:8080"
+      - "8081:8080"
     environment:
-      - SPRING_PROFILES_ACTIVE=${SPRING_PROFILES_ACTIVE}
-      - AUTH0_DOMAIN=${AUTH0_DOMAIN}
-      - AUTH0_CLIENT_ID=${AUTH0_CLIENT_ID}
-      - AUTH0_CLIENT_SECRET=${AUTH0_CLIENT_SECRET}
-      - AUTH0_AUDIENCE=${AUTH0_AUDIENCE}
-      - spring.datasource.url=jdbc:mysql://192.168.2.139:3306/high_end_DB?useSSL=false&allowPublicKeyRetrieval=true
-      - SPRING_DATASOURCE_USERNAME=${MYSQL_USER}
-      - SPRING_DATASOURCE_PASSWORD=${MYSQL_PASSWORD}
+      AUTH0_ISSUER: https://dev-vmtwqb6p6lr3if0d.us.auth0.com/
+      SPRING_PROFILES_ACTIVE: ${SPRING_PROFILES_ACTIVE}
+      AUTH0_DOMAIN: ${AUTH0_DOMAIN}
+      AUTH0_CLIENT_ID: ${AUTH0_CLIENT_ID}
+      AUTH0_CLIENT_SECRET: ${AUTH0_CLIENT_SECRET}
+      AUTH0_AUDIENCE: ${AUTH0_AUDIENCE}
+      spring.datasource.url: ${DB_URL}
+      SPRING_DATASOURCE_USERNAME: ${SPRING_DATASOURCE_USERNAME}
+      SPRING_DATASOURCE_PASSWORD: ${SPRING_DATASOURCE_PASSWORD}
 
     healthcheck:
       test: ["CMD-SHELL", "curl -f http://backend:8080 || exit 1"]
       interval: 30s
       timeout: 10s
       retries: 3
+    depends_on:
+      db:
+        condition: service_healthy
 
   frontend:
     build:
@@ -51,30 +73,6 @@ services:
       timeout: 10s
       retries: 3
 
-  #  db:
-  #    image: mysql:latest
-  #    container_name: mysql-server
-  #    restart: always
-  #    ports:
-  #      - "3306:3306"
-  #    environment:
-  #      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
-  #      MYSQL_DATABASE: ${MYSQL_DATABASE}
-  #      MYSQL_USER: ${MYSQL_USER}
-  #      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
-  #    volumes:
-  #      - /mnt/cache/appdata/mysql/data:/var/lib/mysql
-  #      - /mnt/cache/appdata/mysql/logs:/var/log/mysql
-  #    healthcheck:
-  #      test:
-  #        [
-  #          "CMD-SHELL",
-  #          "mysqladmin ping -h localhost -uroot -p${MYSQL_ROOT_PASSWORD} || exit 1",
-  #        ]
-  #      interval: 30s
-  #      timeout: 10s
-  #      retries: 3
-
   phpmyadmin:
     image: phpmyadmin:5.2.0
     container_name: PhpMyAdmin
@@ -82,11 +80,18 @@ services:
     ports:
       - "5013:80"
     environment:
-      PMA_HOST: 192.168.2.139
-      PMA_USER: ${MYSQL_USER}
-      PMA_PASSWORD: ${MYSQL_PASSWORD}
+      PMA_HOST: db          # Change PMA_HOST to 'db' since that's the service name of the MySQL container
+      PMA_PORT: 3306        # Explicitly specify the MySQL port (optional but recommended)
+      PMA_USER: admin       # Set the correct MySQL username
+      PMA_PASSWORD: adminpass  # Set the correct MySQL password
+    depends_on:
+      db:
+        condition: service_healthy
     healthcheck:
-      test: ["CMD-SHELL", "curl -f http://localhost:80 || exit 1"]
+      test: [ "CMD-SHELL", "curl -f http://localhost:80 || exit 1" ]
       interval: 30s
       timeout: 10s
       retries: 3
+
+volumes:
+  mysql_data:

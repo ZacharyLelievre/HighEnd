@@ -9,14 +9,16 @@ import { GalleryModel } from "./dtos/GalleryModel";
 import "./AllGalleries.css";
 
 export default function AllGalleries(): JSX.Element {
-  const [galleries, setGalleries] = useState<GalleryModel[]>([]);
+    const apiBaseUrl = process.env.REACT_APP_API_BASE_URL;
+
+    const [galleries, setGalleries] = useState<GalleryModel[]>([]);
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
 
   useEffect(() => {
     const fetchGalleries = async (): Promise<void> => {
       try {
         const response = await axios.get(
-          "https://highend-zke6.onrender.com/api/galleries",
+          `${apiBaseUrl}/galleries`,
         );
         setGalleries(response.data);
       } catch (error) {

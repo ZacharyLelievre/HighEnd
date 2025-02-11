@@ -7,6 +7,8 @@ import { useAuth0 } from "@auth0/auth0-react";
 
 export default function AllAppointments(): JSX.Element {
   const [appointments, setAppointments] = useState<AppointmentModel[]>([]);
+  const apiBaseUrl = process.env.REACT_APP_API_BASE_URL;
+
   const [employees, setEmployees] = useState<EmployeeModel[]>([]);
   const [selectedEmployee, setSelectedEmployee] = useState<{
     [key: string]: string;
@@ -29,7 +31,7 @@ export default function AllAppointments(): JSX.Element {
       try {
         const token = await getAccessTokenSilently();
         const response = await axios.get(
-          "https://highend-zke6.onrender.com/api/appointments",
+          `${apiBaseUrl}/appointments`,
           {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -52,7 +54,7 @@ export default function AllAppointments(): JSX.Element {
       try {
         const token = await getAccessTokenSilently();
         const response = await axios.get(
-          "https://highend-zke6.onrender.com/api/employees",
+          `${apiBaseUrl}/employees`,
           {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -77,7 +79,7 @@ export default function AllAppointments(): JSX.Element {
     try {
       const token = await getAccessTokenSilently();
       await axios.delete(
-        `https://highend-zke6.onrender.com/api/appointments/${appointmentId}`,
+        `${apiBaseUrl}/appointments/${appointmentId}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -104,7 +106,7 @@ export default function AllAppointments(): JSX.Element {
     try {
       const token = await getAccessTokenSilently();
       const response = await axios.put(
-        `https://highend-zke6.onrender.com/api/appointments/${appointmentId}/status`,
+        `${apiBaseUrl}/appointments/${appointmentId}/status`,
         { status: "CONFIRMED" },
         {
           headers: {
@@ -139,7 +141,7 @@ export default function AllAppointments(): JSX.Element {
     try {
       const token = await getAccessTokenSilently();
       const response = await axios.put(
-        `https://highend-zke6.onrender.com/api/appointments/${appointmentId}/assign`,
+        `${apiBaseUrl}/appointments/${appointmentId}/assign`,
         { employeeId: employeeId },
         {
           headers: {
@@ -193,7 +195,7 @@ export default function AllAppointments(): JSX.Element {
     try {
       const token = await getAccessTokenSilently();
       await axios.put(
-        `https://highend-zke6.onrender.com/api/appointments/${selectedAppointment.appointmentId}/reschedule`,
+        `${apiBaseUrl}/appointments/${selectedAppointment.appointmentId}/reschedule`,
         { newDate, newStartTime, newEndTime },
         {
           headers: {

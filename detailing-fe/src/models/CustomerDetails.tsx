@@ -5,7 +5,9 @@ import { CustomerModel } from "./dtos/CustomerModel";
 import "./CustomerDetails.css";
 
 export default function CustomerDetails(): JSX.Element {
-  const { customerId } = useParams<{ customerId: string }>();
+    const apiBaseUrl = process.env.REACT_APP_API_BASE_URL;
+
+    const { customerId } = useParams<{ customerId: string }>();
   const [customer, setCustomer] = useState<CustomerModel | null>(null);
   const [isLoading, setIsLoading] = useState(true);
 
@@ -13,7 +15,7 @@ export default function CustomerDetails(): JSX.Element {
     const fetchCustomer = async (): Promise<void> => {
       try {
         const response = await axios.get(
-          `https://highend-zke6.onrender.com/api/customers/${customerId}`,
+          `${apiBaseUrl}/customers/${customerId}`,
         );
         setCustomer(response.data);
       } catch (error) {
