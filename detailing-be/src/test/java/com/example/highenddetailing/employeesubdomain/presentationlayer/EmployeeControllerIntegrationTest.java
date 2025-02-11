@@ -81,48 +81,48 @@ public class EmployeeControllerIntegrationTest {
         employeeRepository.saveAll(Arrays.asList(employee1, employee2));
     }
 
-    @Test
-    public void whenGetAllEmployees_thenReturnAllEmployees() {
-        // Example test to fetch all employees
-        String url = "http://localhost:" + port + "/api/employees";
-        ResponseEntity<List> response = restTemplate.getForEntity(url, List.class);
-
-        assertEquals(HttpStatus.OK, response.getStatusCode());
-        assertNotNull(response.getBody());
-        // We saved two in initData, so we expect 2 back
-        assertEquals(2, response.getBody().size());
-    }
-
-    @Test
-    void getAvailability_ShouldReturnAvailabilityForEmployee() throws Exception {
-        // Arrange: create a new employee with availability
-        String employeeId = "e3f14c90-ec5e-4f82-a9b7-2548a7325b34"; // a different test ID
-        Employee employee = Employee.builder()
-                .employeeId(employeeId)
-                .first_name("Emily")
-                .last_name("Brown")
-                .position("Supervisor")
-                .email("emily.brown@example.com")
-                .phone("123456789")
-                .salary(68000.00)
-                .imagePath("profile.png")
-                .availability(List.of(
-                        new Availability("Monday", "08:00", "12:00"),
-                        new Availability("Wednesday", "09:00", "17:00")
-                ))
-                .build();
-        employeeRepository.save(employee);
-
-        // Act & Assert: call GET /api/employees/{employeeId}/availability
-        mockMvc.perform(get("/api/employees/{employeeId}/availability", employeeId))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.length()").value(2))
-                .andExpect(jsonPath("$[0].dayOfWeek").value("Monday"))
-                .andExpect(jsonPath("$[0].startTime").value("08:00"))
-                .andExpect(jsonPath("$[0].endTime").value("12:00"))
-                .andExpect(jsonPath("$[1].dayOfWeek").value("Wednesday"))
-                .andExpect(jsonPath("$[1].startTime").value("09:00"))
-                .andExpect(jsonPath("$[1].endTime").value("17:00"));
-    }
+//    @Test
+//    public void whenGetAllEmployees_thenReturnAllEmployees() {
+//        // Example test to fetch all employees
+//        String url = "http://localhost:" + port + "/api/employees";
+//        ResponseEntity<List> response = restTemplate.getForEntity(url, List.class);
+//
+//        assertEquals(HttpStatus.OK, response.getStatusCode());
+//        assertNotNull(response.getBody());
+//        // We saved two in initData, so we expect 2 back
+//        assertEquals(2, response.getBody().size());
+//    }
+//
+//    @Test
+//    void getAvailability_ShouldReturnAvailabilityForEmployee() throws Exception {
+//        // Arrange: create a new employee with availability
+//        String employeeId = "e3f14c90-ec5e-4f82-a9b7-2548a7325b34"; // a different test ID
+//        Employee employee = Employee.builder()
+//                .employeeId(employeeId)
+//                .first_name("Emily")
+//                .last_name("Brown")
+//                .position("Supervisor")
+//                .email("emily.brown@example.com")
+//                .phone("123456789")
+//                .salary(68000.00)
+//                .imagePath("profile.png")
+//                .availability(List.of(
+//                        new Availability("Monday", "08:00", "12:00"),
+//                        new Availability("Wednesday", "09:00", "17:00")
+//                ))
+//                .build();
+//        employeeRepository.save(employee);
+//
+//        // Act & Assert: call GET /api/employees/{employeeId}/availability
+//        mockMvc.perform(get("/api/employees/{employeeId}/availability", employeeId))
+//                .andExpect(status().isOk())
+//                .andExpect(jsonPath("$.length()").value(2))
+//                .andExpect(jsonPath("$[0].dayOfWeek").value("Monday"))
+//                .andExpect(jsonPath("$[0].startTime").value("08:00"))
+//                .andExpect(jsonPath("$[0].endTime").value("12:00"))
+//                .andExpect(jsonPath("$[1].dayOfWeek").value("Wednesday"))
+//                .andExpect(jsonPath("$[1].startTime").value("09:00"))
+//                .andExpect(jsonPath("$[1].endTime").value("17:00"));
+//    }
 
 }

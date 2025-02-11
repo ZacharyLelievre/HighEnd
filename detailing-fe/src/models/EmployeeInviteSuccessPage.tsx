@@ -4,6 +4,8 @@ import { useAuth0 } from "@auth0/auth0-react";
 import "./EmployeeInviteSuccessPage.css";
 
 export function EmployeeInviteSuccessPage() {
+  const apiBaseUrl = process.env.REACT_APP_API_BASE_URL;
+
   const { isAuthenticated, getIdTokenClaims } = useAuth0();
   const [status, setStatus] = useState("Loading...");
 
@@ -28,7 +30,7 @@ export function EmployeeInviteSuccessPage() {
       const data = JSON.parse(formJson);
 
       try {
-        await axios.post("https://highend-zke6.onrender.com/api/employees", {
+        await axios.post(`${apiBaseUrl}/employees`, {
           employeeId: sub,
           first_name: data.firstName,
           last_name: data.lastName,

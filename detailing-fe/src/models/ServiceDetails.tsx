@@ -5,6 +5,8 @@ import { ServiceModel } from "./dtos/ServiceModel";
 import "./ServiceDetails.css";
 
 export default function ServiceDetail(): JSX.Element {
+  const apiBaseUrl = process.env.REACT_APP_API_BASE_URL;
+
   const { serviceId } = useParams<{ serviceId: string }>();
   const [service, setService] = useState<ServiceModel | null>(null);
   const [isLoading, setIsLoading] = useState(true); // Local loading state
@@ -12,9 +14,7 @@ export default function ServiceDetail(): JSX.Element {
   useEffect(() => {
     const fetchService = async (): Promise<void> => {
       try {
-        const response = await axios.get(
-          `https://highend-zke6.onrender.com/api/services/${serviceId}`,
-        );
+        const response = await axios.get(`${apiBaseUrl}/services/${serviceId}`);
         setService(response.data);
       } catch (error) {
         console.error("Error fetching service details:", error);
@@ -40,7 +40,7 @@ export default function ServiceDetail(): JSX.Element {
         <div className="service-image-wrapper">
           <img
             className="service-image"
-            src={`https://highend-zke6.onrender.com/${service.imagePath}`}
+            src={`/${service.imagePath}`}
             alt={service.serviceName}
           />
         </div>

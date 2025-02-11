@@ -27,14 +27,15 @@ interface Service {
 }
 
 export default function AppointmentsTable() {
+  const apiBaseUrl = process.env.REACT_APP_API_BASE_URL;
+
   const { getAccessTokenSilently, isAuthenticated } = useAuth0();
   const [appointments, setAppointments] = useState<Appointment[]>([]);
   const [services, setServices] = useState<Service[]>([]);
   const [loading, setLoading] = useState(true);
 
-  const getAppointmentsUrl =
-    "https://highend-zke6.onrender.com/api/appointments";
-  const getServicesUrl = "https://highend-zke6.onrender.com/api/services";
+  const getAppointmentsUrl = `${apiBaseUrl}/appointments`;
+  const getServicesUrl = `${apiBaseUrl}/services`;
 
   useEffect(() => {
     async function loadData() {

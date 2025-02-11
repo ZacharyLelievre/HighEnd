@@ -4,6 +4,8 @@ import axios from "axios";
 import { useAuth0 } from "@auth0/auth0-react";
 
 export function EmployeeOnboardingForm() {
+  const apiBaseUrl = process.env.REACT_APP_API_BASE_URL;
+
   const { token } = useParams<{ token: string }>();
   const { loginWithRedirect } = useAuth0();
 
@@ -19,7 +21,7 @@ export function EmployeeOnboardingForm() {
     async function validateToken() {
       try {
         const response = await axios.get(
-          `https://highend-zke6.onrender.com/api/employee-invites/${token}`,
+          `${apiBaseUrl}/employee-invites/${token}`,
         );
         setIsInviteValid(response.data === true);
       } catch (err) {

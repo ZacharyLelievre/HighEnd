@@ -24,6 +24,8 @@ interface CustomerInfo {
 }
 
 export default function Home(): JSX.Element {
+  const apiBaseUrl = process.env.REACT_APP_API_BASE_URL;
+
   const { getAccessTokenSilently, user, isAuthenticated, loginWithRedirect } =
     useAuth0();
   const [accessToken, setAccessToken] = useState<string | null>(null);
@@ -53,7 +55,7 @@ export default function Home(): JSX.Element {
         const token = await getAccessTokenSilently();
 
         await axios.post(
-          "https://highend-zke6.onrender.com/api/customers",
+          `${apiBaseUrl}/customers`,
           { ...formData, auth0Sub },
           {
             headers: {
@@ -75,7 +77,7 @@ export default function Home(): JSX.Element {
 
     try {
       const response = await axios.get<CustomerInfo>(
-        "https://highend-zke6.onrender.com/api/customers/me",
+        `${apiBaseUrl}/customers/me`,
         {
           headers: { Authorization: `Bearer ${accessToken}` },
         },

@@ -46,6 +46,8 @@ function coversHour(avail: AvailabilityModel, hour: number) {
 }
 
 export default function EmployeeDetails(): JSX.Element {
+  const apiBaseUrl = process.env.REACT_APP_API_BASE_URL;
+
   const { employeeId } = useParams<{ employeeId: string }>();
   const { getAccessTokenSilently } = useAuth0();
 
@@ -71,7 +73,7 @@ export default function EmployeeDetails(): JSX.Element {
       try {
         const token = await getAccessTokenSilently();
         const response = await axios.get(
-          `https://highend-zke6.onrender.com/api/employees/${employeeId}`,
+          `${apiBaseUrl}/employees/${employeeId}`,
           {
             headers: { Authorization: `Bearer ${token}` },
           },
@@ -93,7 +95,7 @@ export default function EmployeeDetails(): JSX.Element {
     try {
       const token = await getAccessTokenSilently();
       const response = await axios.get(
-        `https://highend-zke6.onrender.com/api/employees/${employeeId}/availability`,
+        `${apiBaseUrl}/employees/${employeeId}/availability`,
         {
           headers: { Authorization: `Bearer ${token}` },
         },
@@ -159,7 +161,7 @@ export default function EmployeeDetails(): JSX.Element {
     try {
       const token = await getAccessTokenSilently();
       await axios.put(
-        `https://highend-zke6.onrender.com/api/employees/${employeeId}/availability`,
+        `${apiBaseUrl}/employees/${employeeId}/availability`,
         availability,
         {
           headers: {
@@ -245,7 +247,7 @@ export default function EmployeeDetails(): JSX.Element {
           {employee.imagePath && (
             <img
               className="employee-image"
-              src={`https://highend-zke6.onrender.com/${employee.imagePath}`}
+              src={`/${employee.imagePath}`}
               alt="Employee"
             />
           )}

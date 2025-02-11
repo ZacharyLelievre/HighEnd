@@ -10,6 +10,8 @@ interface EditCustomerFormProps {
 const [customers, setCustomers] = useState<CustomerModel[]>([]);
 
 function EditCustomerForm({ customer, onUpdate }: EditCustomerFormProps) {
+  const apiBaseUrl = process.env.REACT_APP_API_BASE_URL;
+
   const [formData, setFormData] = useState({
     customerFirstName: customer.customerFirstName,
     customerLastName: customer.customerLastName,
@@ -30,7 +32,7 @@ function EditCustomerForm({ customer, onUpdate }: EditCustomerFormProps) {
 
     try {
       const response = await axios.put(
-        `https://highend-zke6.onrender.com/api/customers/${customer.customerId}`,
+        `${apiBaseUrl}/customers/${customer.customerId}`,
         formData,
       );
 

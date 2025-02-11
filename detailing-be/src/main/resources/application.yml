@@ -9,7 +9,7 @@ website:
 
 spring:
   datasource:
-    url: ${SPRING_DATASOURCE_URL}
+    url: ${DB_URL}
     username: ${SPRING_DATASOURCE_USERNAME}
     password: ${SPRING_DATASOURCE_PASSWORD}
 
