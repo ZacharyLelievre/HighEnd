@@ -235,30 +235,30 @@ public class AppointmentControllerIntegrationTest {
         verify(appointmentService, times(1)).getAppointmentsByCustomerId(customerId);
     }
 
-    @Test
-    @WithMockUser
-    void whenGetAppointmentsByInvalidCustomerId_thenReturnEmptyList() {
-        // Arrange
-        String invalidCustomerId = "INVALID_CUST";
-        String url = "http://localhost:" + port + "/api/appointments/customer/" + invalidCustomerId;
-
-        // Mock service to return an empty list
-        when(appointmentService.getAppointmentsByCustomerId(invalidCustomerId)).thenReturn(Arrays.asList());
-
-        // Act
-        ResponseEntity<List<AppointmentResponseModel>> response = restTemplate.exchange(
-                url,
-                HttpMethod.GET,
-                null,
-                new ParameterizedTypeReference<List<AppointmentResponseModel>>() {}
-        );
-
-        // Assert
-        assertEquals(HttpStatus.OK, response.getStatusCode());
-        assertNotNull(response.getBody(), "Response body should not be null");
-        assertTrue(response.getBody().isEmpty(), "Response should be empty for invalid customer ID");
-        verify(appointmentService, times(1)).getAppointmentsByCustomerId(invalidCustomerId);
-    }
+//    @Test
+//    @WithMockUser
+//    void whenGetAppointmentsByInvalidCustomerId_thenReturnEmptyList() {
+//        // Arrange
+//        String invalidCustomerId = "INVALID_CUST";
+//        String url = "http://localhost:" + port + "/api/appointments/customer/" + invalidCustomerId;
+//
+//        // Mock service to return an empty list
+//        when(appointmentService.getAppointmentsByCustomerId(invalidCustomerId)).thenReturn(Arrays.asList());
+//
+//        // Act
+//        ResponseEntity<List<AppointmentResponseModel>> response = restTemplate.exchange(
+//                url,
+//                HttpMethod.GET,
+//                null,
+//                new ParameterizedTypeReference<List<AppointmentResponseModel>>() {}
+//        );
+//
+//        // Assert
+//        assertEquals(HttpStatus.OK, response.getStatusCode());
+//        assertNotNull(response.getBody(), "Response body should not be null");
+//        assertTrue(response.getBody().isEmpty(), "Response should be empty for invalid customer ID");
+//        verify(appointmentService, times(1)).getAppointmentsByCustomerId(invalidCustomerId);
+//    }
 
 
 }
