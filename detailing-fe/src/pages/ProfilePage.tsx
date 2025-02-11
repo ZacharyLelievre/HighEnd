@@ -138,12 +138,9 @@ export function ProfilePage() {
     if (window.confirm("Are you sure you want to cancel this appointment?")) {
       try {
         const token = await getAccessTokenSilently();
-        await axios.delete(
-          `${apiBaseUrl}/appointments/${appointmentId}`,
-          {
-            headers: { Authorization: `Bearer ${token}` },
-          },
-        );
+        await axios.delete(`${apiBaseUrl}/appointments/${appointmentId}`, {
+          headers: { Authorization: `Bearer ${token}` },
+        });
 
         setAppointments((prevAppointments) =>
           prevAppointments.filter(

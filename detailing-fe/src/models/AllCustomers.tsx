@@ -33,9 +33,7 @@ export default function AllCustomers(): JSX.Element {
   useEffect(() => {
     const fetchCustomers = async (): Promise<void> => {
       try {
-        const response = await axios.get(
-          `${apiBaseUrl}/customers`,
-        );
+        const response = await axios.get(`${apiBaseUrl}/customers`);
         setCustomers(response.data);
       } catch (error) {
         console.error("Error fetching customers:", error);

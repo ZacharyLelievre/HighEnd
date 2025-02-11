@@ -34,9 +34,8 @@ export function NavBar(): JSX.Element {
           },
         });
 
-          const data = await response.json();
-          console.log("Customer Data:", data);
-
+        const data = await response.json();
+        console.log("Customer Data:", data);
       } catch (error) {
         console.error("Error checking user existence:", error);
       }

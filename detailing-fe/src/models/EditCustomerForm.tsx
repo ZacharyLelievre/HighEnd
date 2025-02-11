@@ -10,9 +10,9 @@ interface EditCustomerFormProps {
 const [customers, setCustomers] = useState<CustomerModel[]>([]);
 
 function EditCustomerForm({ customer, onUpdate }: EditCustomerFormProps) {
-    const apiBaseUrl = process.env.REACT_APP_API_BASE_URL;
+  const apiBaseUrl = process.env.REACT_APP_API_BASE_URL;
 
-    const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState({
     customerFirstName: customer.customerFirstName,
     customerLastName: customer.customerLastName,
     customerEmailAddress: customer.customerEmailAddress,

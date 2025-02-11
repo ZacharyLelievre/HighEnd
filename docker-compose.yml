@@ -8,14 +8,14 @@ services:
       MYSQL_ROOT_PASSWORD: password
       MYSQL_DATABASE: high_end_db
       MYSQL_USER: ${SPRING_DATASOURCE_USERNAME}
-      MYSQL_PASSWORD:  ${SPRING_DATASOURCE_PASSWORD}
+      MYSQL_PASSWORD: ${SPRING_DATASOURCE_PASSWORD}
     ports:
       - "3307:3306"
     volumes:
       - mysql_data:/var/lib/mysql
     restart: always
     healthcheck:
-      test: [ "CMD", "mysqladmin", "ping", "-h", "localhost" ]
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
       interval: 30s
       timeout: 10s
       retries: 3
@@ -80,15 +80,15 @@ services:
     ports:
       - "5013:80"
     environment:
-      PMA_HOST: db          # Change PMA_HOST to 'db' since that's the service name of the MySQL container
-      PMA_PORT: 3306        # Explicitly specify the MySQL port (optional but recommended)
-      PMA_USER: admin       # Set the correct MySQL username
-      PMA_PASSWORD: adminpass  # Set the correct MySQL password
+      PMA_HOST: db # Change PMA_HOST to 'db' since that's the service name of the MySQL container
+      PMA_PORT: 3306 # Explicitly specify the MySQL port (optional but recommended)
+      PMA_USER: admin # Set the correct MySQL username
+      PMA_PASSWORD: adminpass # Set the correct MySQL password
     depends_on:
       db:
         condition: service_healthy
     healthcheck:
-      test: [ "CMD-SHELL", "curl -f http://localhost:80 || exit 1" ]
+      test: ["CMD-SHELL", "curl -f http://localhost:80 || exit 1"]
       interval: 30s
       timeout: 10s
       retries: 3

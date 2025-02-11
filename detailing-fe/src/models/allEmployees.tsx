@@ -13,9 +13,7 @@ export default function AllEmployees(): JSX.Element {
   useEffect(() => {
     const fetchEmployees = async (): Promise<void> => {
       try {
-        const response = await axios.get(
-          `${apiBaseUrl}/employees`,
-        );
+        const response = await axios.get(`${apiBaseUrl}/employees`);
         setEmployees(response.data);
       } catch (error) {
         console.error("Error fetching employees:", error);

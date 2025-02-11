@@ -30,14 +30,11 @@ export default function AllAppointments(): JSX.Element {
     const fetchAppointments = async (): Promise<void> => {
       try {
         const token = await getAccessTokenSilently();
-        const response = await axios.get(
-          `${apiBaseUrl}/appointments`,
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
+        const response = await axios.get(`${apiBaseUrl}/appointments`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
           },
-        );
+        });
         setAppointments(response.data);
       } catch (error) {
         console.error("Error fetching appointments:", error);
@@ -53,14 +50,11 @@ export default function AllAppointments(): JSX.Element {
     const fetchEmployees = async (): Promise<void> => {
       try {
         const token = await getAccessTokenSilently();
-        const response = await axios.get(
-          `${apiBaseUrl}/employees`,
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
+        const response = await axios.get(`${apiBaseUrl}/employees`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
           },
-        );
+        });
         setEmployees(response.data);
       } catch (error) {
         console.error("Error fetching employees:", error);
@@ -78,14 +72,11 @@ export default function AllAppointments(): JSX.Element {
 
     try {
       const token = await getAccessTokenSilently();
-      await axios.delete(
-        `${apiBaseUrl}/appointments/${appointmentId}`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
+      await axios.delete(`${apiBaseUrl}/appointments/${appointmentId}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
         },
-      );
+      });
 
       setAppointments((prevAppointments) =>
         prevAppointments.filter(

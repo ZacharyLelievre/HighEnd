@@ -14,10 +14,7 @@ export default function DashboardPage(): JSX.Element {
 
   const handleGenerateLink = async () => {
     try {
-      const response = await axios.post(
-        `${apiBaseUrl}/employee-invites`,
-        {},
-      );
+      const response = await axios.post(`${apiBaseUrl}/employee-invites`, {});
       setInviteLink(response.data.inviteLink);
       setIsOpen(true); // Open the container
     } catch (error) {

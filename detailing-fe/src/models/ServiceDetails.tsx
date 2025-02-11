@@ -14,9 +14,7 @@ export default function ServiceDetail(): JSX.Element {
   useEffect(() => {
     const fetchService = async (): Promise<void> => {
       try {
-        const response = await axios.get(
-          `${apiBaseUrl}/services/${serviceId}`,
-        );
+        const response = await axios.get(`${apiBaseUrl}/services/${serviceId}`);
         setService(response.data);
       } catch (error) {
         console.error("Error fetching service details:", error);

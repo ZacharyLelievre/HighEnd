@@ -5,9 +5,9 @@ import { CustomerModel } from "./dtos/CustomerModel";
 import "./CustomerDetails.css";
 
 export default function CustomerDetails(): JSX.Element {
-    const apiBaseUrl = process.env.REACT_APP_API_BASE_URL;
+  const apiBaseUrl = process.env.REACT_APP_API_BASE_URL;
 
-    const { customerId } = useParams<{ customerId: string }>();
+  const { customerId } = useParams<{ customerId: string }>();
   const [customer, setCustomer] = useState<CustomerModel | null>(null);
   const [isLoading, setIsLoading] = useState(true);
 
