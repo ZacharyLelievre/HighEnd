@@ -46,24 +46,23 @@ export function ProfilePage() {
         const token = await getAccessTokenSilently();
 
         try {
-          const customerResponse = await axios.get<CustomerModel>(
-            `${apiBaseUrl}/customers/me`,
-            {
-              headers: { Authorization: `Bearer ${token}` },
-            },
-          );
+            const customerResponse = await axios.get<CustomerModel>(
+                `${apiBaseUrl}/customers/me`,
+                {
+                    headers: { Authorization: `Bearer ${token}` },
+                }
+            );
           setProfile(customerResponse.data);
           setUserType("Customer");
         } catch (customerError: any) {
           if (customerError.response && customerError.response.status === 404) {
             try {
-              const employeeResponse = await axios.get<EmployeeModel>(
-                `${apiBaseUrl}/employees/me`,
-                {
-                  headers: { Authorization: `Bearer ${token}` },
-                },
-              );
-              setProfile(employeeResponse.data);
+                const employeeResponse = await axios.get<EmployeeModel>(
+                    `${apiBaseUrl}/employees/me`,
+                    { headers: { Authorization: `Bearer ${token}` } }
+                );
+
+                setProfile(employeeResponse.data);
               setUserType("Employee");
             } catch (employeeError: any) {
               if (
@@ -106,24 +105,18 @@ export function ProfilePage() {
         if (userType === "Employee") {
           const emp = profile as EmployeeModel;
           if (!emp.employeeId) return;
-
-          const response = await axios.get<AppointmentModel[]>(
-            `${apiBaseUrl}/appointments/employee/${emp.employeeId}`,
-            {
-              headers: { Authorization: `Bearer ${token}` },
-            },
-          );
+            const response = await axios.get<AppointmentModel[]>(
+                `${apiBaseUrl}/appointments/employee/${emp.employeeId}`,
+                { headers: { Authorization: `Bearer ${token}` } }
+            );
           setAppointments(response.data);
         } else if (userType === "Customer") {
           const cus = profile as CustomerModel;
           if (!cus.customerId) return;
-
-          const response = await axios.get<AppointmentModel[]>(
-            `${apiBaseUrl}/appointments/customer/${cus.customerId}`,
-            {
-              headers: { Authorization: `Bearer ${token}` },
-            },
-          );
+            const response = await axios.get<AppointmentModel[]>(
+                `${apiBaseUrl}/appointments/employee/${cus.customerId}`,
+                { headers: { Authorization: `Bearer ${token}` } }
+            );
           setAppointments(response.data);
         }
       } catch (err) {
@@ -138,9 +131,9 @@ export function ProfilePage() {
     if (window.confirm("Are you sure you want to cancel this appointment?")) {
       try {
         const token = await getAccessTokenSilently();
-        await axios.delete(`${apiBaseUrl}/appointments/${appointmentId}`, {
-          headers: { Authorization: `Bearer ${token}` },
-        });
+          await axios.delete(`${apiBaseUrl}/appointments/${appointmentId}`, {
+              headers: { Authorization: `Bearer ${token}` },
+          });
 
         setAppointments((prevAppointments) =>
           prevAppointments.filter(
@@ -212,18 +205,14 @@ export function ProfilePage() {
 
     try {
       const token = await getAccessTokenSilently();
-      await axios.put(
-        `${apiBaseUrl}/appointments/${rescheduleModal.appointmentId}/reschedule`,
-        {
-          newDate,
-          newStartTime,
-          newEndTime,
-        },
-        { headers: { Authorization: `Bearer ${token}` } },
-      );
+        await axios.put(
+            `${apiBaseUrl}/appointments/${rescheduleModal.appointmentId}/reschedule`,
+            { newDate, newStartTime, newEndTime },
+            { headers: { Authorization: `Bearer ${token}` } }
+        );
 
-      // Refresh appointments after rescheduling
-      setAppointments((prev) =>
+
+        setAppointments((prev) =>
         prev.map((appt) =>
           appt.appointmentId === rescheduleModal.appointmentId
             ? {
@@ -416,9 +405,10 @@ export function ProfilePage() {
                       />
                     </>
                   )}
-
-                  <button onClick={handleSaveChanges}>Save Changes</button>
-                  <button onClick={closeModal}>Cancel</button>
+                  <div className="modal-buttons">
+                    <button onClick={handleSaveChanges}>Save Changes</button>
+                    <button onClick={closeModal}>Cancel</button>
+                  </div>
                 </div>
               </div>
             )}
@@ -430,32 +420,48 @@ export function ProfilePage() {
               ) : (
                 <ul className="appointments-list">
                   {appointments.map((appt) => (
-                    <li key={appt.appointmentId} className="appointment-item">
-                      <span className="appointment-service">
-                        {appt.serviceName}
-                      </span>
-                      <span className="appointment-date">
-                        {new Date(appt.appointmentDate).toLocaleDateString()}
-                      </span>
-                      <span className="appointment-status">{appt.status}</span>
-                      <button
-                        className="cancel-button"
-                        onClick={() =>
-                          handleCancelAppointment(appt.appointmentId)
-                        }
-                      >
-                        Cancel Appointment
-                      </button>
-                      <button
-                        onClick={() => openRescheduleModal(appt.appointmentId)}
-                      >
-                        Reschedule
-                      </button>
+                    <li
+                      key={appt.appointmentId}
+                      className="appointment-item"
+                      onClick={() => handleAppointmentClick(appt.appointmentId)}
+                    >
+                      <div className="appointment-info">
+                        <span className="appointment-service">
+                          {appt.serviceName}
+                        </span>
+                        <span className="appointment-date">
+                          {new Date(appt.appointmentDate).toLocaleDateString()}
+                        </span>
+                        <span className="appointment-status">
+                          {appt.status}
+                        </span>
+                      </div>
+                      <div className="appointment-actions">
+                        <button
+                          className="cancel-button"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            handleCancelAppointment(appt.appointmentId);
+                          }}
+                        >
+                          Cancel
+                        </button>
+                        <button
+                          className="reschedule-button"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            openRescheduleModal(appt.appointmentId);
+                          }}
+                        >
+                          Reschedule
+                        </button>
+                      </div>
                     </li>
                   ))}
                 </ul>
               )}
             </div>
+
             {rescheduleModal.open && (
               <div className="modal-overlay">
                 <div className="modal">
@@ -478,8 +484,10 @@ export function ProfilePage() {
                     onChange={(e) => setNewEndTime(e.target.value)}
                     placeholder="New End Time"
                   />
-                  <button onClick={handleReschedule}>Confirm Reschedule</button>
-                  <button onClick={closeRescheduleModal}>Cancel</button>
+                  <div className="modal-buttons">
+                    <button onClick={handleReschedule}>Confirm</button>
+                    <button onClick={closeRescheduleModal}>Cancel</button>
+                  </div>
                 </div>
               </div>
             )}

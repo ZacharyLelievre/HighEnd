@@ -1,0 +1,73 @@
+@startuml
+skinparam classAttributeIconSize 0
+
+' -------------------- PRESENTATION LAYER --------------------
+package "presentationlayer" <<Rectangle>> {
+    class ReportController {
+        - reportService: ReportService
+        + generateReport(filters: ReportFilters): ReportResponse
+        + getReportById(reportId: String): ReportResponse
+    }
+}
+
+' -------------------- BUSINESS LAYER --------------------
+package "businesslayer" <<Rectangle>> {
+    class ReportService {
+        - reportRepository: ReportRepository
+        + generateReport(filters: ReportFilters): ReportResponse
+        + getReportById(reportId: String): ReportResponse
+        + calculateMetrics(data: ReportData): ReportMetrics
+    }
+
+    class ReportMetrics {
+        - totalRevenue: Double
+        - avgRating: Double
+        - completedAppointments: int
+        - totalCustomers: int
+        - mostPopularService: String
+        - totalEmployeesWorked: int
+    }
+}
+
+' -------------------- DATA LAYER --------------------
+package "datalayer" <<Rectangle>> {
+    class ReportRepository {
+        + save(report: Report)
+        + findById(reportId: String): Optional<Report>
+        + findByFilters(filters: ReportFilters): List<Report>
+    }
+}
+
+' -------------------- DOMAIN ENTITIES --------------------
+package "domain" <<Rectangle>> {
+    class Report {
+        - reportId: String
+        - dateRange: Date
+        - generatedAt: Date
+        - status: enum {Pending, Completed, Failed}
+        - reportType: enum {Daily, Weekly, Monthly}
+        - metrics: ReportMetrics
+    }
+
+    class ReportFilters {
+        - dateRange: Date
+        - serviceType: String
+        - status: enum {Pending, Completed, Failed}
+    }
+
+    class ReportResponse {
+        - reportId: String
+        - generatedAt: Date
+        - metrics: ReportMetrics
+    }
+}
+
+' -------------------- RELATIONSHIPS --------------------
+ReportController --> ReportService : "calls"
+ReportService --> ReportRepository : "uses"
+ReportService --> ReportMetrics : "calculates"
+ReportRepository --> Report : "stores"
+Report --> ReportMetrics : "contains"
+Report --> ReportFilters : "generated from"
+ReportService --> ReportResponse : "returns"
+@enduml

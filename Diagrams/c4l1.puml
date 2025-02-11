@@ -1,0 +1,31 @@
+@startuml
+!includeurl https://raw.githubusercontent.com/RicardoNiepel/C4-PlantUML/master/C4_Context.puml
+
+title C4 Level 1 - Context Diagram for Detailing Booking System
+
+' External actors
+Person(customer, "Customer", "Books detailing services, views gallery, promotions, and reviews.")
+Person(employee, "Employee", "Works on assigned client appointments and updates job statuses.")
+Person(admin, "Administrator", "Manages bookings, promotions, gallery images, and system settings.")
+
+' Main system
+System_Boundary(detailingSystemBoundary, "Detailing Booking System Boundary") {
+    System(mainSystem, "Detailing Booking System", "Manages bookings, promotions, scheduling, notifications, and reporting. Tracks business performance metrics.")
+}
+
+' External systems
+System_Ext(emailSystem, "Email System", "Sends notifications and confirmations to customers and admin.")
+System_Ext(authSystem, "Authentication System", "Authenticates users and manages roles for secure access.")
+System_Ext(schedulingSystem, "Scheduling System", "Tracks and manages detailing appointments and reschedules.")
+
+' Relationships
+Rel(customer, mainSystem, "Books services, views promotions and gallery.")
+Rel(employee, mainSystem, "Updates job statuses, views customer details.")
+Rel(admin, mainSystem, "Manages bookings, promotions, gallery, and reporting.")
+
+Rel(mainSystem, emailSystem, "Sends email notifications and reminders.")
+Rel(mainSystem, authSystem, "Authenticates users and manages roles.")
+Rel(mainSystem, schedulingSystem, "Syncs appointments and schedules.")
+
+SHOW_LEGEND()
+@enduml

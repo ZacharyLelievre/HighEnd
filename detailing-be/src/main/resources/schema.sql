@@ -1,4 +1,3 @@
-DROP TABLE IF EXISTS services;
 CREATE TABLE IF NOT EXISTS services (
                                         id INTEGER NOT NULL AUTO_INCREMENT PRIMARY KEY,
                                         service_id VARCHAR(36) NOT NULL,
@@ -9,7 +8,6 @@ CREATE TABLE IF NOT EXISTS services (
     );
 
 
-DROP TABLE IF EXISTS appointments;
 CREATE TABLE IF NOT EXISTS appointments (
                                             id INTEGER NOT NULL AUTO_INCREMENT PRIMARY KEY,
                                             appointment_id VARCHAR(36) NOT NULL,
@@ -27,7 +25,6 @@ CREATE TABLE IF NOT EXISTS appointments (
 
     );
 
-DROP TABLE IF EXISTS galleries;
 CREATE TABLE IF NOT EXISTS galleries (
                                          id INTEGER NOT NULL AUTO_INCREMENT PRIMARY KEY,
                                          gallery_id VARCHAR(255) NOT NULL,
@@ -36,8 +33,6 @@ CREATE TABLE IF NOT EXISTS galleries (
     );
 
 
-DROP TABLE IF EXISTS employee_availability;
-DROP TABLE IF EXISTS employees;
 
 
 CREATE TABLE IF NOT EXISTS employees (
@@ -62,7 +57,6 @@ CREATE TABLE IF NOT EXISTS employee_availability (
     FOREIGN KEY (employee_id) REFERENCES employees(employee_id) ON DELETE CASCADE
     );
 
-DROP TABLE IF EXISTS customers;
 CREATE TABLE IF NOT EXISTS customers(
                                         id INTEGER NOT NULL AUTO_INCREMENT PRIMARY KEY,
                                         customer_id VARCHAR(50) UNIQUE,
@@ -75,7 +69,6 @@ CREATE TABLE IF NOT EXISTS customers(
     province VARCHAR (50),
     country VARCHAR (50)
     );
-DROP TABLE IF EXISTS employee_invites;
 CREATE TABLE IF NOT EXISTS employee_invites (
                                                 id INTEGER NOT NULL AUTO_INCREMENT PRIMARY KEY,
                                                 invite_token VARCHAR(255) NOT NULL,

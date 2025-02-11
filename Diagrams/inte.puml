@@ -1,0 +1,204 @@
+@startuml
+skinparam classAttributeIconSize 0
+
+' ------------------------ CONTROLLERS ------------------------
+class AppointmentController {
+    - appointmentService : AppointmentService
+    + getAllAppointments() : ResponseEntity<List<AppointmentResponseModel>>
+}
+
+class ServicesController {
+    - serviceService : ServiceService
+    + getAllServices() : ResponseEntity<List<ServiceResponseModel>>
+    + getServiceById(serviceId: String) : ResponseEntity<ServiceResponseModel>
+}
+
+class GalleryController {
+    - galleryService : GalleryService
+    + getAllGalleries() : ResponseEntity<List<GalleryResponseModel>>
+}
+
+class CustomerController {
+    - customerService : CustomerService
+    + getAllCustomers() : ResponseEntity<List<CustomerResponseModel>>
+    + getCustomerById(customerId: String) : ResponseEntity<CustomerResponseModel>
+    + updateCustomer(customerRequestModel: CustomerRequestModel, customerId: String) : ResponseEntity<CustomerResponseModel>
+    + deleteCustomer(customerId: String) : ResponseEntity<Void>
+    + getCurrentCustomer(auth0UserId: String) : ResponseEntity<CustomerResponseModel>
+    + createCustomer(customerRequestModel: CustomerRequestModel) : ResponseEntity<CustomerResponseModel>
+}
+
+class EmployeeInviteController {
+    - inviteService : EmployeeInviteService
+    + createInvite(request: Map<String, String>) : InviteResponse
+    + validateInvite(token: String) : boolean
+}
+
+' ------------------------ SERVICES ------------------------
+class AppointmentService {
+    + getAllAppointments() : List<AppointmentResponseModel>
+}
+
+class ServiceService {
+    + getAllServices() : List<ServiceResponseModel>
+    + getServiceById(serviceId: String) : Optional<ServiceResponseModel>
+}
+
+class GalleryService {
+    + getAllGalleries() : List<GalleryResponseModel>
+}
+
+class CustomerService {
+    + getCustomers() : List<CustomerResponseModel>
+    + getCustomerById(customerId: String) : Optional<CustomerResponseModel>
+    + updateCustomer(customerRequestModel: CustomerRequestModel, customerId: String) : CustomerResponseModel
+    + deleteCustomer(customerId: String)
+    + getCurrentCustomer(auth0UserId: String) : CustomerResponseModel
+    + createCustomer(customerRequestModel: CustomerRequestModel, auth0UserId: String) : CustomerResponseModel
+}
+
+class EmployeeInviteService {
+    + generateInviteLink() : String
+    + isInviteValid(token: String) : boolean
+}
+
+' ------------------------ DATA LAYER ------------------------
+class Appointment {
+    - id : Integer
+    - appointmentIdentifier : AppointmentIdentifier
+    - customerId : String
+    - customerName : String
+    - serviceId : String
+    - serviceName : String
+    - employeeId : String
+    - employeeName : String
+    - appointmentDate : LocalDate
+    - appointmentTime : LocalTime
+    - appointmentEndTime: LocalTime
+    - status : String
+    - imagePath : String
+    + Appointment()
+    + Appointment(Integer, String, String, String, String, String, String, String, String, String, String)
+}
+
+class AppointmentIdentifier {
+    - appointmentId : String
+    + AppointmentIdentifier()
+}
+
+class Service {
+    - id : Integer
+    - serviceIdentifier : ServiceIdentifier
+    - serviceName : String
+    - timeRequired : String
+    - price : float
+    - imagePath : String
+    + Service()
+    + Service(String, String, float, String)
+}
+
+class ServiceIdentifier {
+    - serviceId : String
+    + ServiceIdentifier()
+}
+
+class Gallery {
+    - id : Integer
+    - galleryIdentifier : GalleryIdentifier
+    - description : String
+    - imageUrl : String
+    + Gallery()
+    + Gallery(GalleryIdentifier, String, String)
+}
+
+class GalleryIdentifier {
+    - galleryId : String
+    + GalleryIdentifier()
+}
+
+class Customer {
+    - id : Integer
+    - customerIdentifier : CustomerIdentifier
+    - firstName : String
+    - lastName : String
+    - emailAddress : String
+    - address : String
+}
+
+class CustomerIdentifier {
+    - customerId : String
+    + CustomerIdentifier()
+}
+
+class EmployeeInvite {
+    - id : Long
+    - inviteToken : String
+    - expiresAt : LocalDateTime
+    + EmployeeInvite()
+}
+
+class InviteResponse {
+    - inviteLink : String
+    + InviteResponse(String)
+}
+
+class EmployeeInviteRepository {
+    + findByInviteToken(inviteToken: String) : Optional<EmployeeInvite>
+}
+
+' ------------------------ AUTHENTICATION SUBDOMAIN ------------------------
+class AudienceValidator {
+    - audience : String
+    + AudienceValidator(String)
+    + validate(Jwt) : OAuth2TokenValidatorResult
+}
+
+class CorsConfig {
+    + corsConfigurer() : WebMvcConfigurer
+}
+
+class CustomRoleConverter {
+    + convert(Jwt) : Collection<GrantedAuthority>
+}
+
+class SecurityConfig {
+    - audience : String
+    - issuer : String
+    + jwtAuthenticationConverter() : JwtAuthenticationConverter
+    + securityFilterChain(HttpSecurity) : SecurityFilterChain
+    + corsConfigurationSource() : UrlBasedCorsConfigurationSource
+    + jwtDecoder() : JwtDecoder
+}
+
+' ------------------------ RELATIONSHIPS ------------------------
+AppointmentController --> AppointmentService : "uses"
+AppointmentService --> Appointment : "manages"
+Appointment --> AppointmentIdentifier : "has"
+Appointment --> Service : "references"
+Appointment --> Customer : "references"
+
+ServicesController --> ServiceService : "uses"
+ServiceService --> Service : "manages"
+Service --> ServiceIdentifier : "has"
+
+GalleryController --> GalleryService : "uses"
+GalleryService --> Gallery : "manages"
+Gallery --> GalleryIdentifier : "has"
+
+CustomerController --> CustomerService : "uses"
+CustomerService --> Customer : "manages"
+Customer --> CustomerIdentifier : "has"
+
+EmployeeInviteController --> EmployeeInviteService : "uses"
+EmployeeInviteService --> EmployeeInviteRepository : "manages"
+EmployeeInviteRepository --> EmployeeInvite : "stores"
+
+SecurityConfig --> AudienceValidator : "uses"
+SecurityConfig --> CustomRoleConverter : "uses"
+SecurityConfig --> CorsConfig : "configures"
+AudienceValidator --> Jwt : "validates"
+CustomRoleConverter --> Jwt : "converts"
+SecurityConfig --> JwtDecoder : "uses"
+SecurityConfig --> HttpSecurity : "configures"
+
+@enduml

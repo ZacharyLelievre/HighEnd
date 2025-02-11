@@ -1,0 +1,227 @@
+@startuml
+
+!define ENTITY(entityName) class entityName << Entity >>
+!define AGGREGATE_ROOT(aggregateRootName) class aggregateRootName << Aggregate Root >>
+!define VALUE_OBJECT(valueObjectName) class valueObjectName << Value Object >>
+!define DOMAIN_SERVICE(serviceName) class serviceName << Domain Service >>
+!pragma useVerticalIf on
+skinparam dpi 350
+skinparam packageStyle rectangle
+skinparam rectangle {
+    BackgroundColor #f7f4eb
+    BorderColor Black
+}
+
+hide class circle
+
+rectangle "High-End Detailing System" as BoundedContextMovingExpress #line.dashed {
+
+    Package "Customer Sub-Domain" <<Rectangle>> #BBDEFB {
+        ENTITY(Customer) #F0AA89 {
+            firstName: String
+            lastName: String
+            emailAddress: String
+            appointments: List<Appointment>
+        }
+
+        VALUE_OBJECT(CustomerIdentifier) {
+            customerId: String
+        }
+
+        VALUE_OBJECT(Address) {
+            streetAddress: String
+            city: String
+            postalCode: String
+            province: String
+            country: String
+        }
+
+        Customer ---* Address
+        Customer ---> CustomerIdentifier
+    }
+
+    Package "Employee Sub-Domain" <<Rectangle>> #BBDEFB {
+            ENTITY(Employee) #F0AA89 {
+                firstName: String
+                lastName: String
+                position: enum {Technician, Manager, Receptionist}
+                availabilities: List<String>
+            }
+
+            VALUE_OBJECT(EmployeeIdentifier) {
+                employeeId: String
+            }
+
+            VALUE_OBJECT(Address) {
+                streetAddress: String
+                city: String
+                postalCode: String
+                province: String
+                country: String
+            }
+
+            ENTITY(EmployeeInvite) #F0AA89 {
+                inviteToken: String
+                expiresAt: LocalDateTime
+            }
+
+            VALUE_OBJECT(EmployeeInviteIdentifier) {
+                inviteId: String
+            }
+
+Employee ---* Address
+        Employee ---> EmployeeIdentifier
+        EmployeeInvite ---> EmployeeInviteIdentifier
+
+    }
+
+    Package "Emailing Sub-Domain" <<Rectangle>> #CCCCFF {
+        AGGREGATE_ROOT(Email) #FFCCFF {
+            emailAddress: String
+            title: String
+            body: String
+            date: DATE
+        }
+
+        VALUE_OBJECT(EmailIdentifier) {
+            emailId: String
+        }
+
+        Email ---> EmailIdentifier
+    }
+
+    Package "Appointment Sub-Domain" <<Rectangle>> #CCCCFF {
+        AGGREGATE_ROOT(Appointment) #FFCCFF {
+            customerId: String
+            serviceId: String
+            employeeId: String
+            appointmentDate: DATE
+            appointmentStartTime: TIME
+            appointmentEndTime: TIME
+            status: enum {Scheduled, Completed, Canceled, No-Show}
+        }
+
+        VALUE_OBJECT(AppointmentIdentifier) {
+            appointmentId: String
+        }
+
+        Appointment ---* AppointmentIdentifier
+    }
+
+    Package "Report Sub-Domain" <<Rectangle>> #BBDEFB {
+        AGGREGATE_ROOT(Report) #FFCCFF {
+            reportId: String
+            dateRange: DATE
+            generatedAt: DATE
+            status: enum {Pending, Completed, Failed}
+            reportType: enum {Daily, Weekly, Monthly}
+            totalRevenue: Double
+            avgRating: Double
+            completedAppointments: int
+        }
+
+        VALUE_OBJECT(ReportIdentifier) {
+            reportId: String
+        }
+
+        VALUE_OBJECT(ReportFilters) {
+            dateRange: DATE
+            serviceType: String
+            status: enum
+        }
+
+        ENTITY(AppointmentSummary) #F0AA89 {
+            date: DATE
+            time: TIME
+            customerName: String
+            serviceType: String
+            employee: String
+            totalAmount: Double
+            status: enum {Completed, Canceled, No-Show, Success}
+            rating: int
+            comments: String
+        }
+
+        Report ---> ReportIdentifier
+        Report ---> ReportFilters
+        Report ---> "0..*" AppointmentSummary
+    }
+
+    Package "Service Sub-Domain" <<Rectangle>> #BBDEFB {
+        ENTITY(Service) #F0AA89 {
+            serviceName: String
+            duration: String
+            price: Double
+            imagePath: String
+        }
+
+        VALUE_OBJECT(ServiceIdentifier) {
+            serviceId: String
+        }
+
+        Service ---* ServiceIdentifier
+    }
+
+    Package "Gallery Sub-Domain" <<Rectangle>> #BBDEFB {
+        ENTITY(Gallery) #F0AA89 {
+            description: String
+            imageUrl: String
+        }
+
+        VALUE_OBJECT(GalleryIdentifier) {
+            galleryId: String
+        }
+
+        Gallery ---* GalleryIdentifier
+    }
+
+    Package "Review Service" <<Rectangle>> #BBDEFB {
+        ENTITY(ReviewService) #F0AA89 {
+            rating: int
+            comment: String
+            date: DATE
+        }
+
+        VALUE_OBJECT(ReviewServiceIdentifier) {
+            reviewServiceId: String
+        }
+
+        ReviewService ---* ReviewServiceIdentifier
+        Customer ---o "0..*" ReviewService
+        Appointment ---o ReviewService
+    }
+
+    Package "Auth Sub-Domain" <<Rectangle>> #D1C4E9 {
+        ENTITY(AudienceValidator) #F0AA89 {
+            validate(jwt: Jwt): OAuth2TokenValidatorResult
+        }
+
+        ENTITY(CustomRoleConverter) #F0AA89 {
+            convert(jwt: Jwt): Collection<GrantedAuthority>
+        }
+
+        ENTITY(SecurityConfig) #F0AA89 {
+            corsConfigurer(): WebMvcConfigurer
+            jwtAuthenticationConverter(): JwtAuthenticationConverter
+            securityFilterChain(http: HttpSecurity): SecurityFilterChain
+            jwtDecoder(): JwtDecoder
+        }
+
+        ENTITY(CorsConfig) #F0AA89 {
+            corsConfigurer(): WebMvcConfigurer
+        }
+
+        SecurityConfig ---> CorsConfig
+    }
+
+    Email ---> AppointmentIdentifier
+    Email ---> CustomerIdentifier
+    Report ---* AppointmentIdentifier
+    Customer ---o "0..*" Appointment
+    Appointment ---> ServiceIdentifier
+    Employee ---o Appointment
+    Gallery ---> AppointmentIdentifier
+    Appointment ---> SecurityConfig
+}
+
+@enduml
