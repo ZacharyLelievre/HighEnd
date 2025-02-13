@@ -23,6 +23,7 @@ export default function AllServices(): JSX.Element {
   const apiBaseUrl = process.env.REACT_APP_API_BASE_URL;
   const [services, setServices] = useState<ServiceModel[]>([]);
   const [modalIsOpen, setModalIsOpen] = useState<boolean>(false);
+  const imageBaseUrl = process.env.REACT_APP_IMAGE_BASE_URL;
   const [selectedService, setSelectedService] = useState<ServiceModel | null>(
     null,
   );
@@ -138,7 +139,7 @@ export default function AllServices(): JSX.Element {
               <div className="service-card-content">
                 <img
                   className="service-image"
-                  src={`/${service.imagePath}`}
+                  src={`${imageBaseUrl}/${service.imagePath}`}
                   alt={service.serviceName}
                 />
                 <h3 className="service-name">{service.serviceName}</h3>
