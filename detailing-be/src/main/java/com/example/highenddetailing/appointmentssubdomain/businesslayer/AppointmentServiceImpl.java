@@ -72,23 +72,26 @@ public class AppointmentServiceImpl implements AppointmentService {
 
             // Split into first and last name (if possible)
             String[] nameParts = customerName.split(" ", 2);
-            String customerFirstName = nameParts[0]; // Always has at least first name
-            String customerLastName = nameParts.length > 1 ? nameParts[1] : ""; // Optional last name
+            String customerFirstName = nameParts[0];
+            String customerLastName = nameParts.length > 1 ? nameParts[1] : "";
 
             log.info("🔹 Extracted First Name: {}", customerFirstName);
             log.info("🔹 Extracted Last Name: {}", customerLastName);
 
-            // Fetch the customer's email
-            String customerEmail;
+            // Fetch the customer's email, handling multiple results
+            List<Customer> customers;
             if (!customerLastName.isEmpty()) {
-                customerEmail = customerRepository.findByCustomerFirstNameAndCustomerLastName(customerFirstName, customerLastName)
-                        .map(Customer::getCustomerEmailAddress)
-                        .orElseThrow(() -> new RuntimeException("❌ Customer email not found for: " + customerName));
+                customers = customerRepository.findByCustomerFirstNameAndCustomerLastName(customerFirstName, customerLastName);
             } else {
-                customerEmail = customerRepository.findByCustomerFirstName(customerFirstName)
-                        .map(Customer::getCustomerEmailAddress)
-                        .orElseThrow(() -> new RuntimeException("❌ Customer email not found for: " + customerName));
+                customers = customerRepository.findByCustomerFirstName(customerFirstName);
             }
+
+            if (customers.isEmpty()) {
+                throw new RuntimeException("❌ No customer found for: " + customerName);
+            }
+
+            // Pick the first customer from the list
+            String customerEmail = customers.get(0).getCustomerEmailAddress();
 
             log.info("✅ Found Customer Email: {}", customerEmail);
 

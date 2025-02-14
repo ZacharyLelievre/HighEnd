@@ -86,3 +86,7 @@ okta:
   oauth2:
     issuer: https://test-domain.auth0.com/
     audience: test-audience
+logging:
+  level:
+    org.springframework.mail: DEBUG
+    org.springframework.boot.autoconfigure.mail: DEBUG

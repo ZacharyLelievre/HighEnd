@@ -13,7 +13,7 @@ public class EmailService {
 
     public void sendAppointmentConfirmation(String recipientEmail, String serviceName, String date, String time) {
         SimpleMailMessage message = new SimpleMailMessage();
-        message.setFrom("your-email@gmail.com"); // Change to your email
+        message.setFrom("jessebou7008@gmail.com"); // Change to your email
         message.setTo(recipientEmail);
         message.setSubject("Appointment Confirmation - High-End Detailing");
         message.setText(
