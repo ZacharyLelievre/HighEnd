@@ -27,6 +27,14 @@ p {
   margin: 0 auto;
   max-width: 1200px;
   padding: 20px;
+  background-color: #d3d3d3;
+}
+body {
+  background-color: #d3d3d3;
+}
+.dashboard-page {
+  background-color: #d3d3d3 !important;
+  min-height: 100vh;
 }
 
 .section-container {

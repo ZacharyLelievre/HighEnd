@@ -1,3 +1,10 @@
+/* New wrapper to override global background */
+.page-wrapper {
+  background-color: #d3d3d3 !important;
+  min-height: 100vh;
+}
+
+/* Main container for customer details */
 .customer-details-container {
   max-width: 600px;
   margin: 20px auto;
@@ -13,4 +20,9 @@
 
 .customer-details-container p {
   margin: 0.5rem 0;
+}
+
+/* Ensure page background is light gray */
+body {
+  background-color: #d3d3d3;
 }

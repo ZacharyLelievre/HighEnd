@@ -7,8 +7,6 @@
   margin: 0 auto;
   max-width: 1200px;
   box-sizing: border-box;
-
-  /* Black background for entire container */
   background-color: #000;
 }
 
@@ -117,4 +115,9 @@
 /* Remove any hover underline effect */
 .service-card a:hover {
   text-decoration: none;
+}
+body {
+  margin: 0;
+  padding: 0;
+  background-color: black;
 }

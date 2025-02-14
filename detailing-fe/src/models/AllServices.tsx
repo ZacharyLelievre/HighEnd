@@ -127,7 +127,7 @@ export default function AllServices(): JSX.Element {
   };
 
   return (
-    <div>
+    <div style={{ backgroundColor: "black" }}>
       <h2 style={{ textAlign: "center", color: "white" }}>Services</h2>
       <div className="services-container">
         {services.map((service) => (

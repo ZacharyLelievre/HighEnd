@@ -225,11 +225,11 @@ export default function AllAppointments(): JSX.Element {
         <div className="appointments-container">
           {appointments.map((appointment) => (
             <div className="appointment-box" key={appointment.appointmentId}>
-              <img
-                className="appointment-image"
-                src={`https://highend-zke6.onrender.com/${appointment.imagePath}`}
-                alt="appointment"
-              />
+              {/*<img*/}
+              {/*  className="appointment-image"*/}
+              {/*  src={`https://highend-zke6.onrender.com/${appointment.imagePath}`}*/}
+              {/*  alt="appointment"*/}
+              {/*/>*/}
               <div className="appointment-details">
                 <p>
                   <strong>Date:</strong> {appointment.appointmentDate}

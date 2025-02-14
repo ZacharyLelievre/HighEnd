@@ -22,8 +22,6 @@ const VALID_DAYS = [
 
 /** We'll display hours from 8..22 (8 AM up to 10 PM). */
 const HOURS = Array.from({ length: 14 }, (_, i) => i + 8);
-// That generates [8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21]
-// => 8:00 AM up to 21:00 (9 PM) if you want 10 PM, make it length=15 => up to 22
 
 /**
  * Convert "HH:mm" => a fractional hour.
@@ -47,7 +45,6 @@ function coversHour(avail: AvailabilityModel, hour: number) {
 
 export default function EmployeeDetails(): JSX.Element {
   const apiBaseUrl = process.env.REACT_APP_API_BASE_URL;
-
   const { employeeId } = useParams<{ employeeId: string }>();
   const { getAccessTokenSilently } = useAuth0();
 
@@ -113,7 +110,6 @@ export default function EmployeeDetails(): JSX.Element {
   // ---------------------------
   // 3) Handle Local Input Changes
   // ---------------------------
-  // Update form fields
   const handleInputChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>,
   ) => {
@@ -149,7 +145,7 @@ export default function EmployeeDetails(): JSX.Element {
     }
 
     setAvailability((prev) => [...prev, newAvailability]);
-    // reset
+    // Reset form
     setNewAvailability({ dayOfWeek: "", startTime: "", endTime: "" });
   };
 
@@ -171,7 +167,7 @@ export default function EmployeeDetails(): JSX.Element {
         },
       );
       alert("Availability updated successfully!");
-      // re-fetch to confirm
+      // Re-fetch to confirm
       await fetchAvailability();
     } catch (error) {
       console.error("Error saving availability:", error);
@@ -182,11 +178,6 @@ export default function EmployeeDetails(): JSX.Element {
   // ---------------------------
   // 5) Render a Weekly Grid
   // ---------------------------
-  // We'll make a table with:
-  //   columns = Monday..Sunday
-  //   rows = 8..21 (or 8..22 if you prefer)
-  // Each cell => highlight if that hour is covered by *any* availability that day
-  // that is: if hour >= start && hour < end
   function renderAvailabilityGrid() {
     return (
       <table className="availability-grid">
@@ -200,12 +191,11 @@ export default function EmployeeDetails(): JSX.Element {
         </thead>
         <tbody>
           {HOURS.map((hour) => {
-            const hourStr = `${hour}:00`; // e.g. "8:00"
+            const hourStr = `${hour}:00`;
             return (
               <tr key={hour}>
                 <td>{hourStr}</td>
                 {VALID_DAYS.map((day) => {
-                  // Check if any AvailabilityModel for this day covers this hour
                   const isCovered = availability.some(
                     (avail) =>
                       avail.dayOfWeek === day && coversHour(avail, hour),
@@ -227,9 +217,6 @@ export default function EmployeeDetails(): JSX.Element {
     );
   }
 
-  // ---------------------------
-  // If employee not loaded, show spinner
-  // ---------------------------
   if (!employee) {
     return <div>Loading...</div>;
   }
@@ -238,19 +225,11 @@ export default function EmployeeDetails(): JSX.Element {
   // RENDER
   // ---------------------------
   return (
-    <>
+    <div className="page-wrapper">
       <NavBar />
-
       <div className="details-container">
         {/* --- Profile Header --- */}
         <div className="profile-header">
-          {employee.imagePath && (
-            <img
-              className="employee-image"
-              src={`/${employee.imagePath}`}
-              alt="Employee"
-            />
-          )}
           <div className="info">
             <h2>{`${employee.first_name} ${employee.last_name}`}</h2>
             <p>{employee.email}</p>
@@ -297,7 +276,6 @@ export default function EmployeeDetails(): JSX.Element {
           {/* --- Add NEW Availability Form --- */}
           <div className="add-availability-form">
             <h4>Add Availability</h4>
-
             <div className="field">
               <label>Day of Week:</label>
               <select
@@ -341,12 +319,11 @@ export default function EmployeeDetails(): JSX.Element {
             <button onClick={addAvailability}>Add Availability</button>
           </div>
 
-          {/* --- Button to SAVE (PUT) the entire availability array to server --- */}
           <div style={{ marginTop: "1rem" }}>
             <button onClick={saveAvailability}>Save Availability</button>
           </div>
         </div>
       </div>
-    </>
+    </div>
   );
 }

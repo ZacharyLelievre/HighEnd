@@ -57,7 +57,7 @@
 }
 
 .desktop-nav li a:hover {
-  color: #ffd700;
+  color: #ac53f5;
   background-color: rgba(0, 0, 0, 0.2);
 }
 
@@ -73,7 +73,7 @@
 .hamburger-btn .bar {
   width: 25px;
   height: 3px;
-  background-color: #ffd700;
+  background-color: #ac53f5;
   transition: transform 0.3s ease;
 }
 
@@ -100,7 +100,7 @@
 .close-btn {
   background: transparent;
   border: none;
-  color: #ffd700;
+  color: #ac53f5;
   font-size: 1.5rem;
   cursor: pointer;
   width: 40px;
@@ -138,7 +138,7 @@
 }
 
 .nav-links a:hover {
-  color: #ffd700;
+  color: #ac53f5;
 }
 
 .btn-signin {
@@ -146,9 +146,9 @@
   font-size: 0.9rem;
   padding: 0.5rem 1.5rem;
   border-radius: 25px;
-  border: 2px solid #ffd700;
+  border: 2px solid #ac53f5;
   background-color: transparent;
-  color: #ffd700;
+  color: #ac53f5;
   transition:
     background 0.3s ease,
     color 0.3s ease,
@@ -156,7 +156,7 @@
 }
 
 .btn-signin:hover {
-  background-color: #ffd700;
+  background-color: #ac53f5;
   color: #1a1a2e;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
 }

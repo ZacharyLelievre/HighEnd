@@ -1,3 +1,10 @@
+/* New wrapper to override global background */
+.page-wrapper {
+  background-color: #d3d3d3 !important;
+  min-height: 100vh;
+}
+
+/* Main container for details */
 .details-container {
   max-width: 900px;
   margin: 0 auto;
@@ -24,6 +31,7 @@
   font-size: 1.5rem;
 }
 
+/* Details grid */
 .details {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -46,33 +54,36 @@
   border-radius: 4px;
 }
 
+/* Availability Section */
 .availability-section {
   margin-top: 2rem;
 }
 
-/* Table-based availability grid */
+/* Availability Grid */
 .availability-grid {
   width: 100%;
   border-collapse: collapse;
   margin-bottom: 1.5rem;
 }
+
 .availability-grid th,
 .availability-grid td {
   border: 1px solid #ccc;
   text-align: center;
   padding: 0.5rem;
 }
+
 .availability-grid thead th {
   background-color: #f1f1f1;
 }
 
-/* Highlight cells that are covered by availability */
+/* Highlight covered cells */
 .covered-cell {
-  background-color: #cce5ff; /* light blue */
+  background-color: #cce5ff;
   font-weight: bold;
 }
 
-/* The Add Availability form */
+/* Add Availability Form */
 .add-availability-form {
   background: #f9f9f9;
   padding: 1rem;
@@ -82,4 +93,9 @@
 
 .add-availability-form h4 {
   margin-top: 0;
+}
+
+/* Ensure page background is light gray */
+body {
+  background-color: #d3d3d3;
 }

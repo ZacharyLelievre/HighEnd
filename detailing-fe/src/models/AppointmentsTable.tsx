@@ -1,6 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import axios from "axios";
 import { useAuth0 } from "@auth0/auth0-react";
+import jsPDF from "jspdf";
+import html2canvas from "html2canvas";
 
 interface Appointment {
   appointmentId: string;
@@ -28,11 +30,13 @@ interface Service {
 
 export default function AppointmentsTable() {
   const apiBaseUrl = process.env.REACT_APP_API_BASE_URL;
-
   const { getAccessTokenSilently, isAuthenticated } = useAuth0();
   const [appointments, setAppointments] = useState<Appointment[]>([]);
   const [services, setServices] = useState<Service[]>([]);
   const [loading, setLoading] = useState(true);
+
+  // Ref for the container wrapping the table (for PDF generation)
+  const containerRef = useRef<HTMLDivElement>(null);
 
   const getAppointmentsUrl = `${apiBaseUrl}/appointments`;
   const getServicesUrl = `${apiBaseUrl}/services`;
@@ -70,13 +74,21 @@ export default function AppointmentsTable() {
         setLoading(false);
       }
     }
-
     loadData();
   }, [getAccessTokenSilently, isAuthenticated]);
 
-  if (loading) {
-    return <div>Loading Appointments...</div>;
-  }
+  const generatePDF = async () => {
+    if (containerRef.current) {
+      const canvas = await html2canvas(containerRef.current);
+      const imgData = canvas.toDataURL("image/png");
+      const pdf = new jsPDF("p", "mm", "a4");
+      const pdfWidth = pdf.internal.pageSize.getWidth();
+      const imgProps = pdf.getImageProperties(imgData);
+      const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
+      pdf.addImage(imgData, "PNG", 0, 0, pdfWidth, pdfHeight);
+      pdf.save("appointments.pdf");
+    }
+  };
 
   const getStatusCard = (status: string) => {
     let backgroundColor = "";
@@ -133,103 +145,138 @@ export default function AppointmentsTable() {
     );
   };
 
+  if (loading) {
+    return <div>Loading Appointments...</div>;
+  }
+
   return (
-    <table
-      style={{
-        marginTop: "20px",
-        borderCollapse: "collapse",
-        width: "100%",
-        boxShadow: "0 2px 5px rgba(0,0,0,0.1)",
-      }}
+    <div
+      ref={containerRef}
+      style={{ position: "relative", paddingBottom: "50px" }}
     >
-      <thead>
-        <tr style={{ backgroundColor: "#f2f2f2" }}>
-          <th style={{ padding: "12px", border: "1px solid #ddd" }}>Date</th>
-          <th style={{ padding: "12px", border: "1px solid #ddd" }}>Time</th>
-          <th style={{ padding: "12px", border: "1px solid #ddd" }}>
-            Customer
-          </th>
-          <th style={{ padding: "12px", border: "1px solid #ddd" }}>Service</th>
-          <th style={{ padding: "12px", border: "1px solid #ddd" }}>
-            Employee
-          </th>
-          <th style={{ padding: "12px", border: "1px solid #ddd" }}>Amount</th>
-          <th style={{ padding: "12px", border: "1px solid #ddd" }}>Status</th>
-        </tr>
-      </thead>
-      <tbody>
-        {appointments.map((appt) => {
-          const service = services.find((s) => s.serviceId === appt.serviceId);
-          const amountDisplay = service ? `$${service.price.toFixed(2)}` : "";
-          return (
-            <tr key={appt.appointmentId}>
-              <td
-                style={{
-                  padding: "12px",
-                  border: "1px solid #ddd",
-                  textAlign: "center",
-                }}
-              >
-                {appt.appointmentDate}
-              </td>
-              <td
-                style={{
-                  padding: "12px",
-                  border: "1px solid #ddd",
-                  textAlign: "center",
-                }}
-              >
-                {appt.appointmentTime}
-              </td>
-              <td
-                style={{
-                  padding: "12px",
-                  border: "1px solid #ddd",
-                  textAlign: "center",
-                }}
-              >
-                {appt.customerName}
-              </td>
-              <td
-                style={{
-                  padding: "12px",
-                  border: "1px solid #ddd",
-                  textAlign: "center",
-                }}
-              >
-                {appt.serviceName}
-              </td>
-              <td
-                style={{
-                  padding: "12px",
-                  border: "1px solid #ddd",
-                  textAlign: "center",
-                }}
-              >
-                {appt.employeeName}
-              </td>
-              <td
-                style={{
-                  padding: "12px",
-                  border: "1px solid #ddd",
-                  textAlign: "center",
-                }}
-              >
-                {amountDisplay}
-              </td>
-              <td
-                style={{
-                  padding: "12px",
-                  border: "1px solid #ddd",
-                  textAlign: "center",
-                }}
-              >
-                {getStatusCard(appt.status)}
-              </td>
-            </tr>
-          );
-        })}
-      </tbody>
-    </table>
+      <table
+        style={{
+          marginTop: "20px",
+          borderCollapse: "collapse",
+          width: "100%",
+          boxShadow: "0 2px 5px rgba(0,0,0,0.1)",
+        }}
+      >
+        <thead>
+          <tr style={{ backgroundColor: "#f2f2f2" }}>
+            <th style={{ padding: "12px", border: "1px solid #ddd" }}>Date</th>
+            <th style={{ padding: "12px", border: "1px solid #ddd" }}>Time</th>
+            <th style={{ padding: "12px", border: "1px solid #ddd" }}>
+              Customer
+            </th>
+            <th style={{ padding: "12px", border: "1px solid #ddd" }}>
+              Service
+            </th>
+            <th style={{ padding: "12px", border: "1px solid #ddd" }}>
+              Employee
+            </th>
+            <th style={{ padding: "12px", border: "1px solid #ddd" }}>
+              Amount
+            </th>
+            <th style={{ padding: "12px", border: "1px solid #ddd" }}>
+              Status
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          {appointments.map((appt) => {
+            const service = services.find(
+              (s) => s.serviceId === appt.serviceId,
+            );
+            const amountDisplay = service ? `$${service.price.toFixed(2)}` : "";
+            return (
+              <tr key={appt.appointmentId}>
+                <td
+                  style={{
+                    padding: "12px",
+                    border: "1px solid #ddd",
+                    textAlign: "center",
+                  }}
+                >
+                  {appt.appointmentDate}
+                </td>
+                <td
+                  style={{
+                    padding: "12px",
+                    border: "1px solid #ddd",
+                    textAlign: "center",
+                  }}
+                >
+                  {appt.appointmentTime}
+                </td>
+                <td
+                  style={{
+                    padding: "12px",
+                    border: "1px solid #ddd",
+                    textAlign: "center",
+                  }}
+                >
+                  {appt.customerName}
+                </td>
+                <td
+                  style={{
+                    padding: "12px",
+                    border: "1px solid #ddd",
+                    textAlign: "center",
+                  }}
+                >
+                  {appt.serviceName}
+                </td>
+                <td
+                  style={{
+                    padding: "12px",
+                    border: "1px solid #ddd",
+                    textAlign: "center",
+                  }}
+                >
+                  {appt.employeeName}
+                </td>
+                <td
+                  style={{
+                    padding: "12px",
+                    border: "1px solid #ddd",
+                    textAlign: "center",
+                  }}
+                >
+                  {amountDisplay}
+                </td>
+                <td
+                  style={{
+                    padding: "12px",
+                    border: "1px solid #ddd",
+                    textAlign: "center",
+                  }}
+                >
+                  {getStatusCard(appt.status)}
+                </td>
+              </tr>
+            );
+          })}
+        </tbody>
+      </table>
+      <button
+        onClick={generatePDF}
+        style={{
+          position: "absolute",
+          bottom: "10px",
+          right: "10px",
+          padding: "4px 8px", // reduced padding for a smaller width
+          fontSize: "16px",
+          backgroundColor: "black",
+          color: "white",
+          border: "none",
+          borderRadius: "4px",
+          cursor: "pointer",
+          width: "16%",
+        }}
+      >
+        Download PDF
+      </button>
+    </div>
   );
 }
