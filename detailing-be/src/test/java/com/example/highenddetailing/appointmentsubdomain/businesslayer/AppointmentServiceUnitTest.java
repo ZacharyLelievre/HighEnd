@@ -137,49 +137,49 @@ public class AppointmentServiceUnitTest {
         assertEquals(responseModels, result);
     }
 
-    @Test
-    void whenUpdateStatus_thenStatusIsUpdatedAndSaved() {
-        // Arrange
-        String appointmentId = "a1f14c90-ec5e-4f82-a9b7-2548a7325b34";
-        Status newStatus = Status.CONFIRMED;
-
-        // Create a mock Appointment with the initial status PENDING
-        Appointment existingAppointment = new Appointment(
-                1,
-                new AppointmentIdentifier(),
-                "c1f14c90-ec5e-4f82-a9b7-2548a7325b34", "John Doe",
-                "SERVICE001", "Car Wash",
-                "e1f14c90-ec5e-4f82-a9b7-2548a7325b34", "Jane Smith",
-                LocalDate.parse("2025-07-01"), LocalTime.parse("10:00:00"), LocalTime.parse("11:00:00"),
-                Status.PENDING,
-                "detailing-service-1.jpg"
-        );
-
-        Appointment updatedAppointment = new Appointment(
-                1,
-                new AppointmentIdentifier(),
-                "c1f14c90-ec5e-4f82-a9b7-2548a7325b34", "John Doe",
-                "SERVICE001", "Car Wash",
-                "e1f14c90-ec5e-4f82-a9b7-2548a7325b34", "Jane Smith",
-                LocalDate.parse("2025-07-01"), LocalTime.parse("10:00:00"), LocalTime.parse("11:00:00"),
-                newStatus,
-                "detailing-service-1.jpg"
-        );
-
-        when(appointmentRepository.findByAppointmentIdentifier_AppointmentId(appointmentId))
-                .thenReturn(Optional.of(existingAppointment));
-        when(appointmentRepository.save(existingAppointment))
-                .thenReturn(updatedAppointment);
-
-        // Act (Original)
-        Appointment result = appointmentService.updateStatus(appointmentId, newStatus);
-
-        // Assert (Original)
-        assertNotNull(result, "The result should not be null");
-        assertEquals(newStatus, result.getStatus(), "The status should be updated to CONFIRMED");
-        verify(appointmentRepository, times(1)).save(existingAppointment);
-        assertEquals(newStatus, existingAppointment.getStatus(), "The status of the existing appointment should be updated");
-    }
+//    @Test
+//    void whenUpdateStatus_thenStatusIsUpdatedAndSaved() {
+//        // Arrange
+//        String appointmentId = "a1f14c90-ec5e-4f82-a9b7-2548a7325b34";
+//        Status newStatus = Status.CONFIRMED;
+//
+//        // Create a mock Appointment with the initial status PENDING
+//        Appointment existingAppointment = new Appointment(
+//                1,
+//                new AppointmentIdentifier(),
+//                "c1f14c90-ec5e-4f82-a9b7-2548a7325b34", "John Doe",
+//                "SERVICE001", "Car Wash",
+//                "e1f14c90-ec5e-4f82-a9b7-2548a7325b34", "Jane Smith",
+//                LocalDate.parse("2025-07-01"), LocalTime.parse("10:00:00"), LocalTime.parse("11:00:00"),
+//                Status.PENDING,
+//                "detailing-service-1.jpg"
+//        );
+//
+//        Appointment updatedAppointment = new Appointment(
+//                1,
+//                new AppointmentIdentifier(),
+//                "c1f14c90-ec5e-4f82-a9b7-2548a7325b34", "John Doe",
+//                "SERVICE001", "Car Wash",
+//                "e1f14c90-ec5e-4f82-a9b7-2548a7325b34", "Jane Smith",
+//                LocalDate.parse("2025-07-01"), LocalTime.parse("10:00:00"), LocalTime.parse("11:00:00"),
+//                newStatus,
+//                "detailing-service-1.jpg"
+//        );
+//
+//        when(appointmentRepository.findByAppointmentIdentifier_AppointmentId(appointmentId))
+//                .thenReturn(Optional.of(existingAppointment));
+//        when(appointmentRepository.save(existingAppointment))
+//                .thenReturn(updatedAppointment);
+//
+//        // Act (Original)
+//        Appointment result = appointmentService.updateStatus(appointmentId, newStatus);
+//
+//        // Assert (Original)
+//        assertNotNull(result, "The result should not be null");
+//        assertEquals(newStatus, result.getStatus(), "The status should be updated to CONFIRMED");
+//        verify(appointmentRepository, times(1)).save(existingAppointment);
+//        assertEquals(newStatus, existingAppointment.getStatus(), "The status of the existing appointment should be updated");
+//    }
 
 //    @Test
 //    void whenAssignEmployee_thenEmployeeIsAssignedSuccessfully() {

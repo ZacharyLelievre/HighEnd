@@ -36,6 +36,8 @@ services:
       spring.datasource.url: ${DB_URL}
       SPRING_DATASOURCE_USERNAME: ${SPRING_DATASOURCE_USERNAME}
       SPRING_DATASOURCE_PASSWORD: ${SPRING_DATASOURCE_PASSWORD}
+      EMAIL_USERNAME: ${EMAIL_USERNAME}
+      EMAIL_PASSWORD: ${EMAIL_PASSWORD}
 
     healthcheck:
       test: ["CMD-SHELL", "curl -f http://backend:8080 || exit 1"]

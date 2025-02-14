@@ -8,6 +8,17 @@ website:
   domain: highend-zke6.onrender.com
 
 spring:
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: ${EMAIL_USERNAME}
+    password: ${EMAIL_PASSWORD}
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
   datasource:
     url: ${DB_URL}
     username: ${SPRING_DATASOURCE_USERNAME}
@@ -75,3 +86,7 @@ okta:
   oauth2:
     issuer: https://test-domain.auth0.com/
     audience: test-audience
+logging:
+  level:
+    org.springframework.mail: DEBUG
+    org.springframework.boot.autoconfigure.mail: DEBUG
