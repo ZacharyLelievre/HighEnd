@@ -9,11 +9,15 @@ import com.example.highenddetailing.appointmentssubdomain.mapperlayer.Appointmen
 import com.example.highenddetailing.appointmentssubdomain.mapperlayer.AppointmentResponseMapper;
 import com.example.highenddetailing.appointmentssubdomain.domainclientlayer.AppointmentResponseModel;
 import com.example.highenddetailing.appointmentssubdomain.utlis.BookingConflictException;
+import com.example.highenddetailing.customerssubdomain.datalayer.CustomerRepository;
+import com.example.highenddetailing.emailsubdomain.businesslayer.EmailService;
 import com.example.highenddetailing.employeessubdomain.datalayer.Employee;
 import com.example.highenddetailing.employeessubdomain.datalayer.EmployeeRepository;
 import com.example.highenddetailing.employeessubdomain.presentationlayer.EmployeeRequestModel;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import com.example.highenddetailing.customerssubdomain.datalayer.Customer;
+
 
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -27,12 +31,19 @@ public class AppointmentServiceImpl implements AppointmentService {
     private final AppointmentRepository appointmentRepository;
     private final EmployeeRepository employeeRepository;
 
+    private final CustomerRepository customerRepository; // ✅ Add Customer Repository
+    private final EmailService emailService;
+
+
     public AppointmentServiceImpl(AppointmentResponseMapper appointmentResponseMapper, AppointmentRequestMapper appointmentRequestMapper,
-                                  AppointmentRepository appointmentRepository, EmployeeRepository employeeRepository) {
+                                  AppointmentRepository appointmentRepository, EmployeeRepository employeeRepository, CustomerRepository customerRepository,
+                                  EmailService emailService) {
         this.appointmentResponseMapper = appointmentResponseMapper;
         this.appointmentRequestMapper = appointmentRequestMapper;
         this.appointmentRepository = appointmentRepository;
         this.employeeRepository = employeeRepository;
+        this.customerRepository = customerRepository;
+        this.emailService = emailService;
     }
 
     @Override
@@ -42,13 +53,55 @@ public class AppointmentServiceImpl implements AppointmentService {
     }
     @Override
     public Appointment updateStatus(String id, Status newStatus) {
-        // Find by appointmentIdentifier.appointmentId instead of id
+        log.info("🔹 Updating status for appointment ID: {}", id);
+        log.info("🔹 New status: {}", newStatus);
+
+        // Find appointment by ID
         Appointment appointment = appointmentRepository
                 .findByAppointmentIdentifier_AppointmentId(id)
-                .orElseThrow(() -> new RuntimeException("Appointment not found with id: " + id));
+                .orElseThrow(() -> new RuntimeException("❌ Appointment not found with id: " + id));
 
+        // Update the status
         appointment.setStatus(newStatus);
-        return appointmentRepository.save(appointment);
+        Appointment updatedAppointment = appointmentRepository.save(appointment);
+
+        // ✅ Send an email when appointment is confirmed
+        if (newStatus == Status.CONFIRMED) {
+            String customerName = appointment.getCustomerName();
+            log.info("🔹 Customer Name from Appointment: {}", customerName);
+
+            // Split into first and last name (if possible)
+            String[] nameParts = customerName.split(" ", 2);
+            String customerFirstName = nameParts[0]; // Always has at least first name
+            String customerLastName = nameParts.length > 1 ? nameParts[1] : ""; // Optional last name
+
+            log.info("🔹 Extracted First Name: {}", customerFirstName);
+            log.info("🔹 Extracted Last Name: {}", customerLastName);
+
+            // Fetch the customer's email
+            String customerEmail;
+            if (!customerLastName.isEmpty()) {
+                customerEmail = customerRepository.findByCustomerFirstNameAndCustomerLastName(customerFirstName, customerLastName)
+                        .map(Customer::getCustomerEmailAddress)
+                        .orElseThrow(() -> new RuntimeException("❌ Customer email not found for: " + customerName));
+            } else {
+                customerEmail = customerRepository.findByCustomerFirstName(customerFirstName)
+                        .map(Customer::getCustomerEmailAddress)
+                        .orElseThrow(() -> new RuntimeException("❌ Customer email not found for: " + customerName));
+            }
+
+            log.info("✅ Found Customer Email: {}", customerEmail);
+
+            String serviceName = appointment.getServiceName();
+            String appointmentDate = appointment.getAppointmentDate().toString();
+            String appointmentTime = appointment.getAppointmentTime().toString();
+
+            // Send confirmation email
+            emailService.sendAppointmentConfirmation(customerEmail, serviceName, appointmentDate, appointmentTime);
+            log.info("✅ Confirmation email sent to: {}", customerEmail);
+        }
+
+        return updatedAppointment;
     }
     @Override
     public AppointmentResponseModel assignEmployee(String id, EmployeeRequestModel request) {
