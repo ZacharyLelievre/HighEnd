@@ -22,8 +22,6 @@ const VALID_DAYS = [
 
 /** We'll display hours from 8..22 (8 AM up to 10 PM). */
 const HOURS = Array.from({ length: 14 }, (_, i) => i + 8);
-// That generates [8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21]
-// => 8:00 AM up to 21:00 (9 PM) if you want 10 PM, make it length=15 => up to 22
 
 /**
  * Convert "HH:mm" => a fractional hour.
@@ -47,7 +45,6 @@ function coversHour(avail: AvailabilityModel, hour: number) {
 
 export default function EmployeeDetails(): JSX.Element {
   const apiBaseUrl = process.env.REACT_APP_API_BASE_URL;
-
   const { employeeId } = useParams<{ employeeId: string }>();
   const { getAccessTokenSilently } = useAuth0();
 
@@ -73,10 +70,10 @@ export default function EmployeeDetails(): JSX.Element {
       try {
         const token = await getAccessTokenSilently();
         const response = await axios.get(
-          `${apiBaseUrl}/employees/${employeeId}`,
-          {
-            headers: { Authorization: `Bearer ${token}` },
-          },
+            `${apiBaseUrl}/employees/${employeeId}`,
+            {
+              headers: { Authorization: `Bearer ${token}` },
+            }
         );
         setEmployee(response.data);
       } catch (error) {
@@ -95,10 +92,10 @@ export default function EmployeeDetails(): JSX.Element {
     try {
       const token = await getAccessTokenSilently();
       const response = await axios.get(
-        `${apiBaseUrl}/employees/${employeeId}/availability`,
-        {
-          headers: { Authorization: `Bearer ${token}` },
-        },
+          `${apiBaseUrl}/employees/${employeeId}/availability`,
+          {
+            headers: { Authorization: `Bearer ${token}` },
+          }
       );
       setAvailability(response.data);
     } catch (error) {
@@ -113,9 +110,8 @@ export default function EmployeeDetails(): JSX.Element {
   // ---------------------------
   // 3) Handle Local Input Changes
   // ---------------------------
-  // Update form fields
   const handleInputChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>,
+      e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
   ) => {
     const { name, value } = e.target;
     setNewAvailability((prev) => ({ ...prev, [name]: value }));
@@ -149,7 +145,7 @@ export default function EmployeeDetails(): JSX.Element {
     }
 
     setAvailability((prev) => [...prev, newAvailability]);
-    // reset
+    // Reset form
     setNewAvailability({ dayOfWeek: "", startTime: "", endTime: "" });
   };
 
@@ -161,17 +157,17 @@ export default function EmployeeDetails(): JSX.Element {
     try {
       const token = await getAccessTokenSilently();
       await axios.put(
-        `${apiBaseUrl}/employees/${employeeId}/availability`,
-        availability,
-        {
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-        },
+          `${apiBaseUrl}/employees/${employeeId}/availability`,
+          availability,
+          {
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${token}`,
+            },
+          }
       );
       alert("Availability updated successfully!");
-      // re-fetch to confirm
+      // Re-fetch to confirm
       await fetchAvailability();
     } catch (error) {
       console.error("Error saving availability:", error);
@@ -182,54 +178,42 @@ export default function EmployeeDetails(): JSX.Element {
   // ---------------------------
   // 5) Render a Weekly Grid
   // ---------------------------
-  // We'll make a table with:
-  //   columns = Monday..Sunday
-  //   rows = 8..21 (or 8..22 if you prefer)
-  // Each cell => highlight if that hour is covered by *any* availability that day
-  // that is: if hour >= start && hour < end
   function renderAvailabilityGrid() {
     return (
-      <table className="availability-grid">
-        <thead>
+        <table className="availability-grid">
+          <thead>
           <tr>
             <th>Hour</th>
             {VALID_DAYS.map((day) => (
-              <th key={day}>{day}</th>
+                <th key={day}>{day}</th>
             ))}
           </tr>
-        </thead>
-        <tbody>
+          </thead>
+          <tbody>
           {HOURS.map((hour) => {
-            const hourStr = `${hour}:00`; // e.g. "8:00"
+            const hourStr = `${hour}:00`;
             return (
-              <tr key={hour}>
-                <td>{hourStr}</td>
-                {VALID_DAYS.map((day) => {
-                  // Check if any AvailabilityModel for this day covers this hour
-                  const isCovered = availability.some(
-                    (avail) =>
-                      avail.dayOfWeek === day && coversHour(avail, hour),
-                  );
-                  return (
-                    <td
-                      key={`${day}-${hour}`}
-                      className={isCovered ? "covered-cell" : ""}
-                    >
-                      {isCovered ? "Available" : ""}
-                    </td>
-                  );
-                })}
-              </tr>
+                <tr key={hour}>
+                  <td>{hourStr}</td>
+                  {VALID_DAYS.map((day) => {
+                    const isCovered = availability.some(
+                        (avail) =>
+                            avail.dayOfWeek === day && coversHour(avail, hour)
+                    );
+                    return (
+                        <td key={`${day}-${hour}`} className={isCovered ? "covered-cell" : ""}>
+                          {isCovered ? "Available" : ""}
+                        </td>
+                    );
+                  })}
+                </tr>
             );
           })}
-        </tbody>
-      </table>
+          </tbody>
+        </table>
     );
   }
 
-  // ---------------------------
-  // If employee not loaded, show spinner
-  // ---------------------------
   if (!employee) {
     return <div>Loading...</div>;
   }
@@ -238,115 +222,97 @@ export default function EmployeeDetails(): JSX.Element {
   // RENDER
   // ---------------------------
   return (
-    <>
-      <NavBar />
+      <div className="page-wrapper">
+        <NavBar />
+        <div className="details-container">
+          {/* --- Profile Header --- */}
+          <div className="profile-header">
+            <div className="info">
+              <h2>{`${employee.first_name} ${employee.last_name}`}</h2>
+              <p>{employee.email}</p>
+            </div>
+          </div>
 
-      <div className="details-container">
-        {/* --- Profile Header --- */}
-        <div className="profile-header">
-          {employee.imagePath && (
-            <img
-              className="employee-image"
-              src={`/${employee.imagePath}`}
-              alt="Employee"
-            />
-          )}
-          <div className="info">
-            <h2>{`${employee.first_name} ${employee.last_name}`}</h2>
-            <p>{employee.email}</p>
-          </div>
-        </div>
-
-        {/* --- Employee Info Fields --- */}
-        <div className="details">
-          <div className="field">
-            <label>First Name</label>
-            <input type="text" value={employee.first_name} readOnly />
-          </div>
-          <div className="field">
-            <label>Last Name</label>
-            <input type="text" value={employee.last_name} readOnly />
-          </div>
-          <div className="field">
-            <label>Position</label>
-            <input type="text" value={employee.position} readOnly />
-          </div>
-          <div className="field">
-            <label>Email</label>
-            <input type="text" value={employee.email} readOnly />
-          </div>
-          <div className="field">
-            <label>Phone</label>
-            <input type="text" value={employee.phone} readOnly />
-          </div>
-          <div className="field">
-            <label>Salary</label>
-            <input
-              type="text"
-              value={`$${employee.salary.toFixed(2)}`}
-              readOnly
-            />
-          </div>
-        </div>
-
-        {/* --- Availability Grid --- */}
-        <div className="availability-section">
-          <h3>Weekly Availability</h3>
-          {renderAvailabilityGrid()}
-
-          {/* --- Add NEW Availability Form --- */}
-          <div className="add-availability-form">
-            <h4>Add Availability</h4>
-
+          {/* --- Employee Info Fields --- */}
+          <div className="details">
             <div className="field">
-              <label>Day of Week:</label>
-              <select
-                name="dayOfWeek"
-                value={newAvailability.dayOfWeek}
-                onChange={handleInputChange}
-              >
-                <option value="">-- Select a Day --</option>
-                {VALID_DAYS.map((day) => (
-                  <option key={day} value={day}>
-                    {day}
-                  </option>
-                ))}
-              </select>
+              <label>First Name</label>
+              <input type="text" value={employee.first_name} readOnly />
+            </div>
+            <div className="field">
+              <label>Last Name</label>
+              <input type="text" value={employee.last_name} readOnly />
+            </div>
+            <div className="field">
+              <label>Position</label>
+              <input type="text" value={employee.position} readOnly />
+            </div>
+            <div className="field">
+              <label>Email</label>
+              <input type="text" value={employee.email} readOnly />
+            </div>
+            <div className="field">
+              <label>Phone</label>
+              <input type="text" value={employee.phone} readOnly />
+            </div>
+            <div className="field">
+              <label>Salary</label>
+              <input type="text" value={`$${employee.salary.toFixed(2)}`} readOnly />
+            </div>
+          </div>
+
+          {/* --- Availability Grid --- */}
+          <div className="availability-section">
+            <h3>Weekly Availability</h3>
+            {renderAvailabilityGrid()}
+
+            {/* --- Add NEW Availability Form --- */}
+            <div className="add-availability-form">
+              <h4>Add Availability</h4>
+              <div className="field">
+                <label>Day of Week:</label>
+                <select name="dayOfWeek" value={newAvailability.dayOfWeek} onChange={handleInputChange}>
+                  <option value="">-- Select a Day --</option>
+                  {VALID_DAYS.map((day) => (
+                      <option key={day} value={day}>
+                        {day}
+                      </option>
+                  ))}
+                </select>
+              </div>
+
+              <div className="field">
+                <label>Start Time (HH:mm):</label>
+                <input
+                    type="time"
+                    name="startTime"
+                    value={newAvailability.startTime}
+                    onChange={handleInputChange}
+                    min="08:00"
+                    max="22:00"
+                />
+              </div>
+
+              <div className="field">
+                <label>End Time (HH:mm):</label>
+                <input
+                    type="time"
+                    name="endTime"
+                    value={newAvailability.endTime}
+                    onChange={handleInputChange}
+                    min="08:00"
+                    max="22:00"
+                />
+              </div>
+
+              <button onClick={addAvailability}>Add Availability</button>
             </div>
 
-            <div className="field">
-              <label>Start Time (HH:mm):</label>
-              <input
-                type="time"
-                name="startTime"
-                value={newAvailability.startTime}
-                onChange={handleInputChange}
-                min="08:00"
-                max="22:00"
-              />
+            <div style={{ marginTop: "1rem" }}>
+              <button onClick={saveAvailability}>Save Availability</button>
             </div>
-
-            <div className="field">
-              <label>End Time (HH:mm):</label>
-              <input
-                type="time"
-                name="endTime"
-                value={newAvailability.endTime}
-                onChange={handleInputChange}
-                min="08:00"
-                max="22:00"
-              />
-            </div>
-
-            <button onClick={addAvailability}>Add Availability</button>
-          </div>
-
-          {/* --- Button to SAVE (PUT) the entire availability array to server --- */}
-          <div style={{ marginTop: "1rem" }}>
-            <button onClick={saveAvailability}>Save Availability</button>
           </div>
         </div>
       </div>
-    </>
   );
 }

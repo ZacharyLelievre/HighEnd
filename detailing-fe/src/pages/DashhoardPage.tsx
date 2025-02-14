@@ -30,7 +30,7 @@ export default function DashboardPage(): JSX.Element {
   };
 
   return (
-    <div>
+    <div className="dashboard-page">
       <NavBar />
       <div className="dashboard-container">
         <div className="section-container">

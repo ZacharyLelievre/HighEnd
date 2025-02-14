@@ -64,9 +64,9 @@
 }
 
 .video-button {
-  border: 2px solid #c772ff;
+  border: 2px solid #ac53f5;
   background: transparent;
-  color: #c772ff;
+  color: #ac53f5;
   padding: 10px 20px;
   border-radius: 30px;
   font-size: 1.2rem;
@@ -80,7 +80,7 @@
 }
 
 .video-button:hover {
-  background-color: #c772ff;
+  background-color: #ac53f5;
   color: white;
 }
 

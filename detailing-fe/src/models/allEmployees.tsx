@@ -32,11 +32,11 @@ export default function AllEmployees(): JSX.Element {
       <div className="employees-container">
         {employees.map((employee) => (
           <div className="employee-box" key={employee.employeeId}>
-            <img
-              className="employee-image"
-              src={`https://highend-zke6.onrender.com/${employee.imagePath}`}
-              alt="employee"
-            />
+            {/*<img*/}
+            {/*  className="employee-image"*/}
+            {/*  src={`https://highend-zke6.onrender.com/${employee.imagePath}`}*/}
+            {/*  alt="employee"*/}
+            {/*/>*/}
             <div className="employee-details">
               <p>
                 <strong>Name:</strong> {employee.first_name},{" "}

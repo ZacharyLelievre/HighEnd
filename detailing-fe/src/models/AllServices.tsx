@@ -24,9 +24,7 @@ export default function AllServices(): JSX.Element {
   const [services, setServices] = useState<ServiceModel[]>([]);
   const [modalIsOpen, setModalIsOpen] = useState<boolean>(false);
   const imageBaseUrl = process.env.REACT_APP_IMAGE_BASE_URL;
-  const [selectedService, setSelectedService] = useState<ServiceModel | null>(
-    null,
-  );
+  const [selectedService, setSelectedService] = useState<ServiceModel | null>(null);
   const [appointmentData, setAppointmentData] = useState({
     appointmentDate: "",
     appointmentTime: "",
@@ -82,7 +80,7 @@ export default function AllServices(): JSX.Element {
   };
 
   const handleInputChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>,
+      e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>,
   ) => {
     const { name, value } = e.target;
     setAppointmentData({ ...appointmentData, [name]: value });
@@ -96,14 +94,14 @@ export default function AllServices(): JSX.Element {
 
       // Make the POST request with the Authorization header
       const response = await axios.post(
-        `${apiBaseUrl}/appointments`,
-        appointmentData,
-        {
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`, // Add the token here
+          `${apiBaseUrl}/appointments`,
+          appointmentData,
+          {
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${token}`, // Add the token here
+            },
           },
-        },
       );
       if (response.status === 201) {
         alert("Appointment booked successfully!");
@@ -127,94 +125,94 @@ export default function AllServices(): JSX.Element {
   };
 
   return (
-    <div>
-      <h2 style={{ textAlign: "center", color: "white" }}>Services</h2>
-      <div className="services-container">
-        {services.map((service) => (
-          <div className="service-card" key={service.serviceId}>
-            <Link
-              to={`/services/${service.serviceId}`}
-              className="service-link"
-            >
-              <div className="service-card-content">
-                <img
-                  className="service-image"
-                  src={`${imageBaseUrl}/${service.imagePath}`}
-                  alt={service.serviceName}
-                />
-                <h3 className="service-name">{service.serviceName}</h3>
-                <p className="service-price">${service.price.toFixed(2)}</p>
+      <div style={{ backgroundColor: "black" }}>
+        <h2 style={{ textAlign: "center", color: "white" }}>Services</h2>
+        <div className="services-container">
+          {services.map((service) => (
+              <div className="service-card" key={service.serviceId}>
+                <Link
+                    to={`/services/${service.serviceId}`}
+                    className="service-link"
+                >
+                  <div className="service-card-content">
+                    <img
+                        className="service-image"
+                        src={`${imageBaseUrl}/${service.imagePath}`}
+                        alt={service.serviceName}
+                    />
+                    <h3 className="service-name">{service.serviceName}</h3>
+                    <p className="service-price">${service.price.toFixed(2)}</p>
+                  </div>
+                </Link>
+                <button onClick={() => openModal(service)}>Book Appointment</button>
               </div>
-            </Link>
-            <button onClick={() => openModal(service)}>Book Appointment</button>
-          </div>
-        ))}
+          ))}
+        </div>
+        <Modal
+            isOpen={modalIsOpen}
+            onRequestClose={closeModal}
+            style={customStyles}
+            contentLabel="Book Appointment Modal"
+        >
+          <h2>Book Appointment</h2>
+          <button onClick={closeModal}>Close</button>
+          <form onSubmit={handleFormSubmit}>
+            <input
+                type="date"
+                name="appointmentDate"
+                value={appointmentData.appointmentDate}
+                onChange={handleInputChange}
+                required
+            />
+            <input
+                type="time"
+                name="appointmentTime"
+                value={appointmentData.appointmentTime}
+                onChange={handleInputChange}
+                required
+            />
+            <input
+                type="time"
+                name="appointmentEndTime"
+                value={appointmentData.appointmentEndTime}
+                onChange={handleInputChange}
+                required
+            />
+            <input
+                type="text"
+                name="customerId"
+                placeholder="Customer ID"
+                value={appointmentData.customerId}
+                onChange={handleInputChange}
+                required
+            />
+            <input
+                type="text"
+                name="customerName"
+                placeholder="Customer Name"
+                value={appointmentData.customerName}
+                onChange={handleInputChange}
+                required
+            />
+            <input
+                type="text"
+                name="employeeId"
+                placeholder="Employee ID"
+                value={appointmentData.employeeId}
+                onChange={handleInputChange}
+                required
+            />
+            <input
+                type="text"
+                name="employeeName"
+                placeholder="Employee Name"
+                value={appointmentData.employeeName}
+                onChange={handleInputChange}
+                required
+            />
+            <button type="submit">Book Now</button>
+          </form>
+        </Modal>
       </div>
-      <Modal
-        isOpen={modalIsOpen}
-        onRequestClose={closeModal}
-        style={customStyles}
-        contentLabel="Book Appointment Modal"
-      >
-        <h2>Book Appointment</h2>
-        <button onClick={closeModal}>Close</button>
-        <form onSubmit={handleFormSubmit}>
-          <input
-            type="date"
-            name="appointmentDate"
-            value={appointmentData.appointmentDate}
-            onChange={handleInputChange}
-            required
-          />
-          <input
-            type="time"
-            name="appointmentTime"
-            value={appointmentData.appointmentTime}
-            onChange={handleInputChange}
-            required
-          />
-          <input
-            type="time"
-            name="appointmentEndTime"
-            value={appointmentData.appointmentEndTime}
-            onChange={handleInputChange}
-            required
-          />
-          <input
-            type="text"
-            name="customerId"
-            placeholder="Customer ID"
-            value={appointmentData.customerId}
-            onChange={handleInputChange}
-            required
-          />
-          <input
-            type="text"
-            name="customerName"
-            placeholder="Customer Name"
-            value={appointmentData.customerName}
-            onChange={handleInputChange}
-            required
-          />
-          <input
-            type="text"
-            name="employeeId"
-            placeholder="Employee ID"
-            value={appointmentData.employeeId}
-            onChange={handleInputChange}
-            required
-          />
-          <input
-            type="text"
-            name="employeeName"
-            placeholder="Employee Name"
-            value={appointmentData.employeeName}
-            onChange={handleInputChange}
-            required
-          />
-          <button type="submit">Book Now</button>
-        </form>
-      </Modal>
-    </div>
   );
 }
