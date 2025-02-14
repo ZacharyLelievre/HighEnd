@@ -52,8 +52,8 @@
   text-transform: uppercase;
   padding: 0.5rem 1rem;
   transition:
-          color 0.3s ease,
-          background-color 0.3s ease;
+    color 0.3s ease,
+    background-color 0.3s ease;
 }
 
 .desktop-nav li a:hover {
@@ -150,9 +150,9 @@
   background-color: transparent;
   color: #ac53f5;
   transition:
-          background 0.3s ease,
-          color 0.3s ease,
-          box-shadow 0.3s ease;
+    background 0.3s ease,
+    color 0.3s ease,
+    box-shadow 0.3s ease;
 }
 
 .btn-signin:hover {

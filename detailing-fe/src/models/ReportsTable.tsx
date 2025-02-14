@@ -45,7 +45,11 @@ export default function ReportsTable() {
       try {
         console.log("[ReportsTable] Loading data for front-end aggregator...");
         const token = await getAccessTokenSilently();
-        console.log("[ReportsTable] Got token from Auth0:", token.slice(0, 20), "...");
+        console.log(
+          "[ReportsTable] Got token from Auth0:",
+          token.slice(0, 20),
+          "...",
+        );
         const [appointmentsRes, servicesRes] = await Promise.all([
           axios.get<Appointment[]>(getAppointmentsUrl, {
             headers: { Authorization: `Bearer ${token}` },
@@ -58,12 +62,15 @@ export default function ReportsTable() {
         const allAppointments = appointmentsRes.data;
         const allServices = servicesRes.data;
 
-        console.log("[ReportsTable] All appointments fetched:", allAppointments);
+        console.log(
+          "[ReportsTable] All appointments fetched:",
+          allAppointments,
+        );
         console.log("[ReportsTable] All services fetched:", allServices);
 
         const rawList = allServices.map((service) => {
           const bookingCount = allAppointments.filter(
-              (appt) => appt.serviceId === service.serviceId
+            (appt) => appt.serviceId === service.serviceId,
           ).length;
           const revenue = bookingCount * service.price;
           return {
@@ -74,7 +81,10 @@ export default function ReportsTable() {
           };
         });
 
-        console.log("[ReportsTable] Aggregation (before color coding):", rawList);
+        console.log(
+          "[ReportsTable] Aggregation (before color coding):",
+          rawList,
+        );
 
         if (rawList.length > 0) {
           const minRevenue = Math.min(...rawList.map((r) => r.revenue));
@@ -92,7 +102,10 @@ export default function ReportsTable() {
         }
         setReports(rawList);
       } catch (error) {
-        console.error("[ReportsTable] Error building front-end aggregator:", error);
+        console.error(
+          "[ReportsTable] Error building front-end aggregator:",
+          error,
+        );
       } finally {
         setLoading(false);
       }
@@ -140,18 +153,18 @@ export default function ReportsTable() {
     }
 
     return (
-        <div
-            style={{
-              backgroundColor,
-              color: textColor,
-              borderRadius: "4px",
-              padding: "4px 8px",
-              display: "inline-block",
-              fontWeight: "bold",
-            }}
-        >
-          {text}
-        </div>
+      <div
+        style={{
+          backgroundColor,
+          color: textColor,
+          borderRadius: "4px",
+          padding: "4px 8px",
+          display: "inline-block",
+          fontWeight: "bold",
+        }}
+      >
+        {text}
+      </div>
     );
   };
 
@@ -160,76 +173,89 @@ export default function ReportsTable() {
   }
 
   return (
-      <div ref={containerRef} style={{ position: "relative", paddingBottom: "50px" }}>
-        <table
-            style={{
-              marginTop: "20px",
-              borderCollapse: "collapse",
-              width: "100%",
-              boxShadow: "0 2px 5px rgba(0,0,0,0.1)",
-            }}
-        >
-          <thead>
+    <div
+      ref={containerRef}
+      style={{ position: "relative", paddingBottom: "50px" }}
+    >
+      <table
+        style={{
+          marginTop: "20px",
+          borderCollapse: "collapse",
+          width: "100%",
+          boxShadow: "0 2px 5px rgba(0,0,0,0.1)",
+        }}
+      >
+        <thead>
           <tr style={{ backgroundColor: "#f2f2f2" }}>
-            <th style={{ padding: "12px", border: "1px solid #ddd" }}>Service</th>
-            <th style={{ padding: "12px", border: "1px solid #ddd" }}>Bookings</th>
-            <th style={{ padding: "12px", border: "1px solid #ddd" }}>Revenue</th>
-            <th style={{ padding: "12px", border: "1px solid #ddd" }}>Status</th>
+            <th style={{ padding: "12px", border: "1px solid #ddd" }}>
+              Service
+            </th>
+            <th style={{ padding: "12px", border: "1px solid #ddd" }}>
+              Bookings
+            </th>
+            <th style={{ padding: "12px", border: "1px solid #ddd" }}>
+              Revenue
+            </th>
+            <th style={{ padding: "12px", border: "1px solid #ddd" }}>
+              Status
+            </th>
           </tr>
-          </thead>
-          <tbody>
+        </thead>
+        <tbody>
           {reports.map((r, idx) => (
-              <tr key={idx}>
-                <td style={{ padding: "12px", border: "1px solid #ddd" }}>{r.serviceName}</td>
-                <td
-                    style={{
-                      padding: "12px",
-                      border: "1px solid #ddd",
-                      textAlign: "center",
-                    }}
-                >
-                  {r.bookingsCount}
-                </td>
-                <td
-                    style={{
-                      padding: "12px",
-                      border: "1px solid #ddd",
-                      textAlign: "center",
-                    }}
-                >
-                  ${r.revenue.toFixed(2)}
-                </td>
-                <td
-                    style={{
-                      padding: "12px",
-                      border: "1px solid #ddd",
-                      textAlign: "center",
-                    }}
-                >
-                  {getStatusCard(r.statusColor)}
-                </td>
-              </tr>
+            <tr key={idx}>
+              <td style={{ padding: "12px", border: "1px solid #ddd" }}>
+                {r.serviceName}
+              </td>
+              <td
+                style={{
+                  padding: "12px",
+                  border: "1px solid #ddd",
+                  textAlign: "center",
+                }}
+              >
+                {r.bookingsCount}
+              </td>
+              <td
+                style={{
+                  padding: "12px",
+                  border: "1px solid #ddd",
+                  textAlign: "center",
+                }}
+              >
+                ${r.revenue.toFixed(2)}
+              </td>
+              <td
+                style={{
+                  padding: "12px",
+                  border: "1px solid #ddd",
+                  textAlign: "center",
+                }}
+              >
+                {getStatusCard(r.statusColor)}
+              </td>
+            </tr>
           ))}
-          </tbody>
-        </table>
-        <button
-            onClick={generatePDF}
-            style={{
-              position: "absolute",
-              bottom: "10px",
-              right: "10px",
-              padding: "4px 8px", // reduced padding for a smaller width
-              fontSize: "16px",
-              backgroundColor: "black",
-              color: "white",
-              border: "none",
-              borderRadius: "4px",
-              cursor: "pointer",
-              width:"16%"
-            }}
-        >
-          Download PDF
-        </button>
-      </div>
+        </tbody>
+      </table>
+      <button
+        onClick={generatePDF}
+        style={{
+          position: "absolute",
+          bottom: "10px",
+          right: "10px",
+          padding: "4px 8px", // reduced padding for a smaller width
+          fontSize: "16px",
+          backgroundColor: "black",
+          color: "white",
+          border: "none",
+          borderRadius: "4px",
+          cursor: "pointer",
+          width: "16%",
+        }}
+      >
+        Download PDF
+      </button>
+    </div>
   );
 }
