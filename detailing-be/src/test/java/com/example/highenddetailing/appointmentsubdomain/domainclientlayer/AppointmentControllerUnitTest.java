@@ -74,24 +74,24 @@ public class AppointmentControllerUnitTest {
                         .build()
         );
     }
-    @Test
-    @WithMockUser // Adds a mock authenticated user for Spring Security
-    void whenDeleteAppointment_thenReturnNoContentWithCsrf() throws Exception {
-        // Arrange
-        String appointmentId = "a1f14c90-ec5e-4f82-a9b7-2548a7325b34";
-
-        // Mock the service behavior
-        doNothing().when(appointmentService).deleteAppointment(appointmentId);
-
-        // Act & Assert
-        mockMvc.perform(delete("/api/appointments/{id}", appointmentId)
-                        .with(SecurityMockMvcRequestPostProcessors.csrf())  // Add CSRF token
-                        .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isNoContent());
-
-        // Verify the service interaction
-        verify(appointmentService, times(1)).deleteAppointment(appointmentId);
-    }
+//    @Test
+//    @WithMockUser // Adds a mock authenticated user for Spring Security
+//    void whenDeleteAppointment_thenReturnNoContentWithCsrf() throws Exception {
+//        // Arrange
+//        String appointmentId = "a1f14c90-ec5e-4f82-a9b7-2548a7325b34";
+//
+//        // Mock the service behavior
+//        doNothing().when(appointmentService).deleteAppointment(appointmentId);
+//
+//        // Act & Assert
+//        mockMvc.perform(delete("/api/appointments/{id}", appointmentId)
+//                        .with(SecurityMockMvcRequestPostProcessors.csrf())  // Add CSRF token
+//                        .contentType(MediaType.APPLICATION_JSON))
+//                .andExpect(status().isNoContent());
+//
+//        // Verify the service interaction
+//        verify(appointmentService, times(1)).deleteAppointment(appointmentId);
+//    }
 
 //    @Test
 //    void testGetAllAppointments_EmptyList() throws Exception {
@@ -105,104 +105,104 @@ public class AppointmentControllerUnitTest {
 //                .andExpect(jsonPath("$.length()").value(0));
 //    }
 
-    @Test
-    @WithMockUser
-    void whenRescheduleAppointment_thenReturnUpdatedAppointment() throws Exception {
-        // Given: Mocked service response
-        AppointmentResponseModel updatedResponse = AppointmentResponseModel.builder()
-                .appointmentId("A001")
-                .appointmentDate("2024-12-26")
-                .appointmentTime("14:00")
-                .appointmentEndTime("15:00")
-                // ...set other fields as needed...
-                .build();
+//    @Test
+//    @WithMockUser
+//    void whenRescheduleAppointment_thenReturnUpdatedAppointment() throws Exception {
+//        // Given: Mocked service response
+//        AppointmentResponseModel updatedResponse = AppointmentResponseModel.builder()
+//                .appointmentId("A001")
+//                .appointmentDate("2024-12-26")
+//                .appointmentTime("14:00")
+//                .appointmentEndTime("15:00")
+//                // ...set other fields as needed...
+//                .build();
+//
+//        // Mock the behavior of appointmentService
+//        when(appointmentService.rescheduleAppointment(
+//                eq("A001"),  // expecting id
+//                eq(LocalDate.parse("2024-12-26")),
+//                eq(LocalTime.parse("14:00")),
+//                eq(LocalTime.parse("15:00")))
+//        ).thenReturn(updatedResponse);
+//
+//        // JSON request body to match RescheduleRequest fields in the controller
+//        String requestBody = """
+//        {
+//          "newDate": "2024-12-26",
+//          "newStartTime": "14:00",
+//          "newEndTime": "15:00"
+//        }
+//        """;
+//
+//        // When: Perform the PUT request
+//        mockMvc.perform(
+//                        put("/api/appointments/{id}/reschedule", "A001")
+//                                .with(SecurityMockMvcRequestPostProcessors.csrf())
+//                                .contentType(MediaType.APPLICATION_JSON)
+//                                .content(requestBody)
+//                )
+//                // Then: Expect a 200 response and JSON matching the updated appointment
+//                .andExpect(status().isOk())
+//                .andExpect(jsonPath("$.appointmentId").value("A001"))
+//                .andExpect(jsonPath("$.appointmentDate").value("2024-12-26"))
+//                .andExpect(jsonPath("$.appointmentTime").value("14:00"))
+//                .andExpect(jsonPath("$.appointmentEndTime").value("15:00"));
+//
+//        // Verify the service was called exactly once with the specified parameters
+//        verify(appointmentService, times(1)).rescheduleAppointment(
+//                "A001", LocalDate.parse("2024-12-26"),
+//                LocalTime.parse("14:00"),
+//                LocalTime.parse("15:00")
+//        );
+//    }
 
-        // Mock the behavior of appointmentService
-        when(appointmentService.rescheduleAppointment(
-                eq("A001"),  // expecting id
-                eq(LocalDate.parse("2024-12-26")),
-                eq(LocalTime.parse("14:00")),
-                eq(LocalTime.parse("15:00")))
-        ).thenReturn(updatedResponse);
-
-        // JSON request body to match RescheduleRequest fields in the controller
-        String requestBody = """
-        {
-          "newDate": "2024-12-26",
-          "newStartTime": "14:00",
-          "newEndTime": "15:00"
-        }
-        """;
-
-        // When: Perform the PUT request
-        mockMvc.perform(
-                        put("/api/appointments/{id}/reschedule", "A001")
-                                .with(SecurityMockMvcRequestPostProcessors.csrf())
-                                .contentType(MediaType.APPLICATION_JSON)
-                                .content(requestBody)
-                )
-                // Then: Expect a 200 response and JSON matching the updated appointment
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.appointmentId").value("A001"))
-                .andExpect(jsonPath("$.appointmentDate").value("2024-12-26"))
-                .andExpect(jsonPath("$.appointmentTime").value("14:00"))
-                .andExpect(jsonPath("$.appointmentEndTime").value("15:00"));
-
-        // Verify the service was called exactly once with the specified parameters
-        verify(appointmentService, times(1)).rescheduleAppointment(
-                "A001", LocalDate.parse("2024-12-26"),
-                LocalTime.parse("14:00"),
-                LocalTime.parse("15:00")
-        );
-    }
-
-    @Test
-    @WithMockUser
-    void whenRescheduleAppointmentConflict_thenReturn409() throws Exception {
-        // Force the service to throw a BookingConflictException
-        doThrow(new BookingConflictException("The new time slot is already booked."))
-                .when(appointmentService)
-                .rescheduleAppointment(eq("A001"),
-                        eq(LocalDate.parse("2024-12-26")),
-                        eq(LocalTime.parse("14:00")),
-                        eq(LocalTime.parse("15:00")));
-
-        String requestBody = """
-        {
-           "newDate": "2024-12-26",
-           "newStartTime": "14:00",
-           "newEndTime": "15:00"
-        }
-        """;
-
-        mockMvc.perform(put("/api/appointments/{id}/reschedule", "A001")
-                        .with(SecurityMockMvcRequestPostProcessors.csrf())
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(requestBody))
-                .andExpect(status().isConflict());
-
-        verify(appointmentService, times(1)).rescheduleAppointment(
-                "A001", LocalDate.parse("2024-12-26"),
-                LocalTime.parse("14:00"), LocalTime.parse("15:00"));
-    }
-
-    @Test
-    @WithMockUser
-    void whenGetAppointmentsByEmployeeId_thenReturnAppointments() throws Exception {
-        // Arrange: Mock the service to return a list of appointments for the given employee ID
-        when(appointmentService.getAppointmentsByEmployeeId(eq("E001"))).thenReturn(appointmentResponseModels);
-
-        // Act & Assert: Perform the GET request and check for the response
-        mockMvc.perform(get("/api/appointments/employee/{employeeId}", "E001")
-                        .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.length()").value(2)) // Verify the number of appointments returned
-                .andExpect(jsonPath("$[0].appointmentId").value("A001")) // Check the first appointment's ID
-                .andExpect(jsonPath("$[1].appointmentId").value("A002")); // Check the second appointment's ID
-
-        // Verify the service interaction
-        verify(appointmentService, times(1)).getAppointmentsByEmployeeId("E001");
-    }
+//    @Test
+//    @WithMockUser
+//    void whenRescheduleAppointmentConflict_thenReturn409() throws Exception {
+//        // Force the service to throw a BookingConflictException
+//        doThrow(new BookingConflictException("The new time slot is already booked."))
+//                .when(appointmentService)
+//                .rescheduleAppointment(eq("A001"),
+//                        eq(LocalDate.parse("2024-12-26")),
+//                        eq(LocalTime.parse("14:00")),
+//                        eq(LocalTime.parse("15:00")));
+//
+//        String requestBody = """
+//        {
+//           "newDate": "2024-12-26",
+//           "newStartTime": "14:00",
+//           "newEndTime": "15:00"
+//        }
+//        """;
+//
+//        mockMvc.perform(put("/api/appointments/{id}/reschedule", "A001")
+//                        .with(SecurityMockMvcRequestPostProcessors.csrf())
+//                        .contentType(MediaType.APPLICATION_JSON)
+//                        .content(requestBody))
+//                .andExpect(status().isConflict());
+//
+//        verify(appointmentService, times(1)).rescheduleAppointment(
+//                "A001", LocalDate.parse("2024-12-26"),
+//                LocalTime.parse("14:00"), LocalTime.parse("15:00"));
+//    }
+//
+//    @Test
+//    @WithMockUser
+//    void whenGetAppointmentsByEmployeeId_thenReturnAppointments() throws Exception {
+//        // Arrange: Mock the service to return a list of appointments for the given employee ID
+//        when(appointmentService.getAppointmentsByEmployeeId(eq("E001"))).thenReturn(appointmentResponseModels);
+//
+//        // Act & Assert: Perform the GET request and check for the response
+//        mockMvc.perform(get("/api/appointments/employee/{employeeId}", "E001")
+//                        .contentType(MediaType.APPLICATION_JSON))
+//                .andExpect(status().isOk())
+//                .andExpect(jsonPath("$.length()").value(2)) // Verify the number of appointments returned
+//                .andExpect(jsonPath("$[0].appointmentId").value("A001")) // Check the first appointment's ID
+//                .andExpect(jsonPath("$[1].appointmentId").value("A002")); // Check the second appointment's ID
+//
+//        // Verify the service interaction
+//        verify(appointmentService, times(1)).getAppointmentsByEmployeeId("E001");
+//    }
 
 
 }

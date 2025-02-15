@@ -114,7 +114,7 @@ export function ProfilePage() {
           const cus = profile as CustomerModel;
           if (!cus.customerId) return;
           const response = await axios.get<AppointmentModel[]>(
-            `${apiBaseUrl}/appointments/employee/${cus.customerId}`,
+            `${apiBaseUrl}/appointments/customer/${cus.customerId}`,
             { headers: { Authorization: `Bearer ${token}` } },
           );
           setAppointments(response.data);

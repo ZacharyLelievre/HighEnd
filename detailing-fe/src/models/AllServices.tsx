@@ -138,7 +138,7 @@ export default function AllServices(): JSX.Element {
             >
               <div className="service-card-content">
                 <img
-                  className="service-image"
+                  className="service-image2"
                   src={`${imageBaseUrl}/${service.imagePath}`}
                   alt={service.serviceName}
                 />
@@ -146,7 +146,7 @@ export default function AllServices(): JSX.Element {
                 <p className="service-price">${service.price.toFixed(2)}</p>
               </div>
             </Link>
-            <button onClick={() => openModal(service)}>Book Appointment</button>
+            {/*<button onClick={() => openModal(service)}>Book Appointment</button>*/}
           </div>
         ))}
       </div>
@@ -157,63 +157,63 @@ export default function AllServices(): JSX.Element {
         contentLabel="Book Appointment Modal"
       >
         <h2>Book Appointment</h2>
-        <button onClick={closeModal}>Close</button>
-        <form onSubmit={handleFormSubmit}>
-          <input
-            type="date"
-            name="appointmentDate"
-            value={appointmentData.appointmentDate}
-            onChange={handleInputChange}
-            required
-          />
-          <input
-            type="time"
-            name="appointmentTime"
-            value={appointmentData.appointmentTime}
-            onChange={handleInputChange}
-            required
-          />
-          <input
-            type="time"
-            name="appointmentEndTime"
-            value={appointmentData.appointmentEndTime}
-            onChange={handleInputChange}
-            required
-          />
-          <input
-            type="text"
-            name="customerId"
-            placeholder="Customer ID"
-            value={appointmentData.customerId}
-            onChange={handleInputChange}
-            required
-          />
-          <input
-            type="text"
-            name="customerName"
-            placeholder="Customer Name"
-            value={appointmentData.customerName}
-            onChange={handleInputChange}
-            required
-          />
-          <input
-            type="text"
-            name="employeeId"
-            placeholder="Employee ID"
-            value={appointmentData.employeeId}
-            onChange={handleInputChange}
-            required
-          />
-          <input
-            type="text"
-            name="employeeName"
-            placeholder="Employee Name"
-            value={appointmentData.employeeName}
-            onChange={handleInputChange}
-            required
-          />
-          <button type="submit">Book Now</button>
-        </form>
+        {/*<button onClick={closeModal}>Close</button>*/}
+        {/*<form onSubmit={handleFormSubmit}>*/}
+        {/*  <input*/}
+        {/*    type="date"*/}
+        {/*    name="appointmentDate"*/}
+        {/*    value={appointmentData.appointmentDate}*/}
+        {/*    onChange={handleInputChange}*/}
+        {/*    required*/}
+        {/*  />*/}
+        {/*  <input*/}
+        {/*    type="time"*/}
+        {/*    name="appointmentTime"*/}
+        {/*    value={appointmentData.appointmentTime}*/}
+        {/*    onChange={handleInputChange}*/}
+        {/*    required*/}
+        {/*  />*/}
+        {/*  <input*/}
+        {/*    type="time"*/}
+        {/*    name="appointmentEndTime"*/}
+        {/*    value={appointmentData.appointmentEndTime}*/}
+        {/*    onChange={handleInputChange}*/}
+        {/*    required*/}
+        {/*  />*/}
+        {/*  <input*/}
+        {/*    type="text"*/}
+        {/*    name="customerId"*/}
+        {/*    placeholder="Customer ID"*/}
+        {/*    value={appointmentData.customerId}*/}
+        {/*    onChange={handleInputChange}*/}
+        {/*    required*/}
+        {/*  />*/}
+        {/*  <input*/}
+        {/*    type="text"*/}
+        {/*    name="customerName"*/}
+        {/*    placeholder="Customer Name"*/}
+        {/*    value={appointmentData.customerName}*/}
+        {/*    onChange={handleInputChange}*/}
+        {/*    required*/}
+        {/*  />*/}
+        {/*  <input*/}
+        {/*    type="text"*/}
+        {/*    name="employeeId"*/}
+        {/*    placeholder="Employee ID"*/}
+        {/*    value={appointmentData.employeeId}*/}
+        {/*    onChange={handleInputChange}*/}
+        {/*    required*/}
+        {/*  />*/}
+        {/*  <input*/}
+        {/*    type="text"*/}
+        {/*    name="employeeName"*/}
+        {/*    placeholder="Employee Name"*/}
+        {/*    value={appointmentData.employeeName}*/}
+        {/*    onChange={handleInputChange}*/}
+        {/*    required*/}
+        {/*  />*/}
+        {/*  <button type="submit">Book Now</button>*/}
+        {/*</form>*/}
       </Modal>
     </div>
   );

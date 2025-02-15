@@ -2,6 +2,7 @@ package com.example.highenddetailing.appointmentssubdomain.domainclientlayer;
 
 import com.example.highenddetailing.appointmentssubdomain.businesslayer.AppointmentService;
 import com.example.highenddetailing.appointmentssubdomain.datalayer.Appointment;
+import com.example.highenddetailing.appointmentssubdomain.datalayer.AppointmentRepository;
 import com.example.highenddetailing.appointmentssubdomain.datalayer.Status;
 import com.example.highenddetailing.appointmentssubdomain.utlis.BookingConflictException;
 import com.example.highenddetailing.appointmentssubdomain.mapperlayer.AppointmentResponseMapper;
@@ -21,9 +22,12 @@ public class AppointmentController {
     private final AppointmentService appointmentService;
     private final AppointmentResponseMapper appointmentResponseMapper;
 
-    public AppointmentController(AppointmentService appointmentService, AppointmentResponseMapper appointmentResponseMapper) {
+    private final AppointmentRepository appointmentRepository;
+
+    public AppointmentController(AppointmentService appointmentService, AppointmentResponseMapper appointmentResponseMapper, AppointmentRepository appointmentRepository) {
         this.appointmentService = appointmentService;
         this.appointmentResponseMapper = appointmentResponseMapper;
+        this.appointmentRepository = appointmentRepository;
     }
 
     @GetMapping(produces = "application/json")
@@ -126,4 +130,11 @@ public class AppointmentController {
             AppointmentResponseModel appt = appointmentService.getAppointmentById(appointmentId);
             return ResponseEntity.ok(appt);
         }
+    @GetMapping("/date-appointments")
+    public ResponseEntity<List<AppointmentResponseModel>> getAppointmentsByDate(@RequestParam("date") String dateStr) {
+        LocalDate date = LocalDate.parse(dateStr);
+        List<Appointment> appointments = appointmentRepository.findByAppointmentDate(date);
+        List<AppointmentResponseModel> response = appointmentResponseMapper.entityListToResponseModel(appointments);
+        return ResponseEntity.ok(response);
     }
+}

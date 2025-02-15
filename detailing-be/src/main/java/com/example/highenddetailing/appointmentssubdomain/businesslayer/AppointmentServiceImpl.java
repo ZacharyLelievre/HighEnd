@@ -141,7 +141,12 @@ public class AppointmentServiceImpl implements AppointmentService {
         LocalTime startTime = LocalTime.parse(request.getAppointmentTime());
         LocalTime endTime = LocalTime.parse(request.getAppointmentEndTime());
 
-        if (!isTimeSlotAvailable(date, startTime, endTime)) {
+
+        LocalTime blockedStart = startTime.minusMinutes(30);
+        if (blockedStart.isBefore(LocalTime.MIN)) {
+            blockedStart = LocalTime.MIN;
+        }
+        if (!isTimeSlotAvailable(date, blockedStart, endTime)) {
             throw new BookingConflictException("The time slot is already booked.");
         }
 
