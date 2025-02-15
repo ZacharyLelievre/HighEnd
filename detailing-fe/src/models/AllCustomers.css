@@ -201,7 +201,7 @@ form button:hover {
 
 form button[type="button"] {
   background-color: #f44336;
-  width: 48%;
+  /*width: 48%;*/
   margin-right: 0;
 }
 
