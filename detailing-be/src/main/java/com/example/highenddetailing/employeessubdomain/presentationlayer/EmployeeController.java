@@ -10,6 +10,8 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.List;
 
 
@@ -62,6 +64,21 @@ public class EmployeeController {
         } else {
             return ResponseEntity.notFound().build();
         }
+    }
+    @GetMapping("/available")
+    public ResponseEntity<List<EmployeeResponseModel>> getAvailableEmployees(
+            @RequestParam("date") String dateStr,
+            @RequestParam("startTime") String startTimeStr,
+            @RequestParam("endTime") String endTimeStr
+    ) {
+        LocalDate date = LocalDate.parse(dateStr);
+        LocalTime startTime = LocalTime.parse(startTimeStr);
+        LocalTime endTime   = LocalTime.parse(endTimeStr);
+
+        List<EmployeeResponseModel> availableEmployees =
+                employeeService.findEmployeesAvailable(date, startTime, endTime);
+
+        return ResponseEntity.ok(availableEmployees);
     }
 
 

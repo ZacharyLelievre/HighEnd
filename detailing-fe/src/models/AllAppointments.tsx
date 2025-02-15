@@ -5,35 +5,46 @@ import { EmployeeModel } from "./dtos/EmployeeModel";
 import "./AllAppointments.css";
 import { useAuth0 } from "@auth0/auth0-react";
 
+interface AvailableEmpMap {
+  [appointmentId: string]: EmployeeModel[]; // For each appt, store an array of employees
+}
+
 export default function AllAppointments(): JSX.Element {
-  const [appointments, setAppointments] = useState<AppointmentModel[]>([]);
   const apiBaseUrl = process.env.REACT_APP_API_BASE_URL;
-
-  const [employees, setEmployees] = useState<EmployeeModel[]>([]);
-  const [selectedEmployee, setSelectedEmployee] = useState<{
-    [key: string]: string;
-  }>({});
-  const [loadingAppointments, setLoadingAppointments] = useState<boolean>(true);
-  const [loadingEmployees, setLoadingEmployees] = useState<boolean>(true);
-
-  const [showRescheduleModal, setShowRescheduleModal] =
-    useState<boolean>(false);
-  const [selectedAppointment, setSelectedAppointment] =
-    useState<AppointmentModel | null>(null);
-  const [newDate, setNewDate] = useState<string>("");
-  const [newStartTime, setNewStartTime] = useState<string>("");
-  const [newEndTime, setNewEndTime] = useState<string>("");
-
   const { getAccessTokenSilently } = useAuth0();
 
+  // All appointments
+  const [appointments, setAppointments] = useState<AppointmentModel[]>([]);
+  const [loadingAppointments, setLoadingAppointments] = useState<boolean>(true);
+
+  // For each appointment: is it loading employees right now?
+  const [loadingEmployeesMap, setLoadingEmployeesMap] = useState<{
+    [id: string]: boolean;
+  }>({});
+
+  // For each appointment, we store an array of employees who are actually available
+  const [availableEmpsMap, setAvailableEmpsMap] = useState<AvailableEmpMap>({});
+
+  // Which employee is selected in the dropdown for each appointment
+  const [selectedEmployee, setSelectedEmployee] = useState<{
+    [id: string]: string;
+  }>({});
+
+  // Rescheduling states
+  const [showRescheduleModal, setShowRescheduleModal] = useState(false);
+  const [selectedAppointment, setSelectedAppointment] =
+    useState<AppointmentModel | null>(null);
+  const [newDate, setNewDate] = useState("");
+  const [newStartTime, setNewStartTime] = useState("");
+  const [newEndTime, setNewEndTime] = useState("");
+
+  // 1) Fetch all appointments once
   useEffect(() => {
     const fetchAppointments = async (): Promise<void> => {
       try {
         const token = await getAccessTokenSilently();
         const response = await axios.get(`${apiBaseUrl}/appointments`, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
+          headers: { Authorization: `Bearer ${token}` },
         });
         setAppointments(response.data);
       } catch (error) {
@@ -42,57 +53,78 @@ export default function AllAppointments(): JSX.Element {
         setLoadingAppointments(false);
       }
     };
-
     fetchAppointments();
-  }, [getAccessTokenSilently]);
+  }, [getAccessTokenSilently, apiBaseUrl]);
 
+  // 2) For each appointment, fetch only the employees who are available for that date & time
+  const fetchAvailableEmployees = async (appt: AppointmentModel) => {
+    if (
+      !appt.appointmentDate ||
+      !appt.appointmentTime ||
+      !appt.appointmentEndTime
+    )
+      return;
+    try {
+      // mark employees as "loading" for this specific appointment
+      setLoadingEmployeesMap((prev) => ({
+        ...prev,
+        [appt.appointmentId]: true,
+      }));
+
+      const token = await getAccessTokenSilently();
+      const params = new URLSearchParams({
+        date: appt.appointmentDate, // e.g. "2025-07-02"
+        startTime: appt.appointmentTime, // e.g. "10:00:00"
+        endTime: appt.appointmentEndTime, // e.g. "11:00:00"
+      });
+      // This endpoint should be implemented in your backend, e.g. /api/employees/available
+      const resp = await axios.get<EmployeeModel[]>(
+        `${apiBaseUrl}/employees/available?${params.toString()}`,
+        { headers: { Authorization: `Bearer ${token}` } },
+      );
+
+      // store in state
+      setAvailableEmpsMap((prev) => ({
+        ...prev,
+        [appt.appointmentId]: resp.data,
+      }));
+    } catch (err) {
+      console.error("Error fetching available employees:", err);
+    } finally {
+      setLoadingEmployeesMap((prev) => ({
+        ...prev,
+        [appt.appointmentId]: false,
+      }));
+    }
+  };
+
+  // 3) Whenever we get or update the appointments list, fetch employees for each appointment
   useEffect(() => {
-    const fetchEmployees = async (): Promise<void> => {
-      try {
-        const token = await getAccessTokenSilently();
-        const response = await axios.get(`${apiBaseUrl}/employees`, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
-        setEmployees(response.data);
-      } catch (error) {
-        console.error("Error fetching employees:", error);
-      } finally {
-        setLoadingEmployees(false);
-      }
-    };
+    appointments.forEach((appt) => {
+      fetchAvailableEmployees(appt);
+    });
+  }, [appointments]);
 
-    fetchEmployees();
-  }, [getAccessTokenSilently]);
-
+  // 4) Deleting an appointment
   const handleDelete = async (appointmentId: string): Promise<void> => {
     if (!window.confirm("Are you sure you want to delete this appointment?"))
       return;
-
     try {
       const token = await getAccessTokenSilently();
       await axios.delete(`${apiBaseUrl}/appointments/${appointmentId}`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
+        headers: { Authorization: `Bearer ${token}` },
       });
-
-      setAppointments((prevAppointments) =>
-        prevAppointments.filter(
-          (appointment) => appointment.appointmentId !== appointmentId,
-        ),
+      setAppointments((prev) =>
+        prev.filter((a) => a.appointmentId !== appointmentId),
       );
-
       alert("Appointment deleted successfully.");
     } catch (error) {
       console.error("Error deleting appointment:", error);
       alert("Error deleting appointment. Please try again.");
-      console.log("Deleting appointment with ID:", appointmentId);
     }
   };
 
-  // Handle Confirm Appointment
+  // 5) Confirm appointment
   const handleConfirm = async (appointmentId: string): Promise<void> => {
     try {
       const token = await getAccessTokenSilently();
@@ -108,11 +140,11 @@ export default function AllAppointments(): JSX.Element {
       );
       console.log("Appointment confirmed:", response.data);
 
-      setAppointments((prevAppointments) =>
-        prevAppointments.map((appointment) =>
-          appointment.appointmentId === appointmentId
-            ? { ...appointment, status: "CONFIRMED" }
-            : appointment,
+      setAppointments((prev) =>
+        prev.map((appt) =>
+          appt.appointmentId === appointmentId
+            ? { ...appt, status: "CONFIRMED" }
+            : appt,
         ),
       );
     } catch (error) {
@@ -121,9 +153,9 @@ export default function AllAppointments(): JSX.Element {
     }
   };
 
+  // 6) Assign an employee from the dropdown
   const handleAssignEmployee = async (appointmentId: string): Promise<void> => {
     const employeeId = selectedEmployee[appointmentId];
-
     if (!employeeId) {
       alert("Please select an employee.");
       return;
@@ -133,7 +165,7 @@ export default function AllAppointments(): JSX.Element {
       const token = await getAccessTokenSilently();
       const response = await axios.put(
         `${apiBaseUrl}/appointments/${appointmentId}/assign`,
-        { employeeId: employeeId },
+        { employeeId },
         {
           headers: {
             "Content-Type": "application/json",
@@ -141,15 +173,12 @@ export default function AllAppointments(): JSX.Element {
           },
         },
       );
-
-      setAppointments((prevAppointments) =>
-        prevAppointments.map((appointment) =>
-          appointment.appointmentId === appointmentId
-            ? {
-                ...appointment,
-                employeeName: response.data?.employeeName || "N/A",
-              }
-            : appointment,
+      // Update local state with the newly assigned employee name
+      setAppointments((prev) =>
+        prev.map((appt) =>
+          appt.appointmentId === appointmentId
+            ? { ...appt, employeeName: response.data?.employeeName || "N/A" }
+            : appt,
         ),
       );
 
@@ -162,16 +191,18 @@ export default function AllAppointments(): JSX.Element {
     }
   };
 
+  // 7) track which employee is chosen
   const handleEmployeeChange = (
     appointmentId: string,
     employeeId: string,
   ): void => {
-    setSelectedEmployee((prevSelectedEmployee) => ({
-      ...prevSelectedEmployee,
+    setSelectedEmployee((prev) => ({
+      ...prev,
       [appointmentId]: employeeId,
     }));
   };
 
+  // 8) Rescheduling logic
   const handleRescheduleClick = (appointment: AppointmentModel): void => {
     setSelectedAppointment(appointment);
     setNewDate(appointment.appointmentDate);
@@ -182,7 +213,6 @@ export default function AllAppointments(): JSX.Element {
 
   const handleReschedule = async (): Promise<void> => {
     if (!selectedAppointment) return;
-
     try {
       const token = await getAccessTokenSilently();
       await axios.put(
@@ -195,20 +225,19 @@ export default function AllAppointments(): JSX.Element {
           },
         },
       );
-
-      setAppointments((prevAppointments) =>
-        prevAppointments.map((appointment) =>
-          appointment.appointmentId === selectedAppointment.appointmentId
+      // update local state
+      setAppointments((prev) =>
+        prev.map((appt) =>
+          appt.appointmentId === selectedAppointment.appointmentId
             ? {
-                ...appointment,
+                ...appt,
                 appointmentDate: newDate,
                 appointmentTime: newStartTime,
                 appointmentEndTime: newEndTime,
               }
-            : appointment,
+            : appt,
         ),
       );
-
       alert("Appointment rescheduled successfully.");
       setShowRescheduleModal(false);
     } catch (error) {
@@ -217,99 +246,94 @@ export default function AllAppointments(): JSX.Element {
     }
   };
 
+  // 9) Render
   return (
     <div>
       {loadingAppointments ? (
         <p>Loading appointments...</p>
       ) : (
         <div className="appointments-container">
-          {appointments.map((appointment) => (
-            <div className="appointment-box" key={appointment.appointmentId}>
-              {/*<img*/}
-              {/*  className="appointment-image"*/}
-              {/*  src={`https://highend-zke6.onrender.com/${appointment.imagePath}`}*/}
-              {/*  alt="appointment"*/}
-              {/*/>*/}
-              <div className="appointment-details">
-                <p>
-                  <strong>Date:</strong> {appointment.appointmentDate}
-                </p>
-                <p>
-                  <strong>Time:</strong> {appointment.appointmentTime}
-                </p>
-                <p>
-                  <strong>Service Name:</strong> {appointment.serviceName}
-                </p>
-                <p>
-                  <strong>Customer Name:</strong> {appointment.customerName}
-                </p>
-                <p>
-                  <strong>Employee Name:</strong>{" "}
-                  {appointment.employeeName || "Not Assigned"}
-                </p>
-                <p>
-                  <strong>Status:</strong> {appointment.status}
-                </p>
+          {appointments.map((appointment) => {
+            const { appointmentId } = appointment;
+            // Are we still fetching employees for this appointment?
+            const loadingEmps = loadingEmployeesMap[appointmentId];
+            // which employees are actually available for this appt
+            const possibleEmployees = availableEmpsMap[appointmentId] || [];
 
-                <label htmlFor={`employee-select-${appointment.appointmentId}`}>
-                  <strong>Assign Employee:</strong>
-                </label>
-                {loadingEmployees ? (
-                  <p>Loading employees...</p>
-                ) : (
-                  <select
-                    id={`employee-select-${appointment.appointmentId}`}
-                    value={selectedEmployee[appointment.appointmentId] || ""}
-                    onChange={(e) =>
-                      handleEmployeeChange(
-                        appointment.appointmentId,
-                        e.target.value,
-                      )
-                    }
-                  >
-                    <option value="">Select Employee</option>
-                    {employees.map((employee) => (
-                      <option
-                        key={employee.employeeId}
-                        value={employee.employeeId}
-                      >
-                        {employee.first_name} {employee.last_name}
-                      </option>
-                    ))}
-                  </select>
-                )}
+            return (
+              <div className="appointment-box" key={appointmentId}>
+                <div className="appointment-details">
+                  <p>
+                    <strong>Date:</strong> {appointment.appointmentDate}
+                  </p>
+                  <p>
+                    <strong>Time:</strong> {appointment.appointmentTime} -{" "}
+                    {appointment.appointmentEndTime}
+                  </p>
+                  <p>
+                    <strong>Service Name:</strong> {appointment.serviceName}
+                  </p>
+                  <p>
+                    <strong>Customer Name:</strong> {appointment.customerName}
+                  </p>
+                  <p>
+                    <strong>Employee Name:</strong>{" "}
+                    {appointment.employeeName || "Not Assigned"}
+                  </p>
+                  <p>
+                    <strong>Status:</strong> {appointment.status}
+                  </p>
 
-                <div className="button-container">
-                  <button
-                    onClick={() =>
-                      handleAssignEmployee(appointment.appointmentId)
-                    }
-                  >
-                    Assign
-                  </button>
-                  <button
-                    onClick={() => handleConfirm(appointment.appointmentId)}
-                    disabled={appointment.status === "CONFIRMED"}
-                  >
-                    {appointment.status === "CONFIRMED"
-                      ? "Confirmed"
-                      : "Confirm"}
-                  </button>
-                  <button
-                    className="delete-button"
-                    onClick={() => handleDelete(appointment.appointmentId)}
-                  >
-                    Delete
-                  </button>
-                  <button onClick={() => handleRescheduleClick(appointment)}>
-                    Reschedule
-                  </button>
+                  <label>
+                    <strong>Assign Employee:</strong>
+                  </label>
+                  {loadingEmps ? (
+                    <p>Loading available employees...</p>
+                  ) : (
+                    <select
+                      value={selectedEmployee[appointmentId] || ""}
+                      onChange={(e) =>
+                        handleEmployeeChange(appointmentId, e.target.value)
+                      }
+                    >
+                      <option value="">Select Employee</option>
+                      {possibleEmployees.map((emp) => (
+                        <option key={emp.employeeId} value={emp.employeeId}>
+                          {emp.first_name} {emp.last_name}
+                        </option>
+                      ))}
+                    </select>
+                  )}
+
+                  <div className="button-container">
+                    <button onClick={() => handleAssignEmployee(appointmentId)}>
+                      Assign
+                    </button>
+                    <button
+                      onClick={() => handleConfirm(appointmentId)}
+                      disabled={appointment.status === "CONFIRMED"}
+                    >
+                      {appointment.status === "CONFIRMED"
+                        ? "Confirmed"
+                        : "Confirm"}
+                    </button>
+                    <button
+                      className="delete-button"
+                      onClick={() => handleDelete(appointmentId)}
+                    >
+                      Delete
+                    </button>
+                    <button onClick={() => handleRescheduleClick(appointment)}>
+                      Reschedule
+                    </button>
+                  </div>
                 </div>
               </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
       )}
+
       {showRescheduleModal && (
         <div className="modal">
           <h3>Reschedule Appointment</h3>
