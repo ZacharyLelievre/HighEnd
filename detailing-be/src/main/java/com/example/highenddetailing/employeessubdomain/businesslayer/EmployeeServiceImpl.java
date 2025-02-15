@@ -17,6 +17,9 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -90,6 +93,32 @@ public class EmployeeServiceImpl implements EmployeeService {
         return employeeOpt.map(employeeResponseMapper::entityToResponseModel).orElse(null);
     }
 
+
+    public List<EmployeeResponseModel> findEmployeesAvailable(LocalDate date, LocalTime start, LocalTime end) {
+        String dayOfWeek = date.getDayOfWeek().toString();
+        List<Employee> allEmployees = employeeRepository.findAll();
+        List<Employee> matching = new ArrayList<>();
+
+        for (Employee emp : allEmployees) {
+            boolean canDoIt = false;
+            if (emp.getAvailability() != null) {
+                for (Availability slot : emp.getAvailability()) {
+                    if (slot.getDayOfWeek().equalsIgnoreCase(dayOfWeek)) {
+                        LocalTime slotStart = LocalTime.parse(slot.getStartTime());
+                        LocalTime slotEnd = LocalTime.parse(slot.getEndTime());
+                        if (!slotStart.isAfter(start) && !slotEnd.isBefore(end)) {
+                            canDoIt = true;
+                            break;
+                        }
+                    }
+                }
+            }
+            if (canDoIt) {
+                matching.add(emp);
+            }
+        }
+
+        return employeeResponseMapper.entityListToResponseModel(matching);
+    }
+
 }
-
-
