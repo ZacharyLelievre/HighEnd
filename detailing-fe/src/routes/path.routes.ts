@@ -14,4 +14,5 @@ export enum AppRoutePath {
   RequestTimeout = "/request-timeout",
   InternalServerError = "/internal-server-error",
   ServiceUnavailable = "/service-unavailable",
+  Promotions = "/promotions",
 }

@@ -23,4 +23,6 @@ public class AppointmentResponseModel {
     private String employeeName;
     private Status status;
     private String imagePath;
+    private String customerEmailAddress;
+
 }

@@ -3,6 +3,8 @@ import axios from "axios";
 import { useAuth0 } from "@auth0/auth0-react";
 import jsPDF from "jspdf";
 import html2canvas from "html2canvas";
+import { AppRoutePath } from "../routes/path.routes";
+import { useNavigate } from "react-router-dom";
 
 interface Appointment {
     appointmentId: string;
@@ -24,6 +26,7 @@ interface ReportRow {
 }
 
 export default function ReportsTable() {
+    const navigate = useNavigate();
     const apiBaseUrl = process.env.REACT_APP_API_BASE_URL;
     const { getAccessTokenSilently, isAuthenticated } = useAuth0();
     const [reports, setReports] = useState<ReportRow[]>([]);
@@ -128,11 +131,6 @@ export default function ReportsTable() {
             alert("Please select a file.");
             return;
         }
-        // If you want to enforce PNG-only on front-end, do it here:
-        // if (file.type !== "image/png") {
-        //   alert("Please select a PNG file.");
-        //   return;
-        // }
         try {
             const formData = new FormData();
             formData.append("serviceName", serviceName);
@@ -141,16 +139,12 @@ export default function ReportsTable() {
             formData.append("image", file);
 
             const token = await getAccessTokenSilently();
-            const response = await axios.post(
-                `${apiBaseUrl}/services`,
-                formData,
-                {
-                    headers: {
-                        Authorization: `Bearer ${token}`,
-                        "Content-Type": "multipart/form-data",
-                    },
-                }
-            );
+            const response = await axios.post(`${apiBaseUrl}/services`, formData, {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                    "Content-Type": "multipart/form-data",
+                },
+            });
 
             console.log("New service created:", response.data);
             alert("Service created successfully!");
@@ -162,8 +156,7 @@ export default function ReportsTable() {
             setFile(null);
             setShowAddService(false);
 
-            // Optionally, refresh the table data:
-            // loadReportData() or re-fetch services if needed
+            // Optionally, refresh the table data if needed
         } catch (err) {
             console.error("Error creating service:", err);
             alert("Error creating service.");
@@ -346,7 +339,6 @@ export default function ReportsTable() {
                             </div>
                             <div>
                                 <label>Image:</label>
-                                {/* Accept any image or limit to PNG if you want: accept="image/png" */}
                                 <input type="file" onChange={handleFileChange} required />
                             </div>
                             <button type="submit">Save</button>

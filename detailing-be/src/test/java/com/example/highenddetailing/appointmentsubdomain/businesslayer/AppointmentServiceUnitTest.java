@@ -116,14 +116,14 @@ public class AppointmentServiceUnitTest {
                         "SERVICE001", "Car Wash",
                         "c1f14c90-ec5e-4f82-a9b7-2548a7325b34", "John Doe",
                         "e1f14c90-ec5e-4f82-a9b7-2548a7325b34", "Jane Smith",
-                        Status.CONFIRMED, "detailing-service-1.jpg"
+                        Status.CONFIRMED, "detailing-service-1.jpg",""
                 ),
                 new AppointmentResponseModel(
                         "b1f14c90-ec5e-4f82-a9b7-2548a7325b34", "2025-07-02", "11:00:00", "12:00:00",
                         "SERVICE002", "Brake Check",
                         "c1f14c90-ec5e-4f82-a9b7-2548a7325b34", "John Doe",
                         "e1f14c90-ec5e-4f82-a9b7-2548a7325b34", "Jane Smith",
-                        Status.CONFIRMED, "detailing-service-1.jpg"
+                        Status.CONFIRMED, "detailing-service-1.jpg",""
                 )
         );
 
@@ -335,7 +335,7 @@ public class AppointmentServiceUnitTest {
                 "SERVICE001", "Car Wash",
                 "c1f14c90-ec5e-4f82-a9b7-2548a7325b34", "John Doe",
                 "e1f14c90-ec5e-4f82-a9b7-2548a7325b34", "Jane Smith",
-                Status.CONFIRMED, "detailing-service-1.jpg"
+                Status.CONFIRMED, "detailing-service-1.jpg",""
         );
 
         // Mock repository and mapper behavior
@@ -575,7 +575,7 @@ public class AppointmentServiceUnitTest {
                         "SERVICE001", "Car Wash",
                         "c1f14c90-ec5e-4f82-a9b7-2548a7325b34", "John Doe",
                         "e1f14c90-ec5e-4f82-a9b7-2548a7325b34", "Jane Smith",
-                        Status.PENDING, "detailing-service-1.jpg"
+                        Status.PENDING, "detailing-service-1.jpg",""
                 ));
 
         // Act
@@ -643,7 +643,7 @@ public class AppointmentServiceUnitTest {
                         "SERVICE001", "Car Wash",
                         "c1f14c90-ec5e-4f82-a9b7-2548a7325b34", "John Doe",
                         employeeId, "Jane Smith",
-                        Status.CONFIRMED, "detailing-service-1.jpg"
+                        Status.CONFIRMED, "detailing-service-1.jpg",""
                 )
         );
 
@@ -707,7 +707,7 @@ public class AppointmentServiceUnitTest {
                         "SERVICE001", "Car Wash",
                         customerId, "John Doe",
                         "e1f14c90-ec5e-4f82-a9b7-2548a7325b34", "Jane Smith",
-                        Status.CONFIRMED, "detailing-service-1.jpg"
+                        Status.CONFIRMED, "detailing-service-1.jpg",""
                 )
         );
 

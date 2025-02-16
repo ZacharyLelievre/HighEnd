@@ -14,6 +14,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -65,5 +66,30 @@ class GalleryServiceUnitTest {
         assertEquals(gallery2.getGalleryIdentifier().getGalleryId(), galleryResponse.get(1).getGalleryId());
         assertEquals("Car Interior 2", galleryResponse.get(1).getDescription());
         assertEquals("gallery2.jpg", galleryResponse.get(1).getImageUrl());
+
+
     }
+
+    @Test
+    void whenDeleteImage_thenGalleryIsDeleted() {
+        // Arrange
+        String galleryId = "gallery1";  // ID of the gallery to delete
+        Gallery gallery = new Gallery();
+        gallery.setId(1);
+        gallery.setGalleryIdentifier(new GalleryIdentifier());
+//        gallery.getGalleryIdentifier().setGalleryId(galleryId);
+        gallery.setDescription("Car Exterior 1");
+        gallery.setImageUrl("gallery1.jpg");
+
+        // Mock behavior
+        when(galleryRepository.findByGalleryIdentifier_GalleryId(galleryId)).thenReturn(java.util.Optional.of(gallery));
+
+        // Act
+        galleryService.deleteImage(galleryId);
+
+        // Assert
+        // Verify that delete was called on the repository
+        verify(galleryRepository).delete(gallery);
+    }
+
 }

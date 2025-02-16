@@ -30,6 +30,8 @@ export default function AllAppointments(): JSX.Element {
     [id: string]: string;
   }>({});
 
+  const [confirmationMessage, setConfirmationMessage] = useState("");
+
   // Rescheduling states
   const [showRescheduleModal, setShowRescheduleModal] = useState(false);
   const [selectedAppointment, setSelectedAppointment] =
@@ -147,6 +149,13 @@ export default function AllAppointments(): JSX.Element {
             : appt,
         ),
       );
+      const customerEmail = response.data.customerEmailAddress;
+      setConfirmationMessage(
+        `Confirmation email sent successfully, to ${customerEmail}`,
+      );
+      setTimeout(() => {
+        setConfirmationMessage("");
+      }, 3000);
     } catch (error) {
       console.error("Error confirming appointment:", error);
       alert("Error confirming appointment. Please try again.");
@@ -249,6 +258,21 @@ export default function AllAppointments(): JSX.Element {
   // 9) Render
   return (
     <div>
+      {/* Display confirmation message if it exists */}
+      {confirmationMessage && (
+        <div
+          style={{
+            backgroundColor: "lightgreen",
+            padding: "10px",
+            borderRadius: "4px",
+            marginBottom: "10px",
+            textAlign: "center",
+            fontWeight: "bold",
+          }}
+        >
+          {confirmationMessage}
+        </div>
+      )}
       {loadingAppointments ? (
         <p>Loading appointments...</p>
       ) : (

@@ -6,6 +6,13 @@ import Modal from "react-modal";
 import "./AllServices.css";
 import { useAuth0 } from "@auth0/auth0-react";
 
+interface PromotionModel {
+  promotionId: number;
+  serviceId: string; // no "service" nested object
+  oldPrice: number;
+  newPrice: number;
+  discountMessage: string;
+}
 // Custom styles for the modal
 const customStyles = {
   content: {
@@ -24,6 +31,7 @@ export default function AllServices(): JSX.Element {
   const [services, setServices] = useState<ServiceModel[]>([]);
   const [modalIsOpen, setModalIsOpen] = useState<boolean>(false);
   const imageBaseUrl = process.env.REACT_APP_IMAGE_BASE_URL;
+  const [promotions, setPromotions] = useState<PromotionModel[]>([]);
   const [selectedService, setSelectedService] = useState<ServiceModel | null>(
     null,
   );
@@ -48,6 +56,16 @@ export default function AllServices(): JSX.Element {
         console.error("Error fetching services:", error);
       }
     };
+    async function fetchPromotions() {
+      try {
+        const response = await axios.get<PromotionModel[]>(
+          `${apiBaseUrl}/promotions`,
+        );
+        setPromotions(response.data);
+      } catch (error) {
+        console.error("Error fetching promotions:", error);
+      }
+    }
 
     const logUserRoles = async () => {
       try {
@@ -64,6 +82,7 @@ export default function AllServices(): JSX.Element {
     };
 
     fetchServices();
+    fetchPromotions();
     logUserRoles();
   }, [getIdTokenClaims]);
 
@@ -125,6 +144,40 @@ export default function AllServices(): JSX.Element {
       alert("Failed to book appointment. Please try again.");
     }
   };
+  function getDisplayedPrice(service: ServiceModel): JSX.Element {
+    // Attempt to find a matching promotion for this service
+    const promo = promotions.find((p) => p.serviceId === service.serviceId);
+
+    if (!promo) {
+      // No promotion => show normal price
+      return <p className="service-price">${service.price.toFixed(2)}</p>;
+    }
+
+    // Promotion found => cross out oldPrice, show newPrice
+    return (
+      <div style={{ textAlign: "center" }}>
+        <p
+          style={{
+            textDecoration: "line-through",
+            color: "red",
+            margin: 0,
+            fontSize: "0.95rem",
+          }}
+        >
+          ${promo.oldPrice.toFixed(2)}
+        </p>
+        <p
+          style={{
+            color: "white",
+            margin: 0,
+            fontWeight: "bold",
+          }}
+        >
+          ${promo.newPrice.toFixed(2)}
+        </p>
+      </div>
+    );
+  }
 
   return (
     <div style={{ backgroundColor: "black" }}>
@@ -143,7 +196,7 @@ export default function AllServices(): JSX.Element {
                   alt={service.serviceName}
                 />
                 <h3 className="service-name">{service.serviceName}</h3>
-                <p className="service-price">${service.price.toFixed(2)}</p>
+                {getDisplayedPrice(service)}
               </div>
             </Link>
             {/*<button onClick={() => openModal(service)}>Book Appointment</button>*/}
