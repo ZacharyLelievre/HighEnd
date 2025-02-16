@@ -11,4 +11,7 @@ public interface PromotionService {
     PromotionResponseModel createPromotion(PromotionRequestModel request);
     List<PromotionResponseModel> getAllPromotions();
 
+    void deletePromotion(String promotionId);
+
+
 }

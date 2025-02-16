@@ -192,7 +192,7 @@ export default function AllServices(): JSX.Element {
               <div className="service-card-content">
                 <img
                   className="service-image2"
-                  src={`${imageBaseUrl}/${service.imagePath}`}
+                  src={`/images/${service.imagePath}`}
                   alt={service.serviceName}
                 />
                 <h3 className="service-name">{service.serviceName}</h3>

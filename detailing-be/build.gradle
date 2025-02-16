@@ -77,12 +77,28 @@ test {
 	finalizedBy jacocoTestReport
 }
 jacocoTestReport {
-	dependsOn test
-}
-tasks.jacocoTestReport {
+	dependsOn test // Ensure tests run before generating the report
+
 	reports {
-		xml.required = false
+		xml.required = true
 		csv.required = false
 		html.outputLocation = layout.buildDirectory.dir("jacocoHtml")
+	}
+
+	executionData fileTree(dir: "$buildDir/jacoco", includes: ["*.exec"])
+
+	afterEvaluate {
+		classDirectories.setFrom(
+				files([
+						fileTree(dir: "$buildDir/classes/java/main/com/example/highenddetailing/appointmentsubdomain"),
+						fileTree(dir: "$buildDir/classes/java/main/com/example/highenddetailing/authsubdomain"),
+						fileTree(dir: "$buildDir/classes/java/main/com/example/highenddetailing/customerssubdomain"),
+						fileTree(dir: "$buildDir/classes/java/main/com/example/highenddetailing/emailssubdomain"),
+						fileTree(dir: "$buildDir/classes/java/main/com/example/highenddetailing/employeessubdomain"),
+						fileTree(dir: "$buildDir/classes/java/main/com/example/highenddetailing/gallerysubdomain"),
+						fileTree(dir: "$buildDir/classes/java/main/com/example/highenddetailing/promotionsubdomain"),
+						fileTree(dir: "$buildDir/classes/java/main/com/example/highenddetailing/servicessubdomain")
+				])
+		)
 	}
 }
