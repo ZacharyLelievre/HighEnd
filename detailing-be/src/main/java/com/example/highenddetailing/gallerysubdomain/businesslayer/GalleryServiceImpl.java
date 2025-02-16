@@ -26,4 +26,13 @@ public class GalleryServiceImpl implements GalleryService {
     public List<GalleryResponseModel> getAllGalleries() {
         return galleryResponseMapper.entityListToResponseModel(galleryRepository.findAll());
     }
+
+    @Override
+    public void deleteImage(String galleryId) {
+        Gallery gallery = galleryRepository
+                .findByGalleryIdentifier_GalleryId(galleryId)
+                .orElseThrow(() -> new RuntimeException("Gallery not found with id: " + galleryId));
+        galleryRepository.delete(gallery);
+
+    }
 }
