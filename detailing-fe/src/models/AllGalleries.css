@@ -28,12 +28,13 @@
 /* Image Styling */
 .gallery-image {
   width: 100%;
-  height: auto;
+  height: 250px; /* Set a fixed height */
+  object-fit: cover; /* Ensures image fills the space properly */
   border-radius: 10px;
-  object-fit: cover;
   box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
   transition: transform 0.3s ease-in-out;
 }
+
 
 /* Hover Effect */
 .gallery-image:hover {
