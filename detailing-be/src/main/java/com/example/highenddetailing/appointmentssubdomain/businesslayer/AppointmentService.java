@@ -13,7 +13,8 @@ import java.util.List;
 
 public interface AppointmentService {
     List<AppointmentResponseModel> getAllAppointments();
-    Appointment updateStatus(String id, Status newStatus);
+    AppointmentResponseModel updateStatus(String id, Status newStatus);
+
     AppointmentResponseModel assignEmployee(String id, EmployeeRequestModel request);
     AppointmentResponseModel createAppointment(AppointmentRequestModel request);
     void deleteAppointment(String id);  // Add this method

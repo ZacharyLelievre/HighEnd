@@ -3,6 +3,8 @@ import axios from "axios";
 import { useAuth0 } from "@auth0/auth0-react";
 import jsPDF from "jspdf";
 import html2canvas from "html2canvas";
+import { AppRoutePath } from "../routes/path.routes";
+import { useNavigate } from "react-router-dom";
 
 interface Appointment {
   appointmentId: string;
@@ -24,6 +26,7 @@ interface ReportRow {
 }
 
 export default function ReportsTable() {
+  const navigate = useNavigate();
   const apiBaseUrl = process.env.REACT_APP_API_BASE_URL;
   const { getAccessTokenSilently, isAuthenticated } = useAuth0();
   const [reports, setReports] = useState<ReportRow[]>([]);
@@ -124,6 +127,10 @@ export default function ReportsTable() {
       pdf.addImage(imgData, "PNG", 0, 0, pdfWidth, pdfHeight);
       pdf.save("reports.pdf");
     }
+  };
+
+  const handleAddPromotion = () => {
+    navigate(AppRoutePath.Promotions);
   };
 
   const getStatusCard = (status: string) => {
@@ -238,24 +245,45 @@ export default function ReportsTable() {
           ))}
         </tbody>
       </table>
-      <button
-        onClick={generatePDF}
+      <div
         style={{
           position: "absolute",
           bottom: "10px",
           right: "10px",
-          padding: "4px 8px", // reduced padding for a smaller width
-          fontSize: "16px",
-          backgroundColor: "black",
-          color: "white",
-          border: "none",
-          borderRadius: "4px",
-          cursor: "pointer",
-          width: "16%",
+          display: "flex",
+          gap: "10px",
         }}
       >
-        Download PDF
-      </button>
+        <button
+          onClick={generatePDF}
+          style={{
+            padding: "4px 8px",
+            fontSize: "16px",
+            backgroundColor: "black",
+            color: "white",
+            border: "none",
+            borderRadius: "4px",
+            cursor: "pointer",
+          }}
+        >
+          Download PDF
+        </button>
+
+        <button
+          onClick={handleAddPromotion}
+          style={{
+            padding: "4px 8px",
+            fontSize: "16px",
+            backgroundColor: "#333",
+            color: "white",
+            border: "none",
+            borderRadius: "4px",
+            cursor: "pointer",
+          }}
+        >
+          Add Promotion
+        </button>
+      </div>
     </div>
   );
 }

@@ -15,6 +15,7 @@ import { EmployeeInviteSuccessPage } from "../models/EmployeeInviteSuccessPage";
 import HomeCallbackHandler from "../pages/HomeCallbackHandler";
 import CustomerDetailsPage from "../pages/CustomerDetailsPage";
 import { MyAppointmentDetails } from "../pages/MyAppointmentDetails";
+import PromotionForm from "../pages/PromotionForm";
 
 const router = createBrowserRouter([
   {
@@ -68,6 +69,10 @@ const router = createBrowserRouter([
   {
     path: "/my-appointments/:appointmentId",
     element: <MyAppointmentDetails />,
+  },
+  {
+    path: AppRoutePath.Promotions,
+    element: <PromotionForm />,
   },
 ]);
 

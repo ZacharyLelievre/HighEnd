@@ -74,3 +74,12 @@ CREATE TABLE IF NOT EXISTS employee_invites (
                                                 invite_token VARCHAR(255) NOT NULL,
                                                 expires_at DATETIME NOT NULL
 );
+CREATE TABLE IF NOT EXISTS promotions (
+                                          id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+                                          service_id_fk INTEGER,
+                                          old_price DECIMAL(10,2),
+    new_price DECIMAL(10,2),
+    discount_message VARCHAR(255),
+    FOREIGN KEY (service_id_fk) REFERENCES services(id)
+    );
+
