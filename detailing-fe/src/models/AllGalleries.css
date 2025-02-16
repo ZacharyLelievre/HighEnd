@@ -35,7 +35,6 @@
   transition: transform 0.3s ease-in-out;
 }
 
-
 /* Hover Effect */
 .gallery-image:hover {
   transform: scale(1.05);
@@ -223,4 +222,57 @@ body {
   justify-content: center;
   align-items: center;
   overflow: hidden;
+}
+
+.upload-container {
+  width: 50%;
+  margin: 20px auto;
+  padding: 15px;
+  /* background: white; */
+  border-radius: 8px;
+  text-align: center;
+}
+
+.upload-title {
+  color: white;
+  margin-bottom: 10px;
+}
+
+.upload-container input {
+  width: 90%;
+  margin-bottom: 10px;
+  padding: 8px;
+  border-radius: 4px;
+}
+
+.button-group {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+}
+
+.upload-button {
+  padding: 8px 12px;
+  background: #4caf50;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.cancel-button {
+  padding: 8px 12px;
+  background: #ff5252;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.upload-button:hover {
+  background: #45a049;
+}
+
+.cancel-button:hover {
+  background: #e53935;
 }

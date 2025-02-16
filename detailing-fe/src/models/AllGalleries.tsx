@@ -77,17 +77,19 @@ export default function AllGalleries(): JSX.Element {
 
     try {
       const accessToken = await getAccessTokenSilently();
-      const response = await axios.post(`${apiBaseUrl}/galleries/upload`, formData, {
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-          "Content-Type": "multipart/form-data",
+      const response = await axios.post(
+        `${apiBaseUrl}/galleries/upload`,
+        formData,
+        {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+            "Content-Type": "multipart/form-data",
+          },
         },
-      });
+      );
 
       toast.success("Image uploaded successfully");
       setGalleries([...galleries, response.data]); // Add new image to state
-      console.log(galleries);
-      console.log(response.data);
       setFile(null);
       setDescription("");
       window.location.reload();
@@ -97,30 +99,19 @@ export default function AllGalleries(): JSX.Element {
     }
   };
 
+  const cancelUpload = () => {
+    setFile(null);
+    setDescription("");
+  };
+
   return (
     <div className="gallery-container">
-      <h2 className="gallery-title" style={{ textAlign: "center", color: "white" }}>
+      <h2
+        className="gallery-title"
+        style={{ textAlign: "center", color: "white" }}
+      >
         Gallery
       </h2>
-
-      {isAdmin && (
-        <div className="upload-container">
-          <input
-            type="file"
-            accept="image/*"
-            onChange={(e) => setFile(e.target.files ? e.target.files[0] : null)}
-          />
-          <input
-            type="text"
-            placeholder="Enter description"
-            value={description}
-            onChange={(e) => setDescription(e.target.value)}
-          />
-          <button className="upload-button" onClick={uploadImage}>
-            Upload Image
-          </button>
-        </div>
-      )}
 
       <Swiper
         modules={[Pagination, Navigation, Autoplay]}
@@ -158,13 +149,45 @@ export default function AllGalleries(): JSX.Element {
         ))}
       </Swiper>
 
+      {isAdmin && (
+        <div className="upload-container" style={{ backgroundColor: "black" }}>
+          <h3 className="upload-title">Upload New Image</h3>
+          <input
+            type="file"
+            accept="image/*"
+            onChange={(e) => setFile(e.target.files ? e.target.files[0] : null)}
+          />
+          <input
+            type="text"
+            placeholder="Enter description"
+            value={description}
+            onChange={(e) => setDescription(e.target.value)}
+          />
+          <div className="button-group">
+            <button className="upload-button" onClick={uploadImage}>
+              Upload
+            </button>
+            <button className="cancel-button" onClick={cancelUpload}>
+              Cancel
+            </button>
+          </div>
+        </div>
+      )}
+
       {selectedImage && (
         <div className="lightbox" onClick={() => setSelectedImage(null)}>
           <div className="lightbox-content">
-            <button className="close-button" onClick={() => setSelectedImage(null)}>
+            <button
+              className="close-button"
+              onClick={() => setSelectedImage(null)}
+            >
               ✖
             </button>
-            <img className="lightbox-image" src={selectedImage} alt="Full Preview" />
+            <img
+              className="lightbox-image"
+              src={selectedImage}
+              alt="Full Preview"
+            />
           </div>
         </div>
       )}
