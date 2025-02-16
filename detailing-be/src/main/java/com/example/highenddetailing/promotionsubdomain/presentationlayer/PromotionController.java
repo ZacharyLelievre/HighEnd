@@ -24,4 +24,10 @@ public class PromotionController {
     public ResponseEntity<List<PromotionResponseModel>> getAllPromotions() {
         return ResponseEntity.ok(promotionService.getAllPromotions());
     }
+    @DeleteMapping("/{promotionId}")
+    public ResponseEntity<Void> deletePromotion(@PathVariable String promotionId) {
+        promotionService.deletePromotion(promotionId);
+        return ResponseEntity.noContent().build();
+    }
+
 }

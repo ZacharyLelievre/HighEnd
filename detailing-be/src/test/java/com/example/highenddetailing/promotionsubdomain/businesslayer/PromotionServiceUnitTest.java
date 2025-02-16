@@ -164,4 +164,36 @@ public class PromotionServiceUnitTest {
         assertEquals(1L, results.get(0).getPromotionId());
         assertEquals(2L, results.get(1).getPromotionId());
     }
+    @Test
+    void deletePromotion_promotionFound_deletesSuccessfully() {
+        // Arrange
+        Long promotionId = 1L;
+        when(promotionRepository.findById(promotionId)).thenReturn(Optional.of(samplePromotion));
+
+        // Act
+        promotionService.deletePromotion(String.valueOf(promotionId));
+
+        // Assert
+        verify(promotionRepository).findById(promotionId);
+        verify(serviceRepository).save(samplePromotion.getService()); // Ensures service price reset
+        verify(promotionRepository).deleteById(promotionId);
+    }
+
+    @Test
+    void deletePromotion_promotionNotFound_throwsException() {
+        // Arrange
+        Long promotionId = 1L;
+        when(promotionRepository.findById(promotionId)).thenReturn(Optional.empty());
+
+        // Act & Assert
+        RuntimeException exception = assertThrows(RuntimeException.class, () ->
+                promotionService.deletePromotion(String.valueOf(promotionId))
+        );
+        assertEquals("Promotion not found with id: 1", exception.getMessage());
+
+        verify(promotionRepository).findById(promotionId);
+        verify(promotionRepository, never()).deleteById(any());
+        verify(serviceRepository, never()).save(any());
+    }
+
 }

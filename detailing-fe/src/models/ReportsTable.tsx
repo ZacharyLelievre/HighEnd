@@ -163,6 +163,11 @@ export default function ReportsTable() {
         }
     };
 
+    const handleAddPromotion = () => {
+        // Navigate to the promotions route; adjust as needed.
+        navigate(AppRoutePath.Promotions || "/promotions");
+    };
+
     // Helper for status card
     const getStatusCard = (status: string) => {
         let backgroundColor = "";
@@ -207,8 +212,21 @@ export default function ReportsTable() {
     };
 
     if (loading) {
-        return <div>Loading Reports.</div>;
+        return <div>Loading Reports (Front-End Aggregator)...</div>;
     }
+
+    // Common button style
+    const buttonStyle = {
+        padding: "8px 16px",
+        fontSize: "16px",
+        backgroundColor: "black",
+        color: "white",
+        border: "none",
+        borderRadius: "4px",
+        cursor: "pointer",
+        minWidth: "150px",
+        textAlign: "center" as const,
+    };
 
     return (
         <div ref={containerRef} style={{ position: "relative", paddingBottom: "50px" }}>
@@ -246,45 +264,25 @@ export default function ReportsTable() {
                 </tbody>
             </table>
 
-            {/* Download PDF button */}
-            <button
-                onClick={generatePDF}
+            <div
                 style={{
                     position: "absolute",
                     bottom: "10px",
                     right: "10px",
-                    padding: "4px 8px",
-                    fontSize: "16px",
-                    backgroundColor: "black",
-                    color: "white",
-                    border: "none",
-                    borderRadius: "4px",
-                    cursor: "pointer",
-                    width: "16%",
+                    display: "flex",
+                    gap: "10px",
                 }}
             >
-                Download PDF
-            </button>
-
-            {/* Add Service button */}
-            <button
-                onClick={() => setShowAddService(true)}
-                style={{
-                    position: "absolute",
-                    bottom: "10px",
-                    right: "211px",
-                    padding: "4px 8px",
-                    fontSize: "16px",
-                    backgroundColor: "black",
-                    color: "white",
-                    border: "none",
-                    borderRadius: "4px",
-                    cursor: "pointer",
-                    width: "15%",
-                }}
-            >
-                Add Service
-            </button>
+                <button onClick={generatePDF} style={buttonStyle}>
+                    Download PDF
+                </button>
+                <button onClick={() => setShowAddService(true)} style={buttonStyle}>
+                    Add Service
+                </button>
+                <button onClick={handleAddPromotion} style={buttonStyle}>
+                    Promotions
+                </button>
+            </div>
 
             {/* Add Service Modal */}
             {showAddService && (
