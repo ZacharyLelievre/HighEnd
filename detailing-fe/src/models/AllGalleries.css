@@ -189,3 +189,35 @@
 body {
   background-color: black;
 }
+
+/* Delete Button */
+.delete-button {
+  background-color: red;
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  font-size: 12px;
+  cursor: pointer;
+  border-radius: 5px;
+  position: absolute;
+  bottom: 5px;
+  right: 5px;
+  width: auto;
+  min-width: 50px;
+  text-align: center;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.delete-button:hover {
+  background-color: darkred;
+  transform: scale(1.05);
+}
+
+/* Ensure gallery-item has relative positioning */
+.gallery-item {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+}
