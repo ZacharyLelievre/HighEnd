@@ -7,7 +7,7 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { GalleryModel } from "./dtos/GalleryModel";
 import "./AllGalleries.css";
-import { toast, ToastContainer } from "react-toastify";  // Added ToastContainer import
+import { toast, ToastContainer } from "react-toastify"; // Added ToastContainer import
 import "react-toastify/dist/ReactToastify.css";
 import { useAuth0 } from "@auth0/auth0-react"; // Import useAuth0
 
@@ -39,7 +39,8 @@ export default function AllGalleries(): JSX.Element {
         const base64Url = accessToken.split(".")[1];
         const decodedPayload = atob(base64Url);
         const tokenData = JSON.parse(decodedPayload);
-        const roles = tokenData["https://highenddetailing/roles"] || tokenData.roles || [];
+        const roles =
+          tokenData["https://highenddetailing/roles"] || tokenData.roles || [];
         setIsAdmin(roles.includes("ADMIN"));
       } catch (error) {
         console.error("Error fetching access token or roles:", error);
@@ -52,7 +53,9 @@ export default function AllGalleries(): JSX.Element {
   const deleteGallery = async (galleryId: string) => {
     try {
       await axios.delete(`http://localhost:8081/api/galleries/${galleryId}`);
-      setGalleries(galleries.filter(gallery => gallery.galleryId !== galleryId));
+      setGalleries(
+        galleries.filter((gallery) => gallery.galleryId !== galleryId),
+      );
       toast.success("Image deleted successfully");
     } catch (error) {
       console.error("Error deleting image", error);
@@ -61,8 +64,11 @@ export default function AllGalleries(): JSX.Element {
   };
 
   return (
-    <div className="gallery-container" >
-      <h2 className="gallery-title" style={{ textAlign: "center", color: "white" }}>
+    <div className="gallery-container">
+      <h2
+        className="gallery-title"
+        style={{ textAlign: "center", color: "white" }}
+      >
         Gallery
       </h2>
       <Swiper
@@ -89,7 +95,10 @@ export default function AllGalleries(): JSX.Element {
                 onClick={() => setSelectedImage(gallery.imageUrl)}
               />
               {isAdmin && (
-                <button className="delete-button" onClick={() => deleteGallery(gallery.galleryId)}>
+                <button
+                  className="delete-button"
+                  onClick={() => deleteGallery(gallery.galleryId)}
+                >
                   Delete
                 </button>
               )}
@@ -97,19 +106,24 @@ export default function AllGalleries(): JSX.Element {
           </SwiperSlide>
         ))}
       </Swiper>
-
       {/* Lightbox (Full-Screen Preview) */}
       {selectedImage && (
         <div className="lightbox" onClick={() => setSelectedImage(null)}>
           <div className="lightbox-content">
-            <button className="close-button" onClick={() => setSelectedImage(null)}>
+            <button
+              className="close-button"
+              onClick={() => setSelectedImage(null)}
+            >
               ✖
             </button>
-            <img className="lightbox-image" src={selectedImage} alt="Full Preview" />
+            <img
+              className="lightbox-image"
+              src={selectedImage}
+              alt="Full Preview"
+            />
           </div>
         </div>
       )}
-
       <ToastContainer /> {/* Add this ToastContainer to display the toasts */}
     </div>
   );
