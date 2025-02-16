@@ -281,7 +281,7 @@ export default function ReportsTable() {
             cursor: "pointer",
           }}
         >
-          Add Promotion
+          Promotions
         </button>
       </div>
     </div>

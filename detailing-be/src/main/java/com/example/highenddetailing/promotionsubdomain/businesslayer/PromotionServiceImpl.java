@@ -54,4 +54,27 @@ public class PromotionServiceImpl implements PromotionService {
         List<Promotion> promotions = promotionRepository.findAll();
         return promotionMapper.entityListToResponseModel(promotions);
     }
+
+    @Override
+    public void deletePromotion(String promotionId) {
+        // Convert String to Long
+        Long id = Long.valueOf(promotionId);
+
+        // 1) Find the promotion by ID
+        var promotionOpt = promotionRepository.findById(id);
+        if (promotionOpt.isEmpty()) {
+            throw new RuntimeException("Promotion not found with id: " + id);
+        }
+
+        // 2) Restore original price in the Service entity (if needed)
+        Promotion promotion = promotionOpt.get();
+        Service service = promotion.getService();
+        service.setPrice(promotion.getOldPrice()); // Reset price
+        serviceRepository.save(service);
+
+        // 3) Delete the promotion
+        promotionRepository.deleteById(id);
+    }
+
+
 }
