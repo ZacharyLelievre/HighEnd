@@ -6,8 +6,7 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.*;
 
 @DataJpaTest
 class GalleryRepositoryIntegrationTest {
@@ -48,4 +47,30 @@ class GalleryRepositoryIntegrationTest {
         assertEquals("Car Interior 2", galleries.get(1).getDescription());
         assertEquals("gallery2.jpg", galleries.get(1).getImageUrl());
     }
+
+
+
+    @Test
+    void whenDeleteImage_thenGalleryIsRemoved() {
+        // Arrange: Create and save a gallery
+        Gallery gallery = new Gallery();
+        GalleryIdentifier identifier = new GalleryIdentifier();
+        gallery.setGalleryIdentifier(identifier);
+        gallery.setDescription("Car Exterior");
+        gallery.setImageUrl("gallery.jpg");
+
+        gallery = galleryRepository.saveAndFlush(gallery);  // Ensure it is saved to the DB
+        String galleryId = gallery.getGalleryIdentifier().getGalleryId();
+
+        assertNotNull(galleryId, "Gallery ID should not be null after saving");
+        assertTrue(galleryRepository.findByGalleryIdentifier_GalleryId(galleryId).isPresent(), "Gallery should exist before deletion");
+
+        // Act: Delete the gallery
+        galleryRepository.delete(gallery);
+        galleryRepository.flush();  // Ensure the deletion is committed
+
+        // Assert: Ensure the gallery no longer exists
+        assertFalse(galleryRepository.findByGalleryIdentifier_GalleryId(galleryId).isPresent(), "Gallery should be removed after deletion");
+    }
+
 }

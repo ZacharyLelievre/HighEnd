@@ -8,4 +8,5 @@ import java.util.List;
 public interface GalleryService {
 
     List<GalleryResponseModel> getAllGalleries();
+    void deleteImage(String galleryId);
 }

@@ -7,6 +7,7 @@ import AllEmployees from "../models/allEmployees";
 import "./DashboardPage.css";
 import ReportsTable from "../models/ReportsTable";
 import AppointmentsTable from "../models/AppointmentsTable";
+import AllGalleries from "../models/AllGalleries";
 
 export default function DashboardPage(): JSX.Element {
   const apiBaseUrl = process.env.REACT_APP_API_BASE_URL;
@@ -73,6 +74,17 @@ export default function DashboardPage(): JSX.Element {
         <div className="section-container">
           <h2 className="section-title">Employees</h2>
           <AllEmployees />
+        </div>
+        <div
+          className="section-container"
+          style={{
+            backgroundColor: "white",
+            padding: "20px",
+            borderRadius: "10px",
+          }}
+        >
+          <h2 className="section-title">Gallery</h2>
+          <AllGalleries />
         </div>
       </div>
     </div>
