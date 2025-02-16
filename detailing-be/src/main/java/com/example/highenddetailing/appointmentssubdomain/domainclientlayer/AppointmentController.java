@@ -47,9 +47,8 @@ public class AppointmentController {
             @RequestBody StatusRequest request
     ) {
         Status newStatus = Status.valueOf(request.getStatus().toUpperCase());
-        Appointment updatedAppointment = appointmentService.updateStatus(id, newStatus);
-        // Convert the entity to your usual response model with top-level appointmentId
-        AppointmentResponseModel updatedResponse = appointmentResponseMapper.entityToResponseModel(updatedAppointment);
+        // Now the service returns the response model directly
+        AppointmentResponseModel updatedResponse = appointmentService.updateStatus(id, newStatus);
         return ResponseEntity.ok(updatedResponse);
     }
 

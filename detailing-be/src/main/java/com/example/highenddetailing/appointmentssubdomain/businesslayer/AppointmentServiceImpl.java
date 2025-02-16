@@ -52,7 +52,7 @@ public class AppointmentServiceImpl implements AppointmentService {
         return appointmentResponseMapper.entityListToResponseModel(appointments);
     }
     @Override
-    public Appointment updateStatus(String id, Status newStatus) {
+    public AppointmentResponseModel updateStatus(String id, Status newStatus) {
         log.info("🔹 Updating status for appointment ID: {}", id);
         log.info("🔹 New status: {}", newStatus);
 
@@ -65,23 +65,29 @@ public class AppointmentServiceImpl implements AppointmentService {
         appointment.setStatus(newStatus);
         Appointment updatedAppointment = appointmentRepository.save(appointment);
 
+        // We'll store the found email here
+        String foundEmail = null;
+
         // ✅ Send an email when appointment is confirmed
         if (newStatus == Status.CONFIRMED) {
-            String customerName = appointment.getCustomerName();
+            String customerName = updatedAppointment.getCustomerName();
             log.info("🔹 Customer Name from Appointment: {}", customerName);
 
-            // Split into first and last name (if possible)
+            // Split into first/last
             String[] nameParts = customerName.split(" ", 2);
             String customerFirstName = nameParts[0];
-            String customerLastName = nameParts.length > 1 ? nameParts[1] : "";
+            String customerLastName = (nameParts.length > 1) ? nameParts[1] : "";
 
             log.info("🔹 Extracted First Name: {}", customerFirstName);
             log.info("🔹 Extracted Last Name: {}", customerLastName);
 
-            // Fetch the customer's email, handling multiple results
+            // Find matching customer
             List<Customer> customers;
             if (!customerLastName.isEmpty()) {
-                customers = customerRepository.findByCustomerFirstNameAndCustomerLastName(customerFirstName, customerLastName);
+                customers = customerRepository.findByCustomerFirstNameAndCustomerLastName(
+                        customerFirstName,
+                        customerLastName
+                );
             } else {
                 customers = customerRepository.findByCustomerFirstName(customerFirstName);
             }
@@ -90,21 +96,27 @@ public class AppointmentServiceImpl implements AppointmentService {
                 throw new RuntimeException("❌ No customer found for: " + customerName);
             }
 
-            // Pick the first customer from the list
-            String customerEmail = customers.get(0).getCustomerEmailAddress();
-
-            log.info("✅ Found Customer Email: {}", customerEmail);
-
-            String serviceName = appointment.getServiceName();
-            String appointmentDate = appointment.getAppointmentDate().toString();
-            String appointmentTime = appointment.getAppointmentTime().toString();
+            // Grab the first match
+            foundEmail = customers.get(0).getCustomerEmailAddress();
+            log.info("✅ Found Customer Email: {}", foundEmail);
 
             // Send confirmation email
-            emailService.sendAppointmentConfirmation(customerEmail, serviceName, appointmentDate, appointmentTime);
-            log.info("✅ Confirmation email sent to: {}", customerEmail);
+            String serviceName = updatedAppointment.getServiceName();
+            String appointmentDate = updatedAppointment.getAppointmentDate().toString();
+            String appointmentTime = updatedAppointment.getAppointmentTime().toString();
+            emailService.sendAppointmentConfirmation(foundEmail, serviceName, appointmentDate, appointmentTime);
+            log.info("✅ Confirmation email sent to: {}", foundEmail);
         }
 
-        return updatedAppointment;
+        // Map the updated appointment into a response model
+        AppointmentResponseModel responseModel = appointmentResponseMapper.entityToResponseModel(updatedAppointment);
+
+        // And inject the actual email (if found) so the frontend sees it
+        if (foundEmail != null) {
+            responseModel.setCustomerEmailAddress(foundEmail);
+        }
+
+        return responseModel;
     }
     @Override
     public AppointmentResponseModel assignEmployee(String id, EmployeeRequestModel request) {
