@@ -7,6 +7,7 @@ VALUES
     (4, 'd4b25a88-88cf-46ea-8d93-31bb5e528a8f', 'Engine Cleaning', '2 hours', 49.99, 'moteur.png'),
     (5, 'b5c64e99-9ac4-4f93-bb52-5c9ab7832e12', 'Basic Polishing', '45 minutes', 249.99, 'polissage.png'),
     (6, 'c6a87f2b-e3b5-4b8d-b48c-4824bb8d62e7', 'Premium Polishing', '3 hours', 399.99, 'polissagesupreme.png');
+ALTER TABLE services ALTER COLUMN id RESTART WITH 7;
 
 -- Appointments (updated with different customers)
 INSERT INTO appointments(

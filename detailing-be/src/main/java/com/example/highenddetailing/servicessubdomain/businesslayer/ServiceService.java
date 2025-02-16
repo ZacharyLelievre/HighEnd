@@ -10,4 +10,6 @@ public interface ServiceService {
     List<ServiceResponseModel> getAllServices();
 
     Optional<ServiceResponseModel> getServiceById(String serviceId);
+
+    ServiceResponseModel createService(String serviceName, String timeRequired, float price, String imagePath);
 }
