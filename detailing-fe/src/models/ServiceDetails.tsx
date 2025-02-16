@@ -231,7 +231,7 @@ export default function ServiceDetail(): JSX.Element {
         <div className="service-image-wrapper">
           <img
             className="service-image"
-            src={`${imageBaseUrl}/${service.imagePath}`}
+            src={`/images/${service.imagePath}`}
             alt={service.serviceName}
           />
         </div>
