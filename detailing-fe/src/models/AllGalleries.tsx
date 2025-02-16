@@ -61,7 +61,7 @@ export default function AllGalleries(): JSX.Element {
   };
 
   return (
-    <div className="gallery-container" style={{ backgroundColor: "black" }}>
+    <div className="gallery-container" >
       <h2 className="gallery-title" style={{ textAlign: "center", color: "white" }}>
         Gallery
       </h2>

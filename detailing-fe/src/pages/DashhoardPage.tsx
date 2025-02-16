@@ -75,8 +75,15 @@ export default function DashboardPage(): JSX.Element {
           <h2 className="section-title">Employees</h2>
           <AllEmployees />
         </div>
-        <div className="section-container">
-          <h2 className="section-title">Galleryy</h2>
+        <div
+          className="section-container"
+          style={{
+            backgroundColor: "white",
+            padding: "20px",
+            borderRadius: "10px",
+          }}
+        >
+          <h2 className="section-title">Gallery</h2>
           <AllGalleries />
         </div>
       </div>
