@@ -103,6 +103,18 @@ export default function Home(): JSX.Element {
     }
   }, [accessToken, isAuthenticated]);
 
+  // Dynamically load Elfsight Google Reviews API script
+  useEffect(() => {
+    const script = document.createElement("script");
+    script.src = "https://static.elfsight.com/platform/platform.js";
+    script.async = true;
+    document.body.appendChild(script);
+
+    return () => {
+      document.body.removeChild(script);
+    };
+  }, []);
+
   return (
     <div className="home-page">
       <div className="hero">
@@ -218,7 +230,16 @@ export default function Home(): JSX.Element {
             />
           </motion.div>
         </motion.div>
+
+        {/* Google Reviews widget */}
+        <div className="google-reviews-widget" style={{ paddingTop: "30px" }}>
+          <div
+            className="elfsight-app-38317100-95ae-480a-9fbd-3dc4a5267fc2"
+            data-elfsight-app-lazy
+          ></div>
+        </div>
       </div>
+
       <Footer />
     </div>
   );
