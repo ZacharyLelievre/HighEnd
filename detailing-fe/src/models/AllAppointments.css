@@ -14,7 +14,9 @@
   border-radius: 8px;
   background-color: #fff;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease;
   gap: 20px;
 }
 
@@ -65,7 +67,9 @@
   font-weight: bold;
   cursor: pointer;
   align-self: flex-start;
-  transition: background-color 0.3s ease, transform 0.3s ease;
+  transition:
+    background-color 0.3s ease,
+    transform 0.3s ease;
 }
 
 .appointment-details button:hover {
@@ -86,7 +90,9 @@ select {
   background-color: #fff;
   color: #333;
   font-size: 14px;
-  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  transition:
+    border-color 0.3s ease,
+    box-shadow 0.3s ease;
   outline: none;
 }
 

@@ -36,7 +36,6 @@ public class ServicesController {
                 .orElse(ResponseEntity.notFound().build());
     }
 
-    // --- CREATE SERVICE WITH IMAGE UPLOAD ---
     @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<ServiceResponseModel> createService(
@@ -46,31 +45,20 @@ public class ServicesController {
             @RequestPart("image") MultipartFile imageFile
     ) {
         try {
-            // Optional: Validate content type if you only want PNG
-            // if (!"image/png".equalsIgnoreCase(imageFile.getContentType())) {
-            //     return ResponseEntity.badRequest().body(null);
-            // }
-
-            // Generate a unique filename
             String originalFilename = imageFile.getOriginalFilename();
             if (originalFilename == null) {
                 originalFilename = "unknown";
             }
             String uniqueFilename = UUID.randomUUID() + "_" + originalFilename;
 
-            // Ensure uploads folder exists
             Path uploadsDir = Paths.get("uploads").toAbsolutePath();
             Files.createDirectories(uploadsDir);
 
-            // Copy file to uploads folder
             Path targetPath = uploadsDir.resolve(uniqueFilename);
             Files.copy(imageFile.getInputStream(), targetPath, StandardCopyOption.REPLACE_EXISTING);
 
-            // Build the accessible URL for retrieving the image
-            // e.g., /api/services/images/{uniqueFilename}
             String imageUrl = "api/services/images/" + uniqueFilename;
 
-            // Create and save the service
             ServiceResponseModel newService = serviceService.createService(
                     serviceName,
                     timeRequired,
@@ -82,12 +70,10 @@ public class ServicesController {
 
         } catch (IOException e) {
             e.printStackTrace();
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .build();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
 
-    // --- SERVE IMAGE BACK TO CLIENT ---
     @GetMapping("/images/{filename}")
     public ResponseEntity<Resource> getImage(@PathVariable String filename) {
         try {
@@ -96,11 +82,9 @@ public class ServicesController {
                 return ResponseEntity.notFound().build();
             }
 
-            // Read file bytes
             byte[] imageBytes = Files.readAllBytes(filePath);
             ByteArrayResource resource = new ByteArrayResource(imageBytes);
 
-            // Determine media type
             MediaType mediaType = getMediaTypeForExtension(getFileExtension(filename));
 
             return ResponseEntity.ok()
