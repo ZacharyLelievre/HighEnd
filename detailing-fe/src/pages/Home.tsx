@@ -230,13 +230,16 @@ export default function Home(): JSX.Element {
             />
           </motion.div>
         </motion.div>
-        
+
         {/* Google Reviews widget */}
-        <div className="google-reviews-widget" style={{paddingTop: "30px"}}>
-          <div className="elfsight-app-38317100-95ae-480a-9fbd-3dc4a5267fc2" data-elfsight-app-lazy></div>
+        <div className="google-reviews-widget" style={{ paddingTop: "30px" }}>
+          <div
+            className="elfsight-app-38317100-95ae-480a-9fbd-3dc4a5267fc2"
+            data-elfsight-app-lazy
+          ></div>
         </div>
       </div>
-      
+
       <Footer />
     </div>
   );

@@ -198,8 +198,14 @@ export default function AllGalleries(): JSX.Element {
         style={{ marginTop: "50px", textAlign: "center" }}
       >
         <h3>What our customers are saying:</h3>
-        <script src="https://static.elfsight.com/platform/platform.js" async></script>
-        <div className="elfsight-app-38317100-95ae-480a-9fbd-3dc4a5267fc2" data-elfsight-app-lazy></div>
+        <script
+          src="https://static.elfsight.com/platform/platform.js"
+          async
+        ></script>
+        <div
+          className="elfsight-app-38317100-95ae-480a-9fbd-3dc4a5267fc2"
+          data-elfsight-app-lazy
+        ></div>
       </div>
 
       <ToastContainer />
