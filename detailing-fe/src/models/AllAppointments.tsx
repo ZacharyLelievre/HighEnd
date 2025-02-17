@@ -18,24 +18,19 @@ export default function AllAppointments(): JSX.Element {
   const [loadingAppointments, setLoadingAppointments] = useState<boolean>(true);
 
   // For each appointment: is it loading employees right now?
-  const [loadingEmployeesMap, setLoadingEmployeesMap] = useState<{
-    [id: string]: boolean;
-  }>({});
+  const [loadingEmployeesMap, setLoadingEmployeesMap] = useState<{ [id: string]: boolean }>({});
 
   // For each appointment, we store an array of employees who are actually available
   const [availableEmpsMap, setAvailableEmpsMap] = useState<AvailableEmpMap>({});
 
   // Which employee is selected in the dropdown for each appointment
-  const [selectedEmployee, setSelectedEmployee] = useState<{
-    [id: string]: string;
-  }>({});
+  const [selectedEmployee, setSelectedEmployee] = useState<{ [id: string]: string }>({});
 
   const [confirmationMessage, setConfirmationMessage] = useState("");
 
   // Rescheduling states
   const [showRescheduleModal, setShowRescheduleModal] = useState(false);
-  const [selectedAppointment, setSelectedAppointment] =
-    useState<AppointmentModel | null>(null);
+  const [selectedAppointment, setSelectedAppointment] = useState<AppointmentModel | null>(null);
   const [newDate, setNewDate] = useState("");
   const [newStartTime, setNewStartTime] = useState("");
   const [newEndTime, setNewEndTime] = useState("");
@@ -60,11 +55,7 @@ export default function AllAppointments(): JSX.Element {
 
   // 2) For each appointment, fetch only the employees who are available for that date & time
   const fetchAvailableEmployees = async (appt: AppointmentModel) => {
-    if (
-      !appt.appointmentDate ||
-      !appt.appointmentTime ||
-      !appt.appointmentEndTime
-    )
+    if (!appt.appointmentDate || !appt.appointmentTime || !appt.appointmentEndTime)
       return;
     try {
       // mark employees as "loading" for this specific appointment
@@ -75,17 +66,15 @@ export default function AllAppointments(): JSX.Element {
 
       const token = await getAccessTokenSilently();
       const params = new URLSearchParams({
-        date: appt.appointmentDate, // e.g. "2025-07-02"
-        startTime: appt.appointmentTime, // e.g. "10:00:00"
-        endTime: appt.appointmentEndTime, // e.g. "11:00:00"
+        date: appt.appointmentDate,
+        startTime: appt.appointmentTime,
+        endTime: appt.appointmentEndTime,
       });
-      // This endpoint should be implemented in your backend, e.g. /api/employees/available
       const resp = await axios.get<EmployeeModel[]>(
-        `${apiBaseUrl}/employees/available?${params.toString()}`,
-        { headers: { Authorization: `Bearer ${token}` } },
+          `${apiBaseUrl}/employees/available?${params.toString()}`,
+          { headers: { Authorization: `Bearer ${token}` } }
       );
 
-      // store in state
       setAvailableEmpsMap((prev) => ({
         ...prev,
         [appt.appointmentId]: resp.data,
@@ -107,7 +96,7 @@ export default function AllAppointments(): JSX.Element {
     });
   }, [appointments]);
 
-  // 4) Deleting an appointment
+  // 4) Deleting an appointment (renamed delete button references)
   const handleDelete = async (appointmentId: string): Promise<void> => {
     if (!window.confirm("Are you sure you want to delete this appointment?"))
       return;
@@ -116,9 +105,7 @@ export default function AllAppointments(): JSX.Element {
       await axios.delete(`${apiBaseUrl}/appointments/${appointmentId}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
-      setAppointments((prev) =>
-        prev.filter((a) => a.appointmentId !== appointmentId),
-      );
+      setAppointments((prev) => prev.filter((a) => a.appointmentId !== appointmentId));
       alert("Appointment deleted successfully.");
     } catch (error) {
       console.error("Error deleting appointment:", error);
@@ -131,28 +118,24 @@ export default function AllAppointments(): JSX.Element {
     try {
       const token = await getAccessTokenSilently();
       const response = await axios.put(
-        `${apiBaseUrl}/appointments/${appointmentId}/status`,
-        { status: "CONFIRMED" },
-        {
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-        },
+          `${apiBaseUrl}/appointments/${appointmentId}/status`,
+          { status: "CONFIRMED" },
+          {
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${token}`,
+            },
+          }
       );
       console.log("Appointment confirmed:", response.data);
 
       setAppointments((prev) =>
-        prev.map((appt) =>
-          appt.appointmentId === appointmentId
-            ? { ...appt, status: "CONFIRMED" }
-            : appt,
-        ),
+          prev.map((appt) =>
+              appt.appointmentId === appointmentId ? { ...appt, status: "CONFIRMED" } : appt
+          )
       );
       const customerEmail = response.data.customerEmailAddress;
-      setConfirmationMessage(
-        `Confirmation email sent successfully, to ${customerEmail}`,
-      );
+      setConfirmationMessage(`Confirmation email sent successfully, to ${customerEmail}`);
       setTimeout(() => {
         setConfirmationMessage("");
       }, 3000);
@@ -173,38 +156,31 @@ export default function AllAppointments(): JSX.Element {
     try {
       const token = await getAccessTokenSilently();
       const response = await axios.put(
-        `${apiBaseUrl}/appointments/${appointmentId}/assign`,
-        { employeeId },
-        {
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-        },
+          `${apiBaseUrl}/appointments/${appointmentId}/assign`,
+          { employeeId },
+          {
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${token}`,
+            },
+          }
       );
-      // Update local state with the newly assigned employee name
       setAppointments((prev) =>
-        prev.map((appt) =>
-          appt.appointmentId === appointmentId
-            ? { ...appt, employeeName: response.data?.employeeName || "N/A" }
-            : appt,
-        ),
+          prev.map((appt) =>
+              appt.appointmentId === appointmentId
+                  ? { ...appt, employeeName: response.data?.employeeName || "N/A" }
+                  : appt
+          )
       );
-
-      alert(
-        `Employee assigned successfully to appointment ID: ${appointmentId}`,
-      );
+      alert(`Employee assigned successfully to appointment ID: ${appointmentId}`);
     } catch (error) {
       console.error("Error assigning employee:", error);
       alert("Error assigning employee. Please try again.");
     }
   };
 
-  // 7) track which employee is chosen
-  const handleEmployeeChange = (
-    appointmentId: string,
-    employeeId: string,
-  ): void => {
+  // 7) Track which employee is chosen
+  const handleEmployeeChange = (appointmentId: string, employeeId: string): void => {
     setSelectedEmployee((prev) => ({
       ...prev,
       [appointmentId]: employeeId,
@@ -225,27 +201,26 @@ export default function AllAppointments(): JSX.Element {
     try {
       const token = await getAccessTokenSilently();
       await axios.put(
-        `${apiBaseUrl}/appointments/${selectedAppointment.appointmentId}/reschedule`,
-        { newDate, newStartTime, newEndTime },
-        {
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-        },
+          `${apiBaseUrl}/appointments/${selectedAppointment.appointmentId}/reschedule`,
+          { newDate, newStartTime, newEndTime },
+          {
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${token}`,
+            },
+          }
       );
-      // update local state
       setAppointments((prev) =>
-        prev.map((appt) =>
-          appt.appointmentId === selectedAppointment.appointmentId
-            ? {
-                ...appt,
-                appointmentDate: newDate,
-                appointmentTime: newStartTime,
-                appointmentEndTime: newEndTime,
-              }
-            : appt,
-        ),
+          prev.map((appt) =>
+              appt.appointmentId === selectedAppointment.appointmentId
+                  ? {
+                    ...appt,
+                    appointmentDate: newDate,
+                    appointmentTime: newStartTime,
+                    appointmentEndTime: newEndTime,
+                  }
+                  : appt
+          )
       );
       alert("Appointment rescheduled successfully.");
       setShowRescheduleModal(false);
@@ -255,141 +230,114 @@ export default function AllAppointments(): JSX.Element {
     }
   };
 
-  // 9) Render
   return (
-    <div>
-      {/* Display confirmation message if it exists */}
-      {confirmationMessage && (
-        <div
-          style={{
-            backgroundColor: "lightgreen",
-            padding: "10px",
-            borderRadius: "4px",
-            marginBottom: "10px",
-            textAlign: "center",
-            fontWeight: "bold",
-          }}
-        >
-          {confirmationMessage}
-        </div>
-      )}
-      {loadingAppointments ? (
-        <p>Loading appointments...</p>
-      ) : (
-        <div className="appointments-container">
-          {appointments.map((appointment) => {
-            const { appointmentId } = appointment;
-            // Are we still fetching employees for this appointment?
-            const loadingEmps = loadingEmployeesMap[appointmentId];
-            // which employees are actually available for this appt
-            const possibleEmployees = availableEmpsMap[appointmentId] || [];
+      <div>
+        {confirmationMessage && (
+            <div
+                style={{
+                  backgroundColor: "lightgreen",
+                  padding: "10px",
+                  borderRadius: "4px",
+                  marginBottom: "10px",
+                  textAlign: "center",
+                  fontWeight: "bold",
+                }}
+            >
+              {confirmationMessage}
+            </div>
+        )}
+        {loadingAppointments ? (
+            <p>Loading appointments...</p>
+        ) : (
+            <div className="appointments-container">
+              {appointments.map((appointment) => {
+                const { appointmentId } = appointment;
+                const loadingEmps = loadingEmployeesMap[appointmentId];
+                const possibleEmployees = availableEmpsMap[appointmentId] || [];
 
-            return (
-              <div className="appointment-box" key={appointmentId}>
-                <div className="appointment-details">
-                  <p>
-                    <strong>Date:</strong> {appointment.appointmentDate}
-                  </p>
-                  <p>
-                    <strong>Time:</strong> {appointment.appointmentTime} -{" "}
-                    {appointment.appointmentEndTime}
-                  </p>
-                  <p>
-                    <strong>Service Name:</strong> {appointment.serviceName}
-                  </p>
-                  <p>
-                    <strong>Customer Name:</strong> {appointment.customerName}
-                  </p>
-                  <p>
-                    <strong>Employee Name:</strong>{" "}
-                    {appointment.employeeName || "Not Assigned"}
-                  </p>
-                  <p>
-                    <strong>Status:</strong> {appointment.status}
-                  </p>
+                return (
+                    <div className="appointment-box" key={appointmentId}>
+                      <div className="appointment-details">
+                        <p>
+                          <strong>Date:</strong> {appointment.appointmentDate}
+                        </p>
+                        <p>
+                          <strong>Time:</strong> {appointment.appointmentTime} -{" "}
+                          {appointment.appointmentEndTime}
+                        </p>
+                        <p>
+                          <strong>Service Name:</strong> {appointment.serviceName}
+                        </p>
+                        <p>
+                          <strong>Customer Name:</strong> {appointment.customerName}
+                        </p>
+                        <p>
+                          <strong>Employee Name:</strong>{" "}
+                          {appointment.employeeName || "Not Assigned"}
+                        </p>
+                        <p>
+                          <strong>Status:</strong> {appointment.status}
+                        </p>
 
-                  <label>
-                    <strong>Assign Employee:</strong>
-                  </label>
-                  {loadingEmps ? (
-                    <p>Loading available employees...</p>
-                  ) : (
-                    <select
-                      value={selectedEmployee[appointmentId] || ""}
-                      onChange={(e) =>
-                        handleEmployeeChange(appointmentId, e.target.value)
-                      }
-                    >
-                      <option value="">Select Employee</option>
-                      {possibleEmployees.map((emp) => (
-                        <option key={emp.employeeId} value={emp.employeeId}>
-                          {emp.first_name} {emp.last_name}
-                        </option>
-                      ))}
-                    </select>
-                  )}
+                        <label>
+                          <strong>Assign Employee:</strong>
+                        </label>
+                        {loadingEmps ? (
+                            <p>Loading available employees...</p>
+                        ) : (
+                            <select
+                                value={selectedEmployee[appointmentId] || ""}
+                                onChange={(e) => handleEmployeeChange(appointmentId, e.target.value)}
+                            >
+                              <option value="">Select Employee</option>
+                              {possibleEmployees.map((emp) => (
+                                  <option key={emp.employeeId} value={emp.employeeId}>
+                                    {emp.first_name} {emp.last_name}
+                                  </option>
+                              ))}
+                            </select>
+                        )}
 
-                  <div className="button-container">
-                    <button onClick={() => handleAssignEmployee(appointmentId)}>
-                      Assign
-                    </button>
-                    <button
-                      onClick={() => handleConfirm(appointmentId)}
-                      disabled={appointment.status === "CONFIRMED"}
-                    >
-                      {appointment.status === "CONFIRMED"
-                        ? "Confirmed"
-                        : "Confirm"}
-                    </button>
-                    <button
-                      className="delete-button"
-                      onClick={() => handleDelete(appointmentId)}
-                    >
-                      Delete
-                    </button>
-                    <button onClick={() => handleRescheduleClick(appointment)}>
-                      Reschedule
-                    </button>
-                  </div>
-                </div>
+                        <div className="button-container">
+                          <button onClick={() => handleAssignEmployee(appointmentId)}>Assign</button>
+                          <button
+                              onClick={() => handleConfirm(appointmentId)}
+                              disabled={appointment.status === "CONFIRMED"}
+                          >
+                            {appointment.status === "CONFIRMED" ? "Confirmed" : "Confirm"}
+                          </button>
+                          <button
+                              className="remove-appointment-button"
+                              onClick={() => handleDelete(appointmentId)}
+                          >
+                            Delete
+                          </button>
+                          <button onClick={() => handleRescheduleClick(appointment)}>
+                            Reschedule
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                );
+              })}
+            </div>
+        )}
+
+        {showRescheduleModal && (
+            <div className="modal">
+              <h3>Reschedule Appointment</h3>
+              <label>Date:</label>
+              <input type="date" value={newDate} onChange={(e) => setNewDate(e.target.value)} />
+              <label>Start Time:</label>
+              <input type="time" value={newStartTime} onChange={(e) => setNewStartTime(e.target.value)} />
+              <label>End Time:</label>
+              <input type="time" value={newEndTime} onChange={(e) => setNewEndTime(e.target.value)} />
+              <div className="modal-buttons">
+                <button onClick={handleReschedule}>Confirm</button>
+                <button onClick={() => setShowRescheduleModal(false)}>Cancel</button>
               </div>
-            );
-          })}
-        </div>
-      )}
-
-      {showRescheduleModal && (
-        <div className="modal">
-          <h3>Reschedule Appointment</h3>
-          <label>Date:</label>
-          <input
-            type="date"
-            value={newDate}
-            onChange={(e) => setNewDate(e.target.value)}
-          />
-
-          <label>Start Time:</label>
-          <input
-            type="time"
-            value={newStartTime}
-            onChange={(e) => setNewStartTime(e.target.value)}
-          />
-
-          <label>End Time:</label>
-          <input
-            type="time"
-            value={newEndTime}
-            onChange={(e) => setNewEndTime(e.target.value)}
-          />
-
-          <div className="modal-buttons">
-            <button onClick={handleReschedule}>Confirm</button>
-            <button onClick={() => setShowRescheduleModal(false)}>
-              Cancel
-            </button>
-          </div>
-        </div>
-      )}
-    </div>
+            </div>
+        )}
+      </div>
   );
 }
