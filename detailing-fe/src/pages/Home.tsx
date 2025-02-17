@@ -10,6 +10,7 @@ import { NavBar } from "../nav/NavBar";
 import axios from "axios";
 import { motion } from "framer-motion";
 import { Footer } from "./Footer";
+import { useTranslation } from "react-i18next";
 
 interface CustomerInfo {
   customerId: string;
@@ -31,6 +32,11 @@ export default function Home(): JSX.Element {
   const [accessToken, setAccessToken] = useState<string | null>(null);
   const [customerInfo, setCustomerInfo] = useState<CustomerInfo | null>(null);
   const navigate = useNavigate();
+
+  const { t, i18n } = useTranslation(); // Initialize i18next translation hook
+  const handleLanguageChange = (lang: string) => {
+    i18n.changeLanguage(lang); // Change language dynamically
+  };
 
   const fetchAccessToken = async () => {
     try {
@@ -134,22 +140,24 @@ export default function Home(): JSX.Element {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.5 }}
           >
-            <h2>Rev Up Your Ride!</h2>
-            <p>
-              Discover our premium car detailing services that make your ride
-              shine.
-            </p>
+            <h2>{t("hero_title")}</h2>
+            <p>{t("hero_description")}</p>
             <Button
               className="video-button"
               onClick={() => navigate(AppRoutePath.AllServicesPage)}
             >
-              <strong>Explore Services</strong>
+              <strong>{t("explore_services")}</strong>
             </Button>
           </motion.div>
         </div>
         {/* NavBar placed at the top of the hero section */}
         <div className="nav-container">
           <NavBar />
+          {/* Language Switcher */}
+          {/* <div className="language-switcher">
+          <button onClick={() => handleLanguageChange('en')}>English</button>
+          <button onClick={() => handleLanguageChange('fr')}>Français</button>
+        </div> */}
         </div>
       </div>
 
@@ -160,7 +168,7 @@ export default function Home(): JSX.Element {
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.5 }}
         >
-          Our Mission & Vision
+          {t("mission_vision")}
         </motion.h1>
 
         <motion.div
@@ -187,13 +195,8 @@ export default function Home(): JSX.Element {
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.6 }}
           >
-            <h2>Our Mission</h2>
-            <p>
-              Our mission is to provide top-quality car detailing services that
-              exceed customer expectations, enhancing every vehicle's appearance
-              and value with meticulous attention to detail and exceptional
-              customer care.
-            </p>
+            <h2>{t("our_mission")}</h2>
+            <p>{t("mission_description")}</p>
           </motion.div>
         </motion.div>
 
@@ -209,13 +212,8 @@ export default function Home(): JSX.Element {
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.6 }}
           >
-            <h2>Our Vision</h2>
-            <p>
-              Our vision is to be the leading choice for car detailing,
-              recognized for our dedication to excellence, innovation, and a
-              personalized customer experience that sets a new standard in the
-              industry.
-            </p>
+            <h2>{t("our_vision")}</h2>
+            <p>{t("vision_description")}</p>
           </motion.div>
           <motion.div
             className="image-container"
