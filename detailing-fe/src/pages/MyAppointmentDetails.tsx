@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
 import axiosInstance from "../apis/axiosInstance";
 import { AppointmentModel } from "../models/dtos/AppointmentModel";
@@ -8,13 +8,14 @@ import { NavBar } from "../nav/NavBar";
 import { useAuth0 } from "@auth0/auth0-react";
 import "./MyAppointmentDetails.css";
 
-type UserType = "Customer" | "Employee";
+type UserType = "Customer" | "Employee" | "Admin";
 
 export function MyAppointmentDetails() {
   const { appointmentId } = useParams();
   const { getAccessTokenSilently } = useAuth0();
+  const navigate = useNavigate();
 
-  // Profile and user type state (similar to ProfilePage)
+  // Profile and user type state
   const [profile, setProfile] = useState<any>(null);
   const [userType, setUserType] = useState<UserType | null>(null);
   const [loadingProfile, setLoadingProfile] = useState<boolean>(true);
@@ -25,13 +26,31 @@ export function MyAppointmentDetails() {
   const [newStatus, setNewStatus] = useState("");
   const [customer, setCustomer] = useState<any>(null);
 
-  // Fetch the profile (customer or employee) similar to ProfilePage logic
+  // New state to check if the user is admin
+  const [isAdmin, setIsAdmin] = useState(false);
+
+  // Fetch profile (admin, customer or employee)
   useEffect(() => {
     const fetchProfile = async () => {
       try {
         setLoadingProfile(true);
         const token = await getAccessTokenSilently();
 
+        // Decode token to check roles
+        const base64Url = token.split(".")[1];
+        const decodedPayload = atob(base64Url);
+        const tokenData = JSON.parse(decodedPayload);
+        const roles =
+          tokenData["https://highenddetailing/roles"] || tokenData.roles || [];
+
+        if (roles.includes("ADMIN")) {
+          setIsAdmin(true);
+          setProfile({ role: "ADMIN" });
+          setUserType("Admin");
+          return; // Skip further profile fetching for admin
+        }
+
+        // If not admin, try fetching as Customer first
         try {
           const customerResponse = await axios.get(
             `${process.env.REACT_APP_API_BASE_URL}/customers/me`,
@@ -41,6 +60,7 @@ export function MyAppointmentDetails() {
           setUserType("Customer");
         } catch (customerError: any) {
           if (customerError.response && customerError.response.status === 404) {
+            // Try fetching as Employee
             try {
               const employeeResponse = await axios.get(
                 `${process.env.REACT_APP_API_BASE_URL}/employees/me`,
@@ -100,7 +120,7 @@ export function MyAppointmentDetails() {
     }
   }, [appointmentId]);
 
-  // Once the appointment is loaded, fetch the customer's details
+  // Fetch customer details after appointment is loaded
   useEffect(() => {
     const fetchCustomer = async () => {
       try {
@@ -121,7 +141,23 @@ export function MyAppointmentDetails() {
     }
   }, [appointment, getAccessTokenSilently]);
 
-  // Update status handler (only for employees)
+  // Determine allowed statuses based on role
+  const getStatusOptions = () => {
+    if (isAdmin) {
+      return [
+        "CONFIRMED",
+        "REJECTED",
+        "CANCELLED",
+        "PENDING",
+        "PROGRESS",
+        "COMPLETED",
+      ];
+    }
+    // For employees
+    return ["PROGRESS", "COMPLETED", "CANCELLED"];
+  };
+
+  // Update status handler (for Employee or Admin)
   const handleStatusChange = async () => {
     if (!newStatus) {
       alert("Please select a status to update.");
@@ -141,7 +177,6 @@ export function MyAppointmentDetails() {
     }
   };
 
-  // Render loading state for profile or appointment if necessary
   if (loadingProfile || !appointment) {
     return <div className="loading">Loading...</div>;
   }
@@ -155,7 +190,6 @@ export function MyAppointmentDetails() {
       <NavBar />
       <div className="appointment-details">
         <h2 className="title">Appointment Details</h2>
-        {/* Flex container to hold appointment details and customer address */}
         <div className="details-flex">
           <div className="details-grid">
             <div className="detail-item">
@@ -215,8 +249,8 @@ export function MyAppointmentDetails() {
           </div>
         </div>
 
-        {/* Only show the update status section if the user is an Employee */}
-        {userType === "Employee" && (
+        {/* Show update section for Employee or Admin */}
+        {(userType === "Employee" || isAdmin) && (
           <div className="status-update">
             <label htmlFor="statusSelect" className="status-label">
               Update Status:
@@ -228,9 +262,11 @@ export function MyAppointmentDetails() {
               className="status-select"
             >
               <option value="">--Select--</option>
-              <option value="PROGRESS">Progress</option>
-              <option value="COMPLETED">Completed</option>
-              <option value="CANCELLED">Cancelled</option>
+              {getStatusOptions().map((status) => (
+                <option key={status} value={status}>
+                  {status.charAt(0) + status.slice(1).toLowerCase()}
+                </option>
+              ))}
             </select>
             <button
               onClick={handleStatusChange}

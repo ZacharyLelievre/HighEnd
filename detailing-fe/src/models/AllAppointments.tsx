@@ -75,17 +75,15 @@ export default function AllAppointments(): JSX.Element {
 
       const token = await getAccessTokenSilently();
       const params = new URLSearchParams({
-        date: appt.appointmentDate, // e.g. "2025-07-02"
-        startTime: appt.appointmentTime, // e.g. "10:00:00"
-        endTime: appt.appointmentEndTime, // e.g. "11:00:00"
+        date: appt.appointmentDate,
+        startTime: appt.appointmentTime,
+        endTime: appt.appointmentEndTime,
       });
-      // This endpoint should be implemented in your backend, e.g. /api/employees/available
       const resp = await axios.get<EmployeeModel[]>(
         `${apiBaseUrl}/employees/available?${params.toString()}`,
         { headers: { Authorization: `Bearer ${token}` } },
       );
 
-      // store in state
       setAvailableEmpsMap((prev) => ({
         ...prev,
         [appt.appointmentId]: resp.data,
@@ -107,7 +105,7 @@ export default function AllAppointments(): JSX.Element {
     });
   }, [appointments]);
 
-  // 4) Deleting an appointment
+  // 4) Deleting an appointment (renamed delete button references)
   const handleDelete = async (appointmentId: string): Promise<void> => {
     if (!window.confirm("Are you sure you want to delete this appointment?"))
       return;
@@ -182,7 +180,6 @@ export default function AllAppointments(): JSX.Element {
           },
         },
       );
-      // Update local state with the newly assigned employee name
       setAppointments((prev) =>
         prev.map((appt) =>
           appt.appointmentId === appointmentId
@@ -190,7 +187,6 @@ export default function AllAppointments(): JSX.Element {
             : appt,
         ),
       );
-
       alert(
         `Employee assigned successfully to appointment ID: ${appointmentId}`,
       );
@@ -200,7 +196,7 @@ export default function AllAppointments(): JSX.Element {
     }
   };
 
-  // 7) track which employee is chosen
+  // 7) Track which employee is chosen
   const handleEmployeeChange = (
     appointmentId: string,
     employeeId: string,
@@ -234,7 +230,6 @@ export default function AllAppointments(): JSX.Element {
           },
         },
       );
-      // update local state
       setAppointments((prev) =>
         prev.map((appt) =>
           appt.appointmentId === selectedAppointment.appointmentId
@@ -255,10 +250,8 @@ export default function AllAppointments(): JSX.Element {
     }
   };
 
-  // 9) Render
   return (
     <div>
-      {/* Display confirmation message if it exists */}
       {confirmationMessage && (
         <div
           style={{
@@ -279,9 +272,7 @@ export default function AllAppointments(): JSX.Element {
         <div className="appointments-container">
           {appointments.map((appointment) => {
             const { appointmentId } = appointment;
-            // Are we still fetching employees for this appointment?
             const loadingEmps = loadingEmployeesMap[appointmentId];
-            // which employees are actually available for this appt
             const possibleEmployees = availableEmpsMap[appointmentId] || [];
 
             return (
@@ -342,7 +333,7 @@ export default function AllAppointments(): JSX.Element {
                         : "Confirm"}
                     </button>
                     <button
-                      className="delete-button"
+                      className="remove-appointment-button"
                       onClick={() => handleDelete(appointmentId)}
                     >
                       Delete
@@ -367,21 +358,18 @@ export default function AllAppointments(): JSX.Element {
             value={newDate}
             onChange={(e) => setNewDate(e.target.value)}
           />
-
           <label>Start Time:</label>
           <input
             type="time"
             value={newStartTime}
             onChange={(e) => setNewStartTime(e.target.value)}
           />
-
           <label>End Time:</label>
           <input
             type="time"
             value={newEndTime}
             onChange={(e) => setNewEndTime(e.target.value)}
           />
-
           <div className="modal-buttons">
             <button onClick={handleReschedule}>Confirm</button>
             <button onClick={() => setShowRescheduleModal(false)}>

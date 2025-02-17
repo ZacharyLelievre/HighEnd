@@ -31,13 +31,20 @@ export default function ReportsTable() {
   const { getAccessTokenSilently, isAuthenticated } = useAuth0();
   const [reports, setReports] = useState<ReportRow[]>([]);
   const [loading, setLoading] = useState(true);
-
-  // Ref for the container wrapping the table (used for PDF generation)
   const containerRef = useRef<HTMLDivElement>(null);
 
+  // New Service Form State
+  const [showAddService, setShowAddService] = useState(false);
+  const [serviceName, setServiceName] = useState("");
+  const [timeRequired, setTimeRequired] = useState("");
+  const [price, setPrice] = useState<number>(0);
+  const [file, setFile] = useState<File | null>(null);
+
+  // URLs
   const getAppointmentsUrl = `${apiBaseUrl}/appointments`;
   const getServicesUrl = `${apiBaseUrl}/services`;
 
+  // Load report data
   useEffect(() => {
     async function loadReportData() {
       if (!isAuthenticated) {
@@ -46,13 +53,7 @@ export default function ReportsTable() {
         return;
       }
       try {
-        console.log("[ReportsTable] Loading data for front-end aggregator...");
         const token = await getAccessTokenSilently();
-        console.log(
-          "[ReportsTable] Got token from Auth0:",
-          token.slice(0, 20),
-          "...",
-        );
         const [appointmentsRes, servicesRes] = await Promise.all([
           axios.get<Appointment[]>(getAppointmentsUrl, {
             headers: { Authorization: `Bearer ${token}` },
@@ -64,12 +65,6 @@ export default function ReportsTable() {
 
         const allAppointments = appointmentsRes.data;
         const allServices = servicesRes.data;
-
-        console.log(
-          "[ReportsTable] All appointments fetched:",
-          allAppointments,
-        );
-        console.log("[ReportsTable] All services fetched:", allServices);
 
         const rawList = allServices.map((service) => {
           const bookingCount = allAppointments.filter(
@@ -83,11 +78,6 @@ export default function ReportsTable() {
             statusColor: "PENDING",
           };
         });
-
-        console.log(
-          "[ReportsTable] Aggregation (before color coding):",
-          rawList,
-        );
 
         if (rawList.length > 0) {
           const minRevenue = Math.min(...rawList.map((r) => r.revenue));
@@ -105,17 +95,20 @@ export default function ReportsTable() {
         }
         setReports(rawList);
       } catch (error) {
-        console.error(
-          "[ReportsTable] Error building front-end aggregator:",
-          error,
-        );
+        console.error("Error building front-end aggregator:", error);
       } finally {
         setLoading(false);
       }
     }
     loadReportData();
-  }, [getAccessTokenSilently, isAuthenticated]);
+  }, [
+    getAccessTokenSilently,
+    isAuthenticated,
+    getAppointmentsUrl,
+    getServicesUrl,
+  ]);
 
+  // PDF generation
   const generatePDF = async () => {
     if (containerRef.current) {
       const canvas = await html2canvas(containerRef.current);
@@ -129,10 +122,58 @@ export default function ReportsTable() {
     }
   };
 
-  const handleAddPromotion = () => {
-    navigate(AppRoutePath.Promotions);
+  // Handle file change
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files.length > 0) {
+      setFile(e.target.files[0]);
+    }
   };
 
+  // Add Service form submit
+  const handleAddServiceSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!file) {
+      alert("Please select a file.");
+      return;
+    }
+    try {
+      const formData = new FormData();
+      formData.append("serviceName", serviceName);
+      formData.append("timeRequired", timeRequired);
+      formData.append("price", price.toString());
+      formData.append("image", file);
+
+      const token = await getAccessTokenSilently();
+      const response = await axios.post(`${apiBaseUrl}/services`, formData, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "multipart/form-data",
+        },
+      });
+
+      console.log("New service created:", response.data);
+      alert("Service created successfully!");
+
+      // Clear form and hide modal
+      setServiceName("");
+      setTimeRequired("");
+      setPrice(0);
+      setFile(null);
+      setShowAddService(false);
+
+      // Optionally, refresh the table data if needed
+    } catch (err) {
+      console.error("Error creating service:", err);
+      alert("Error creating service.");
+    }
+  };
+
+  const handleAddPromotion = () => {
+    // Navigate to the promotions route; adjust as needed.
+    navigate(AppRoutePath.Promotions || "/promotions");
+  };
+
+  // Helper for status card
   const getStatusCard = (status: string) => {
     let backgroundColor = "";
     let text = "";
@@ -178,6 +219,19 @@ export default function ReportsTable() {
   if (loading) {
     return <div>Loading Reports (Front-End Aggregator)...</div>;
   }
+
+  // Common button style
+  const buttonStyle = {
+    padding: "8px 16px",
+    fontSize: "16px",
+    backgroundColor: "black",
+    color: "white",
+    border: "none",
+    borderRadius: "4px",
+    cursor: "pointer",
+    minWidth: "150px",
+    textAlign: "center" as const,
+  };
 
   return (
     <div
@@ -245,6 +299,7 @@ export default function ReportsTable() {
           ))}
         </tbody>
       </table>
+
       <div
         style={{
           position: "absolute",
@@ -254,36 +309,80 @@ export default function ReportsTable() {
           gap: "10px",
         }}
       >
-        <button
-          onClick={generatePDF}
-          style={{
-            padding: "4px 8px",
-            fontSize: "16px",
-            backgroundColor: "black",
-            color: "white",
-            border: "none",
-            borderRadius: "4px",
-            cursor: "pointer",
-          }}
-        >
+        <button onClick={generatePDF} style={buttonStyle}>
           Download PDF
         </button>
-
-        <button
-          onClick={handleAddPromotion}
-          style={{
-            padding: "4px 8px",
-            fontSize: "16px",
-            backgroundColor: "#333",
-            color: "white",
-            border: "none",
-            borderRadius: "4px",
-            cursor: "pointer",
-          }}
-        >
+        <button onClick={() => setShowAddService(true)} style={buttonStyle}>
+          Add Service
+        </button>
+        <button onClick={handleAddPromotion} style={buttonStyle}>
           Promotions
         </button>
       </div>
+
+      {/* Add Service Modal */}
+      {showAddService && (
+        <div
+          style={{
+            position: "fixed",
+            top: 0,
+            left: 0,
+            width: "100%",
+            height: "100%",
+            backgroundColor: "rgba(0,0,0,0.5)",
+          }}
+        >
+          <div
+            style={{
+              backgroundColor: "#fff",
+              padding: "20px",
+              maxWidth: "400px",
+              margin: "100px auto",
+              borderRadius: "8px",
+            }}
+          >
+            <h2>Add New Service</h2>
+            <form onSubmit={handleAddServiceSubmit}>
+              <div>
+                <label>Service Name:</label>
+                <input
+                  type="text"
+                  value={serviceName}
+                  onChange={(e) => setServiceName(e.target.value)}
+                  required
+                />
+              </div>
+              <div>
+                <label>Time Required:</label>
+                <input
+                  type="text"
+                  value={timeRequired}
+                  onChange={(e) => setTimeRequired(e.target.value)}
+                  required
+                />
+              </div>
+              <div>
+                <label>Price:</label>
+                <input
+                  type="number"
+                  step="0.01"
+                  value={price}
+                  onChange={(e) => setPrice(parseFloat(e.target.value))}
+                  required
+                />
+              </div>
+              <div>
+                <label>Image:</label>
+                <input type="file" onChange={handleFileChange} required />
+              </div>
+              <button type="submit">Save</button>
+              <button type="button" onClick={() => setShowAddService(false)}>
+                Cancel
+              </button>
+            </form>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

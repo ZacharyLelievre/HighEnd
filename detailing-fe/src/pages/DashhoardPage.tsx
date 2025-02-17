@@ -85,7 +85,7 @@ export default function DashboardPage(): JSX.Element {
         >
           <h2 className="section-title">Gallery</h2>
           <div style={{ backgroundColor: "white" }}>
-            <AllGalleries />
+            <AllGalleries showReviews={false} />
           </div>
         </div>
       </div>

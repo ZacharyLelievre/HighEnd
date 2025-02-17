@@ -11,7 +11,13 @@ import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useAuth0 } from "@auth0/auth0-react";
 
-export default function AllGalleries(): JSX.Element {
+interface AllGalleriesProps {
+  showReviews?: boolean;
+}
+
+export default function AllGalleries({
+  showReviews = true,
+}: AllGalleriesProps): JSX.Element {
   const apiBaseUrl = process.env.REACT_APP_API_BASE_URL;
   const { getAccessTokenSilently } = useAuth0();
 
@@ -32,7 +38,7 @@ export default function AllGalleries(): JSX.Element {
     };
 
     fetchGalleries();
-  }, []);
+  }, [apiBaseUrl]);
 
   useEffect(() => {
     const checkIfUserIsAdmin = async () => {
@@ -89,7 +95,7 @@ export default function AllGalleries(): JSX.Element {
       );
 
       toast.success("Image uploaded successfully");
-      setGalleries([...galleries, response.data]); // Add new image to state
+      setGalleries([...galleries, response.data]);
       setFile(null);
       setDescription("");
       window.location.reload();
@@ -192,21 +198,22 @@ export default function AllGalleries(): JSX.Element {
         </div>
       )}
 
-      {/* Google Reviews Widget */}
-      <div
-        className="google-reviews-widget"
-        style={{ marginTop: "50px", textAlign: "center" }}
-      >
-        <h3>What our customers are saying:</h3>
-        <script
-          src="https://static.elfsight.com/platform/platform.js"
-          async
-        ></script>
+      {showReviews && (
         <div
-          className="elfsight-app-38317100-95ae-480a-9fbd-3dc4a5267fc2"
-          data-elfsight-app-lazy
-        ></div>
-      </div>
+          className="google-reviews-widget"
+          style={{ marginTop: "50px", textAlign: "center" }}
+        >
+          <h3>What our customers are saying:</h3>
+          <script
+            src="https://static.elfsight.com/platform/platform.js"
+            async
+          ></script>
+          <div
+            className="elfsight-app-38317100-95ae-480a-9fbd-3dc4a5267fc2"
+            data-elfsight-app-lazy
+          ></div>
+        </div>
+      )}
 
       <ToastContainer />
     </div>

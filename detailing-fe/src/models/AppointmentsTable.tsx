@@ -1,4 +1,5 @@
 import React, { useEffect, useState, useRef } from "react";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useAuth0 } from "@auth0/auth0-react";
 import jsPDF from "jspdf";
@@ -34,8 +35,9 @@ export default function AppointmentsTable() {
   const [appointments, setAppointments] = useState<Appointment[]>([]);
   const [services, setServices] = useState<Service[]>([]);
   const [loading, setLoading] = useState(true);
+  const navigate = useNavigate();
 
-  // Ref for the container wrapping the table (for PDF generation)
+  // Ref for PDF generation
   const containerRef = useRef<HTMLDivElement>(null);
 
   const getAppointmentsUrl = `${apiBaseUrl}/appointments`;
@@ -49,9 +51,6 @@ export default function AppointmentsTable() {
         return;
       }
       try {
-        console.log(
-          "[AppointmentsTable] Fetching appointments and services...",
-        );
         const token = await getAccessTokenSilently();
         const [appointmentsRes, servicesRes] = await Promise.all([
           axios.get<Appointment[]>(getAppointmentsUrl, {
@@ -61,15 +60,10 @@ export default function AppointmentsTable() {
             headers: { Authorization: `Bearer ${token}` },
           }),
         ]);
-        console.log(
-          "[AppointmentsTable] Appointments fetched:",
-          appointmentsRes.data,
-        );
-        console.log("[AppointmentsTable] Services fetched:", servicesRes.data);
         setAppointments(appointmentsRes.data);
         setServices(servicesRes.data);
       } catch (error) {
-        console.error("[AppointmentsTable] Error fetching data:", error);
+        console.error("Error fetching data:", error);
       } finally {
         setLoading(false);
       }
@@ -190,7 +184,13 @@ export default function AppointmentsTable() {
             );
             const amountDisplay = service ? `$${service.price.toFixed(2)}` : "";
             return (
-              <tr key={appt.appointmentId}>
+              <tr
+                key={appt.appointmentId}
+                onClick={() =>
+                  navigate(`/my-appointments/${appt.appointmentId}`)
+                }
+                style={{ cursor: "pointer" }}
+              >
                 <td
                   style={{
                     padding: "12px",
@@ -265,7 +265,7 @@ export default function AppointmentsTable() {
           position: "absolute",
           bottom: "10px",
           right: "10px",
-          padding: "4px 8px", // reduced padding for a smaller width
+          padding: "4px 8px",
           fontSize: "16px",
           backgroundColor: "black",
           color: "white",

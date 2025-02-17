@@ -52,8 +52,8 @@
 
 .button-container {
   display: flex;
-  flex-direction: row; /* Place buttons side by side */
-  gap: 10px; /* Space between the buttons */
+  flex-direction: row;
+  gap: 10px;
   margin-top: 10px;
 }
 
@@ -81,6 +81,7 @@ button:disabled {
   background-color: #ccc;
   cursor: not-allowed;
 }
+
 select {
   width: 30%;
   padding: 10px 15px;
@@ -121,12 +122,13 @@ label {
   margin-bottom: 8px;
   display: block;
 }
-.delete-button {
+
+/* Renamed delete button styles to remove-appointment-button */
+.remove-appointment-button {
   background-color: red;
   color: white;
   border: none;
   padding: 8px 12px;
-  margin-top: 10px;
   font-size: 14px;
   font-weight: bold;
   border-radius: 5px;
@@ -134,9 +136,10 @@ label {
   transition: background-color 0.3s ease;
 }
 
-.delete-button:hover {
+.remove-appointment-button:hover {
   background-color: darkred;
 }
+
 .modal {
   position: fixed;
   top: 50%;
