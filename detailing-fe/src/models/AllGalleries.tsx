@@ -16,8 +16,8 @@ interface AllGalleriesProps {
 }
 
 export default function AllGalleries({
-                                       showReviews = true,
-                                     }: AllGalleriesProps): JSX.Element {
+  showReviews = true,
+}: AllGalleriesProps): JSX.Element {
   const apiBaseUrl = process.env.REACT_APP_API_BASE_URL;
   const { getAccessTokenSilently } = useAuth0();
 
@@ -48,7 +48,7 @@ export default function AllGalleries({
         const decodedPayload = atob(base64Url);
         const tokenData = JSON.parse(decodedPayload);
         const roles =
-            tokenData["https://highenddetailing/roles"] || tokenData.roles || [];
+          tokenData["https://highenddetailing/roles"] || tokenData.roles || [];
         setIsAdmin(roles.includes("ADMIN"));
       } catch (error) {
         console.error("Error fetching access token or roles:", error);
@@ -62,7 +62,7 @@ export default function AllGalleries({
     try {
       await axios.delete(`${apiBaseUrl}/galleries/${galleryId}`);
       setGalleries(
-          galleries.filter((gallery) => gallery.galleryId !== galleryId),
+        galleries.filter((gallery) => gallery.galleryId !== galleryId),
       );
       toast.success("Image deleted successfully");
     } catch (error) {
@@ -84,14 +84,14 @@ export default function AllGalleries({
     try {
       const accessToken = await getAccessTokenSilently();
       const response = await axios.post(
-          `${apiBaseUrl}/galleries/upload`,
-          formData,
-          {
-            headers: {
-              Authorization: `Bearer ${accessToken}`,
-              "Content-Type": "multipart/form-data",
-            },
+        `${apiBaseUrl}/galleries/upload`,
+        formData,
+        {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+            "Content-Type": "multipart/form-data",
           },
+        },
       );
 
       toast.success("Image uploaded successfully");
@@ -111,111 +111,111 @@ export default function AllGalleries({
   };
 
   return (
-      <div className="gallery-container">
-        <h2
-            className="gallery-title"
-            style={{ textAlign: "center", color: "white" }}
-        >
-          Gallery
-        </h2>
+    <div className="gallery-container">
+      <h2
+        className="gallery-title"
+        style={{ textAlign: "center", color: "white" }}
+      >
+        Gallery
+      </h2>
 
-        <Swiper
-            modules={[Pagination, Navigation, Autoplay]}
-            spaceBetween={20}
-            slidesPerView={3}
-            pagination={{ clickable: true }}
-            navigation
-            autoplay={{ delay: 3000, disableOnInteraction: false }}
-            breakpoints={{
-              320: { slidesPerView: 1 },
-              768: { slidesPerView: 2 },
-              1024: { slidesPerView: 3 },
-            }}
-            className="swiper-container"
-        >
-          {galleries.map((gallery) => (
-              <SwiperSlide key={gallery.galleryId} className="swiper-slide">
-                <div className="gallery-item">
-                  <img
-                      className="gallery-image"
-                      src={gallery.imageUrl}
-                      alt={gallery.description}
-                      onClick={() => setSelectedImage(gallery.imageUrl)}
-                  />
-                  {isAdmin && (
-                      <button
-                          className="delete-button"
-                          onClick={() => deleteGallery(gallery.galleryId)}
-                      >
-                        Delete
-                      </button>
-                  )}
-                </div>
-              </SwiperSlide>
-          ))}
-        </Swiper>
-
-        {isAdmin && (
-            <div className="upload-container" style={{ backgroundColor: "black" }}>
-              <h3 className="upload-title">Upload New Image</h3>
-              <input
-                  type="file"
-                  accept="image/*"
-                  onChange={(e) => setFile(e.target.files ? e.target.files[0] : null)}
+      <Swiper
+        modules={[Pagination, Navigation, Autoplay]}
+        spaceBetween={20}
+        slidesPerView={3}
+        pagination={{ clickable: true }}
+        navigation
+        autoplay={{ delay: 3000, disableOnInteraction: false }}
+        breakpoints={{
+          320: { slidesPerView: 1 },
+          768: { slidesPerView: 2 },
+          1024: { slidesPerView: 3 },
+        }}
+        className="swiper-container"
+      >
+        {galleries.map((gallery) => (
+          <SwiperSlide key={gallery.galleryId} className="swiper-slide">
+            <div className="gallery-item">
+              <img
+                className="gallery-image"
+                src={gallery.imageUrl}
+                alt={gallery.description}
+                onClick={() => setSelectedImage(gallery.imageUrl)}
               />
-              <input
-                  type="text"
-                  placeholder="Enter description"
-                  value={description}
-                  onChange={(e) => setDescription(e.target.value)}
-              />
-              <div className="button-group">
-                <button className="upload-button" onClick={uploadImage}>
-                  Upload
-                </button>
-                <button className="cancel-button" onClick={cancelUpload}>
-                  Cancel
-                </button>
-              </div>
-            </div>
-        )}
-
-        {selectedImage && (
-            <div className="lightbox" onClick={() => setSelectedImage(null)}>
-              <div className="lightbox-content">
+              {isAdmin && (
                 <button
-                    className="close-button"
-                    onClick={() => setSelectedImage(null)}
+                  className="delete-button"
+                  onClick={() => deleteGallery(gallery.galleryId)}
                 >
-                  ✖
+                  Delete
                 </button>
-                <img
-                    className="lightbox-image"
-                    src={selectedImage}
-                    alt="Full Preview"
-                />
-              </div>
+              )}
             </div>
-        )}
+          </SwiperSlide>
+        ))}
+      </Swiper>
 
-        {showReviews && (
-            <div
-                className="google-reviews-widget"
-                style={{ marginTop: "50px", textAlign: "center" }}
+      {isAdmin && (
+        <div className="upload-container" style={{ backgroundColor: "black" }}>
+          <h3 className="upload-title">Upload New Image</h3>
+          <input
+            type="file"
+            accept="image/*"
+            onChange={(e) => setFile(e.target.files ? e.target.files[0] : null)}
+          />
+          <input
+            type="text"
+            placeholder="Enter description"
+            value={description}
+            onChange={(e) => setDescription(e.target.value)}
+          />
+          <div className="button-group">
+            <button className="upload-button" onClick={uploadImage}>
+              Upload
+            </button>
+            <button className="cancel-button" onClick={cancelUpload}>
+              Cancel
+            </button>
+          </div>
+        </div>
+      )}
+
+      {selectedImage && (
+        <div className="lightbox" onClick={() => setSelectedImage(null)}>
+          <div className="lightbox-content">
+            <button
+              className="close-button"
+              onClick={() => setSelectedImage(null)}
             >
-              <h3>What our customers are saying:</h3>
-              <script
-                  src="https://static.elfsight.com/platform/platform.js"
-                  async
-              ></script>
-              <div
-                  className="elfsight-app-38317100-95ae-480a-9fbd-3dc4a5267fc2"
-                  data-elfsight-app-lazy
-              ></div>
-            </div>
-        )}
+              ✖
+            </button>
+            <img
+              className="lightbox-image"
+              src={selectedImage}
+              alt="Full Preview"
+            />
+          </div>
+        </div>
+      )}
 
-        <ToastContainer />
-      </div>
+      {showReviews && (
+        <div
+          className="google-reviews-widget"
+          style={{ marginTop: "50px", textAlign: "center" }}
+        >
+          <h3>What our customers are saying:</h3>
+          <script
+            src="https://static.elfsight.com/platform/platform.js"
+            async
+          ></script>
+          <div
+            className="elfsight-app-38317100-95ae-480a-9fbd-3dc4a5267fc2"
+            data-elfsight-app-lazy
+          ></div>
+        </div>
+      )}
+
+      <ToastContainer />
+    </div>
   );
 }
