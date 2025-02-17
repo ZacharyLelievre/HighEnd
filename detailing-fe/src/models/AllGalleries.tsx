@@ -98,7 +98,7 @@ export default function AllGalleries({
       setGalleries([...galleries, response.data]);
       setFile(null);
       setDescription("");
-      window.location.reload();
+      // window.location.reload();
     } catch (error) {
       console.error("Error uploading image", error);
       toast.error("Failed to upload image");

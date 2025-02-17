@@ -194,3 +194,36 @@
     width: 200px;
   }
 }
+
+.language-toggle {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.language-btn {
+  background: transparent;
+  border: 2px solid #ac53f5;
+  color: #ac53f5;
+  font-size: 1rem;
+  padding: 0.5rem 1rem;
+  border-radius: 25px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.language-btn:hover {
+  background-color: #ac53f5;
+  color: #fff;
+}
+
+.language-btn.active {
+  background-color: #ac53f5;
+  color: #fff;
+  border-color: #ac53f5;
+}
+
+.language-btn:focus {
+  outline: none;
+}

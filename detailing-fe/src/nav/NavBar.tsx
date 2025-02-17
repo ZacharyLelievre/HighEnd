@@ -4,6 +4,7 @@ import { AppRoutePath } from "../routes/path.routes";
 import { Spinner } from "react-bootstrap";
 import { useAuth0 } from "@auth0/auth0-react";
 import "./NavBar.css";
+import { useTranslation } from "react-i18next";
 
 export function NavBar(): JSX.Element {
   const {
@@ -14,32 +15,19 @@ export function NavBar(): JSX.Element {
     isLoading,
     getAccessTokenSilently,
   } = useAuth0();
-
   const [isAdmin, setIsAdmin] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const navigate = useNavigate();
 
-  // Toggle for off-canvas menu (mobile)
+  const { t, i18n } = useTranslation(); // Initialize i18next translation hook
+  const handleLanguageChange = (lang: string) => {
+    i18n.changeLanguage(lang); // Change language dynamically
+  };
+
   const toggleMenu = () => setMenuOpen(!menuOpen);
 
   useEffect(() => {
     if (!isAuthenticated) return;
-
-    const checkIfUserExists = async () => {
-      try {
-        const accessToken = await getAccessTokenSilently();
-        const response = await fetch("/api/customers/me", {
-          headers: {
-            Authorization: `Bearer ${accessToken}`,
-          },
-        });
-
-        const data = await response.json();
-        console.log("Customer Data:", data);
-      } catch (error) {
-        console.error("Error checking user existence:", error);
-      }
-    };
 
     const checkIfUserIsAdmin = async () => {
       try {
@@ -55,16 +43,13 @@ export function NavBar(): JSX.Element {
       }
     };
 
-    checkIfUserExists();
     checkIfUserIsAdmin();
-  }, [isAuthenticated, getAccessTokenSilently, navigate]);
+  }, [isAuthenticated, getAccessTokenSilently]);
 
-  // Handlers
   const handleLogin = () => loginWithRedirect();
   const handleRegister = () => navigate(AppRoutePath.Onboarding);
-  const handleLogout = () => {
+  const handleLogout = () =>
     logout({ logoutParams: { returnTo: window.location.origin } });
-  };
 
   return (
     <header
@@ -76,7 +61,6 @@ export function NavBar(): JSX.Element {
       }}
     >
       <div className="navbar">
-        {/* Left side: Logo + Auth Buttons */}
         <div className="nav-left">
           <Link to={AppRoutePath.Home} className="brand-link">
             <img src="/images/he_logo.jpg" alt="Logo" className="brand-logo" />
@@ -89,15 +73,15 @@ export function NavBar(): JSX.Element {
             <>
               {isAuthenticated && user ? (
                 <button className="btn-signin" onClick={handleLogout}>
-                  Log Out
+                  {t("logout")}
                 </button>
               ) : (
                 <>
                   <button className="btn-signin" onClick={handleLogin}>
-                    Login
+                    {t("login")}
                   </button>
                   <button className="btn-signin" onClick={handleRegister}>
-                    Register
+                    {t("register")}
                   </button>
                 </>
               )}
@@ -105,39 +89,53 @@ export function NavBar(): JSX.Element {
           )}
         </div>
 
-        {/* Right side: Navigation links (desktop) */}
         <div className="nav-right">
           <ul className="nav-list desktop-nav">
             <li>
-              <Link to={AppRoutePath.Home}>Homes</Link>
+              <Link to={AppRoutePath.Home}>{t("homes")}</Link>
             </li>
             <li>
-              <Link to={AppRoutePath.AllServicesPage}>Services</Link>
+              <Link to={AppRoutePath.AllServicesPage}>{t("services")}</Link>
             </li>
             <li>
-              <Link to={AppRoutePath.AllGalleriesPage}>Gallery</Link>
+              <Link to={AppRoutePath.AllGalleriesPage}>{t("gallery")}</Link>
             </li>
             {isAuthenticated && isAdmin && (
               <li>
-                <Link to={AppRoutePath.DashboardPage}>Dashboard</Link>
+                <Link to={AppRoutePath.DashboardPage}>{t("dashboard")}</Link>
               </li>
             )}
             {isAuthenticated && (
               <li>
-                <Link to={AppRoutePath.Profile}>Profile</Link>
+                <Link to={AppRoutePath.Profile}>{t("profile")}</Link>
               </li>
             )}
           </ul>
-          {/* Hamburger for mobile */}
+
           <button className="hamburger-btn" onClick={toggleMenu}>
             <span className="bar"></span>
             <span className="bar"></span>
             <span className="bar"></span>
           </button>
+
+          {/* Language Toggle */}
+          <div className="language-toggle">
+            <button
+              className="language-btn"
+              onClick={() => handleLanguageChange("en")}
+            >
+              EN
+            </button>
+            <button
+              className="language-btn"
+              onClick={() => handleLanguageChange("fr")}
+            >
+              FR
+            </button>
+          </div>
         </div>
       </div>
 
-      {/* Off-Canvas Nav for mobile */}
       <nav className={`nav-links ${menuOpen ? "open" : ""}`}>
         <button className="close-btn" onClick={toggleMenu}>
           &times;
@@ -145,30 +143,30 @@ export function NavBar(): JSX.Element {
         <ul>
           <li>
             <Link to={AppRoutePath.Home} onClick={toggleMenu}>
-              Homes
+              {t("homes")}
             </Link>
           </li>
           <li>
             <Link to={AppRoutePath.AllServicesPage} onClick={toggleMenu}>
-              Services
+              {t("services")}
             </Link>
           </li>
           <li>
             <Link to={AppRoutePath.AllGalleriesPage} onClick={toggleMenu}>
-              Gallery
+              {t("gallery")}
             </Link>
           </li>
           {isAuthenticated && isAdmin && (
             <li>
               <Link to={AppRoutePath.DashboardPage} onClick={toggleMenu}>
-                Dashboard
+                {t("dashboard")}
               </Link>
             </li>
           )}
           {isAuthenticated && (
             <li>
               <Link to={AppRoutePath.Profile} onClick={toggleMenu}>
-                Profile
+                {t("profile")}
               </Link>
             </li>
           )}

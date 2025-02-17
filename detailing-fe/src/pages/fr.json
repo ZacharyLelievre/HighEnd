@@ -1,0 +1,19 @@
+{
+  "hero_title": "Démarrez votre véhicule!",
+  "hero_description": "Découvrez nos services de detailing automobile haut de gamme qui font briller votre véhicule.",
+  "explore_services": "Explorer les services",
+  "mission_vision": "Notre Mission & Vision",
+  "our_mission": "Notre Mission",
+  "mission_description": "Notre mission est de fournir des services de detailing automobile de haute qualité qui dépassent les attentes des clients, améliorant l'apparence et la valeur de chaque véhicule avec une attention méticuleuse aux détails et un service client exceptionnel.",
+  "our_vision": "Notre Vision",
+  "vision_description": "Notre vision est d'être le choix principal pour le detailing automobile, reconnu pour notre engagement envers l'excellence, l'innovation et une expérience client personnalisée qui établit une nouvelle norme dans l'industrie.",
+
+  "logout": "Se déconnecter",
+  "login": "Se connecter",
+  "register": "S'inscrire",
+  "homes": "Accueuil",
+  "services": "services",
+  "gallery": "galleries",
+  "dashboard": "Tableau de bord",
+  "profile": "profile"
+}
