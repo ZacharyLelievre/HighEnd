@@ -15,7 +15,7 @@ import java.io.IOException;
 import java.util.List;
 
 @RestController
-@RequestMapping("/galleries")
+@RequestMapping("/api/galleries")
 public class GalleryController {
 
     private final GalleryService galleryService;
