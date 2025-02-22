@@ -57,7 +57,7 @@ public class ServicesController {
             Path targetPath = uploadsDir.resolve(uniqueFilename);
             Files.copy(imageFile.getInputStream(), targetPath, StandardCopyOption.REPLACE_EXISTING);
 
-            String imageUrl = "api/services/images/" + uniqueFilename;
+            String imageUrl = "https://high-end-detailing.com/api/services/images/" + uniqueFilename;
 
             ServiceResponseModel newService = serviceService.createService(
                     serviceName,

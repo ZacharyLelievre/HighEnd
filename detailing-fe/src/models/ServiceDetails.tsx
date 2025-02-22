@@ -3,7 +3,6 @@ import { useParams } from "react-router-dom";
 import axios from "axios";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-
 import { useAuth0 } from "@auth0/auth0-react";
 import { ServiceModel } from "./dtos/ServiceModel";
 import { AppointmentModel } from "./dtos/AppointmentModel";
@@ -12,11 +11,10 @@ import "./ServiceDetails.css";
 
 interface Employee {
   employeeId: string;
-  // Additional employee fields can be added here.
   availability: {
     dayOfWeek: string;
-    startTime: string; // "HH:mm:ss" or "HH:mm"
-    endTime: string; // "HH:mm:ss" or "HH:mm"
+    startTime: string;
+    endTime: string;
   }[];
 }
 
@@ -33,13 +31,9 @@ export default function ServiceDetail(): JSX.Element {
   const { getAccessTokenSilently } = useAuth0();
 
   const [service, setService] = useState<ServiceModel | null>(null);
-  const [appointmentsThatDay, setAppointmentsThatDay] = useState<
-    AppointmentModel[]
-  >([]);
+  const [appointmentsThatDay, setAppointmentsThatDay] = useState<AppointmentModel[]>([]);
   const [employees, setEmployees] = useState<Employee[]>([]);
-  const [appointmentDate, setAppointmentDate] = useState<Date | null>(
-    new Date(),
-  );
+  const [appointmentDate, setAppointmentDate] = useState<Date | null>(new Date());
   const [appointmentTime, setAppointmentTime] = useState<string>("");
 
   const availableTimeSlots = [
@@ -62,7 +56,16 @@ export default function ServiceDetail(): JSX.Element {
     "05:00 PM",
   ];
 
-  // 1) Fetch service details
+  // Helper: if imagePath is already a full URL (for added services) return it;
+  // otherwise, assume it's an initial image and prefix with imageBaseUrl.
+  const getImageUrl = (imagePath: string): string => {
+    if (imagePath.startsWith("http://") || imagePath.startsWith("https://")) {
+      return imagePath;
+    }
+    const path = imagePath.startsWith("/") ? imagePath : `/${imagePath}`;
+    return `${imageBaseUrl}${path}`;
+  };
+
   useEffect(() => {
     const fetchService = async () => {
       try {
@@ -75,16 +78,14 @@ export default function ServiceDetail(): JSX.Element {
     fetchService();
   }, [serviceId, apiBaseUrl]);
 
-  // 2) Fetch appointments for the selected date
   useEffect(() => {
     if (!appointmentDate) return;
     const dateStr = appointmentDate.toISOString().split("T")[0];
     getAppointmentsByDate(dateStr)
-      .then((res) => setAppointmentsThatDay(res))
-      .catch((err) => console.error("Error fetching day appointments", err));
+        .then((res) => setAppointmentsThatDay(res))
+        .catch((err) => console.error("Error fetching day appointments", err));
   }, [appointmentDate]);
 
-  // 3) Fetch all employees (with availability)
   useEffect(() => {
     const fetchEmployees = async () => {
       try {
@@ -97,7 +98,6 @@ export default function ServiceDetail(): JSX.Element {
     fetchEmployees();
   }, [apiBaseUrl]);
 
-  // Helper: Parse duration string (e.g. "60 minutes" or "1 hour") to minutes
   const parseDurationInMinutes = (timeStr: string): number => {
     const trimmed = timeStr.trim().toLowerCase();
     if (trimmed.includes("minute")) {
@@ -105,10 +105,9 @@ export default function ServiceDetail(): JSX.Element {
     } else if (trimmed.includes("hour")) {
       return Math.round(parseFloat(trimmed) * 60);
     }
-    return 60; // fallback
+    return 60;
   };
 
-  // Convert "hh:mm AM/PM" to "HH:mm" in 24-hour format
   const convertTo24h = (time12h: string): string => {
     const [timePart, meridian] = time12h.split(" ");
     let [hour, min] = timePart.split(":");
@@ -119,7 +118,6 @@ export default function ServiceDetail(): JSX.Element {
     return `${hourNum.toString().padStart(2, "0")}:${minuteNum.toString().padStart(2, "0")}`;
   };
 
-  // Parse a DB time string ("HH:mm" or "HH:mm:ss") into total minutes from midnight
   const parseDbTimeToMinutes = (dbTime: string): number => {
     const parts = dbTime.split(":").map(Number);
     const hour = parts[0] || 0;
@@ -127,17 +125,13 @@ export default function ServiceDetail(): JSX.Element {
     return hour * 60 + minute;
   };
 
-  // NEW: Check if at least one employee is available for the time slot on the selected date
   const hasAtLeastOneAvailableEmployee = (
-    slotStart: number,
-    slotEnd: number,
-    date: Date,
+      slotStart: number,
+      slotEnd: number,
+      date: Date
   ): boolean => {
     if (!employees.length) return false;
-    // Get day of week in uppercase (e.g., "MONDAY")
-    const dayOfWeek = date
-      .toLocaleDateString("en-CA", { weekday: "long" })
-      .toUpperCase();
+    const dayOfWeek = date.toLocaleDateString("en-CA", { weekday: "long" }).toUpperCase();
     for (const emp of employees) {
       const isEmployeeAvailable = emp.availability?.some((a) => {
         if (a.dayOfWeek.toUpperCase() !== dayOfWeek) return false;
@@ -145,7 +139,6 @@ export default function ServiceDetail(): JSX.Element {
         const [endH, endM] = a.endTime.split(":").map(Number);
         const empAvailStart = startH * 60 + startM;
         const empAvailEnd = endH * 60 + endM;
-        // Check if employee availability fully covers the UI slot
         return empAvailStart <= slotStart && empAvailEnd >= slotEnd;
       });
       if (isEmployeeAvailable) return true;
@@ -153,11 +146,8 @@ export default function ServiceDetail(): JSX.Element {
     return false;
   };
 
-  // Check if a UI time slot conflicts with existing appointments or employee availability.
   const isSlotConflicting = (slot: string): boolean => {
     if (!service || !appointmentDate) return false;
-
-    // Convert "11:30 AM" into minutes from midnight
     const [hrStr] = slot.split(":");
     let hourNum = parseInt(hrStr, 10);
     const isPM = slot.includes("PM");
@@ -166,37 +156,28 @@ export default function ServiceDetail(): JSX.Element {
     const minuteNum = slot.includes("30") ? 30 : 0;
     const slotStart = hourNum * 60 + minuteNum;
     const slotEnd = slotStart + 30;
-
-    // Check if at least one employee is available during this half-hour window.
     if (!hasAtLeastOneAvailableEmployee(slotStart, slotEnd, appointmentDate)) {
-      return true; // no employee available => mark as conflicting
+      return true;
     }
-
-    // Check against existing appointments.
     for (const appt of appointmentsThatDay) {
       const existingStart = parseDbTimeToMinutes(appt.appointmentTime);
       const existingEnd = parseDbTimeToMinutes(appt.appointmentEndTime);
       const blockedStart = Math.max(existingStart - 30, 0);
       const blockedEnd = existingEnd;
       if (slotStart < blockedEnd && slotEnd > blockedStart) {
-        return true; // conflict with an existing appointment
+        return true;
       }
     }
-    return false; // no conflict
+    return false;
   };
 
-  // Create a new appointment
-  const handleAppointmentSubmit = async (
-    e: React.FormEvent<HTMLFormElement>,
-  ) => {
+  const handleAppointmentSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!appointmentDate || !appointmentTime) {
       alert("Please select a date & time first!");
       return;
     }
-    const durationInMinutes = parseDurationInMinutes(
-      service?.timeRequired || "60",
-    );
+    const durationInMinutes = parseDurationInMinutes(service?.timeRequired || "60");
     const start24h = convertTo24h(appointmentTime);
     const [startHStr, startMStr] = start24h.split(":");
     const startH = parseInt(startHStr, 10);
@@ -209,12 +190,9 @@ export default function ServiceDetail(): JSX.Element {
 
     try {
       const token = await getAccessTokenSilently();
-      const meResp = await axios.get<CustomerResponseModel>(
-        `${apiBaseUrl}/customers/me`,
-        {
-          headers: { Authorization: `Bearer ${token}` },
-        },
-      );
+      const meResp = await axios.get<CustomerResponseModel>(`${apiBaseUrl}/customers/me`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
       if (!meResp.data) {
         alert("Could not fetch your customer profile!");
         return;
@@ -235,22 +213,15 @@ export default function ServiceDetail(): JSX.Element {
         employeeName: "UNASSIGNED",
       };
 
-      const postResp = await axios.post(
-        `${apiBaseUrl}/appointments`,
-        requestBody,
-        {
-          headers: { Authorization: `Bearer ${token}` },
-        },
-      );
+      const postResp = await axios.post(`${apiBaseUrl}/appointments`, requestBody, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
       console.log("Appointment created:", postResp.data);
 
       const newApptId = postResp.data.appointmentId;
-      const getResp = await axios.get<AppointmentModel>(
-        `${apiBaseUrl}/appointments/${newApptId}`,
-        {
-          headers: { Authorization: `Bearer ${token}` },
-        },
-      );
+      const getResp = await axios.get<AppointmentModel>(`${apiBaseUrl}/appointments/${newApptId}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
       setAppointmentsThatDay((prev) => [...prev, getResp.data]);
 
       alert("Appointment scheduled successfully!");
@@ -265,85 +236,75 @@ export default function ServiceDetail(): JSX.Element {
   }
 
   return (
-    <div className="service-details-container">
-      {/* Top section with service image and details */}
-      <div className="service-details-top">
-        <div className="service-image-wrapper">
-          <img
-            className="service-image"
-            src={`/images/${service.imagePath}`}
-            alt={service.serviceName}
-          />
-        </div>
-        <div className="service-info">
-          <h1>{service.serviceName}</h1>
-          <h2>${service.price.toFixed(2)}</h2>
-          <ul className="service-description">
-            <li>High-quality service with attention to detail</li>
-            <li>Experienced and trained professionals</li>
-            <li>Use of premium products and tools</li>
-            <li>Customer satisfaction guaranteed</li>
-            <li>Flexible appointment scheduling</li>
-          </ul>
-        </div>
-      </div>
-
-      <hr className="separator" />
-
-      {/* Scheduler section */}
-      <div className="service-scheduler">
-        <h2 className="scheduler-title">Schedule Your Appointment</h2>
-        <form onSubmit={handleAppointmentSubmit} className="scheduler-form">
-          <div className="scheduler-columns">
-            {/* Calendar */}
-            <div className="datetime-section left">
-              <label>Select Date:</label>
-              <div className="calendar-container">
-                <DatePicker
-                  inline
-                  selected={appointmentDate}
-                  onChange={(date) => date && setAppointmentDate(date)}
-                  minDate={new Date()}
-                />
-              </div>
-            </div>
-
-            <div className="vertical-separator" />
-
-            {/* Time slots */}
-            <div className="datetime-section right">
-              <label>Select Time:</label>
-              <div className="time-slots-container">
-                {availableTimeSlots.map((slot, index) => {
-                  const conflict = isSlotConflicting(slot);
-                  const slotClass = conflict
-                    ? "time-slot red"
-                    : "time-slot green";
-                  const isSelected = appointmentTime === slot;
-                  return (
-                    <button
-                      type="button"
-                      key={index}
-                      onClick={() => {
-                        if (!conflict) {
-                          setAppointmentTime(slot);
-                        }
-                      }}
-                      className={`${slotClass} ${isSelected ? "selected" : ""}`}
-                      disabled={conflict}
-                    >
-                      {slot}
-                    </button>
-                  );
-                })}
-              </div>
-            </div>
+      <div className="service-details-container">
+        <div className="service-details-top">
+          <div className="service-image-wrapper">
+            <img
+                className="service-image"
+                src={getImageUrl(service.imagePath)}
+                alt={service.serviceName}
+            />
           </div>
-          <button type="submit" className="schedule-button">
-            Schedule Appointment
-          </button>
-        </form>
+          <div className="service-info">
+            <h1>{service.serviceName}</h1>
+            <h2>${service.price.toFixed(2)}</h2>
+            <ul className="service-description">
+              <li>High-quality service with attention to detail</li>
+              <li>Experienced and trained professionals</li>
+              <li>Use of premium products and tools</li>
+              <li>Customer satisfaction guaranteed</li>
+              <li>Flexible appointment scheduling</li>
+            </ul>
+          </div>
+        </div>
+        <hr className="separator" />
+        <div className="service-scheduler">
+          <h2 className="scheduler-title">Schedule Your Appointment</h2>
+          <form onSubmit={handleAppointmentSubmit} className="scheduler-form">
+            <div className="scheduler-columns">
+              <div className="datetime-section left">
+                <label>Select Date:</label>
+                <div className="calendar-container">
+                  <DatePicker
+                      inline
+                      selected={appointmentDate}
+                      onChange={(date) => date && setAppointmentDate(date)}
+                      minDate={new Date()}
+                  />
+                </div>
+              </div>
+              <div className="vertical-separator" />
+              <div className="datetime-section right">
+                <label>Select Time:</label>
+                <div className="time-slots-container">
+                  {availableTimeSlots.map((slot, index) => {
+                    const conflict = isSlotConflicting(slot);
+                    const slotClass = conflict ? "time-slot red" : "time-slot green";
+                    const isSelected = appointmentTime === slot;
+                    return (
+                        <button
+                            type="button"
+                            key={index}
+                            onClick={() => {
+                              if (!conflict) {
+                                setAppointmentTime(slot);
+                              }
+                            }}
+                            className={`${slotClass} ${isSelected ? "selected" : ""}`}
+                            disabled={conflict}
+                        >
+                          {slot}
+                        </button>
+                    );
+                  })}
+                </div>
+              </div>
+            </div>
+            <button type="submit" className="schedule-button">
+              Schedule Appointment
+            </button>
+          </form>
+        </div>
       </div>
-    </div>
   );
 }
