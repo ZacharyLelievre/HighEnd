@@ -1,0 +1,226 @@
+/*
+  We assume your global background is black (#000).
+  So we won't set a background color here; it should blend in.
+*/
+
+.about-page {
+    min-height: 100vh;
+}
+
+/* Core container with padding and text color */
+.about-page-container {
+    color: #ccc; /* base text color */
+    line-height: 1.6;
+    margin: 0 auto;
+    max-width: 1200px;
+    padding: 20px 20px 60px;
+    font-family: sans-serif;
+}
+
+/* 1) Hero Section */
+.hero-section {
+    text-align: center;
+    margin-bottom: 40px;
+    padding: 60px 20px;
+    background: none;
+}
+
+.hero-section h1 {
+    color: #ffffff; /* purple heading */
+    font-size: 2.5rem;
+    margin-bottom: 20px;
+}
+
+.hero-section p {
+    font-size: 1.1rem;
+    max-width: 700px;
+    margin: 0 auto;
+}
+
+/* 2) Founders Section */
+.founders-section {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 50px; /* extra space between them to appear bigger visually */
+    margin-bottom: 40px;
+}
+
+.founder-card {
+    /* Increase the card width to highlight them more */
+    width: 450px;
+    text-align: center;
+    padding: 20px;
+    border: 1px solid #444;
+    border-radius: 8px;
+    background: rgba(0, 0, 0, 0.4); /* subtle overlay */
+}
+
+/*
+   Bigger, squared images with slightly rounded corners.
+   We'll let them be up to ~400px wide to fill most of the card's width.
+*/
+.founder-image {
+    width: 100%;
+    max-width: 400px;
+    height: auto;
+    border-radius: 12px;
+    margin-bottom: 15px;
+    border: 3px solid #ac53f5; /* a bit thicker purple border */
+}
+
+.founder-name {
+    margin-top: 0;
+    font-size: 1.6rem;
+    color: #ac53f5; /* purple name */
+    margin-bottom: 5px;
+}
+
+.founder-subtitle {
+    margin: 0;
+    color: #ccc;
+    margin-bottom: 15px;
+}
+
+.founder-card p {
+    font-size: 1rem;
+}
+
+/* 3) Story Section */
+.story-section {
+    margin-bottom: 40px;
+}
+
+.story-section h2 {
+    color: #ffffff; /* White heading for "Notre histoire" */
+    font-size: 2rem;
+    margin-bottom: 20px;
+}
+
+.story-section p {
+    font-size: 1rem;
+    margin-bottom: 15px;
+}
+
+/* 4) Newsletter Section */
+.newsletter-section {
+    text-align: center;
+    border: 1px solid #444;
+    border-radius: 8px;
+    padding: 30px 20px;
+    background: rgba(0, 0, 0, 0.4);
+    margin-bottom: 40px;
+}
+
+.newsletter-section h3 {
+    color: #fff; /* white or purple, as you like. Let's go white. */
+    font-size: 1.4rem;
+    margin-bottom: 10px;
+}
+
+.newsletter-section p {
+    margin: 5px 0;
+}
+
+.newsletter-inputs {
+    margin: 20px 0;
+}
+
+.newsletter-input {
+    padding: 10px;
+    border-radius: 4px;
+    border: 1px solid #555;
+    background: #222;
+    color: #ccc;
+    margin-right: 8px;
+    width: 200px;
+    outline: none;
+}
+
+/* Smaller, auto-width button */
+.newsletter-button {
+    padding: 10px 20px;
+    border-radius: 4px;
+    background-color: #ac53f5;
+    border: none;
+    color: #fff;
+    cursor: pointer;
+    font-weight: 600;
+    transition: background-color 0.2s ease;
+    width: auto; /* auto width so it doesn't span the entire container */
+}
+
+.newsletter-button:hover {
+    background-color: #973ae2;
+}
+
+.newsletter-section p:last-of-type {
+    margin-top: 20px;
+    font-size: 0.95rem;
+    color: #bbb;
+}
+
+@media (max-width: 768px) {
+    .founders-section {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .founder-card {
+        width: 90%;
+        max-width: 500px;
+    }
+
+    .founder-image {
+        max-width: 100%;
+    }
+}
+
+.contact-section {
+    /* border: 1px solid #444; */
+    border-radius: 8px;
+    padding: 40px 20px;
+    background: rgba(0, 0, 0, 0.5);
+    margin-bottom: 40px;
+    text-align: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+.contact-section h2 {
+    color: #ffffff; /* Matching purple heading */
+    font-size: 2.2rem;
+    margin-bottom: 30px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.contact-details {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    gap: 40px;
+}
+
+.contact-info {
+    flex: 1;
+    min-width: 250px;
+    color: #ccc;
+    transition: transform 0.2s ease;
+}
+
+.contact-info:hover {
+    transform: translateY(-5px);
+}
+
+.contact-info h3 {
+    color: #ac53f5;
+    font-size: 1.6rem;
+    margin-bottom: 15px;
+    border-bottom: 2px solid #ac53f5;
+    padding-bottom: 5px;
+}
+
+.contact-info p {
+    margin: 8px 0;
+    font-size: 1rem;
+}
