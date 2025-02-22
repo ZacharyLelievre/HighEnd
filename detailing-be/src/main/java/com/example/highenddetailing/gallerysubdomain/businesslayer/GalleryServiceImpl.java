@@ -64,7 +64,7 @@ public class GalleryServiceImpl implements GalleryService {
             Gallery gallery = Gallery.builder()
                     .galleryIdentifier(new GalleryIdentifier())
                     .description(description)
-                    .imageUrl("https://high-end-detailing.com/galleries/images/" + fileName)
+                    .imageUrl("https://high-end-detailing.com/api/galleries/images/" + fileName)
                     .build();
 
             galleryRepository.save(gallery);
