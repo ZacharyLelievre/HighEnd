@@ -16,6 +16,7 @@ import HomeCallbackHandler from "../pages/HomeCallbackHandler";
 import CustomerDetailsPage from "../pages/CustomerDetailsPage";
 import { MyAppointmentDetails } from "../pages/MyAppointmentDetails";
 import PromotionForm from "../pages/PromotionForm";
+import AboutUsPage from "../pages/AboutUsPage";
 
 const router = createBrowserRouter([
   {
@@ -73,6 +74,10 @@ const router = createBrowserRouter([
   {
     path: AppRoutePath.Promotions,
     element: <PromotionForm />,
+  },
+  {
+    path: "/about",
+    element: <AboutUsPage />,
   },
 ]);
 

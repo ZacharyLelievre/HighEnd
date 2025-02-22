@@ -17,18 +17,24 @@ export function NavBar(): JSX.Element {
   } = useAuth0();
   const [isAdmin, setIsAdmin] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
+  const [isMobile, setIsMobile] = useState(window.innerWidth < 991);
   const navigate = useNavigate();
+  const { t, i18n } = useTranslation();
 
-  const { t, i18n } = useTranslation(); // Initialize i18next translation hook
   const handleLanguageChange = (lang: string) => {
-    i18n.changeLanguage(lang); // Change language dynamically
+    i18n.changeLanguage(lang);
   };
 
   const toggleMenu = () => setMenuOpen(!menuOpen);
 
   useEffect(() => {
-    if (!isAuthenticated) return;
+    const handleResize = () => setIsMobile(window.innerWidth < 991);
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
+  useEffect(() => {
+    if (!isAuthenticated) return;
     const checkIfUserIsAdmin = async () => {
       try {
         const accessToken = await getAccessTokenSilently();
@@ -42,7 +48,6 @@ export function NavBar(): JSX.Element {
         console.error("Error fetching access token or roles:", error);
       }
     };
-
     checkIfUserIsAdmin();
   }, [isAuthenticated, getAccessTokenSilently]);
 
@@ -61,15 +66,13 @@ export function NavBar(): JSX.Element {
       }}
     >
       <div className="navbar">
+        {/* Always show logo on left */}
         <div className="nav-left">
           <Link to={AppRoutePath.Home} className="brand-link">
             <img src="/images/he_logo.jpg" alt="Logo" className="brand-logo" />
           </Link>
-          {isLoading ? (
-            <div className="loading-container">
-              <Spinner animation="grow" variant="primary" />
-            </div>
-          ) : (
+          {/* On desktop, show auth buttons */}
+          {!isMobile && !isLoading && (
             <>
               {isAuthenticated && user ? (
                 <button className="btn-signin" onClick={handleLogout}>
@@ -90,6 +93,7 @@ export function NavBar(): JSX.Element {
         </div>
 
         <div className="nav-right">
+          {/* Desktop nav links */}
           <ul className="nav-list desktop-nav">
             <li>
               <Link to={AppRoutePath.Home}>{t("homes")}</Link>
@@ -99,6 +103,9 @@ export function NavBar(): JSX.Element {
             </li>
             <li>
               <Link to={AppRoutePath.AllGalleriesPage}>{t("gallery")}</Link>
+            </li>
+            <li>
+              <Link to="/about">{t("about_link")}</Link>
             </li>
             {isAuthenticated && isAdmin && (
               <li>
@@ -112,66 +119,157 @@ export function NavBar(): JSX.Element {
             )}
           </ul>
 
-          <button className="hamburger-btn" onClick={toggleMenu}>
-            <span className="bar"></span>
-            <span className="bar"></span>
-            <span className="bar"></span>
-          </button>
+          {/* Hamburger button visible on mobile */}
+          {isMobile && (
+            <button
+              className="hamburger-btn"
+              onClick={toggleMenu}
+              aria-label={t("menu")}
+            >
+              <span className="bar"></span>
+              <span className="bar"></span>
+              <span className="bar"></span>
+            </button>
+          )}
 
-          {/* Language Toggle */}
-          <div className="language-toggle">
-            <button
-              className="language-btn"
-              onClick={() => handleLanguageChange("en")}
-            >
-              EN
-            </button>
-            <button
-              className="language-btn"
-              onClick={() => handleLanguageChange("fr")}
-            >
-              FR
-            </button>
-          </div>
+          {/* Desktop language toggles */}
+          {!isMobile && (
+            <div className="language-toggle">
+              <button
+                className={`language-btn ${
+                  i18n.language === "en" ? "active" : ""
+                }`}
+                onClick={() => handleLanguageChange("en")}
+              >
+                EN
+              </button>
+              <button
+                className={`language-btn ${
+                  i18n.language === "fr" ? "active" : ""
+                }`}
+                onClick={() => handleLanguageChange("fr")}
+              >
+                FR
+              </button>
+            </div>
+          )}
         </div>
       </div>
 
-      <nav className={`nav-links ${menuOpen ? "open" : ""}`}>
-        <button className="close-btn" onClick={toggleMenu}>
-          &times;
-        </button>
-        <ul>
-          <li>
-            <Link to={AppRoutePath.Home} onClick={toggleMenu}>
-              {t("homes")}
-            </Link>
-          </li>
-          <li>
-            <Link to={AppRoutePath.AllServicesPage} onClick={toggleMenu}>
-              {t("services")}
-            </Link>
-          </li>
-          <li>
-            <Link to={AppRoutePath.AllGalleriesPage} onClick={toggleMenu}>
-              {t("gallery")}
-            </Link>
-          </li>
-          {isAuthenticated && isAdmin && (
+      {/* Mobile menu */}
+      {isMobile && (
+        <nav className={`nav-links ${menuOpen ? "open" : ""}`}>
+          <button className="close-btn" onClick={toggleMenu}>
+            &times;
+          </button>
+          <ul>
             <li>
-              <Link to={AppRoutePath.DashboardPage} onClick={toggleMenu}>
-                {t("dashboard")}
+              <Link to={AppRoutePath.Home} onClick={toggleMenu}>
+                {t("homes")}
               </Link>
             </li>
-          )}
-          {isAuthenticated && (
             <li>
-              <Link to={AppRoutePath.Profile} onClick={toggleMenu}>
-                {t("profile")}
+              <Link to={AppRoutePath.AllServicesPage} onClick={toggleMenu}>
+                {t("services")}
               </Link>
             </li>
-          )}
-        </ul>
-      </nav>
+            <li>
+              <Link to={AppRoutePath.AllGalleriesPage} onClick={toggleMenu}>
+                {t("gallery")}
+              </Link>
+            </li>
+            <li>
+              <Link to="/about" onClick={toggleMenu}>
+                {t("about_link")}
+              </Link>
+            </li>
+            {isAuthenticated && isAdmin && (
+              <li>
+                <Link to={AppRoutePath.DashboardPage} onClick={toggleMenu}>
+                  {t("dashboard")}
+                </Link>
+              </li>
+            )}
+            {isAuthenticated && (
+              <li>
+                <Link to={AppRoutePath.Profile} onClick={toggleMenu}>
+                  {t("profile")}
+                </Link>
+              </li>
+            )}
+            {/* Mobile-only auth buttons */}
+            {!isLoading && (
+              <>
+                {!isAuthenticated ? (
+                  <>
+                    <li>
+                      <button
+                        className="btn-signin"
+                        onClick={() => {
+                          toggleMenu();
+                          handleLogin();
+                        }}
+                      >
+                        {t("login")}
+                      </button>
+                    </li>
+                    <li>
+                      <button
+                        className="btn-signin"
+                        onClick={() => {
+                          toggleMenu();
+                          handleRegister();
+                        }}
+                      >
+                        {t("register")}
+                      </button>
+                    </li>
+                  </>
+                ) : (
+                  <li>
+                    <button
+                      className="btn-signin"
+                      onClick={() => {
+                        toggleMenu();
+                        handleLogout();
+                      }}
+                    >
+                      {t("logout")}
+                    </button>
+                  </li>
+                )}
+              </>
+            )}
+            {/* Mobile-only language toggles */}
+            <li>
+              <div className="language-toggle">
+                <button
+                  className={`language-btn ${
+                    i18n.language === "en" ? "active" : ""
+                  }`}
+                  onClick={() => {
+                    toggleMenu();
+                    handleLanguageChange("en");
+                  }}
+                >
+                  EN
+                </button>
+                <button
+                  className={`language-btn ${
+                    i18n.language === "fr" ? "active" : ""
+                  }`}
+                  onClick={() => {
+                    toggleMenu();
+                    handleLanguageChange("fr");
+                  }}
+                >
+                  FR
+                </button>
+              </div>
+            </li>
+          </ul>
+        </nav>
+      )}
     </header>
   );
 }

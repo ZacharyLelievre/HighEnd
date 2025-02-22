@@ -160,3 +160,25 @@
   white-space: pre-wrap;
   margin: 10px 0;
 }
+/* Existing CSS remains unchanged above... */
+
+.image-container img {
+  width: 400px;
+  height: auto;
+  border-radius: 20px;
+}
+
+/* Add this at the end of your Home.css file */
+@media screen and (max-width: 768px) {
+  .image-container img {
+    width: 100%;
+    max-width: 300px; /* adjust as needed */
+    height: auto;
+  }
+  .mission-vision-section,
+  .vision-section {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+}
