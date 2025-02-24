@@ -138,3 +138,23 @@
     padding: 1rem;
   }
 }
+.back-button-container {
+  align-self: flex-start;
+  margin: 20px;
+}
+
+.back-button {
+  background-color: black;
+  color: white;
+  padding: 8px 12px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background-color 0.3s ease;
+  width: auto;
+}
+
+.back-button:hover {
+  background-color: #333;
+}

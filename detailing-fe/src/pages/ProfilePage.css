@@ -1,14 +1,37 @@
-/* General Page & Container */
+/* Profile Page Base */
 .profile-page {
   background-color: #f0f2f5;
   min-height: 100vh;
 }
 
+/* Container */
 .profile-container {
   display: flex;
-  justify-content: center;
-  align-items: flex-start;
+  flex-direction: column;
+  align-items: center;
   padding: 40px 20px;
+}
+
+/* Back Button Container */
+.back-button-container {
+  align-self: flex-start;
+  margin-bottom: 20px;
+}
+
+.back-button {
+  background-color: black;
+  color: white;
+  padding: 8px 12px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background-color 0.3s ease;
+  width: auto;
+}
+
+.back-button:hover {
+  background-color: #333;
 }
 
 /* Main Profile Card */
@@ -17,13 +40,12 @@
   border-radius: 12px;
   padding: 30px 25px;
   width: 100%;
-  max-width: 800px; /* Increased width for more room */
+  max-width: 800px;
   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
   text-align: left;
   transition: transform 0.3s ease;
   margin-bottom: 20px;
 }
-
 .profile-card:hover {
   transform: translateY(-5px);
 }
@@ -36,12 +58,10 @@
   border-bottom: 1px solid #e0e0e0;
   padding-bottom: 20px;
 }
-
 .profile-avatar {
   flex-shrink: 0;
   margin-right: 20px;
 }
-
 .profile-avatar img {
   width: 100px;
   height: 100px;
@@ -49,128 +69,14 @@
   object-fit: cover;
   border: 2px solid #4a90e2;
 }
-
 .profile-name h2 {
   margin: 0 0 5px 0;
   font-size: 24px;
   color: #333333;
 }
-
 .profile-name .profile-email {
   font-size: 16px;
   color: #777777;
-}
-
-/* Appointments Section */
-.appointments-section {
-  margin-bottom: 25px;
-}
-
-.appointments-section h3 {
-  font-size: 22px;
-  color: #4a90e2;
-  margin-bottom: 15px;
-}
-
-.appointments-list {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-}
-
-.appointment-item {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 15px 20px;
-  margin-bottom: 15px;
-  background-color: #f9f9f9;
-  border-radius: 8px;
-  cursor: pointer;
-  transition: background-color 0.2s ease;
-}
-
-.appointment-item:hover {
-  background-color: #e6f0ff;
-}
-
-.appointment-info {
-  display: flex;
-  flex-direction: column;
-  gap: 5px;
-}
-
-.appointment-service {
-  font-weight: bold;
-  color: #333333;
-  font-size: 18px;
-}
-
-.appointment-date,
-.appointment-status {
-  font-size: 16px;
-  color: #555555;
-}
-
-.appointment-actions {
-  display: flex;
-  gap: 10px;
-}
-
-.cancel-button,
-.reschedule-button {
-  background-color: #ff4d4d;
-  color: white;
-  border: none;
-  padding: 8px 12px;
-  cursor: pointer;
-  border-radius: 5px;
-  font-size: 14px;
-  transition: background-color 0.3s ease;
-}
-
-.reschedule-button {
-  background-color: #007bff;
-}
-
-.cancel-button:hover {
-  background-color: #d43d3d;
-}
-
-.reschedule-button:hover {
-  background-color: #0056b3;
-}
-
-/* Profile Details */
-.profile-details {
-  margin-top: 20px;
-}
-
-.detail-row {
-  display: flex;
-  justify-content: space-between;
-  padding: 10px 0;
-  border-bottom: 1px solid #f1f1f1;
-  font-size: 16px;
-  color: #555555;
-}
-
-.detail-row span:first-child {
-  font-weight: 600;
-  color: #333333;
-  width: 40%;
-}
-
-.detail-row span:last-child {
-  text-align: right;
-  width: 55%;
-}
-
-/* Error Message */
-.error-message {
-  color: #d32f2f;
-  font-weight: bold;
-  text-align: center;
 }
 
 /* Edit Button */
@@ -184,9 +90,121 @@
   cursor: pointer;
   transition: background-color 0.3s ease;
 }
-
 .edit-button:hover {
   background-color: #0056b3;
+}
+
+/* Appointments Section */
+.appointments-section {
+  margin-bottom: 25px;
+}
+.appointments-section h3 {
+  font-size: 22px;
+  color: #4a90e2;
+  margin-bottom: 15px;
+}
+.appointments-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.appointment-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 20px;
+  margin-bottom: 15px;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+.appointment-item:hover {
+  background-color: #e6f0ff;
+}
+.appointment-info {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+.appointment-service {
+  font-weight: bold;
+  color: #333333;
+  font-size: 18px;
+}
+.appointment-date,
+.appointment-status {
+  font-size: 16px;
+  color: #555555;
+}
+.appointment-actions {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+.cancel-button,
+.reschedule-button {
+  padding: 8px 12px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background-color 0.3s ease;
+  white-space: nowrap;
+}
+.cancel-button {
+  background-color: #ff4d4d;
+  color: white;
+}
+.cancel-button:hover {
+  background-color: #d43d3d;
+}
+.reschedule-button {
+  background-color: #007bff;
+  color: white;
+}
+.reschedule-button:hover {
+  background-color: #0056b3;
+}
+
+/* Profile Details */
+.profile-details {
+  margin-top: 20px;
+}
+.detail-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px 0;
+  border-bottom: 1px solid #f1f1f1;
+  font-size: 16px;
+  color: #555555;
+}
+.detail-row span:first-child {
+  font-weight: 600;
+  color: #333333;
+  width: 40%;
+}
+.detail-row span:last-child {
+  text-align: right;
+  width: 55%;
+}
+
+/* Error Message */
+.error-message {
+  color: #d32f2f;
+  font-weight: bold;
+  text-align: center;
+}
+
+/* Success Message */
+.success-message {
+  background-color: #d4edda;
+  color: #155724;
+  padding: 10px;
+  border: 1px solid #c3e6cb;
+  border-radius: 4px;
+  margin-bottom: 20px;
+  text-align: center;
 }
 
 /* Modal Styles */
@@ -202,7 +220,6 @@
   align-items: center;
   z-index: 1000;
 }
-
 .modal {
   background-color: white;
   padding: 20px;
@@ -211,20 +228,17 @@
   width: 400px;
   max-width: 90%;
 }
-
 .modal h3 {
   text-align: center;
   margin-bottom: 20px;
   color: #333;
 }
-
 label {
   display: block;
   margin-bottom: 10px;
   font-size: 14px;
   color: #555;
 }
-
 input {
   width: 100%;
   padding: 8px;
@@ -233,17 +247,14 @@ input {
   border-radius: 4px;
   font-size: 14px;
 }
-
 input:focus {
   outline: none;
   border-color: #007bff;
 }
-
 .modal-buttons {
   display: flex;
   justify-content: space-between;
 }
-
 .modal-buttons button {
   background-color: #007bff;
   color: white;
@@ -254,17 +265,30 @@ input:focus {
   cursor: pointer;
   transition: background-color 0.3s ease;
 }
-
 .modal-buttons button:hover {
   background-color: #0056b3;
 }
-
 .modal-buttons button:first-child {
   background-color: #f44336;
 }
-
 .modal-buttons button:first-child:hover {
   background-color: #e53935;
+}
+
+/* Reschedule Modal Form */
+.reschedule-modal .reschedule-form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+.reschedule-modal .form-field {
+  display: flex;
+  flex-direction: column;
+}
+.reschedule-modal .form-field label {
+  margin-bottom: 5px;
+  font-size: 14px;
+  color: #333;
 }
 
 /* Responsive Design */
@@ -272,34 +296,28 @@ input:focus {
   .profile-card {
     padding: 20px 15px;
   }
-
   .profile-header {
     flex-direction: column;
     align-items: center;
     text-align: center;
   }
-
   .profile-avatar {
     margin-right: 0;
     margin-bottom: 15px;
   }
-
   .detail-row {
     flex-direction: column;
     align-items: flex-start;
   }
-
   .detail-row span:last-child {
     text-align: left;
     width: 100%;
     margin-top: 5px;
   }
-
   .appointment-item {
     flex-direction: column;
     align-items: flex-start;
   }
-
   .appointment-actions {
     margin-top: 10px;
   }

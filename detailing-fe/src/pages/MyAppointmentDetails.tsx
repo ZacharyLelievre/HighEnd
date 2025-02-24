@@ -41,7 +41,7 @@ export function MyAppointmentDetails() {
         const decodedPayload = atob(base64Url);
         const tokenData = JSON.parse(decodedPayload);
         const roles =
-          tokenData["https://highenddetailing/roles"] || tokenData.roles || [];
+            tokenData["https://highenddetailing/roles"] || tokenData.roles || [];
 
         if (roles.includes("ADMIN")) {
           setIsAdmin(true);
@@ -53,8 +53,8 @@ export function MyAppointmentDetails() {
         // If not admin, try fetching as Customer first
         try {
           const customerResponse = await axios.get(
-            `${process.env.REACT_APP_API_BASE_URL}/customers/me`,
-            { headers: { Authorization: `Bearer ${token}` } },
+              `${process.env.REACT_APP_API_BASE_URL}/customers/me`,
+              { headers: { Authorization: `Bearer ${token}` } },
           );
           setProfile(customerResponse.data);
           setUserType("Customer");
@@ -63,24 +63,24 @@ export function MyAppointmentDetails() {
             // Try fetching as Employee
             try {
               const employeeResponse = await axios.get(
-                `${process.env.REACT_APP_API_BASE_URL}/employees/me`,
-                { headers: { Authorization: `Bearer ${token}` } },
+                  `${process.env.REACT_APP_API_BASE_URL}/employees/me`,
+                  { headers: { Authorization: `Bearer ${token}` } },
               );
               setProfile(employeeResponse.data);
               setUserType("Employee");
             } catch (employeeError: any) {
               if (
-                employeeError.response &&
-                employeeError.response.status === 404
+                  employeeError.response &&
+                  employeeError.response.status === 404
               ) {
                 setProfileError(
-                  "No profile information found for the authenticated user.",
+                    "No profile information found for the authenticated user.",
                 );
               } else {
                 setProfileError("Error fetching employee profile.");
                 console.error(
-                  "Error fetching employee profile:",
-                  employeeError,
+                    "Error fetching employee profile:",
+                    employeeError,
                 );
               }
             }
@@ -91,7 +91,7 @@ export function MyAppointmentDetails() {
         }
       } catch (err) {
         setProfileError(
-          "An unexpected error occurred while fetching the profile.",
+            "An unexpected error occurred while fetching the profile.",
         );
         console.error("Unexpected error:", err);
       } finally {
@@ -107,7 +107,7 @@ export function MyAppointmentDetails() {
     const fetchAppointment = async () => {
       try {
         const response = await axiosInstance.get<AppointmentModel>(
-          `appointments/${appointmentId}`,
+            `appointments/${appointmentId}`,
         );
         setAppointment(response.data);
       } catch (error) {
@@ -127,8 +127,8 @@ export function MyAppointmentDetails() {
         if (!appointment?.customerId) return;
         const token = await getAccessTokenSilently();
         const response = await axiosInstance.get(
-          `customers/${appointment.customerId}`,
-          { headers: { Authorization: `Bearer ${token}` } },
+            `customers/${appointment.customerId}`,
+            { headers: { Authorization: `Bearer ${token}` } },
         );
         setCustomer(response.data);
       } catch (error) {
@@ -165,8 +165,8 @@ export function MyAppointmentDetails() {
     }
     try {
       const updated = await updateAppointmentStatus(
-        appointment!.appointmentId,
-        newStatus,
+          appointment!.appointmentId,
+          newStatus,
       );
       setAppointment(updated);
       alert("Status updated successfully!");
@@ -186,98 +186,101 @@ export function MyAppointmentDetails() {
   }
 
   return (
-    <div className="appointment-details-container">
-      <NavBar />
-      <div className="appointment-details">
-        <h2 className="title">Appointment Details</h2>
-        <div className="details-flex">
-          <div className="details-grid">
-            <div className="detail-item">
-              <span className="detail-label">Service:</span>
-              <span className="detail-value">{appointment.serviceName}</span>
-            </div>
-            <div className="detail-item">
-              <span className="detail-label">Date:</span>
-              <span className="detail-value">
-                {appointment.appointmentDate}
-              </span>
-            </div>
-            <div className="detail-item">
-              <span className="detail-label">Time:</span>
-              <span className="detail-value">
-                {appointment.appointmentTime}
-              </span>
-            </div>
-            <div className="detail-item">
-              <span className="detail-label">Status:</span>
-              <span className="detail-value">{appointment.status}</span>
-            </div>
-            <div className="detail-item">
-              <span className="detail-label">Customer:</span>
-              <span className="detail-value">{appointment.customerName}</span>
-            </div>
-          </div>
+      <div className="appointment-details-container">
+        <NavBar />
 
-          <div className="address-details">
-            <h3>Customer Address</h3>
-            {customer ? (
-              <>
-                <div className="detail-item">
-                  <span className="detail-label">Street:</span>
-                  <span className="detail-value">{customer.streetAddress}</span>
-                </div>
-                <div className="detail-item">
-                  <span className="detail-label">City:</span>
-                  <span className="detail-value">{customer.city}</span>
-                </div>
-                <div className="detail-item">
-                  <span className="detail-label">Postal Code:</span>
-                  <span className="detail-value">{customer.postalCode}</span>
-                </div>
-                <div className="detail-item">
-                  <span className="detail-label">Province:</span>
-                  <span className="detail-value">{customer.province}</span>
-                </div>
-                <div className="detail-item">
-                  <span className="detail-label">Country:</span>
-                  <span className="detail-value">{customer.country}</span>
-                </div>
-              </>
-            ) : (
-              <p>Loading customer address...</p>
-            )}
-          </div>
+        {/* Go Back Button */}
+        <div className="back-button-container">
+          <button className="back-button" onClick={() => window.history.back()}>
+            Go Back
+          </button>
         </div>
 
-        {/* Show update section for Employee or Admin */}
-        {(userType === "Employee" || isAdmin) && (
-          <div className="status-update">
-            <label htmlFor="statusSelect" className="status-label">
-              Update Status:
-            </label>
-            <select
-              id="statusSelect"
-              value={newStatus}
-              onChange={(e) => setNewStatus(e.target.value)}
-              className="status-select"
-            >
-              <option value="">--Select--</option>
-              {getStatusOptions().map((status) => (
-                <option key={status} value={status}>
-                  {status.charAt(0) + status.slice(1).toLowerCase()}
-                </option>
-              ))}
-            </select>
-            <button
-              onClick={handleStatusChange}
-              className="save-button"
-              disabled={!newStatus}
-            >
-              Save
-            </button>
+        <div className="appointment-details">
+          <h2 className="title">Appointment Details</h2>
+          <div className="details-flex">
+            <div className="details-grid">
+              <div className="detail-item">
+                <span className="detail-label">Service:</span>
+                <span className="detail-value">{appointment.serviceName}</span>
+              </div>
+              <div className="detail-item">
+                <span className="detail-label">Date:</span>
+                <span className="detail-value">{appointment.appointmentDate}</span>
+              </div>
+              <div className="detail-item">
+                <span className="detail-label">Time:</span>
+                <span className="detail-value">{appointment.appointmentTime}</span>
+              </div>
+              <div className="detail-item">
+                <span className="detail-label">Status:</span>
+                <span className="detail-value">{appointment.status}</span>
+              </div>
+              <div className="detail-item">
+                <span className="detail-label">Customer:</span>
+                <span className="detail-value">{appointment.customerName}</span>
+              </div>
+            </div>
+
+            <div className="address-details">
+              <h3>Customer Address</h3>
+              {customer ? (
+                  <>
+                    <div className="detail-item">
+                      <span className="detail-label">Street:</span>
+                      <span className="detail-value">{customer.streetAddress}</span>
+                    </div>
+                    <div className="detail-item">
+                      <span className="detail-label">City:</span>
+                      <span className="detail-value">{customer.city}</span>
+                    </div>
+                    <div className="detail-item">
+                      <span className="detail-label">Postal Code:</span>
+                      <span className="detail-value">{customer.postalCode}</span>
+                    </div>
+                    <div className="detail-item">
+                      <span className="detail-label">Province:</span>
+                      <span className="detail-value">{customer.province}</span>
+                    </div>
+                    <div className="detail-item">
+                      <span className="detail-label">Country:</span>
+                      <span className="detail-value">{customer.country}</span>
+                    </div>
+                  </>
+              ) : (
+                  <p>Loading customer address...</p>
+              )}
+            </div>
           </div>
-        )}
+
+          {(userType === "Employee" || isAdmin) && (
+              <div className="status-update">
+                <label htmlFor="statusSelect" className="status-label">
+                  Update Status:
+                </label>
+                <select
+                    id="statusSelect"
+                    value={newStatus}
+                    onChange={(e) => setNewStatus(e.target.value)}
+                    className="status-select"
+                >
+                  <option value="">--Select--</option>
+                  {getStatusOptions().map((status) => (
+                      <option key={status} value={status}>
+                        {status.charAt(0) + status.slice(1).toLowerCase()}
+                      </option>
+                  ))}
+                </select>
+                <button
+                    onClick={handleStatusChange}
+                    className="save-button"
+                    disabled={!newStatus}
+                >
+                  Save
+                </button>
+              </div>
+          )}
+        </div>
       </div>
-    </div>
   );
 }
