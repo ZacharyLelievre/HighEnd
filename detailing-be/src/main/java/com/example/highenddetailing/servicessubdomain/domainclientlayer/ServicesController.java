@@ -117,4 +117,13 @@ public class ServicesController {
                 return MediaType.APPLICATION_OCTET_STREAM;
         }
     }
+    @DeleteMapping("/{serviceId}")
+    public ResponseEntity<Void> deleteService(@PathVariable String serviceId) {
+        if (serviceService.getServiceById(serviceId).isPresent()) {
+            serviceService.deleteService(serviceId);
+            return ResponseEntity.ok().build();
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
 }

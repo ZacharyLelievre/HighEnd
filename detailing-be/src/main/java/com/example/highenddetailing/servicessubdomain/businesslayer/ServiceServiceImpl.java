@@ -39,4 +39,12 @@ public class ServiceServiceImpl implements ServiceService {
         Service saved = serviceRepository.save(service);
         return serviceResponseMapper.entityToResponseModel(saved);
     }
+    @Override
+    public void deleteService(String serviceId) {
+        serviceRepository.findByServiceIdentifier_ServiceId(serviceId)
+                .ifPresent(service -> {
+                    serviceRepository.delete(service);
+                    log.info("Deleted service with ID: " + serviceId);
+                });
+    }
 }

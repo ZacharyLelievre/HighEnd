@@ -12,4 +12,6 @@ public interface ServiceService {
     Optional<ServiceResponseModel> getServiceById(String serviceId);
 
     ServiceResponseModel createService(String serviceName, String timeRequired, float price, String imagePath);
+
+    void deleteService(String serviceId);
 }

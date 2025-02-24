@@ -19,6 +19,7 @@ interface Service {
 }
 
 interface ReportRow {
+  serviceId: string; // added for deletion
   serviceName: string;
   bookingsCount: number;
   revenue: number;
@@ -68,10 +69,11 @@ export default function ReportsTable() {
 
         const rawList = allServices.map((service) => {
           const bookingCount = allAppointments.filter(
-            (appt) => appt.serviceId === service.serviceId,
+              (appt) => appt.serviceId === service.serviceId,
           ).length;
           const revenue = bookingCount * service.price;
           return {
+            serviceId: service.serviceId, // include for deletion
             serviceName: service.serviceName,
             bookingsCount: bookingCount,
             revenue,
@@ -173,6 +175,23 @@ export default function ReportsTable() {
     navigate(AppRoutePath.Promotions || "/promotions");
   };
 
+  // Delete Service handler
+  const handleDeleteService = async (serviceId: string) => {
+    if (window.confirm("Are you sure you want to delete this service?")) {
+      try {
+        const token = await getAccessTokenSilently();
+        await axios.delete(`${apiBaseUrl}/services/${serviceId}`, {
+          headers: { Authorization: `Bearer ${token}` }
+        });
+        setReports(reports.filter(r => r.serviceId !== serviceId));
+        alert("Service deleted successfully!");
+      } catch (error) {
+        console.error("Error deleting service:", error);
+        alert("Error deleting service.");
+      }
+    }
+  };
+
   // Helper for status card
   const getStatusCard = (status: string) => {
     let backgroundColor = "";
@@ -201,18 +220,18 @@ export default function ReportsTable() {
     }
 
     return (
-      <div
-        style={{
-          backgroundColor,
-          color: textColor,
-          borderRadius: "4px",
-          padding: "4px 8px",
-          display: "inline-block",
-          fontWeight: "bold",
-        }}
-      >
-        {text}
-      </div>
+        <div
+            style={{
+              backgroundColor,
+              color: textColor,
+              borderRadius: "4px",
+              padding: "4px 8px",
+              display: "inline-block",
+              fontWeight: "bold",
+            }}
+        >
+          {text}
+        </div>
     );
   };
 
@@ -234,19 +253,19 @@ export default function ReportsTable() {
   };
 
   return (
-    <div
-      ref={containerRef}
-      style={{ position: "relative", paddingBottom: "50px" }}
-    >
-      <table
-        style={{
-          marginTop: "20px",
-          borderCollapse: "collapse",
-          width: "100%",
-          boxShadow: "0 2px 5px rgba(0,0,0,0.1)",
-        }}
+      <div
+          ref={containerRef}
+          style={{ position: "relative", paddingBottom: "50px" }}
       >
-        <thead>
+        <table
+            style={{
+              marginTop: "20px",
+              borderCollapse: "collapse",
+              width: "100%",
+              boxShadow: "0 2px 5px rgba(0,0,0,0.1)",
+            }}
+        >
+          <thead>
           <tr style={{ backgroundColor: "#f2f2f2" }}>
             <th style={{ padding: "12px", border: "1px solid #ddd" }}>
               Service
@@ -260,129 +279,148 @@ export default function ReportsTable() {
             <th style={{ padding: "12px", border: "1px solid #ddd" }}>
               Status
             </th>
+            <th style={{ padding: "12px", border: "1px solid #ddd" }}>
+              Action
+            </th>
           </tr>
-        </thead>
-        <tbody>
+          </thead>
+          <tbody>
           {reports.map((r, idx) => (
-            <tr key={idx}>
-              <td style={{ padding: "12px", border: "1px solid #ddd" }}>
-                {r.serviceName}
-              </td>
-              <td
-                style={{
-                  padding: "12px",
-                  border: "1px solid #ddd",
-                  textAlign: "center",
-                }}
-              >
-                {r.bookingsCount}
-              </td>
-              <td
-                style={{
-                  padding: "12px",
-                  border: "1px solid #ddd",
-                  textAlign: "center",
-                }}
-              >
-                ${r.revenue.toFixed(2)}
-              </td>
-              <td
-                style={{
-                  padding: "12px",
-                  border: "1px solid #ddd",
-                  textAlign: "center",
-                }}
-              >
-                {getStatusCard(r.statusColor)}
-              </td>
-            </tr>
+              <tr key={idx}>
+                <td style={{ padding: "12px", border: "1px solid #ddd" }}>
+                  {r.serviceName}
+                </td>
+                <td
+                    style={{
+                      padding: "12px",
+                      border: "1px solid #ddd",
+                      textAlign: "center",
+                    }}
+                >
+                  {r.bookingsCount}
+                </td>
+                <td
+                    style={{
+                      padding: "12px",
+                      border: "1px solid #ddd",
+                      textAlign: "center",
+                    }}
+                >
+                  ${r.revenue.toFixed(2)}
+                </td>
+                <td
+                    style={{
+                      padding: "12px",
+                      border: "1px solid #ddd",
+                      textAlign: "center",
+                    }}
+                >
+                  {getStatusCard(r.statusColor)}
+                </td>
+                <td style={{ padding: "12px", border: "1px solid #ddd", textAlign: "center" }}>
+                  <button
+                      onClick={() => handleDeleteService(r.serviceId)}
+                      style={{
+                        padding: "4px 8px",
+                        fontSize: "12px",
+                        backgroundColor: "red",
+                        color: "white",
+                        border: "none",
+                        borderRadius: "4px",
+                        cursor: "pointer"
+                      }}
+                  >
+                    Delete
+                  </button>
+                </td>
+              </tr>
           ))}
-        </tbody>
-      </table>
+          </tbody>
+        </table>
 
-      <div
-        style={{
-          position: "absolute",
-          bottom: "10px",
-          right: "10px",
-          display: "flex",
-          gap: "10px",
-        }}
-      >
-        <button onClick={generatePDF} style={buttonStyle}>
-          Download PDF
-        </button>
-        <button onClick={() => setShowAddService(true)} style={buttonStyle}>
-          Add Service
-        </button>
-        <button onClick={handleAddPromotion} style={buttonStyle}>
-          Promotions
-        </button>
-      </div>
-
-      {/* Add Service Modal */}
-      {showAddService && (
         <div
-          style={{
-            position: "fixed",
-            top: 0,
-            left: 0,
-            width: "100%",
-            height: "100%",
-            backgroundColor: "rgba(0,0,0,0.5)",
-          }}
-        >
-          <div
             style={{
-              backgroundColor: "#fff",
-              padding: "20px",
-              maxWidth: "400px",
-              margin: "100px auto",
-              borderRadius: "8px",
+              position: "absolute",
+              bottom: "10px",
+              right: "10px",
+              display: "flex",
+              gap: "10px",
             }}
-          >
-            <h2>Add New Service</h2>
-            <form onSubmit={handleAddServiceSubmit}>
-              <div>
-                <label>Service Name:</label>
-                <input
-                  type="text"
-                  value={serviceName}
-                  onChange={(e) => setServiceName(e.target.value)}
-                  required
-                />
-              </div>
-              <div>
-                <label>Time Required:</label>
-                <input
-                  type="text"
-                  value={timeRequired}
-                  onChange={(e) => setTimeRequired(e.target.value)}
-                  required
-                />
-              </div>
-              <div>
-                <label>Price:</label>
-                <input
-                  type="number"
-                  step="0.01"
-                  value={price}
-                  onChange={(e) => setPrice(parseFloat(e.target.value))}
-                  required
-                />
-              </div>
-              <div>
-                <label>Image:</label>
-                <input type="file" onChange={handleFileChange} required />
-              </div>
-              <button type="submit">Save</button>
-              <button type="button" onClick={() => setShowAddService(false)}>
-                Cancel
-              </button>
-            </form>
-          </div>
+        >
+          <button onClick={generatePDF} style={buttonStyle}>
+            Download PDF
+          </button>
+          <button onClick={() => setShowAddService(true)} style={buttonStyle}>
+            Add Service
+          </button>
+          <button onClick={handleAddPromotion} style={buttonStyle}>
+            Promotions
+          </button>
         </div>
-      )}
-    </div>
+
+        {/* Add Service Modal */}
+        {showAddService && (
+            <div
+                style={{
+                  position: "fixed",
+                  top: 0,
+                  left: 0,
+                  width: "100%",
+                  height: "100%",
+                  backgroundColor: "rgba(0,0,0,0.5)",
+                }}
+            >
+              <div
+                  style={{
+                    backgroundColor: "#fff",
+                    padding: "20px",
+                    maxWidth: "400px",
+                    margin: "100px auto",
+                    borderRadius: "8px",
+                  }}
+              >
+                <h2>Add New Service</h2>
+                <form onSubmit={handleAddServiceSubmit}>
+                  <div>
+                    <label>Service Name:</label>
+                    <input
+                        type="text"
+                        value={serviceName}
+                        onChange={(e) => setServiceName(e.target.value)}
+                        required
+                    />
+                  </div>
+                  <div>
+                    <label>Time Required:</label>
+                    <input
+                        type="text"
+                        value={timeRequired}
+                        onChange={(e) => setTimeRequired(e.target.value)}
+                        required
+                    />
+                  </div>
+                  <div>
+                    <label>Price:</label>
+                    <input
+                        type="number"
+                        step="0.01"
+                        value={price}
+                        onChange={(e) => setPrice(parseFloat(e.target.value))}
+                        required
+                    />
+                  </div>
+                  <div>
+                    <label>Image:</label>
+                    <input type="file" onChange={handleFileChange} required />
+                  </div>
+                  <button type="submit">Save</button>
+                  <button type="button" onClick={() => setShowAddService(false)}>
+                    Cancel
+                  </button>
+                </form>
+              </div>
+            </div>
+        )}
+      </div>
   );
 }
