@@ -31,9 +31,13 @@ export default function ServiceDetail(): JSX.Element {
   const { getAccessTokenSilently } = useAuth0();
 
   const [service, setService] = useState<ServiceModel | null>(null);
-  const [appointmentsThatDay, setAppointmentsThatDay] = useState<AppointmentModel[]>([]);
+  const [appointmentsThatDay, setAppointmentsThatDay] = useState<
+    AppointmentModel[]
+  >([]);
   const [employees, setEmployees] = useState<Employee[]>([]);
-  const [appointmentDate, setAppointmentDate] = useState<Date | null>(new Date());
+  const [appointmentDate, setAppointmentDate] = useState<Date | null>(
+    new Date(),
+  );
   const [appointmentTime, setAppointmentTime] = useState<string>("");
 
   const availableTimeSlots = [
@@ -82,8 +86,8 @@ export default function ServiceDetail(): JSX.Element {
     if (!appointmentDate) return;
     const dateStr = appointmentDate.toISOString().split("T")[0];
     getAppointmentsByDate(dateStr)
-        .then((res) => setAppointmentsThatDay(res))
-        .catch((err) => console.error("Error fetching day appointments", err));
+      .then((res) => setAppointmentsThatDay(res))
+      .catch((err) => console.error("Error fetching day appointments", err));
   }, [appointmentDate]);
 
   useEffect(() => {
@@ -126,12 +130,14 @@ export default function ServiceDetail(): JSX.Element {
   };
 
   const hasAtLeastOneAvailableEmployee = (
-      slotStart: number,
-      slotEnd: number,
-      date: Date
+    slotStart: number,
+    slotEnd: number,
+    date: Date,
   ): boolean => {
     if (!employees.length) return false;
-    const dayOfWeek = date.toLocaleDateString("en-CA", { weekday: "long" }).toUpperCase();
+    const dayOfWeek = date
+      .toLocaleDateString("en-CA", { weekday: "long" })
+      .toUpperCase();
     for (const emp of employees) {
       const isEmployeeAvailable = emp.availability?.some((a) => {
         if (a.dayOfWeek.toUpperCase() !== dayOfWeek) return false;
@@ -171,13 +177,17 @@ export default function ServiceDetail(): JSX.Element {
     return false;
   };
 
-  const handleAppointmentSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+  const handleAppointmentSubmit = async (
+    e: React.FormEvent<HTMLFormElement>,
+  ) => {
     e.preventDefault();
     if (!appointmentDate || !appointmentTime) {
       alert("Please select a date & time first!");
       return;
     }
-    const durationInMinutes = parseDurationInMinutes(service?.timeRequired || "60");
+    const durationInMinutes = parseDurationInMinutes(
+      service?.timeRequired || "60",
+    );
     const start24h = convertTo24h(appointmentTime);
     const [startHStr, startMStr] = start24h.split(":");
     const startH = parseInt(startHStr, 10);
@@ -190,9 +200,12 @@ export default function ServiceDetail(): JSX.Element {
 
     try {
       const token = await getAccessTokenSilently();
-      const meResp = await axios.get<CustomerResponseModel>(`${apiBaseUrl}/customers/me`, {
-        headers: { Authorization: `Bearer ${token}` },
-      });
+      const meResp = await axios.get<CustomerResponseModel>(
+        `${apiBaseUrl}/customers/me`,
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        },
+      );
       if (!meResp.data) {
         alert("Could not fetch your customer profile!");
         return;
@@ -213,15 +226,22 @@ export default function ServiceDetail(): JSX.Element {
         employeeName: "UNASSIGNED",
       };
 
-      const postResp = await axios.post(`${apiBaseUrl}/appointments`, requestBody, {
-        headers: { Authorization: `Bearer ${token}` },
-      });
+      const postResp = await axios.post(
+        `${apiBaseUrl}/appointments`,
+        requestBody,
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        },
+      );
       console.log("Appointment created:", postResp.data);
 
       const newApptId = postResp.data.appointmentId;
-      const getResp = await axios.get<AppointmentModel>(`${apiBaseUrl}/appointments/${newApptId}`, {
-        headers: { Authorization: `Bearer ${token}` },
-      });
+      const getResp = await axios.get<AppointmentModel>(
+        `${apiBaseUrl}/appointments/${newApptId}`,
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        },
+      );
       setAppointmentsThatDay((prev) => [...prev, getResp.data]);
 
       alert("Appointment scheduled successfully!");
@@ -236,75 +256,77 @@ export default function ServiceDetail(): JSX.Element {
   }
 
   return (
-      <div className="service-details-container">
-        <div className="service-details-top">
-          <div className="service-image-wrapper">
-            <img
-                className="service-image"
-                src={getImageUrl(service.imagePath)}
-                alt={service.serviceName}
-            />
-          </div>
-          <div className="service-info">
-            <h1>{service.serviceName}</h1>
-            <h2>${service.price.toFixed(2)}</h2>
-            <ul className="service-description">
-              <li>High-quality service with attention to detail</li>
-              <li>Experienced and trained professionals</li>
-              <li>Use of premium products and tools</li>
-              <li>Customer satisfaction guaranteed</li>
-              <li>Flexible appointment scheduling</li>
-            </ul>
-          </div>
+    <div className="service-details-container">
+      <div className="service-details-top">
+        <div className="service-image-wrapper">
+          <img
+            className="service-image"
+            src={getImageUrl(service.imagePath)}
+            alt={service.serviceName}
+          />
         </div>
-        <hr className="separator" />
-        <div className="service-scheduler">
-          <h2 className="scheduler-title">Schedule Your Appointment</h2>
-          <form onSubmit={handleAppointmentSubmit} className="scheduler-form">
-            <div className="scheduler-columns">
-              <div className="datetime-section left">
-                <label>Select Date:</label>
-                <div className="calendar-container">
-                  <DatePicker
-                      inline
-                      selected={appointmentDate}
-                      onChange={(date) => date && setAppointmentDate(date)}
-                      minDate={new Date()}
-                  />
-                </div>
-              </div>
-              <div className="vertical-separator" />
-              <div className="datetime-section right">
-                <label>Select Time:</label>
-                <div className="time-slots-container">
-                  {availableTimeSlots.map((slot, index) => {
-                    const conflict = isSlotConflicting(slot);
-                    const slotClass = conflict ? "time-slot red" : "time-slot green";
-                    const isSelected = appointmentTime === slot;
-                    return (
-                        <button
-                            type="button"
-                            key={index}
-                            onClick={() => {
-                              if (!conflict) {
-                                setAppointmentTime(slot);
-                              }
-                            }}
-                            className={`${slotClass} ${isSelected ? "selected" : ""}`}
-                            disabled={conflict}
-                        >
-                          {slot}
-                        </button>
-                    );
-                  })}
-                </div>
-              </div>
-            </div>
-            <button type="submit" className="schedule-button">
-              Schedule Appointment
-            </button>
-          </form>
+        <div className="service-info">
+          <h1>{service.serviceName}</h1>
+          <h2>${service.price.toFixed(2)}</h2>
+          <ul className="service-description">
+            <li>High-quality service with attention to detail</li>
+            <li>Experienced and trained professionals</li>
+            <li>Use of premium products and tools</li>
+            <li>Customer satisfaction guaranteed</li>
+            <li>Flexible appointment scheduling</li>
+          </ul>
         </div>
       </div>
+      <hr className="separator" />
+      <div className="service-scheduler">
+        <h2 className="scheduler-title">Schedule Your Appointment</h2>
+        <form onSubmit={handleAppointmentSubmit} className="scheduler-form">
+          <div className="scheduler-columns">
+            <div className="datetime-section left">
+              <label>Select Date:</label>
+              <div className="calendar-container">
+                <DatePicker
+                  inline
+                  selected={appointmentDate}
+                  onChange={(date) => date && setAppointmentDate(date)}
+                  minDate={new Date()}
+                />
+              </div>
+            </div>
+            <div className="vertical-separator" />
+            <div className="datetime-section right">
+              <label>Select Time:</label>
+              <div className="time-slots-container">
+                {availableTimeSlots.map((slot, index) => {
+                  const conflict = isSlotConflicting(slot);
+                  const slotClass = conflict
+                    ? "time-slot red"
+                    : "time-slot green";
+                  const isSelected = appointmentTime === slot;
+                  return (
+                    <button
+                      type="button"
+                      key={index}
+                      onClick={() => {
+                        if (!conflict) {
+                          setAppointmentTime(slot);
+                        }
+                      }}
+                      className={`${slotClass} ${isSelected ? "selected" : ""}`}
+                      disabled={conflict}
+                    >
+                      {slot}
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+          </div>
+          <button type="submit" className="schedule-button">
+            Schedule Appointment
+          </button>
+        </form>
+      </div>
+    </div>
   );
 }

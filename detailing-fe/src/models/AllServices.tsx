@@ -33,7 +33,9 @@ export default function AllServices(): JSX.Element {
   const [services, setServices] = useState<ServiceModel[]>([]);
   const [promotions, setPromotions] = useState<PromotionModel[]>([]);
   const [modalIsOpen, setModalIsOpen] = useState<boolean>(false);
-  const [selectedService, setSelectedService] = useState<ServiceModel | null>(null);
+  const [selectedService, setSelectedService] = useState<ServiceModel | null>(
+    null,
+  );
   const [appointmentData, setAppointmentData] = useState({
     appointmentDate: "",
     appointmentTime: "",
@@ -68,7 +70,9 @@ export default function AllServices(): JSX.Element {
     };
     const fetchPromotions = async () => {
       try {
-        const response = await axios.get<PromotionModel[]>(`${apiBaseUrl}/promotions`);
+        const response = await axios.get<PromotionModel[]>(
+          `${apiBaseUrl}/promotions`,
+        );
         setPromotions(response.data);
       } catch (error) {
         console.error("Error fetching promotions:", error);
@@ -108,7 +112,7 @@ export default function AllServices(): JSX.Element {
   };
 
   const handleInputChange = (
-      e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>,
   ) => {
     const { name, value } = e.target;
     setAppointmentData({ ...appointmentData, [name]: value });
@@ -119,14 +123,14 @@ export default function AllServices(): JSX.Element {
     try {
       const token = await getAccessTokenSilently();
       const response = await axios.post(
-          `${apiBaseUrl}/appointments`,
-          appointmentData,
-          {
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: `Bearer ${token}`,
-            },
-          }
+        `${apiBaseUrl}/appointments`,
+        appointmentData,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        },
       );
       if (response.status === 201) {
         alert("Appointment booked successfully!");
@@ -155,60 +159,63 @@ export default function AllServices(): JSX.Element {
       return <p className="service-price">${service.price.toFixed(2)}</p>;
     }
     return (
-        <div style={{ textAlign: "center" }}>
-          <p
-              style={{
-                textDecoration: "line-through",
-                color: "red",
-                margin: 0,
-                fontSize: "0.95rem",
-              }}
-          >
-            ${promo.oldPrice.toFixed(2)}
-          </p>
-          <p
-              style={{
-                color: "white",
-                margin: 0,
-                fontWeight: "bold",
-              }}
-          >
-            ${promo.newPrice.toFixed(2)}
-          </p>
-        </div>
+      <div style={{ textAlign: "center" }}>
+        <p
+          style={{
+            textDecoration: "line-through",
+            color: "red",
+            margin: 0,
+            fontSize: "0.95rem",
+          }}
+        >
+          ${promo.oldPrice.toFixed(2)}
+        </p>
+        <p
+          style={{
+            color: "white",
+            margin: 0,
+            fontWeight: "bold",
+          }}
+        >
+          ${promo.newPrice.toFixed(2)}
+        </p>
+      </div>
     );
   }
 
   return (
-      <div style={{ backgroundColor: "black" }}>
-        <h2 style={{ textAlign: "center", color: "white" }}>Services</h2>
-        <div className="services-container">
-          {services.map((service) => (
-              <div className="service-card" key={service.serviceId}>
-                <Link to={`/services/${service.serviceId}`} className="service-link">
-                  <div className="service-card-content">
-                    <img
-                        className="service-image2"
-                        src={getImageUrl(service.imagePath)}
-                        alt={service.serviceName}
-                    />
-                    <h3 className="service-name">{service.serviceName}</h3>
-                    {getDisplayedPrice(service)}
-                  </div>
-                </Link>
-                {/* You can add a Book Appointment button here if needed */}
+    <div style={{ backgroundColor: "black" }}>
+      <h2 style={{ textAlign: "center", color: "white" }}>Services</h2>
+      <div className="services-container">
+        {services.map((service) => (
+          <div className="service-card" key={service.serviceId}>
+            <Link
+              to={`/services/${service.serviceId}`}
+              className="service-link"
+            >
+              <div className="service-card-content">
+                <img
+                  className="service-image2"
+                  src={getImageUrl(service.imagePath)}
+                  alt={service.serviceName}
+                />
+                <h3 className="service-name">{service.serviceName}</h3>
+                {getDisplayedPrice(service)}
               </div>
-          ))}
-        </div>
-        <Modal
-            isOpen={modalIsOpen}
-            onRequestClose={closeModal}
-            style={customStyles}
-            contentLabel="Book Appointment Modal"
-        >
-          <h2>Book Appointment</h2>
-          {/* Appointment form goes here */}
-        </Modal>
+            </Link>
+            {/* You can add a Book Appointment button here if needed */}
+          </div>
+        ))}
       </div>
+      <Modal
+        isOpen={modalIsOpen}
+        onRequestClose={closeModal}
+        style={customStyles}
+        contentLabel="Book Appointment Modal"
+      >
+        <h2>Book Appointment</h2>
+        {/* Appointment form goes here */}
+      </Modal>
+    </div>
   );
 }
