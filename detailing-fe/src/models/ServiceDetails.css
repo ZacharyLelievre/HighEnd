@@ -239,3 +239,12 @@
     padding: 18px;
   }
 }
+@media (max-width: 768px) {
+  .calendar-container {
+    display: flex;
+    justify-content: center;
+    padding: 0;         /* Remove extra padding */
+    background: none;   /* Remove background color */
+    box-shadow: none;   /* Remove shadow */
+  }
+}

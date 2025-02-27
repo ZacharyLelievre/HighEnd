@@ -41,6 +41,14 @@ export default function ReportsTable() {
   const [price, setPrice] = useState<number>(0);
   const [file, setFile] = useState<File | null>(null);
 
+  // EDIT Service Form State
+  const [showEditService, setShowEditService] = useState(false);
+  const [editServiceId, setEditServiceId] = useState("");
+  const [editServiceName, setEditServiceName] = useState("");
+  const [editTimeRequired, setEditTimeRequired] = useState("");
+  const [editPrice, setEditPrice] = useState<number>(0);
+  const [editFile, setEditFile] = useState<File | null>(null);
+
   // URLs
   const getAppointmentsUrl = `${apiBaseUrl}/appointments`;
   const getServicesUrl = `${apiBaseUrl}/services`;
@@ -69,11 +77,11 @@ export default function ReportsTable() {
 
         const rawList = allServices.map((service) => {
           const bookingCount = allAppointments.filter(
-            (appt) => appt.serviceId === service.serviceId,
+              (appt) => appt.serviceId === service.serviceId
           ).length;
           const revenue = bookingCount * service.price;
           return {
-            serviceId: service.serviceId, // include for deletion
+            serviceId: service.serviceId,
             serviceName: service.serviceName,
             bookingsCount: bookingCount,
             revenue,
@@ -124,7 +132,7 @@ export default function ReportsTable() {
     }
   };
 
-  // Handle file change
+  // Handle file change (Add)
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files.length > 0) {
       setFile(e.target.files[0]);
@@ -163,15 +171,16 @@ export default function ReportsTable() {
       setFile(null);
       setShowAddService(false);
 
-      // Optionally, refresh the table data if needed
+      // Optionally, refresh the table data or reload
+      // but you might setReports(...) if you want real-time update
     } catch (err) {
       console.error("Error creating service:", err);
       alert("Error creating service.");
     }
   };
 
+  // Navigate to Promotions
   const handleAddPromotion = () => {
-    // Navigate to the promotions route; adjust as needed.
     navigate(AppRoutePath.Promotions || "/promotions");
   };
 
@@ -189,6 +198,66 @@ export default function ReportsTable() {
         console.error("Error deleting service:", error);
         alert("Error deleting service.");
       }
+    }
+  };
+
+  // Open Edit Modal
+  const openEditModal = (service: ReportRow) => {
+    setEditServiceId(service.serviceId);
+    setEditServiceName(service.serviceName);
+    // If you have timeRequired in your table data, set it:
+    setEditTimeRequired("");
+    // If you store price differently, adjust:
+    // For example, if you only have total revenue,
+    // you might not have the single service price here.
+    // In a real app, you'd fetch service details. For now:
+    setEditPrice(service.revenue / (service.bookingsCount || 1));
+    setEditFile(null);
+    setShowEditService(true);
+  };
+
+  // Handle file change (Edit)
+  const handleEditFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files.length > 0) {
+      setEditFile(e.target.files[0]);
+    }
+  };
+
+  // Submit Edit Service
+  const handleEditServiceSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    try {
+      const formData = new FormData();
+      formData.append("serviceName", editServiceName);
+      formData.append("timeRequired", editTimeRequired);
+      formData.append("price", editPrice.toString());
+
+      // Only append the image part if user selected a file
+      if (editFile) {
+        formData.append("image", editFile);
+      }
+
+      const token = await getAccessTokenSilently();
+      const response = await axios.put(
+          `${apiBaseUrl}/services/${editServiceId}`,
+          formData,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+              "Content-Type": "multipart/form-data",
+            },
+          }
+      );
+
+      console.log("Service updated:", response.data);
+      alert("Service updated successfully!");
+
+      setShowEditService(false);
+      // Optionally refresh or update your local `reports` state
+      // If you want real-time updates, fetch or manipulate state
+    } catch (err) {
+      console.error("Error updating service:", err);
+      alert("Error updating service.");
     }
   };
 
@@ -220,18 +289,18 @@ export default function ReportsTable() {
     }
 
     return (
-      <div
-        style={{
-          backgroundColor,
-          color: textColor,
-          borderRadius: "4px",
-          padding: "4px 8px",
-          display: "inline-block",
-          fontWeight: "bold",
-        }}
-      >
-        {text}
-      </div>
+        <div
+            style={{
+              backgroundColor,
+              color: textColor,
+              borderRadius: "4px",
+              padding: "4px 8px",
+              display: "inline-block",
+              fontWeight: "bold",
+            }}
+        >
+          {text}
+        </div>
     );
   };
 
@@ -253,19 +322,19 @@ export default function ReportsTable() {
   };
 
   return (
-    <div
-      ref={containerRef}
-      style={{ position: "relative", paddingBottom: "50px" }}
-    >
-      <table
-        style={{
-          marginTop: "20px",
-          borderCollapse: "collapse",
-          width: "100%",
-          boxShadow: "0 2px 5px rgba(0,0,0,0.1)",
-        }}
+      <div
+          ref={containerRef}
+          style={{ position: "relative", paddingBottom: "50px" }}
       >
-        <thead>
+        <table
+            style={{
+              marginTop: "20px",
+              borderCollapse: "collapse",
+              width: "100%",
+              boxShadow: "0 2px 5px rgba(0,0,0,0.1)",
+            }}
+        >
+          <thead>
           <tr style={{ backgroundColor: "#f2f2f2" }}>
             <th style={{ padding: "12px", border: "1px solid #ddd" }}>
               Service
@@ -283,150 +352,232 @@ export default function ReportsTable() {
               Action
             </th>
           </tr>
-        </thead>
-        <tbody>
+          </thead>
+          <tbody>
           {reports.map((r, idx) => (
-            <tr key={idx}>
-              <td style={{ padding: "12px", border: "1px solid #ddd" }}>
-                {r.serviceName}
-              </td>
-              <td
-                style={{
-                  padding: "12px",
-                  border: "1px solid #ddd",
-                  textAlign: "center",
-                }}
-              >
-                {r.bookingsCount}
-              </td>
-              <td
-                style={{
-                  padding: "12px",
-                  border: "1px solid #ddd",
-                  textAlign: "center",
-                }}
-              >
-                ${r.revenue.toFixed(2)}
-              </td>
-              <td
-                style={{
-                  padding: "12px",
-                  border: "1px solid #ddd",
-                  textAlign: "center",
-                }}
-              >
-                {getStatusCard(r.statusColor)}
-              </td>
-              <td
-                style={{
-                  padding: "12px",
-                  border: "1px solid #ddd",
-                  textAlign: "center",
-                }}
-              >
-                <button
-                  onClick={() => handleDeleteService(r.serviceId)}
-                  style={{
-                    padding: "4px 8px",
-                    fontSize: "12px",
-                    backgroundColor: "red",
-                    color: "white",
-                    border: "none",
-                    borderRadius: "4px",
-                    cursor: "pointer",
-                  }}
+              <tr key={idx}>
+                <td style={{ padding: "12px", border: "1px solid #ddd" }}>
+                  {r.serviceName}
+                </td>
+                <td
+                    style={{
+                      padding: "12px",
+                      border: "1px solid #ddd",
+                      textAlign: "center",
+                    }}
                 >
-                  Delete
-                </button>
-              </td>
-            </tr>
+                  {r.bookingsCount}
+                </td>
+                <td
+                    style={{
+                      padding: "12px",
+                      border: "1px solid #ddd",
+                      textAlign: "center",
+                    }}
+                >
+                  ${r.revenue.toFixed(2)}
+                </td>
+                <td
+                    style={{
+                      padding: "12px",
+                      border: "1px solid #ddd",
+                      textAlign: "center",
+                    }}
+                >
+                  {getStatusCard(r.statusColor)}
+                </td>
+                <td
+                    style={{
+                      padding: "12px",
+                      border: "1px solid #ddd",
+                      textAlign: "center",
+                    }}
+                >
+                  {/* Edit Button */}
+                  <button
+                      onClick={() => openEditModal(r)}
+                      style={{
+                        padding: "4px 8px",
+                        fontSize: "12px",
+                        backgroundColor: "black",
+                        color: "white",
+                        border: "none",
+                        borderRadius: "4px",
+                        cursor: "pointer",
+                        marginRight: "5px",
+                      }}
+                  >
+                    Edit
+                  </button>
+
+                  {/* Delete Button */}
+                  <button
+                      onClick={() => handleDeleteService(r.serviceId)}
+                      style={{
+                        padding: "4px 8px",
+                        fontSize: "12px",
+                        backgroundColor: "red",
+                        color: "white",
+                        border: "none",
+                        borderRadius: "4px",
+                        cursor: "pointer",
+                      }}
+                  >
+                    Delete
+                  </button>
+                </td>
+              </tr>
           ))}
-        </tbody>
-      </table>
+          </tbody>
+        </table>
 
-      <div
-        style={{
-          position: "absolute",
-          bottom: "10px",
-          right: "10px",
-          display: "flex",
-          gap: "10px",
-        }}
-      >
-        <button onClick={generatePDF} style={buttonStyle}>
-          Download PDF
-        </button>
-        <button onClick={() => setShowAddService(true)} style={buttonStyle}>
-          Add Service
-        </button>
-        <button onClick={handleAddPromotion} style={buttonStyle}>
-          Promotions
-        </button>
-      </div>
-
-      {/* Add Service Modal */}
-      {showAddService && (
         <div
-          style={{
-            position: "fixed",
-            top: 0,
-            left: 0,
-            width: "100%",
-            height: "100%",
-            backgroundColor: "rgba(0,0,0,0.5)",
-          }}
-        >
-          <div
             style={{
-              backgroundColor: "#fff",
-              padding: "20px",
-              maxWidth: "400px",
-              margin: "100px auto",
-              borderRadius: "8px",
+              position: "absolute",
+              bottom: "10px",
+              right: "10px",
+              display: "flex",
+              gap: "10px",
             }}
-          >
-            <h2>Add New Service</h2>
-            <form onSubmit={handleAddServiceSubmit}>
-              <div>
-                <label>Service Name:</label>
-                <input
-                  type="text"
-                  value={serviceName}
-                  onChange={(e) => setServiceName(e.target.value)}
-                  required
-                />
-              </div>
-              <div>
-                <label>Time Required:</label>
-                <input
-                  type="text"
-                  value={timeRequired}
-                  onChange={(e) => setTimeRequired(e.target.value)}
-                  required
-                />
-              </div>
-              <div>
-                <label>Price:</label>
-                <input
-                  type="number"
-                  step="0.01"
-                  value={price}
-                  onChange={(e) => setPrice(parseFloat(e.target.value))}
-                  required
-                />
-              </div>
-              <div>
-                <label>Image:</label>
-                <input type="file" onChange={handleFileChange} required />
-              </div>
-              <button type="submit">Save</button>
-              <button type="button" onClick={() => setShowAddService(false)}>
-                Cancel
-              </button>
-            </form>
-          </div>
+        >
+          <button onClick={generatePDF} style={buttonStyle}>
+            Download PDF
+          </button>
+          <button onClick={() => setShowAddService(true)} style={buttonStyle}>
+            Add Service
+          </button>
+          <button onClick={handleAddPromotion} style={buttonStyle}>
+            Promotions
+          </button>
         </div>
-      )}
-    </div>
+
+        {/* Add Service Modal */}
+        {showAddService && (
+            <div
+                style={{
+                  position: "fixed",
+                  top: 0,
+                  left: 0,
+                  width: "100%",
+                  height: "100%",
+                  backgroundColor: "rgba(0,0,0,0.5)",
+                }}
+            >
+              <div
+                  style={{
+                    backgroundColor: "#fff",
+                    padding: "20px",
+                    maxWidth: "400px",
+                    margin: "100px auto",
+                    borderRadius: "8px",
+                  }}
+              >
+                <h2>Add New Service</h2>
+                <form onSubmit={handleAddServiceSubmit}>
+                  <div>
+                    <label>Service Name:</label>
+                    <input
+                        type="text"
+                        value={serviceName}
+                        onChange={(e) => setServiceName(e.target.value)}
+                        required
+                    />
+                  </div>
+                  <div>
+                    <label>Time Required:</label>
+                    <input
+                        type="text"
+                        value={timeRequired}
+                        onChange={(e) => setTimeRequired(e.target.value)}
+                        required
+                    />
+                  </div>
+                  <div>
+                    <label>Price:</label>
+                    <input
+                        type="number"
+                        step="0.01"
+                        value={price}
+                        onChange={(e) => setPrice(parseFloat(e.target.value))}
+                        required
+                    />
+                  </div>
+                  <div>
+                    <label>Image:</label>
+                    <input type="file" onChange={handleFileChange} required />
+                  </div>
+                  <button type="submit">Save</button>
+                  <button type="button" onClick={() => setShowAddService(false)}>
+                    Cancel
+                  </button>
+                </form>
+              </div>
+            </div>
+        )}
+
+        {/* Edit Service Modal */}
+        {showEditService && (
+            <div
+                style={{
+                  position: "fixed",
+                  top: 0,
+                  left: 0,
+                  width: "100%",
+                  height: "100%",
+                  backgroundColor: "rgba(0,0,0,0.5)",
+                }}
+            >
+              <div
+                  style={{
+                    backgroundColor: "#fff",
+                    padding: "20px",
+                    maxWidth: "400px",
+                    margin: "100px auto",
+                    borderRadius: "8px",
+                  }}
+              >
+                <h2>Edit Service</h2>
+                <form onSubmit={handleEditServiceSubmit}>
+                  <div>
+                    <label>Service Name:</label>
+                    <input
+                        type="text"
+                        value={editServiceName}
+                        onChange={(e) => setEditServiceName(e.target.value)}
+                        required
+                    />
+                  </div>
+                  <div>
+                    <label>Time Required:</label>
+                    <input
+                        type="text"
+                        value={editTimeRequired}
+                        onChange={(e) => setEditTimeRequired(e.target.value)}
+                        required
+                    />
+                  </div>
+                  <div>
+                    <label>Price:</label>
+                    <input
+                        type="number"
+                        step="0.01"
+                        value={editPrice}
+                        onChange={(e) => setEditPrice(parseFloat(e.target.value))}
+                        required
+                    />
+                  </div>
+                  <div>
+                    <label>Image (optional):</label>
+                    <input type="file" onChange={handleEditFileChange} />
+                  </div>
+                  <button type="submit">Update</button>
+                  <button type="button" onClick={() => setShowEditService(false)}>
+                    Cancel
+                  </button>
+                </form>
+              </div>
+            </div>
+        )}
+      </div>
   );
 }

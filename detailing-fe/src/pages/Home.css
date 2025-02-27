@@ -1,3 +1,6 @@
+/* Home.css */
+
+/* Page & Hero Section */
 .home-page {
   position: relative;
   overflow-x: hidden;
@@ -10,37 +13,41 @@
   overflow: hidden;
 }
 
+/* Video Wrapper & Vimeo Iframe */
 .video-wrapper {
   position: absolute;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  overflow: hidden; /* Ensures anything outside is hidden */
+  overflow: hidden;
   background: black;
   z-index: 1;
 }
 
+/* Using the first version to fix the bezel issue */
 .vimeo-iframe {
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  min-width: 100%;
-  min-height: 100%;
-  width: auto;
-  height: auto;
+  width: 100vw;
+  height: 56.25vw; /* 16:9 aspect ratio */
+  min-height: 100vh;
+  min-width: 177.77vh; /* 100vh * 16/9 */
   border: none;
   z-index: 1;
 }
 
+/* Video Overlay */
 .video-overlay {
   position: absolute;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(0, 0, 0, 0.3);
+  background: rgba(0, 0, 0, 0.3); /* from second file */
+  padding-top: 80px; /* accounts for navbar height */
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -49,6 +56,7 @@
   z-index: 5;
 }
 
+/* Video Overlay Text Styles */
 .video-overlay h2 {
   font-size: 3rem;
   font-weight: bold;
@@ -63,6 +71,7 @@
   margin-bottom: 1rem;
 }
 
+/* Video Button */
 .video-button {
   border: 2px solid #ac53f5;
   background: transparent;
@@ -70,9 +79,7 @@
   padding: 10px 20px;
   border-radius: 30px;
   font-size: 1.2rem;
-  transition:
-    background-color 0.3s ease,
-    color 0.3s ease;
+  transition: background-color 0.3s ease, color 0.3s ease;
   cursor: pointer;
   display: inline-block;
   width: auto !important;
@@ -84,6 +91,7 @@
   color: white;
 }
 
+/* Navigation */
 .nav-container {
   position: absolute;
   top: 0;
@@ -96,6 +104,7 @@
   background: transparent !important;
 }
 
+/* Home Container & Sections */
 .home-container {
   background-color: black;
   color: white;
@@ -160,25 +169,51 @@
   white-space: pre-wrap;
   margin: 10px 0;
 }
-/* Existing CSS remains unchanged above... */
 
-.image-container img {
-  width: 400px;
-  height: auto;
-  border-radius: 20px;
-}
+/* Mobile Responsive Adjustments */
+@media (max-width: 768px) {
+  .video-overlay h2 {
+    font-size: 2rem;
+    padding: 0 15px;
+  }
 
-/* Add this at the end of your Home.css file */
-@media screen and (max-width: 768px) {
+  .video-overlay p {
+    font-size: 1rem;
+    padding: 0 15px;
+  }
+
+  .video-button {
+    padding: 8px 16px;
+    font-size: 1rem;
+  }
+
+  .vimeo-iframe {
+    width: 177.77vh; /* Maintain 16:9 aspect ratio */
+    min-width: 100vw;
+    height: 100vh;
+  }
+
+  /* Additional mobile adjustments for images and sections */
   .image-container img {
     width: 100%;
     max-width: 300px; /* adjust as needed */
     height: auto;
   }
+
   .mission-vision-section,
   .vision-section {
     flex-direction: column;
     align-items: center;
     text-align: center;
+  }
+}
+
+@media (max-width: 480px) {
+  .video-overlay h2 {
+    font-size: 1.5rem;
+  }
+
+  .video-overlay p {
+    font-size: 0.9rem;
   }
 }

@@ -3,16 +3,13 @@ package com.example.highenddetailing.servicessubdomain.domainclientlayer;
 import com.example.highenddetailing.servicessubdomain.businesslayer.ServiceService;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.core.io.Resource;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.nio.file.*;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 @RestController
 @RequestMapping("/api/services")
@@ -117,6 +114,7 @@ public class ServicesController {
                 return MediaType.APPLICATION_OCTET_STREAM;
         }
     }
+
     @DeleteMapping("/{serviceId}")
     public ResponseEntity<Void> deleteService(@PathVariable String serviceId) {
         if (serviceService.getServiceById(serviceId).isPresent()) {
@@ -124,6 +122,52 @@ public class ServicesController {
             return ResponseEntity.ok().build();
         } else {
             return ResponseEntity.notFound().build();
+        }
+    }
+
+    // NEW: Update (PUT) endpoint for editing a service
+    @PutMapping(value = "/{serviceId}",
+            consumes = MediaType.MULTIPART_FORM_DATA_VALUE,
+            produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<ServiceResponseModel> updateService(
+            @PathVariable String serviceId,
+            @RequestParam("serviceName") String serviceName,
+            @RequestParam("timeRequired") String timeRequired,
+            @RequestParam("price") float price,
+            @RequestPart(value = "image", required = false) MultipartFile imageFile
+    ) {
+        try {
+            String imageUrl = null;
+            if (imageFile != null && !imageFile.isEmpty()) {
+                String originalFilename = Optional.ofNullable(imageFile.getOriginalFilename())
+                        .orElse("unknown");
+                String uniqueFilename = UUID.randomUUID() + "_" + originalFilename;
+
+                Path uploadsDir = Paths.get("uploads").toAbsolutePath();
+                Files.createDirectories(uploadsDir);
+
+                Path targetPath = uploadsDir.resolve(uniqueFilename);
+                Files.copy(imageFile.getInputStream(), targetPath, StandardCopyOption.REPLACE_EXISTING);
+
+                imageUrl = "https://high-end-detailing.com/api/services/images/" + uniqueFilename;
+            }
+
+            // If no new image was uploaded, preserve the old one
+            if (imageUrl == null) {
+                ServiceResponseModel oldService = serviceService.getServiceById(serviceId)
+                        .orElseThrow(() -> new RuntimeException("Service not found"));
+                imageUrl = oldService.getImagePath();
+            }
+
+            ServiceResponseModel updated = serviceService.updateService(
+                    serviceId, serviceName, timeRequired, price, imageUrl
+            );
+
+            return ResponseEntity.ok(updated);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
 }

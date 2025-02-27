@@ -247,7 +247,7 @@ export default function ServiceDetail(): JSX.Element {
       alert("Appointment scheduled successfully!");
     } catch (err) {
       console.error("Error creating appointment:", err);
-      alert("Something went wrong scheduling the appointment!");
+      alert("You need to create an account first!");
     }
   };
 
