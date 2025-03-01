@@ -1,0 +1,19 @@
+name: Trigger System Reset
+
+on:
+  workflow_dispatch: # Allows manual execution by client
+    inputs:
+      container:
+        description: "Enter the container name to restart"
+        required: true
+        default: "highend-backend-1"
+
+jobs:
+  reset_system:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Restart Unraid Service
+        run: |
+          curl -X POST "https://highend-1.onrender.com/webhook/restart" \
+          -H "Content-Type: application/json" \
+          -d '{"container": "${{ github.event.inputs.container }}"}'
