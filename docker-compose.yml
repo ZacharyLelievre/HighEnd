@@ -59,6 +59,8 @@ services:
         REACT_APP_AUTH0_AUDIENCE: ${AUTH0_AUDIENCE}
         REACT_APP_AUTH0_CALLBACK_URL: "http://localhost:3000"
         REACT_APP_API_SERVER_URL: "http://localhost:3000"
+        REACT_APP_IMAGE_BASE_URL: "https://high-end-detailing.com/api/services/images"
+
     ports:
       - "3000:3000"
     deploy:
